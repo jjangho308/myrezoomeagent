@@ -41,7 +41,7 @@ public class JobManagerImpl implements JobManager{
   @Override  
   public void run(){
  // TODO Auto-generated method stub
-    threadPool.execute((Runnable) new JobRunnerImpl());
+    threadPool.execute((Runnable) new JobRunnerImpl(this.queue));
   }
   
 }

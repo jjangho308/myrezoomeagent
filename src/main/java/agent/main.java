@@ -12,15 +12,15 @@ public class main {
 	public static void main(String[] args) {
 		
 	  
-	  JobManagerImpl o_jobMgr = new JobManagerImpl(50, 2, 4, 60);	  
-	  MessageManagerImpl o_msgMgr = new MessageManagerImpl(o_jobMgr.getJobQueue());
+	  JobManagerImpl jobMgr = new JobManagerImpl(50, 2, 4, 60);	  
+	  MessageManagerImpl msgMgr = new MessageManagerImpl(jobMgr.getJobQueue());
 	   
 	  
 	  
 	}
 
 }
-
+/*
 
 
 
@@ -84,3 +84,4 @@ class Consumer implements Runnable {
 
 }
 
+*/
