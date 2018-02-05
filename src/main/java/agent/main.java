@@ -12,19 +12,9 @@ public class main {
 	public static void main(String[] args) {
 		
 	  
-	  JobManagerImpl a = new JobManagerImpl();	  
-	  MessageManagerImpl b = new MessageManagerImpl(a.getJobQueue());
-	  
-	 
-	  try {
-	    
-	    a.call();
-      b.call();
-    } catch (Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-	  
+	  JobManagerImpl o_jobMgr = new JobManagerImpl(50, 2, 4, 60);	  
+	  MessageManagerImpl o_msgMgr = new MessageManagerImpl(o_jobMgr.getJobQueue());
+	   
 	  
 	  
 	}

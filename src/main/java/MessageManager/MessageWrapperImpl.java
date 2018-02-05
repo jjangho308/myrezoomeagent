@@ -2,9 +2,18 @@ package MessageManager;
 
 public class MessageWrapperImpl implements MessageWrapper {
 
-  public MessageWrapperImpl(){
-    
+  MessageWrapperImpl(){ }
+  
+  private static class Singleton {
+    private static final MessageWrapperImpl instance = new MessageWrapperImpl();
   }
+  
+  public static MessageWrapperImpl getInstance () {
+    System.out.println("create instance");
+    return Singleton.instance;
+  }
+  
+  
   @Override
   public Object convertMessageToJob(String msg) {
     // TODO Auto-generated method stub
