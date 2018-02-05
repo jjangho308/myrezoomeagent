@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin:'application'
 
-mainClassName = 'agent.main'
+mainClassName = 'agent.main.main'
 version = '1.0'
 
 sourceCompatibility = 1.8
@@ -23,6 +23,22 @@ jar {
 repositories {
     mavenCentral()
 }
+
+
+//버전 관리
+def version = [
+    spring: '4.3.13.RELEASE',
+    servletAPI: '3.1.0',
+    commonsCollections: '3.2.1',
+    junit: '4.12',
+    slf4j: '1.7.12',
+    jstl: '1.2',
+    activemq: '5.15.0'
+    
+]
+
+
+
 dependencies {
     compile group: 'org.springframework', name: 'spring-context', version:'3.2.3.RELEASE'
     compile group: 'org.springframework', name: 'spring-tx', version:'3.2.3.RELEASE'
@@ -31,4 +47,6 @@ dependencies {
     runtime group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.13'
     testCompile group: 'org.springframework', name: 'spring-test', version:'3.2.3.RELEASE'
     testCompile group: 'junit', name: 'junit', version:'4.11'
+    compile "org.apache.activemq:activemq-client:${version.activemq}"
+    compile "org.apache.activemq:activemq-pool:${version.activemq}"
 }
