@@ -3,13 +3,12 @@ package DatabaseManager;
 import vo.orgRsltVOImpl;
 import vo.orgVO;
 
-public class OracleConverter extends DatabaseConverterImpl {
+public class DatabaseConverterImpl implements DatabaseConverter{
 
-  public OracleConverter() throws Exception {
-    super();
-    // TODO Auto-generated constructor stub
+  public DatabaseConverterImpl() throws Exception{
+    throw new Exception();
   }
-
+  
   @Override
   public orgVO convertRzmToOrg() {
     // TODO Auto-generated method stub
@@ -21,5 +20,5 @@ public class OracleConverter extends DatabaseConverterImpl {
     // TODO Auto-generated method stub
     return null;
   }
-  
+
 }

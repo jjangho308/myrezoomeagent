@@ -28,9 +28,9 @@ public class AmqAgentImpl implements AmqAgent , Callable<Integer> , MessageListe
   private Destination consumerDestination = null;
   private MessageConsumer consumer = null;
   
-  private String amqAddr = "";
-  private String uName = "";  
-  private String uPwd = "";
+  private String amqAddr = "ssl://b-cb8c6e8c-f893-4464-aa69-b3501991ef60-1.mq.ap-southeast-2.amazonaws.com:61617";
+  private String uName = "rezoome";  
+  private String uPwd = "sgen2018!!!!";
   private int consumerTimeout = 1000;
   private BlockingQueue queue = null;
   

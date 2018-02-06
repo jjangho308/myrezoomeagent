@@ -1,6 +1,10 @@
 package DatabaseManager;
 
-public abstract class DatabaseConverter {
+import vo.orgRsltVOImpl;
+import vo.orgVO;
+import vo.rzmInfoVOImpl;
+
+public interface DatabaseConverter {
   
 /*  이름
   생년월일
@@ -11,6 +15,9 @@ public abstract class DatabaseConverter {
   클리어언트 퍼블릭키
   우리가 정보조회를 요청한 기관의 배열(JSON)
   */
+
+  public orgVO convertRzmToOrg();
+  public orgRsltVOImpl convertOrgToRzm();
   
   
 }

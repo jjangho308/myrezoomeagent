@@ -128,16 +128,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="DatabaseManager.DatabaseConverter" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/DatabaseManager/DatabaseConverter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1221" y="123"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="17" language="java" name="MessageManager.MessageWrapperImpl" project="rezoome_agent" 
+  <class id="16" language="java" name="MessageManager.MessageWrapperImpl" project="rezoome_agent" 
     file="/rezoome_agent/src/main/java/MessageManager/MessageWrapperImpl.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1413" y="424"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -146,7 +137,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="18" language="java" name="MessageManager.AmqAgentImpl" project="rezoome_agent" 
+  <class id="17" language="java" name="MessageManager.AmqAgentImpl" project="rezoome_agent" 
     file="/rezoome_agent/src/main/java/MessageManager/AmqAgentImpl.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1685" y="541"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -155,17 +146,17 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <package id="19" language="java" name="DatabaseManager" project="rezoome_agent" 
+  <package id="18" language="java" name="DatabaseManager" project="rezoome_agent" 
     file="/rezoome_agent/src/main/java/DatabaseManager" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="908" y="108"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="20" language="java" name="agent" project="rezoome_agent" file="/rezoome_agent/src/main/java/agent" 
+  <package id="19" language="java" name="agent" project="rezoome_agent" file="/rezoome_agent/src/main/java/agent" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1062" y="108"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <class id="21" language="java" name="MessageManager.MessageManagerImpl" project="rezoome_agent" 
+  <class id="20" language="java" name="MessageManager.MessageManagerImpl" project="rezoome_agent" 
     file="/rezoome_agent/src/main/java/MessageManager/MessageManagerImpl.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1661" y="150"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -174,7 +165,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="22" language="java" name="JobManager.JobManager" project="rezoome_agent" 
+  <interface id="21" language="java" name="JobManager.JobManager" project="rezoome_agent" 
     file="/rezoome_agent/src/main/java/JobManager/JobManager.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2148" y="424"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -183,7 +174,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="23" language="java" name="MessageManager.AmqAgent" project="rezoome_agent" 
+  <interface id="22" language="java" name="MessageManager.AmqAgent" project="rezoome_agent" 
     file="/rezoome_agent/src/main/java/MessageManager/AmqAgent.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1659" y="815"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -192,7 +183,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="24" language="java" name="JobManager.JobManagerImpl" project="rezoome_agent" 
+  <class id="23" language="java" name="JobManager.JobManagerImpl" project="rezoome_agent" 
     file="/rezoome_agent/src/main/java/JobManager/JobManagerImpl.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2152" y="204"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -201,7 +192,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="25" language="java" name="DatabaseManager.OracleConverter" project="rezoome_agent" 
+  <class id="24" language="java" name="DatabaseManager.OracleConverter" project="rezoome_agent" 
     file="/rezoome_agent/src/main/java/DatabaseManager/OracleConverter.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1212" y="406"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -210,7 +201,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="26" language="java" name="DatabaseManager.DatabaseWrapper" project="rezoome_agent" 
+  <class id="25" language="java" name="DatabaseManager.DatabaseWrapper" project="rezoome_agent" 
     file="/rezoome_agent/src/main/java/DatabaseManager/DatabaseWrapper.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2415" y="123"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -219,107 +210,82 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="27" language="java" name="DatabaseManager.DatabaseConnecter" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/DatabaseManager/DatabaseConnecter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2953" y="168"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <realization id="28">    
+  <realization id="26">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="12"/>  
   </realization>  
-  <realization id="29">    
-    <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="23"/>  
+  <realization id="27">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="22"/>  
   </realization>  
-  <association id="30">    
-    <end type="SOURCE" refId="21" navigable="false">      
-      <attribute id="31" name="amqAgentThread"/>      
-      <multiplicity id="32" minimum="0" maximum="1"/>    
+  <association id="28">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="29" name="amqAgentThread"/>      
+      <multiplicity id="30" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="18" navigable="true"/>    
+    <end type="TARGET" refId="17" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="33">    
+  <association id="31">    
     <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="34" name="instance"/>      
-      <multiplicity id="35" minimum="0" maximum="1"/>    
+      <attribute id="32" name="instance"/>      
+      <multiplicity id="33" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="14" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="36">    
-    <end type="SOURCE" refId="17"/>    
+  <realization id="34">    
+    <end type="SOURCE" refId="16"/>    
     <end type="TARGET" refId="9"/>  
   </realization>  
-  <generalization id="37">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="27"/>  
-  </generalization>  
-  <generalization id="38">    
+  <generalization id="35">    
     <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="26"/>  
+    <end type="TARGET" refId="25"/>  
   </generalization>  
-  <association id="39">    
+  <association id="36">    
     <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="40" name="instance"/>      
-      <multiplicity id="41" minimum="0" maximum="1"/>    
+      <attribute id="37" name="instance"/>      
+      <multiplicity id="38" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="42">    
-    <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="22"/>  
+  <realization id="39">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="21"/>  
   </realization>  
-  <association id="43">    
+  <association id="40">    
     <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="44" name="instance"/>      
-      <multiplicity id="45" minimum="0" maximum="1"/>    
+      <attribute id="41" name="instance"/>      
+      <multiplicity id="42" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="17" navigable="true"/>    
+    <end type="TARGET" refId="16" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="46">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="27"/>  
-  </generalization>  
-  <generalization id="47">    
+  <generalization id="43">    
     <end type="SOURCE" refId="15"/>    
-    <end type="TARGET" refId="26"/>  
+    <end type="TARGET" refId="25"/>  
   </generalization>  
-  <association id="48">    
-    <end type="SOURCE" refId="21" navigable="false">      
-      <attribute id="49" name="msgWpr"/>      
-      <multiplicity id="50" minimum="0" maximum="1"/>    
+  <association id="44">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="45" name="msgWpr"/>      
+      <multiplicity id="46" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="17" navigable="true"/>    
+    <end type="TARGET" refId="16" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="51">    
-    <end type="SOURCE" refId="17"/>    
+  <nesting id="47">    
+    <end type="SOURCE" refId="16"/>    
     <end type="TARGET" refId="13"/>  
   </nesting>  
-  <realization id="52">    
-    <end type="SOURCE" refId="21"/>    
+  <realization id="48">    
+    <end type="SOURCE" refId="20"/>    
     <end type="TARGET" refId="7"/>  
   </realization>  
-  <generalization id="53">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
-  <realization id="54">    
+  <realization id="49">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="10"/>  
   </realization>  
-  <generalization id="55">    
-    <end type="SOURCE" refId="25"/>    
-    <end type="TARGET" refId="16"/>  
-  </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    
