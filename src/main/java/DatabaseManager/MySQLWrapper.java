@@ -1,5 +1,5 @@
 package DatabaseManager;
 
-public class MySQLWrapper extends DatabaseWrapper{
+public class MySQLWrapper extends DbaseWrapper{
 
 }

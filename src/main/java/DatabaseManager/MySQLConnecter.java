@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class MySQLConnecter extends DatabaseConnecterImpl {
+public class MySQLConnecter extends DbaseConnecterImpl {
 
   //use singleton design patern 
   private static MySQLConnecter instance;
@@ -15,10 +15,4 @@ public class MySQLConnecter extends DatabaseConnecterImpl {
       }
       return instance;
   }
-  
-  
-  
-  
-
-
 }

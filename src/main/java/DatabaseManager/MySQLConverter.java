@@ -6,7 +6,7 @@ import vo.RzmRsltVO;
 import vo.RzmRsltVOImpl;
 import vo.RzmVOImpl;
 
-public class MySQLConverter extends DatabaseConverterImpl{
+public class MySQLConverter extends DbaseConverterImpl{
   
   
   public MySQLConverter(RzmVOImpl rzmVo) throws Exception {

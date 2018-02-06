@@ -201,8 +201,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="25" language="java" name="DatabaseManager.DatabaseWrapper" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/DatabaseManager/DatabaseWrapper.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="25" language="java" name="DatabaseManager.DbaseWrapper" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/DatabaseManager/DbaseWrapper.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2415" y="123"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      

@@ -5,7 +5,7 @@ import vo.OrgVO;
 import vo.RzmRsltVO;
 import vo.RzmVOImpl;
 
-public interface DatabaseConverter {
+public interface DbaseConverter {
   
 /*  이름
   생년월일

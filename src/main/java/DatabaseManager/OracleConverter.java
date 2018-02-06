@@ -7,7 +7,7 @@ import vo.RzmRsltVO;
 import vo.RzmRsltVOImpl;
 import vo.RzmVOImpl;
 
-public class OracleConverter extends DatabaseConverterImpl {
+public class OracleConverter extends DbaseConverterImpl {
 
   public OracleConverter(RzmVOImpl rzmVo) throws Exception {
     super(rzmVo);

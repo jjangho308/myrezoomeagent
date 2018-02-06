@@ -1,5 +1,5 @@
 package DatabaseManager;
 
-public class OracleWrapper extends DatabaseWrapper{
+public class OracleWrapper extends DbaseWrapper{
 
 }

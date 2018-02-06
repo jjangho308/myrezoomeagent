@@ -3,7 +3,7 @@ package DatabaseManager;
 import java.sql.Connection;
 import java.util.Properties;
 
-public class OracleConnecter implements DatabaseConnecter {
+public class OracleConnecter implements DbaseConnecter {
   //use singleton design patern 
   private static OracleConnecter instance;
   public static OracleConnecter getInstance(){

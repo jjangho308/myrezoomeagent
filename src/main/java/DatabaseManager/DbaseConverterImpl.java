@@ -5,12 +5,12 @@ import vo.OrgVO;
 import vo.RzmRsltVO;
 import vo.RzmVOImpl;
 
-public class DatabaseConverterImpl implements DatabaseConverter{
+public class DbaseConverterImpl implements DbaseConverter{
 
 
   protected RzmVOImpl rzmVo = null;
 
-  public DatabaseConverterImpl(RzmVOImpl rzmVo) throws Exception {
+  public DbaseConverterImpl(RzmVOImpl rzmVo) throws Exception {
     
     // TODO Auto-generated constructor stub
     this.rzmVo  = rzmVo;

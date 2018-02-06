@@ -13,16 +13,19 @@ public class MessageManagerImpl implements MessageManager {
 
   
   private AmqAgentImpl amqAgentThread = null;
-  
-  private BlockingQueue queue = null;  
   private MessageWrapperImpl msgWpr = null;
   
-  public MessageManagerImpl(BlockingQueue queue){
-    
-    this.queue = queue;
+  private static class Singleton {
+    private static final MessageManagerImpl instance = new MessageManagerImpl();
+  }
+  
+  public static MessageManagerImpl getInstance () {
+    System.out.println("create instance");
+    return Singleton.instance;
+  }
+  
+  public MessageManagerImpl(){
     msgWpr = new MessageWrapperImpl();
-    
- 
 	}
 
   @Override

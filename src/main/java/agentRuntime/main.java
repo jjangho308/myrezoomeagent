@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import DatabaseManager.DbaseManagerImpl;
 import JobManager.JobManagerImpl;
 import MessageManager.MessageManagerImpl;
 
@@ -12,8 +13,33 @@ public class main {
 	public static void main(String[] args) {
 		
 	  
-	  JobManagerImpl jobMgr = new JobManagerImpl(50, 2, 4, 60);	  
-	  MessageManagerImpl msgMgr = new MessageManagerImpl(jobMgr.getJobQueue());
+	  // ** Origin 
+	  //JobManagerImpl jobMgr = JobManagerImpl.getInstance();
+	  //jobMgr.setJobManagerImpl(50, 2, 4, 60);
+	  //MessageManagerImpl msgMgr = new MessageManagerImpl();
+	  
+	  
+	  
+	  
+	  // Under Info will get Property File
+    String dbDriverName = "";
+    String host= "";
+    String port= "";
+    String dbName= "";
+    String userName= "";
+    String userPwd= "";
+    String maxPoolSize= "";
+    
+    
+	  DbaseManagerImpl dbMgr = new DbaseManagerImpl();
+    dbMgr.createConnection(dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
+    
+    // ** Singleton
+	  JobManagerImpl.getInstance().setJobManagerImpl(50, 2, 10, 60);
+	  MessageManagerImpl.getInstance();
+	 
+	  
+	  
 	   
 	  
 	  

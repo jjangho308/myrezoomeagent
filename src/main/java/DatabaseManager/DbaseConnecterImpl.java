@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class DatabaseConnecterImpl implements DatabaseConnecter {
+public class DbaseConnecterImpl implements DbaseConnecter {
 //init database constants
  protected static String DATABASE_DRIVER = "";
  protected static String DATABASE_URL = "";

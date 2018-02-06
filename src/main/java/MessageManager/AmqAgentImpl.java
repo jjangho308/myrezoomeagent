@@ -12,6 +12,8 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
+import JobManager.JobManagerImpl;
+
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.Message;
@@ -46,8 +48,8 @@ public class AmqAgentImpl implements AmqAgent , Callable<Integer> , MessageListe
     connectionFactory = new ActiveMQConnectionFactory(this.amqAddr);
     
     // Specify the username and password.
-      connectionFactory.setUserName(this.uName);
-      connectionFactory.setPassword(this.uPwd);
+    connectionFactory.setUserName(this.uName);
+    connectionFactory.setPassword(this.uPwd);
 
     // TODO Auto-generated method stub
     // Establish a connection for the consumer.
@@ -86,6 +88,7 @@ public class AmqAgentImpl implements AmqAgent , Callable<Integer> , MessageListe
     consumerSession.close();
     consumerConnection.close();   
   }
+  
   @Override
   public void putMessageToJobQueue(Object job) {
     // TODO Auto-generated method stub
@@ -112,7 +115,8 @@ public class AmqAgentImpl implements AmqAgent , Callable<Integer> , MessageListe
       job.setJob((JobImpl)MessageWrapperImpl.getInstance().convertMessageToJob(consumerTextMessage.getText()));
       System.out.println("Message received: " + consumerTextMessage.getText());
       
-      putMessageToJobQueue(job);
+      // Put Job
+      JobManagerImpl.getInstance().putMessageToJobQueue(job);
       
       
     
