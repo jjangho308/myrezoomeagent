@@ -1,11 +1,12 @@
 package vo;
 
-public class rzmInfoVOImpl implements rzmInfoVO{
+public class RzmVOImpl implements RzmVO{
   String name;
   String phnNumber;
   String sex;
   String birth;
   String orgKey;
+  
   
   public String getName() {
     return name;

@@ -3,7 +3,7 @@ package DatabaseManager;
 import java.sql.Connection;
 import java.util.Properties;
 
-public class OracleConnecter extends DatabaseConnecter {
+public class OracleConnecter implements DatabaseConnecter {
   //use singleton design patern 
   private static OracleConnecter instance;
   public static OracleConnecter getInstance(){
@@ -15,6 +15,7 @@ public class OracleConnecter extends DatabaseConnecter {
   @Override
   public void setConnectInfo(String dbDriverName, String host, String port, String dbName, String userName, String userPwd, String maxPoolSize) {
     // TODO Auto-generated method stub
+    
     
   }
   @Override
@@ -28,7 +29,7 @@ public class OracleConnecter extends DatabaseConnecter {
     
   }
   @Override
-  protected Properties getProperties() {
+  public Properties getProperties() {
     // TODO Auto-generated method stub
     return null;
   }

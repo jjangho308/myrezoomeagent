@@ -10,8 +10,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="agent.main" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/agent/main.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="2" language="java" name="agentRuntime.main" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/agentRuntime/main.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="64" y="132"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -151,8 +151,8 @@
     <position height="-1" width="-1" x="908" y="108"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="19" language="java" name="agent" project="rezoome_agent" file="/rezoome_agent/src/main/java/agent" 
-    binary="false" corner="BOTTOM_RIGHT">    
+  <package id="19" language="java" name="agentRuntime" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/agentRuntime" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1062" y="108"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
