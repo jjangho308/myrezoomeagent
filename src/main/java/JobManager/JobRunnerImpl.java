@@ -39,7 +39,7 @@ public class JobRunnerImpl implements JobRunner , Callable<Integer>{
     
     dbConnecter.setConnectInfo(dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
     dbConnecter.connect();
-    dbConnecter.
+    //dbConnecter
     
     // Rest API gogo ( Mr.park)
     
