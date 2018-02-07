@@ -30,10 +30,10 @@ public class main {
 	  
     
     ArrayList<String> dbModuleNameArr = new ArrayList<String>();
-	  String dbMgrName = "Inha Graduate Database Manager";
-	  dbModuleNameArr.add(dbMgrName);
+	  String dbModuleName = "Inha Graduate Database";
+	  dbModuleNameArr.add(dbModuleName);
 	  DbaseManagerImpl dbMgr = new DbaseManagerImpl();
-	  dbMgr.createAll(dbMgrName, dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
+	  dbMgr.createAll(dbModuleName, dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
     
 	 
 	  
