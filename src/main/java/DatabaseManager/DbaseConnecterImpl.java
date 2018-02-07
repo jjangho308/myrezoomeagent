@@ -41,8 +41,9 @@ public class DbaseConnecterImpl implements DbaseConnecter {
  public Properties getProperties() {
    if(properties == null) {
      properties = new Properties();
-     properties.setProperty("user", USERNAME);
-     properties.setProperty("password", PASSWORD);
+     properties.setProperty("USER", USERNAME);
+     properties.setProperty("PASSWORD", PASSWORD);
+     properties.setProperty("DBMS_TYPE", DATABASE_DRIVER);
      properties.setProperty("MaxPooledStatements", MAX_POOL);
    }
    return properties;

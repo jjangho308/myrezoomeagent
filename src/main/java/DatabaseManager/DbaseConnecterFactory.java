@@ -17,7 +17,7 @@ public class DbaseConnecterFactory {
   */
   
   
-  public static DbaseConnecterImpl createMySQLConnecter(String dbDriverName, String host, String port, String dbName, String userName, String userPwd, String maxPoolSize) throws Exception{
+  public static DbaseConnecterImpl createConnecter(String dbDriverName, String host, String port, String dbName, String userName, String userPwd, String maxPoolSize) throws Exception{
     DbaseConnecterImpl dbConn = new DbaseConnecterImpl();
     dbConn.setConnectInfo(dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
     return dbConn;     

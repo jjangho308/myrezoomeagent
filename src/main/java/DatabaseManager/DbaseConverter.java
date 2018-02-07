@@ -2,6 +2,7 @@ package DatabaseManager;
 
 import vo.OrgRsltVOImpl;
 import vo.OrgVO;
+import vo.OrgVOImpl;
 import vo.RzmRsltVO;
 import vo.RzmVOImpl;
 
@@ -17,8 +18,10 @@ public interface DbaseConverter {
   우리가 정보조회를 요청한 기관의 배열(JSON)
   */
 
-  public OrgVO convertRzmToOrg();
-  public RzmRsltVO convertOrgToRzm(OrgRsltVOImpl orgRsltVo);
+  public OrgVO convert(RzmVOImpl rzmVo);
+  public RzmRsltVO convert(OrgRsltVOImpl orgVo);
+  //public RzmRsltVO convertOrgToRzm(OrgRsltVOImpl orgRsltVo);
+  
   
   
 }

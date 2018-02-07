@@ -9,16 +9,18 @@ import vo.RzmVOImpl;
 
 public class OracleConverter extends DbaseConverterImpl {
 
+  public OracleConverter(){
+    
+  }
   public OracleConverter(RzmVOImpl rzmVo) throws Exception {
     super(rzmVo);
     // TODO Auto-generated constructor stub
   }
 
   @Override
-  public OrgVO convertRzmToOrg() {
+  public OrgVOImpl convert(RzmVOImpl rzmVo) {
     // TODO Auto-generated method stub
     
-
     OrgVOImpl orgVo = new OrgVOImpl();
     
     orgVo.setSex(super.rzmVo.getSex());
@@ -27,12 +29,10 @@ public class OracleConverter extends DbaseConverterImpl {
     orgVo.setOrgKey(super.rzmVo.getOrgKey());
     
     return orgVo;
-    
-    
   }
 
   @Override
-  public RzmRsltVO convertOrgToRzm(OrgRsltVOImpl orgRsltVo) {
+  public RzmRsltVO convert(OrgRsltVOImpl orgRsltVo) {
     // TODO Auto-generated method stub
     RzmRsltVO rzmRsltVo = new RzmRsltVOImpl();
     

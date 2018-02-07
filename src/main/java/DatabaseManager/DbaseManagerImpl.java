@@ -2,10 +2,14 @@ package DatabaseManager;
 
 import java.util.HashMap;
 
+import vo.RzmVOImpl;
+
 
 public class DbaseManagerImpl implements DbaseManager{
   
   public static HashMap<String, DbaseConnecter> dbConnHmp = new HashMap<String, DbaseConnecter>();
+  public static HashMap<String, DbaseConverter> dbConvHmp = new HashMap<String, DbaseConverter>();
+  public static HashMap<String, DbaseConverter> dbDaoHmp = new HashMap<String, DbaseConverter>();
   
   private static class Singleton {
     private static final DbaseManagerImpl instance = new DbaseManagerImpl();
@@ -21,12 +25,12 @@ public class DbaseManagerImpl implements DbaseManager{
   }
   
   public DbaseConnecter getConnecter(){
-    if(!dbConnHmp.isEmpty()){
-      
-      //dbConnHmp.values().toArray(ArrayList<DbaseManagerImpl> a);
+    if(!dbConnHmp.isEmpty()){      
+      return dbConnHmp.get(dbConnHmp.keySet().iterator().next());
+    }else{
+      return null;
     }
     
-    return null;
   }
   
   public DbaseConnecter getConnecter(String connName){
@@ -36,12 +40,10 @@ public class DbaseManagerImpl implements DbaseManager{
   }
   
   public DbaseConnecter createConnection(String connName, String dbDriverName, String host, String port, String dbName, String userName, String userPwd, String maxPoolSize){
-    HashMap<String , DbaseConnecter> connHmp = new HashMap<String, DbaseConnecter>();
-    DbaseConnecter dbConn = null;
+      DbaseConnecter dbConn = null;
     try {
-      dbConn = DbaseConnecterFactory.createMySQLConnecter(dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
-   
-    dbConnHmp.put(connName, dbConn);
+      dbConn = DbaseConnecterFactory.createConnecter(dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
+      dbConnHmp.put(connName, dbConn);
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -51,10 +53,9 @@ public class DbaseManagerImpl implements DbaseManager{
   }
   
   public DbaseConnecter createConnection(String dbDriverName, String host, String port, String dbName, String userName, String userPwd, String maxPoolSize){
-    HashMap<String , DbaseConnecter> connHmp = new HashMap<String, DbaseConnecter>();
     DbaseConnecter dbConn = null;
     try {
-      dbConn = DbaseConnecterFactory.createMySQLConnecter(dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
+      dbConn = DbaseConnecterFactory.createConnecter(dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -63,5 +64,63 @@ public class DbaseManagerImpl implements DbaseManager{
     return dbConn;
   }
   
+  public DbaseConverter createConverter(String convName, String dbDriverName){
+    DbaseConverter dbConv = null;
+    try {
+      dbConv = DbaseConverterFactory.createConverter(convName, dbDriverName);
+      dbConvHmp.put(convName, dbConv);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return dbConv;  
+  
+  }
 
+  public DbaseConverter createConverter(String dbDriverName){
+    DbaseConverter dbConv = null;
+    try {
+      dbConv = DbaseConverterFactory.createConverter("", dbDriverName);
+      dbConvHmp.put("", dbConv);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return dbConv;  
+  
+  }
+  
+  
+  public void createAll(String name, String dbDriverName, String host, String port, String dbName, String userName, String userPwd, String maxPoolSize){
+    try {
+      DbaseConnecter dbConn = DbaseConnecterFactory.createConnecter(dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
+      DbaseConverter dbConv = DbaseConverterFactory.createConverter(name, dbDriverName);
+      
+      dbConnHmp.put(name, dbConn);
+      dbConvHmp.put(name, dbConv);
+      
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+   
+    
+  }
+  
+  
+  public DbaseConverter getConverter(){
+    if(!dbConvHmp.isEmpty()){      
+      return dbConvHmp.get(dbConvHmp.keySet().iterator().next());
+    }else{
+      return null;
+    }
+    
+  }
+  
+  public DbaseConverter getConverter(String connName){
+    
+   if(dbConvHmp.containsKey(connName)) return dbConvHmp.get(connName);
+   else return null;
+  }
+  
 }

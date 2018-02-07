@@ -1,5 +1,6 @@
 package JobManager;
 
+import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -21,6 +22,9 @@ public class JobManagerImpl implements JobManager{
   //현재 풀에 corePoolSize 의 수보다 많은 thread가 있는 경우, 초과한 만큼의 thread는, IDLE 상태가 되어 있는 기간이 keepAliveTime 를 넘으면(자) 종료합니다
   private int keepAliveTime = 60;
   
+  // Job들에서 사용할 DB Mgr 이름
+  ArrayList<String> dbModuleNameArr = new ArrayList<String>();
+  
   private static class Singleton {
     private static final JobManagerImpl instance = new JobManagerImpl();
   }
@@ -30,11 +34,12 @@ public class JobManagerImpl implements JobManager{
     return Singleton.instance;
   }
   
-  public void setJobManagerImpl(int queueSize, int corePoolSize, int maximumPoolSize, int keepAliveTime ){
+  public void setJobManagerImpl(int queueSize, int corePoolSize, int maximumPoolSize, int keepAliveTime, ArrayList<String> dbModuleNameArr ){
     this.queueSize = queueSize;
     this.corePoolSize = corePoolSize;
     this.maximumPoolSize = maximumPoolSize;
     this.keepAliveTime = keepAliveTime;
+    this.dbModuleNameArr = dbModuleNameArr;
   }
   
   @Override
@@ -51,7 +56,7 @@ public class JobManagerImpl implements JobManager{
   @Override  
   public void run(){
  // TODO Auto-generated method stub
-    threadPool.execute((Runnable) new JobRunnerImpl(this.queue));
+    threadPool.execute((Runnable) new JobRunnerImpl(this.queue, dbModuleNameArr));
   }
 
   @Override

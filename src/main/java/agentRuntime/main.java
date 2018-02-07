@@ -1,5 +1,6 @@
 package agentRuntime;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -13,13 +14,6 @@ public class main {
 	public static void main(String[] args) {
 		
 	  
-	  // ** Origin 
-	  //JobManagerImpl jobMgr = JobManagerImpl.getInstance();
-	  //jobMgr.setJobManagerImpl(50, 2, 4, 60);
-	  //MessageManagerImpl msgMgr = new MessageManagerImpl();
-	  
-	  
-	  
 	  
 	  // Under Info will get Property File
     String dbDriverName = "";
@@ -31,11 +25,21 @@ public class main {
     String maxPoolSize= "";
     
     
-	  DbaseManagerImpl dbMgr = new DbaseManagerImpl();
-    dbMgr.createConnection(dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
+	  
+    //dbMgr.createConnection(dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
+	  
     
+    ArrayList<String> dbModuleNameArr = new ArrayList<String>();
+	  String dbMgrName = "Inha Graduate Database Manager";
+	  dbModuleNameArr.add(dbMgrName);
+	  DbaseManagerImpl dbMgr = new DbaseManagerImpl();
+	  dbMgr.createAll(dbMgrName, dbDriverName, host, port, dbName, userName, userPwd, maxPoolSize);
+    
+	 
+	  
+	  
     // ** Singleton
-	  JobManagerImpl.getInstance().setJobManagerImpl(50, 2, 10, 60);
+	  JobManagerImpl.getInstance().setJobManagerImpl(50, 2, 10, 60, dbModuleNameArr);
 	  MessageManagerImpl.getInstance();
 	 
 	  
