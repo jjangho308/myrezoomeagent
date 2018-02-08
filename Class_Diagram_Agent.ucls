@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="DatabaseManager.OracleWrapper" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/DatabaseManager/OracleWrapper.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="1" language="java" name="io.rezoome.Database.OracleWrapper" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Database/OracleWrapper.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2331" y="406"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -19,22 +19,13 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="MessageManager.JobImpl" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/MessageManager/JobImpl.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="221" y="132"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <package id="4" language="java" name="JobManager" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/JobManager" binary="false" corner="BOTTOM_RIGHT">    
+  <package id="3" language="java" name="io.rezoome.Job" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Job" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="371" y="108"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <class id="5" language="java" name="JobManager.JobRunnerImpl" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/JobManager/JobRunnerImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="4" language="java" name="io.rezoome.Job.JobRunnerImpl" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Job/JobRunnerImpl.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="550" y="141"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -42,22 +33,13 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <package id="6" language="java" name="MessageManager" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/MessageManager" binary="false" corner="BOTTOM_RIGHT">    
+  <package id="5" language="java" name="io.rezoome.Message" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Message" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="741" y="108"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <interface id="7" language="java" name="MessageManager.MessageManager" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/MessageManager/MessageManager.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1938" y="415"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <class id="8" language="java" name="DatabaseManager.MySQLConverter" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/DatabaseManager/MySQLConverter.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="6" language="java" name="io.rezoome.Database.MySQLConverter" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Database/MySQLConverter.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1053" y="406"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -65,17 +47,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="9" language="java" name="MessageManager.MessageWrapper" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/MessageManager/MessageWrapper.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1168" y="797"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <interface id="10" language="java" name="JobManager.JobRunner" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/JobManager/JobRunner.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="7" language="java" name="io.rezoome.Job.JobRunner" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Job/JobRunner.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="513" y="397"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -83,26 +56,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="11" language="java" name="MessageManager.Job" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/MessageManager/Job.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="221" y="406"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <class id="12" language="java" name="MessageManager.MessageWrapperImpl.Singleton" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/MessageManager/MessageWrapperImpl.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1354" y="797"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="13" language="java" name="DatabaseManager.MySQLWrapper" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/DatabaseManager/MySQLWrapper.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="8" language="java" name="io.rezoome.Database.MySQLWrapper" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Database/MySQLWrapper.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2483" y="406"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -110,17 +65,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="MessageManager.MessageWrapperImpl" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/MessageManager/MessageWrapperImpl.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1413" y="424"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="15" language="java" name="MessageManager.AmqAgentImpl" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/MessageManager/AmqAgentImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="9" language="java" name="io.rezoome.Message.AmqAgentImpl" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Message/AmqAgentImpl.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1685" y="541"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -128,27 +74,18 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <package id="16" language="java" name="DatabaseManager" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/DatabaseManager" binary="false" corner="BOTTOM_RIGHT">    
+  <package id="10" language="java" name="io.rezoome.Database" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Database" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="908" y="108"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <package id="17" language="java" name="agentRuntime" project="rezoome_agent" 
+  <package id="11" language="java" name="agentRuntime" project="rezoome_agent" 
     file="/rezoome_agent/src/main/java/agentRuntime" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1062" y="108"/>    
     <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
   </package>  
-  <class id="18" language="java" name="MessageManager.MessageManagerImpl" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/MessageManager/MessageManagerImpl.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1661" y="150"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <interface id="19" language="java" name="JobManager.JobManager" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/JobManager/JobManager.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="12" language="java" name="io.rezoome.Job.JobManager" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Job/JobManager.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2148" y="424"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -156,8 +93,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="20" language="java" name="MessageManager.AmqAgent" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/MessageManager/AmqAgent.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="13" language="java" name="io.rezoome.Message.AmqAgent" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Message/AmqAgent.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1659" y="815"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -165,8 +102,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="21" language="java" name="JobManager.JobManagerImpl" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/JobManager/JobManagerImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="14" language="java" name="io.rezoome.Job.JobManagerImpl" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Job/JobManagerImpl.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2152" y="204"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -174,8 +111,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="22" language="java" name="DatabaseManager.OracleConverter" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/DatabaseManager/OracleConverter.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="15" language="java" name="io.rezoome.Database.OracleConverter" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Database/OracleConverter.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1212" y="406"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -183,8 +120,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="23" language="java" name="DatabaseManager.DbaseWrapper" project="rezoome_agent" 
-    file="/rezoome_agent/src/main/java/DatabaseManager/DbaseWrapper.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="16" language="java" name="io.rezoome.Database.DbaseWrapper" project="rezoome_agent" 
+    file="/rezoome_agent/src/main/java/io/rezoome/Database/DbaseWrapper.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2415" y="123"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -192,66 +129,26 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <realization id="24">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="11"/>  
+  <realization id="17">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="13"/>  
   </realization>  
-  <realization id="25">    
-    <end type="SOURCE" refId="15"/>    
-    <end type="TARGET" refId="20"/>  
-  </realization>  
-  <generalization id="26">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="23"/>  
+  <generalization id="18">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="16"/>  
   </generalization>  
-  <association id="27">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="28" name="amqAgentThread"/>      
-      <multiplicity id="29" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="15" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="30">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="31" name="msgWpr"/>      
-      <multiplicity id="32" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="14" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="33">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="12"/>  
-  </nesting>  
-  <realization id="34">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="9"/>  
-  </realization>  
-  <realization id="35">    
-    <end type="SOURCE" refId="18"/>    
+  <generalization id="19">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="16"/>  
+  </generalization>  
+  <realization id="20">    
+    <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="7"/>  
   </realization>  
-  <generalization id="36">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="23"/>  
-  </generalization>  
-  <realization id="37">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="10"/>  
+  <realization id="21">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="12"/>  
   </realization>  
-  <realization id="38">    
-    <end type="SOURCE" refId="21"/>    
-    <end type="TARGET" refId="19"/>  
-  </realization>  
-  <association id="39">    
-    <end type="SOURCE" refId="12" navigable="false">      
-      <attribute id="40" name="instance"/>      
-      <multiplicity id="41" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="14" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

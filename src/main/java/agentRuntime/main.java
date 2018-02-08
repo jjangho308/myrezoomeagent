@@ -5,9 +5,11 @@ import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import DatabaseManager.DbaseManagerImpl;
-import JobManager.JobManagerImpl;
-import MessageManager.MessageManagerImpl;
+import io.rezoome.Database.DbaseManagerImpl;
+import io.rezoome.Job.AbstractJobRunner;
+import io.rezoome.Job.JobManagerImpl;
+import io.rezoome.Job.JobRunnerImpl;
+import io.rezoome.Message.MessageManagerImpl;
 
 public class main {
 
@@ -38,10 +40,27 @@ public class main {
 	 
 	  
 	  
-    // ** Singleton
-	  JobManagerImpl.getInstance().setJobManagerImpl(50, 2, 10, 60, dbModuleNameArr);
-	  MessageManagerImpl.getInstance();
-	 
+	  // Default Job Thread
+	  JobManagerImpl.getInstance().setJobManagerImpl(50, 2, 10, 60);
+	  JobManagerImpl.getInstance().run();
+	  
+	  
+	  // Customize Job Thread
+	  JobManagerImpl.getInstance().setJobManagerImpl(50, 2, 10, 60);
+	  JobManagerImpl.getInstance().setJobRunner(new AbstractJobRunner(){
+      @Override
+      public Integer call() throws Exception {
+        // TODO Auto-generated method stub
+        
+        
+        return null;
+      }
+	  });
+	  JobManagerImpl.getInstance().run();
+	  
+	  	  
+	  // Message Manager
+	  MessageManagerImpl.getInstance().run();
 	  
 	  
 	   
