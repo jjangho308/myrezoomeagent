@@ -9,5 +9,5 @@ public interface JobRunner {
 
   //public RzmVOImpl convertJobToRzmVO(JobImpl job);
   
-  public void setJobQueue(BlockingQueue queue);
+  
 }
