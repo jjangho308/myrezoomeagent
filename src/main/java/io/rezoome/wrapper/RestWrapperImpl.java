@@ -2,7 +2,6 @@ package io.rezoome.wrapper;
 
 
 import io.rezoome.http.HttpManager;
-import io.rezoome.http.HttpManagerImpl;
 
 public class RestWrapperImpl extends AbstractRestWrapper {
 
@@ -19,12 +18,12 @@ public class RestWrapperImpl extends AbstractRestWrapper {
   }
 
   public RestWrapperImpl() {
-    httpManager = new HttpManagerImpl("https://", "HTTPS");
+
   }
 
   @Override
   public void request() {
-    httpManager.callHttpPostJson(null, "jsonstring");
+
   }
 
   @Override

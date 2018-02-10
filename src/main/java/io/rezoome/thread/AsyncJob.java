@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import io.rezoome.http.HttpConnector;
 import io.rezoome.http.HttpManager;
-import io.rezoome.http.HttpManagerImpl;
 import io.rezoome.jdbc.ConnectionManager;
 import io.rezoome.jdbc.OracleConnectionManager;
 
@@ -25,7 +25,8 @@ public class AsyncJob implements Callable<Map<String, Object>> {
     // TODO Auto-generated constructor stub
     connectionManager = new OracleConnectionManager();
     conn = connectionManager.getConnection();
-    httpManager = new HttpManagerImpl("", "");
+    // httpManager = new HttpManagerImpl("", "");
+    httpManager = new HttpConnector("");
   }
 
   @Override
@@ -41,7 +42,9 @@ public class AsyncJob implements Callable<Map<String, Object>> {
     Map<String, Object> response = new HashMap<String, Object>();
 
     try {
-      httpManager.callHttpPostJson(null, "json string");
+      // httpManager.callHttpPostJson(null, "json string");
+      httpManager.post(null, "SSSS");
+
     } catch (Exception e) {
 
     }
