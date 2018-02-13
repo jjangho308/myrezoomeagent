@@ -7,7 +7,7 @@ package io.rezoome.core;
  * @author TACKSU
  *
  */
-public class ServiceInitializer {
+public final class ServiceInitializer {
 	
 	public enum InitialEvent{
 		RUNTIME
@@ -43,7 +43,5 @@ public class ServiceInitializer {
 	 * @since 1.0.0
 	 * @author TACKSU
 	 */
-	private ServiceInitializer(){
-		
-	}
+	private ServiceInitializer(){}
 }

@@ -15,6 +15,12 @@ public abstract class AbstractEntity implements Entity {
 	{
 		ant = this.getClass().getDeclaredAnnotation(EntityType.class);
 	}
+	
+	/**
+	 * Hide default constructor. <br />
+	 */
+	protected AbstractEntity(){
+	}
 
 	@Override
 	public EntityType getAnnotation() {

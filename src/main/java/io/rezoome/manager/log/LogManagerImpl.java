@@ -5,13 +5,10 @@ import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
 
 @ManagerType("Log")
-public class LogManagerImpl extends AbstractManager implements LogManager {
+public final class LogManagerImpl extends AbstractManager implements LogManager {
 	
 	private static class Singleton{
-		private static final LogManager instance;
-		static {
-			instance = new LogManagerImpl();
-		}
+		private static final LogManager instance = new LogManagerImpl();
 	}
 	
 	public static LogManager getInstance(){
@@ -30,13 +27,17 @@ public class LogManagerImpl extends AbstractManager implements LogManager {
 
 	@Override
 	public void initialize(InitialEvent event) {
-		// TODO Auto-generated method stub
-
+		this.setPrepared();
 	}
 
 	@Override
 	public void initializeOnThread(InitialEvent event) {
 		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public void sendLogToServer(Runnable callback) {
+		// TODO Auto-generated method stub
+		
 	}
 }

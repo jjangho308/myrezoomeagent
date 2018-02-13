@@ -8,9 +8,9 @@ import io.rezoome.core.entity.Entity;
 import io.rezoome.manager.AbstractManager;
 
 @ManagerType("ClassArrange")
-public class ClassArrangeManagerImpl extends AbstractManager implements ClassArrangeManager {
+public final class ClassArrangeManagerImpl extends AbstractManager implements ClassArrangeManager {
 	
-	private Map<Class<? extends Entity>, Map<String, Class<? extends Entity>>> classMap = null;
+	private Map<Class<Entity>, Map<String, Class<Entity>>> classMap = null;
 	
 	private static class Singleton{
 		private static final ClassArrangeManager instance = new ClassArrangeManagerImpl();
@@ -29,5 +29,13 @@ public class ClassArrangeManagerImpl extends AbstractManager implements ClassArr
 	@Override
 	public void initializeOnThread(InitialEvent event) {
 		// TODO Auto-generated method stub
+	}
+	
+	protected <T extends Entity> void addClass(Class<T> rootCls, String code, Class<? extends T> entityCls){
+//		synchronized(this){
+//			if(!classMap.containsKey(rootCls)){
+//				classMap.put(rootCls, new HashMap<>());
+//			}
+//		}
 	}
 }

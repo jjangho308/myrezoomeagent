@@ -8,69 +8,71 @@ import java.util.concurrent.TimeUnit;
 import io.rezoome.vo.JobImpl;
 
 public class JobManagerImpl implements JobManager {
-  private BlockingQueue queue = null;
-  private ThreadPoolExecutor threadPool = null;
-  private JobRunnerImpl jobRunner = null;
+	private BlockingQueue queue = null;
+	private ThreadPoolExecutor threadPool = null;
+	private JobRunnerImpl jobRunner = null;
 
-  private int queueSize = 10;
-  // ½ÇÇàÇÒ ÃÖ¼Ò Thread¼ö.
-  private int corePoolSize = 2;
-  // ÃÖ´ë Thread Áö¿ø¼ö
-  private int maximumPoolSize = 10;
-  // ÇöÀç Ç®¿¡ corePoolSize ÀÇ ¼öº¸´Ù ¸¹Àº thread°¡ ÀÖ´Â °æ¿ì, ÃÊ°úÇÑ ¸¸Å­ÀÇ thread´Â, IDLE »óÅÂ°¡ µÇ¾î ÀÖ´Â ±â°£ÀÌ keepAliveTime ¸¦
-  // ³ÑÀ¸¸é(ÀÚ) Á¾·áÇÕ´Ï´Ù
-  private int keepAliveTime = 60;
+	private int queueSize = 10;
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ Threadï¿½ï¿½.
+	private int corePoolSize = 2;
+	// ï¿½Ö´ï¿½ Thread ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int maximumPoolSize = 10;
+	// ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ corePoolSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ threadï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½, ï¿½Ê°ï¿½ï¿½ï¿½ ï¿½ï¿½Å­ï¿½ï¿½
+	// threadï¿½ï¿½, IDLE ï¿½ï¿½ï¿½Â°ï¿½ ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ ï¿½â°£ï¿½ï¿½ keepAliveTime ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½
+	private int keepAliveTime = 60;
 
-  private static class Singleton {
-    private static final JobManagerImpl instance = new JobManagerImpl();
-  }
+	private static class Singleton {
+		private static final JobManagerImpl instance = new JobManagerImpl();
+	}
 
-  public static JobManagerImpl getInstance() {
-    System.out.println("create instance");
-    return Singleton.instance;
-  }
+	public static JobManagerImpl getInstance() {
+		System.out.println("create instance");
+		return Singleton.instance;
+	}
 
-  @Override
-  public void setJobManagerImpl(int queueSize, int corePoolSize, int maximumPoolSize, int keepAliveTime) {
-    this.queueSize = queueSize;
-    this.corePoolSize = corePoolSize;
-    this.maximumPoolSize = maximumPoolSize;
-    this.keepAliveTime = keepAliveTime;
-  }
+	@Override
+	public void setJobManagerImpl(int queueSize, int corePoolSize, int maximumPoolSize, int keepAliveTime) {
+		this.queueSize = queueSize;
+		this.corePoolSize = corePoolSize;
+		this.maximumPoolSize = maximumPoolSize;
+		this.keepAliveTime = keepAliveTime;
+	}
 
-  @Override
-  public void setJobRunner(AbstractJobRunner jobRunner) {
-    this.jobRunner = (JobRunnerImpl) jobRunner;
-  }
+	@Override
+	public void setJobRunner(AbstractJobRunner jobRunner) {
+		this.jobRunner = (JobRunnerImpl) jobRunner;
+	}
 
-  @Override
-  public BlockingQueue getJobQueue() {
-    // TODO Auto-generated method stub
-    return queue;
-  }
+	@Override
+	public BlockingQueue getJobQueue() {
+		// TODO Auto-generated method stub
+		return queue;
+	}
 
-  @Override
-  public void prepare() {
-    queue = new LinkedBlockingQueue(50);
-    threadPool = new ThreadPoolExecutor(this.queueSize, this.corePoolSize, this.maximumPoolSize, TimeUnit.SECONDS, queue);
-  }
+	@Override
+	public void prepare() {
+		queue = new LinkedBlockingQueue(50);
+		threadPool = new ThreadPoolExecutor(this.queueSize, this.corePoolSize, this.maximumPoolSize, TimeUnit.SECONDS,
+				queue);
+	}
 
-  @Override
-  public void run() {
-    // TODO Auto-generated method stub
-    if (this.jobRunner == null) {
-      this.jobRunner = new JobRunnerImpl(queue);
-    } else {
-      this.jobRunner.setJobQueue(queue);
-    }
-    threadPool.execute((Runnable) this.jobRunner);
-  }
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		if (this.jobRunner == null) {
+			this.jobRunner = new JobRunnerImpl(queue);
+		} else {
+			this.jobRunner.setJobQueue(queue);
+		}
+		threadPool.execute((Runnable) this.jobRunner);
+	}
 
-  @Override
-  public void putMessageToJobQueue(JobImpl job) {
-    // TODO Auto-generated method stub
-    this.queue.add(job);
+	@Override
+	public void putMessageToJobQueue(JobImpl job) {
+		// TODO Auto-generated method stub
+		this.queue.add(job);
 
-  }
+	}
 
 }
