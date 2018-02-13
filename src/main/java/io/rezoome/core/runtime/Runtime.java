@@ -1,4 +1,4 @@
-package runtime;
+package io.rezoome.core.runtime;
 
 import java.util.ArrayList;
 
@@ -73,11 +73,11 @@ public class Runtime {
  * 
  * @Override public void run() { while(true) { try { Thread.sleep(1000);
  * 
- * Date d = new Date(); String msg = "¸Þ½ÃÁö"+d.toString();
+ * Date d = new Date(); String msg = "ï¿½Þ½ï¿½ï¿½ï¿½"+d.toString();
  * 
  * queue.add(msg);
  * 
- * System.out.println("¸Þ½ÃÁö¸¦ »ý¼ºÇÕ´Ï´Ù. [" + queue.size() + "]");
+ * System.out.println("ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½. [" + queue.size() + "]");
  * 
  * } catch (InterruptedException e) { e.printStackTrace(); } }
  * 
@@ -97,7 +97,7 @@ public class Runtime {
  * 
  * String msg = (String) queue.take();
  * 
- * System.out.println("¸Þ½ÃÁö¸¦ ²¨³À´Ï´Ù. : " + msg + "[" + queue.size() + "]"); } catch
+ * System.out.println("ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. : " + msg + "[" + queue.size() + "]"); } catch
  * (InterruptedException e) { e.printStackTrace(); }
  * 
  * 
