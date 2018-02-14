@@ -15,6 +15,9 @@ import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import io.rezoome.job.JobManagerImpl;
+import io.rezoome.lib.json.JSON;
+import io.rezoome.manager.provider.ManagerProvider;
+import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 import io.rezoome.vo.JobImpl;
 
 
@@ -31,7 +34,6 @@ public class AmqAgentImpl implements AmqAgent, Callable<Integer>, MessageListene
   private String uPwd = "sgen2018!!!!";
   private int consumerTimeout = 1000;
   private BlockingQueue queue = null;
-
 
   public AmqAgentImpl(BlockingQueue queue) {
     this.queue = queue;
@@ -102,6 +104,10 @@ public class AmqAgentImpl implements AmqAgent, Callable<Integer>, MessageListene
   @Override
   public void onMessage(Message consumerMessage) {
     try {
+    	
+    	String jsonMessage = null;
+    	PushCommandEntity entity = JSON.fromJson(jsonMessage, PushCommandEntity.class);
+    	ManagerProvider.pushcommand().invokeCommand(entity);
       // Receive the message when it arrives.
       TextMessage consumerTextMessage = (TextMessage) consumerMessage;
       System.out.println("Message received: " + consumerTextMessage.getText());

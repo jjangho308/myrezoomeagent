@@ -1,8 +1,12 @@
 package io.rezoome.manager.pushcommand;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
+import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandAction;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 import io.rezoome.manager.pushcommand.entity.PushCommandResult;
@@ -15,6 +19,14 @@ import io.rezoome.manager.pushcommand.entity.PushCommandResult;
  */
 @ManagerType("PushCommand")
 public class PushCommandManagerImpl extends AbstractManager implements PushCommandManager {
+
+	private final Map<String, Class<PushCommandEntity>> entityCodeMap;
+	private final Map<Class<PushCommandEntity>, PushCommandAction<? extends PushCommandEntity>> actionMap;
+
+	{
+		this.entityCodeMap = new HashMap<String, Class<PushCommandEntity>>();
+		this.actionMap = new HashMap<Class<PushCommandEntity>, PushCommandAction<? extends PushCommandEntity>>();
+	}
 
 	/**
 	 * Hide defaut constructor. <br />
@@ -33,8 +45,7 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 
 	@Override
 	public void initialize(InitialEvent event) {
-		// TODO Auto-generated method stub
-
+		ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
 	}
 
 	@Override
@@ -45,7 +56,6 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 
 	@Override
 	public PushCommandResult invokeCommand(PushCommandEntity command) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

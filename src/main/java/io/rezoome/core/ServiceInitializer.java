@@ -1,5 +1,7 @@
 package io.rezoome.core;
 
+import io.rezoome.manager.provider.ManagerProvider;
+
 /**
  * Service initializer. <br />
  * 
@@ -31,6 +33,8 @@ public final class ServiceInitializer {
 		phase = InitializationPhase.INITIALIZING;
 		
 		// TODO Do sync initialization
+		ManagerProvider.pushcommand().initialize(from);
+		ManagerProvider.log().initialize(from);
 		
 		phase = InitializationPhase.SYNC_INITIALIZED;
 		

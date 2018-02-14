@@ -16,8 +16,6 @@ public class SearchCommand extends AbstractPushCommandAction<SearchCommandEntity
 
 	@Override
 	protected ActionResult process(SearchCommandEntity entity) {
-		// TODO Auto-generated method stub
-		
 		return null;
 	}
 }

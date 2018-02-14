@@ -9,4 +9,5 @@ package io.rezoome.core.entity;
  */
 public interface Action<T extends Entity> {
 
+	ActionResult process();
 }

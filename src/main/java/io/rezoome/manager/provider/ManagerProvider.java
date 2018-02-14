@@ -2,6 +2,8 @@ package io.rezoome.manager.provider;
 
 import io.rezoome.job.JobManager;
 import io.rezoome.job.JobManagerImpl;
+import io.rezoome.manager.arrange.ClassArrangeManager;
+import io.rezoome.manager.arrange.ClassArrangeManagerImpl;
 import io.rezoome.manager.log.LogManager;
 import io.rezoome.manager.log.LogManagerImpl;
 import io.rezoome.manager.push.PushManager;
@@ -16,20 +18,24 @@ import io.rezoome.manager.pushcommand.PushCommandManagerImpl;
  *
  */
 public final class ManagerProvider {
-	
+
 	public static JobManager job() {
 		return JobManagerImpl.getInstance();
 	}
-	
-	public static LogManager log(){
+
+	public static LogManager log() {
 		return LogManagerImpl.getInstance();
 	}
-	
-	public static PushManager push(){
+
+	public static PushManager push() {
 		return null;
 	}
-	
-	public static PushCommandManager pushcommand(){
+
+	public static PushCommandManager pushcommand() {
 		return PushCommandManagerImpl.getInstance();
+	}
+
+	public static ClassArrangeManager clsarrange() {
+		return ClassArrangeManagerImpl.getInstance();
 	}
 }
