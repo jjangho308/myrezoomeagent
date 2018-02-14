@@ -10,5 +10,6 @@ import io.rezoome.manager.Manager;
  *
  */
 public interface NetworkManager extends Manager {
-
+	
+	void request(RequestEntity entity);
 }
