@@ -6,22 +6,22 @@ import io.rezoome.manager.AbstractManager;
 
 @ManagerType("Log")
 public final class LogManagerImpl extends AbstractManager implements LogManager {
-	
-	private static class Singleton{
+
+	private static class Singleton {
 		private static final LogManager instance = new LogManagerImpl();
 	}
-	
-	public static LogManager getInstance(){
+
+	public static LogManager getInstance() {
 		return Singleton.instance;
 	}
-	
+
 	/**
 	 * Hide public constructor for singleton. <br />
 	 * 
 	 * @since 1.0.0
 	 * @author TACKSU
 	 */
-	private LogManagerImpl(){
+	private LogManagerImpl() {
 		super();
 	}
 
@@ -38,6 +38,12 @@ public final class LogManagerImpl extends AbstractManager implements LogManager 
 	@Override
 	public void sendLogToServer(Runnable callback) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public Logger createLogger(Class<?> object) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

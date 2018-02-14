@@ -11,4 +11,6 @@ import io.rezoome.manager.Manager;
  */
 public interface LogManager extends Manager {
 	void sendLogToServer(Runnable callback);
+
+	Logger createLogger(Class<?> object);
 }
