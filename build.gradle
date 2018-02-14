@@ -46,4 +46,5 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version:'4.11'
     compile "org.apache.activemq:activemq-client:${version.activemq}"
     compile "org.apache.activemq:activemq-pool:${version.activemq}"
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 }
