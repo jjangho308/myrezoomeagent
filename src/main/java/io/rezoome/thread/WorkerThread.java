@@ -14,7 +14,15 @@ public final class WorkerThread extends Thread {
 		public void uncaughtException(Thread t, Throwable e) {
 			// TODO Auto-generated method stub
 		}
-	}; 
+	};
+	
+	/**
+	 * 
+	 * @param runnable
+	 */
+	public WorkerThread(Runnable runnable){
+		
+	}
 	
 	/**
 	 * Basis constructor. <br />

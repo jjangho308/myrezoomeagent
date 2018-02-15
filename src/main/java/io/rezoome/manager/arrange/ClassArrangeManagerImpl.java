@@ -4,6 +4,7 @@ import java.util.Map;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
+import io.rezoome.core.entity.Action;
 import io.rezoome.core.entity.Entity;
 import io.rezoome.manager.AbstractManager;
 
@@ -37,5 +38,17 @@ public final class ClassArrangeManagerImpl extends AbstractManager implements Cl
 //				classMap.put(rootCls, new HashMap<>());
 //			}
 //		}
+	}
+
+	@Override
+	public <T extends Entity> Map<String, Class<? extends T>> getEntityCodeMap(Class<T> cls) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T extends Entity> Map<Class<? extends T>, ? extends Action<? extends T>> getActionMap(Class<T> cls) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

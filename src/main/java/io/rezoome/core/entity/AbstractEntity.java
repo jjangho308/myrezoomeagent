@@ -1,6 +1,7 @@
 package io.rezoome.core.entity;
 
 import io.rezoome.core.entity.annotation.EntityType;
+import io.rezoome.lib.json.JSON;
 
 /**
  * Root abstract class of entity. <br />
@@ -25,5 +26,10 @@ public abstract class AbstractEntity implements Entity {
 	@Override
 	public EntityType getAnnotation() {
 		return ant;
+	}
+
+	@Override
+	public String toString() {
+		return JSON.toJson(this);
 	}
 }

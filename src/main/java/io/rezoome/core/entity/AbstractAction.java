@@ -10,5 +10,5 @@ package io.rezoome.core.entity;
  */
 public abstract class AbstractAction<T extends Entity> implements Action<T> {
 
-	protected abstract ActionResult process(T entity);
+	protected abstract ActionResult processInternal(T entity);
 }

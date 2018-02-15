@@ -28,6 +28,6 @@ public interface ClassArrangeManager extends Manager {
 	 * @param cls
 	 * @return
 	 */
-	public <T extends Entity> Map<Class<T>, ? extends Action<T>> getActionMap(Class<T> cls);
+	public <T extends Entity> Map<Class<? extends T>, ? extends Action<? extends T>> getActionMap(Class<T> cls);
 
 }

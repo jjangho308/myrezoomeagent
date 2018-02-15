@@ -1,6 +1,8 @@
 package io.rezoome.manager.network;
 
 import io.rezoome.manager.Manager;
+import io.rezoome.manager.network.entity.RequestPacketEntity;
+import io.rezoome.manager.network.entity.ResponsePacketEntity;
 
 /**
  * Network manager. <br />
@@ -11,5 +13,5 @@ import io.rezoome.manager.Manager;
  */
 public interface NetworkManager extends Manager {
 	
-	void request(RequestEntity entity);
+	ResponsePacketEntity request(RequestPacketEntity entity);
 }
