@@ -7,6 +7,14 @@ import javax.jms.TextMessage;
 
 public class AMQMessageListner implements MessageListener {
 
+  private static class Singleton {
+    private static final AMQMessageListner instance = new AMQMessageListner();
+  }
+
+  public static AMQMessageListner getInstance() {
+    return Singleton.instance;
+  }
+  
   @Override
   public void onMessage(Message message){
     // TODO Auto-generated method stub

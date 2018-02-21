@@ -96,7 +96,7 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
   public void registerPushHandler(AMQMessageHandler handler) {
     // TODO Auto-generated method stub
     try {
-      consumer.setMessageListener(new AMQMessageListner());
+      consumer.setMessageListener(AMQMessageListner.getInstance());
     } catch (NullPointerException ne){
       ne.printStackTrace();
     } catch (JMSException e) {
