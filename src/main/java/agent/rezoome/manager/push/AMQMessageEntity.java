@@ -15,4 +15,8 @@ public final class AMQMessageEntity extends AbstractEntity {
 		super();
 		this.message = message;
 	}
+
+	public String getMessage() {
+		return message;
+	}
 }

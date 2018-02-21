@@ -1,6 +1,7 @@
 package agent.rezoome.manager.pushcommand.entity.search;
 
 import agent.rezoome.core.entity.ActionResult;
+import agent.rezoome.manager.provider.ManagerProvider;
 import agent.rezoome.manager.pushcommand.annotation.PushCommand;
 import agent.rezoome.manager.pushcommand.entity.AbstractPushCommandAction;
 
@@ -22,8 +23,7 @@ public class SearchCommand extends AbstractPushCommandAction<SearchCommandEntity
 
 	@Override
 	protected ActionResult processInternal(SearchCommandEntity entity) {
-		// TODO Auto-generated method stub
-		return null;
+//		JobEntity searchJob = new SearchJobEntity(entity.getName(), entity.getBirthday());
 	}
 
 	@Override

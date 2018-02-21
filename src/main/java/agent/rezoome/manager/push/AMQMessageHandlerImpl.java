@@ -16,12 +16,13 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler  {
   public boolean handleMessage(AMQMessageEntity msg) {
     // TODO Auto-generated method stub    
     try{
-      PushCommandEntity pcEntity = JSON.fromJson(msg.toString(), PushCommandEntity.class);
+      PushCommandEntity pcEntity = JSON.fromJson(msg.getMessage(), PushCommandEntity.class);
       ManagerProvider.pushcommand().invokeCommand(pcEntity);
       return true;
     } catch(Exception e){
-      e.printStackTrace();
-      return false;
+    	e.printStackTrace();
+    }finally{
+    	return true;
     }
   }
 
