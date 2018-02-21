@@ -25,7 +25,6 @@ repositories {
 }
 
 
-//���� ����
 def version = [
     spring: '4.3.13.RELEASE',
     servletAPI: '3.1.0',
@@ -43,7 +42,7 @@ dependencies {
     
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
     runtime group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.13'
-    testCompile group: 'junit', name: 'junit', version:'4.11'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
     compile "org.apache.activemq:activemq-client:${version.activemq}"
     compile "org.apache.activemq:activemq-pool:${version.activemq}"
     compile fileTree(dir: 'libs', include: ['*.jar'])

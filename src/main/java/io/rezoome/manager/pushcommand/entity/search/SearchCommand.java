@@ -25,4 +25,10 @@ public class SearchCommand extends AbstractPushCommandAction<SearchCommandEntity
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	protected void invokePushCommandAction(SearchCommandEntity pushCommandEntity) {
+		// TODO Auto-generated method stub
+		
+	}
 }
