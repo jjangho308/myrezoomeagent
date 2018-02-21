@@ -18,7 +18,6 @@ public class JobRunnerImpl extends AbstractJobRunner implements Callable<Integer
   public Integer call() throws Exception {
     // TODO Auto-generated method stub
 
-    // Job을 받아서..
     JobImpl job = (JobImpl) super.queue.take();
 
 
