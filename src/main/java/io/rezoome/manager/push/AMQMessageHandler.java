@@ -6,6 +6,6 @@ package io.rezoome.manager.push;
  * @since 1.0.0
  * @author TACKSU
  */
-public interface PushMessageHandler {
-	boolean handleMessage(PushMessageEntity msg);
+public interface AMQMessageHandler {
+	boolean handleMessage(AMQMessageEntity msg);
 }

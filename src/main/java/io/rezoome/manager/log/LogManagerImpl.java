@@ -38,7 +38,6 @@ public final class LogManagerImpl extends AbstractManager implements LogManager 
 	@Override
 	public void sendLogToServer(Runnable callback) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

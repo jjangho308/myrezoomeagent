@@ -8,6 +8,8 @@ package io.rezoome.manager.log;
  *
  */
 public interface Logger {
+	void t();
+	
 	void d();
 
 	void v();

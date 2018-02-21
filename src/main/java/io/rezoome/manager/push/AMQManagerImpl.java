@@ -25,19 +25,19 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
 	}
 
 	@Override
-	public void registerPush(PushConfigEntity config) {
+	public void registerPush(AMQConfigEntity config) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void unregisterPush(PushConfigEntity config) {
+	public void unregisterPush(AMQConfigEntity config) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void registerPushHandler(PushMessageHandler handler) {
+	public void registerPushHandler(AMQMessageHandler handler) {
 		// TODO Auto-generated method stub
 		
 	}

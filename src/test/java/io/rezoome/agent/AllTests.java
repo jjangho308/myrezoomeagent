@@ -13,6 +13,6 @@ public class AllTests {
 
 	@Test
 	public void test(){
-		assertEquals(Math.min(Runtime.getRuntime().availableProcessors(), -1), -1);
+		assertEquals(1, 1);
 	}
 }

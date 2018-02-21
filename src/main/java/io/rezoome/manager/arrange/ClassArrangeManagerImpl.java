@@ -8,6 +8,13 @@ import io.rezoome.core.entity.Action;
 import io.rezoome.core.entity.Entity;
 import io.rezoome.manager.AbstractManager;
 
+/**
+ * Implementation of {@link ClassArrangeManager}. <br />
+ * 
+ * @since 1.0.0
+ * @author TACKSU
+ *
+ */
 @ManagerType("ClassArrange")
 public final class ClassArrangeManagerImpl extends AbstractManager implements ClassArrangeManager {
 	
@@ -32,12 +39,16 @@ public final class ClassArrangeManagerImpl extends AbstractManager implements Cl
 		// TODO Auto-generated method stub
 	}
 	
-	protected <T extends Entity> void addClass(Class<T> rootCls, String code, Class<? extends T> entityCls){
+	protected <T extends Entity> void mapCodeEntity(Class<T> rootCls, String code, Class<? extends T> entityCls){
 //		synchronized(this){
 //			if(!classMap.containsKey(rootCls)){
 //				classMap.put(rootCls, new HashMap<>());
 //			}
 //		}
+	}
+	
+	protected <T extends Entity, U extends Action<T>> void mapEntityAction(Class<? super T> superCls, Class<T> entity, Class<U> action){
+		
 	}
 
 	@Override
