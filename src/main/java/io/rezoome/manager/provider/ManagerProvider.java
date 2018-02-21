@@ -8,6 +8,8 @@ import io.rezoome.manager.job.JobManager;
 import io.rezoome.manager.job.JobManagerImpl;
 import io.rezoome.manager.log.LogManager;
 import io.rezoome.manager.log.LogManagerImpl;
+import io.rezoome.manager.property.PropertyManager;
+import io.rezoome.manager.property.PropertyManagerImpl;
 import io.rezoome.manager.push.PushManager;
 import io.rezoome.manager.pushcommand.PushCommandManager;
 import io.rezoome.manager.pushcommand.PushCommandManagerImpl;
@@ -39,5 +41,10 @@ public final class ManagerProvider {
 
 	public static ClassArrangeManager clsarrange() {
 		return ClassArrangeManagerImpl.getInstance();
+	}
+	
+	public static PropertyManager property(){
+	  return PropertyManagerImpl.getInstance();
+	  
 	}
 }
