@@ -29,7 +29,7 @@ public class JobManager {
 
     Callable<Map<String, Object>> callable = new AsyncJob();
 
-    // ºñµ¿±â·Î ÀÛ¾÷ ½ÃÀÛ
+    // ï¿½ñµ¿±ï¿½ï¿½ ï¿½Û¾ï¿½ ï¿½ï¿½ï¿½ï¿½
     Future<Map<String, Object>> future = executor.submit(callable);
 
     Map<String, Object> response = new HashMap<String, Object>();
@@ -42,6 +42,8 @@ public class JobManager {
     } catch (ExecutionException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
+    }finally{
+      if(!executor.isTerminated())  executor.shutdownNow();
     }
   }
 

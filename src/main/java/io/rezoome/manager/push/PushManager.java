@@ -9,7 +9,7 @@ import io.rezoome.manager.Manager;
  *
  */
 public interface PushManager extends Manager {
-	void registerPush(PushConfigEntity config);
-	void unregisterPush(PushConfigEntity config);
+	void registerPush(PushConfigEntity config) throws Exception;
+	void unregisterPush(PushConfigEntity config) throws Exception;
 	void registerPushHandler(PushMessageHandler handler);
 }

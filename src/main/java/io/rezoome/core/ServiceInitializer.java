@@ -34,6 +34,7 @@ public final class ServiceInitializer {
 		
 		// TODO Do sync initialization
 		ManagerProvider.pushcommand().initialize(from);
+		
 		ManagerProvider.log().initialize(from);
 		
 		phase = InitializationPhase.SYNC_INITIALIZED;

@@ -56,12 +56,14 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 
 	@Override
 	public PushCommandResult invokeCommand(PushCommandEntity command) {
+	  
 		return null;
 	}
 
 	@Override
 	public <T extends PushCommandEntity> PushCommandAction<T> getAction(T command) {
 		// TODO Auto-generated method stub
+	  
 		return null;
 	}
 
