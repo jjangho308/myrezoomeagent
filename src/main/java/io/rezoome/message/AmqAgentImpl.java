@@ -14,7 +14,6 @@ import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import io.rezoome.job.JobManagerImpl;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
@@ -118,7 +117,7 @@ public class AmqAgentImpl implements AmqAgent, Callable<Integer>, MessageListene
       System.out.println("Message received: " + consumerTextMessage.getText());
 
       // Put Job
-      JobManagerImpl.getInstance().putMessageToJobQueue(job);
+      //JobManagerImpl.getInstance().putMessageToJobQueue(job);
 
 
 

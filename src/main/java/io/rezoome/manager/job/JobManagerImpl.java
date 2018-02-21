@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadFactory;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.http.HttpConnector;
 import io.rezoome.http.HttpManager;
-import io.rezoome.jdbc.ConnectionManager;
+import io.rezoome.jdbc.ConnectionManagerImpl;
 import io.rezoome.jdbc.OracleConnectionManager;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.job.entity.JobAction;

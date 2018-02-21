@@ -7,19 +7,19 @@ import java.util.Date;
 import java.util.Vector;
 
 public class DBConnectionPool {
-  // ÇöÀç »ç¿ë ÁßÀÎ Connection °³¼ö
+  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Connection ï¿½ï¿½ï¿½ï¿½
   private int checkedOut;
 
   // Free Connection List
   private Vector<Connection> freeConnections = new Vector<Connection>();
 
-  // Connection ÃÖ´ë °³¼ö
+  // Connection ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½
   private int maxConn;
 
-  // Connection ÃÊ±â °³¼ö
+  // Connection ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½
   private int initConn;
 
-  // Waiting time (pool¿¡ connectionÀÌ ¾øÀ»¶§ ±â´Ù¸®´Â ÃÖ´ë½Ã°£)
+  // Waiting time (poolï¿½ï¿½ connectionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½Ã°ï¿½)
   private int maxWait;
 
   // Connection Pool Name
@@ -55,35 +55,35 @@ public class DBConnectionPool {
     }
   }
 
-  // Connection ¹Ý³³
-  // @param con : ¹Ý³³ÇÒ Connection
+  // Connection ï¿½Ý³ï¿½
+  // @param con : ï¿½Ý³ï¿½ï¿½ï¿½ Connection
   public synchronized void freeConnection(Connection con) {
     freeConnections.addElement(con);
     checkedOut--;
-    // ConnectionÀ» ¾ò±â À§ÇØ ´ë±âÇÏ°í ÀÖ´Â thread¿¡ ¾Ë¸²
+    // Connectionï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ threadï¿½ï¿½ ï¿½Ë¸ï¿½
     notifyAll();
   }
 
-  // Connection À» ¾òÀ½
+  // Connection ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
   public synchronized Connection getConnection() {
     Connection con = null;
-    // ConnectionÀÌ Free List¿¡ ÀÖÀ¸¸é ListÀÇ Ã¹ ¹øÂ°¸¦ ¾òÀ½
+    // Connectionï¿½ï¿½ Free Listï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Listï¿½ï¿½ Ã¹ ï¿½ï¿½Â°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     if (freeConnections.size() > 0) {
       con = freeConnections.firstElement();
       freeConnections.removeElementAt(0);
 
       try {
-        // DBMS¿¡ ÀÇÇØ ConnectionÀÌ close µÇ¾úÀ¸¸é ´Ù½Ã ¿ä±¸
+        // DBMSï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Connectionï¿½ï¿½ close ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ä±¸
         if (con.isClosed()) {
           System.out.println("Removed bad connection from " + name);
           con = getConnection();
         }
-      } // ¿ä»óÇÑ Connection ¹ß»ýÇÏ¸é ´Ù½Ã ¿ä±¸
+      } // ï¿½ï¿½ï¿½ï¿½ï¿½ Connection ï¿½ß»ï¿½ï¿½Ï¸ï¿½ ï¿½Ù½ï¿½ ï¿½ä±¸
       catch (SQLException e) {
         e.printStackTrace();
         con = getConnection();
       }
-    } // ConnectionÀÌ Free List¿¡ ¾øÀ¸¸é »õ·Î »ý¼º
+    } // Connectionï¿½ï¿½ Free Listï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     else if (maxConn == 0 || checkedOut < maxConn) {
       con = newConnection();
     }
@@ -95,8 +95,8 @@ public class DBConnectionPool {
     return con;
   }
 
-  // ConnectionÀ» ¾òÀ½
-  // @param timeout : ConnectionÀ» ¾ò±â À§ÇÑ ÃÖ´ë ±â´Ù¸² ½Ã°£
+  // Connectionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  // @param timeout : Connectionï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Ù¸ï¿½ ï¿½Ã°ï¿½
   public synchronized Connection getConnection(long timeout) {
     long startTime = new Date().getTime();
     Connection con;
@@ -106,7 +106,7 @@ public class DBConnectionPool {
       } catch (InterruptedException e) {
       }
       if ((new Date().getTime() - startTime) >= timeout) {
-        // ±â´Ù¸² ½Ã°£ ÃÊ°ú
+        // ï¿½ï¿½Ù¸ï¿½ ï¿½Ã°ï¿½ ï¿½Ê°ï¿½
         return null;
       }
     }
@@ -114,7 +114,7 @@ public class DBConnectionPool {
     return con;
   }
 
-  // Connection »ý¼º
+  // Connection ï¿½ï¿½ï¿½ï¿½
   private Connection newConnection() {
     Connection con = null;
     try {

@@ -12,9 +12,10 @@ import io.rezoome.manager.Manager;
  */
 public interface PropertyManager extends Manager {
 	
-	public boolean hasProperty(final String key, boolean... refresh);
+	public boolean hasProperty(final PropertyEnum key, boolean... refresh);
 
-	public String getProperty(final String key, boolean... refresh);
+	public String getProperty(final PropertyEnum key, boolean... refresh);
 
-	public Map<String, String> getProperties(String... keys);
+	public Map<String, String> getProperties(PropertyEnum... keys);
+	
 }

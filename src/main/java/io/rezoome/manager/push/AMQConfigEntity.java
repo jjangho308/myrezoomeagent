@@ -11,7 +11,7 @@ import io.rezoome.core.entity.AbstractEntity;
  * @author TACKSU
  *
  */
-public final class PushConfigEntity extends AbstractEntity {
+public final class AMQConfigEntity extends AbstractEntity {
 	
 	private final String queueMeta;
 	
@@ -29,7 +29,7 @@ public final class PushConfigEntity extends AbstractEntity {
 	
 	
 
-	public PushConfigEntity(String queueMeta,
+	public AMQConfigEntity(String queueMeta,
 							String queueName,
 							String sererProtocol,
 							String serverHost,

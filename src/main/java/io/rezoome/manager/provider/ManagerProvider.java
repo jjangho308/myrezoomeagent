@@ -11,6 +11,7 @@ import io.rezoome.manager.log.LogManagerImpl;
 import io.rezoome.manager.property.PropertyManager;
 import io.rezoome.manager.property.PropertyManagerImpl;
 import io.rezoome.manager.push.AMQManager;
+import io.rezoome.manager.push.AMQManagerImpl;
 import io.rezoome.manager.pushcommand.PushCommandManager;
 import io.rezoome.manager.pushcommand.PushCommandManagerImpl;
 
@@ -32,7 +33,7 @@ public final class ManagerProvider {
   }
 
   public static AMQManager push() {
-    return null;
+    return AMQManagerImpl.getInstance();
   }
 
   public static PushCommandManager pushcommand() {

@@ -8,10 +8,10 @@ import io.rezoome.core.entity.AbstractEntity;
  * @author Saver
  *
  */
-public final class PushMessageEntity extends AbstractEntity {
+public final class AMQMessageEntity extends AbstractEntity {
 	private final String message;
 
-	public PushMessageEntity(String message) {
+	public AMQMessageEntity(String message) {
 		super();
 		this.message = message;
 	}

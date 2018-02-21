@@ -9,7 +9,7 @@ import io.rezoome.manager.Manager;
  *
  */
 public interface AMQManager extends Manager {
-	void registerPush(PushConfigEntity config);
-	void unregisterPush(PushConfigEntity config);
-	void registerPushHandler(PushMessageHandler handler);
+	void registerPush(AMQConfigEntity config);
+	void unregisterPush();
+	void registerPushHandler(AMQMessageHandler handler);
 }
