@@ -51,16 +51,7 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
 		
 	}
 
-<<<<<<< HEAD
-=======
-	@Override
-	public void registerPush(AMQConfigEntity config) {
-		// TODO Auto-generated method stub
-		
-	}
->>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
 
-<<<<<<< HEAD
   @Override
   public void registerPush(AMQConfigEntity config) {
     // TODO Auto-generated method stub
@@ -69,15 +60,7 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
       connectionFactory = new ActiveMQConnectionFactory(config.getServerHost());      
       connectionFactory.setUserName(config.getUserName());
       connectionFactory.setPassword(config.getUserPassword());
-=======
-	@Override
-	public void unregisterPush(AMQConfigEntity config) {
-		// TODO Auto-generated method stub
-		
-	}
->>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
 
-<<<<<<< HEAD
       consumerConnection = connectionFactory.createConnection();
       consumerConnection.start();
       
@@ -121,12 +104,5 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
       e.printStackTrace();
     } 
   }
-=======
-	@Override
-	public void registerPushHandler(AMQMessageHandler handler) {
-		// TODO Auto-generated method stub
-		
-	}
->>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
 
 }

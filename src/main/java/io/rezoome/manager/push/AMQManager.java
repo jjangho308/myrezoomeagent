@@ -10,10 +10,6 @@ import io.rezoome.manager.Manager;
  */
 public interface AMQManager extends Manager {
 	void registerPush(AMQConfigEntity config);
-<<<<<<< HEAD
 	void unregisterPush();
-=======
-	void unregisterPush(AMQConfigEntity config);
->>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
 	void registerPushHandler(AMQMessageHandler handler);
 }

@@ -1,9 +1,7 @@
 package io.rezoome.jdbc;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+
 import java.sql.Connection;
-import java.util.Properties;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.manager.property.PropertyEnum;

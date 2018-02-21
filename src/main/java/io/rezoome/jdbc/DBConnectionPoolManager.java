@@ -5,12 +5,12 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 public class DBConnectionPoolManager {
-  // DBConnectionPoolManager �� �̱��� ������ �����ϱ� ����(�ν��Ͻ��� �ϳ��� ����) static ���� ����
+  // DBConnectionPoolManager
   static private DBConnectionPoolManager instance;
   private Vector<String> drivers = new Vector<String>();
   private Hashtable<String, DBConnectionPool> pools = new Hashtable<String, DBConnectionPool>();
 
-  // DBConnectionPoolManager�� instance�� ����
+  // DBConnectionPoolManager
   // @return DBConnectionManger
   static synchronized public DBConnectionPoolManager getInstance() {
     if (instance == null) {
@@ -23,7 +23,6 @@ public class DBConnectionPoolManager {
   // Default Constructor
   private DBConnectionPoolManager() {}
 
-  // ���� Connection�� Free Connection List�� ����
   // @param name : Pool Name
   // @param con : Connection
   public void freeConnection(String name, Connection con) {
@@ -34,9 +33,7 @@ public class DBConnectionPoolManager {
     System.out.println("One Connection of " + name + " was freed");
   }
 
-  // Open Connection�� ����. ���� ���� Ŀ�ؼ��� ���� �ִ� Ŀ�ؼ� ������
-  // ��� ���� �ƴ� ���� ���ο� Ŀ�ؼ��� ����. ���� ���� Ŀ�ؼ��� ����
-  // �ִ� Ŀ�ؼ� ������ ��� ���� �� �⺻ ��� �ð��� ��ٸ�
+  // Open Connection
   // @param name : Pool Name
   // @return Connection : The connection or null
   public Connection getConnection(String name) {
@@ -47,8 +44,7 @@ public class DBConnectionPoolManager {
     return null;
   }
 
-  // Connection Pool�� ����
-  // @param poolName : ������ Pool Name
+  // Connection Pool
   // @param url : DB URL
   // @param user : DB UserID
   // @param password : DB Password
@@ -65,7 +61,6 @@ public class DBConnectionPoolManager {
     System.out.println("Initialized pool " + poolName);
   }
 
-  // �ʱ�ȭ �۾�
   public void init(String poolName,
       String driver,
       String url,
@@ -80,7 +75,7 @@ public class DBConnectionPoolManager {
   }
 
   // JDBC Driver Loading
-  // @param driverClassName : ����ϰ��� �ϴ� DB�� JDBC ����̹�
+  // @param driverClassName : 
   private void loadDrivers(String driverClassName) {
     try {
       Class.forName(driverClassName);
