@@ -1,4 +1,4 @@
-package agent.rezoome.manager.push;
+package agent.rezoome.manager.amq;
 
 import java.net.URL;
 

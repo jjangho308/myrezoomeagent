@@ -1,4 +1,4 @@
-package agent.rezoome.manager.push;
+package agent.rezoome.manager.amq;
 
 /**
  * Push message handler interface. <br />
@@ -7,5 +7,6 @@ package agent.rezoome.manager.push;
  * @author TACKSU
  */
 public interface AMQMessageHandler {
-	boolean handleMessage(AMQMessageEntity msg);
+
+  boolean handleMessage(AMQMessageEntity msg);
 }

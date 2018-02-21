@@ -1,4 +1,4 @@
-package agent.rezoome.jdbc;
+package agent.rezoome.manager.database;
 
 import java.sql.Connection;
 import java.util.Hashtable;

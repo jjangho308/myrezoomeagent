@@ -1,9 +1,10 @@
-package agent.rezoome.manager.push;
+package agent.rezoome.manager.amq;
 
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
 import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -96,7 +97,7 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
   public void registerPushHandler(AMQMessageHandler handler) {
     // TODO Auto-generated method stub
     try {
-      consumer.setMessageListener(AMQMessageListner.getInstance());
+      consumer.setMessageListener((MessageListener) AMQMessageHandlerImpl.getInstance());
     } catch (NullPointerException ne){
       ne.printStackTrace();
     } catch (JMSException e) {

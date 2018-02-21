@@ -2,6 +2,8 @@ package agent.rezoome.manager.provider;
 
 
 
+import agent.rezoome.manager.amq.AMQManager;
+import agent.rezoome.manager.amq.AMQManagerImpl;
 import agent.rezoome.manager.arrange.ClassArrangeManager;
 import agent.rezoome.manager.arrange.ClassArrangeManagerImpl;
 import agent.rezoome.manager.job.JobManager;
@@ -10,8 +12,6 @@ import agent.rezoome.manager.log.LogManager;
 import agent.rezoome.manager.log.LogManagerImpl;
 import agent.rezoome.manager.property.PropertyManager;
 import agent.rezoome.manager.property.PropertyManagerImpl;
-import agent.rezoome.manager.push.AMQManager;
-import agent.rezoome.manager.push.AMQManagerImpl;
 import agent.rezoome.manager.pushcommand.PushCommandManager;
 import agent.rezoome.manager.pushcommand.PushCommandManagerImpl;
 

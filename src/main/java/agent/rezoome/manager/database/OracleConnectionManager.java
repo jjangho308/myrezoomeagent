@@ -1,4 +1,4 @@
-package agent.rezoome.jdbc;
+package agent.rezoome.manager.database;
 
 public class OracleConnectionManager extends ConnectionManagerImpl {
   public OracleConnectionManager() {

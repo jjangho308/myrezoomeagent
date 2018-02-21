@@ -23,7 +23,8 @@ public class SearchCommand extends AbstractPushCommandAction<SearchCommandEntity
 
 	@Override
 	protected ActionResult processInternal(SearchCommandEntity entity) {
-//		JobEntity searchJob = new SearchJobEntity(entity.getName(), entity.getBirthday());
+	  //JobEntity searchJob = new SearchJobEntity(entity.getName(), entity.getBirthday());
+	  return null;
 	}
 
 	@Override

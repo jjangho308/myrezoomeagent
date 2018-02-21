@@ -1,4 +1,4 @@
-package agent.rezoome.jdbc;
+package agent.rezoome.manager.database;
 
 public class MySQLConnectionManager extends ConnectionManagerImpl {
   public MySQLConnectionManager() {
