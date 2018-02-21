@@ -5,12 +5,12 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 public class DBConnectionPoolManager {
-  // DBConnectionPoolManager ¿¡ ½Ì±ÛÅÏ ÆÐÅÏÀ» Àû¿ëÇÏ±â À§ÇØ(ÀÎ½ºÅÏ½º¸¦ ÇÏ³ª¸¸ À¯Áö) static À¸·Î ¼±¾ð
+  // DBConnectionPoolManager ï¿½ï¿½ ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½) static ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
   static private DBConnectionPoolManager instance;
   private Vector<String> drivers = new Vector<String>();
   private Hashtable<String, DBConnectionPool> pools = new Hashtable<String, DBConnectionPool>();
 
-  // DBConnectionPoolManagerÀÇ instance¸¦ ¾òÀ½
+  // DBConnectionPoolManagerï¿½ï¿½ instanceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
   // @return DBConnectionManger
   static synchronized public DBConnectionPoolManager getInstance() {
     if (instance == null) {
@@ -23,7 +23,7 @@ public class DBConnectionPoolManager {
   // Default Constructor
   private DBConnectionPoolManager() {}
 
-  // ÇöÀç ConnectionÀ» Free Connection List·Î º¸³¿
+  // ï¿½ï¿½ï¿½ï¿½ Connectionï¿½ï¿½ Free Connection Listï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
   // @param name : Pool Name
   // @param con : Connection
   public void freeConnection(String name, Connection con) {
@@ -31,13 +31,12 @@ public class DBConnectionPoolManager {
     if (pool != null) {
       pool.freeConnection(con);
     }
-
     System.out.println("One Connection of " + name + " was freed");
   }
 
-  // Open ConnectionÀ» ¾òÀ½. ÇöÀç ¿­¸° Ä¿³Ø¼ÇÀÌ ¾ø°í ÃÖ´ë Ä¿³Ø¼Ç °³¼ö°¡
-  // »ç¿ë ÁßÀÌ ¾Æ´Ò ¶§´Â »õ·Î¿î Ä¿³Ø¼ÇÀ» »ý¼º. ÇöÀç ¿­¸° Ä¿³Ø¼ÇÀÌ ¾ø°í
-  // ÃÖ´ë Ä¿³Ø¼Ç °³¼ö°¡ »ç¿ë ÁßÀÏ ¶§ ±âº» ´ë±â ½Ã°£À» ±â´Ù¸²
+  // Open Connectionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½Ø¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ä¿ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ Ä¿ï¿½Ø¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½Ø¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  // ï¿½Ö´ï¿½ Ä¿ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½
   // @param name : Pool Name
   // @return Connection : The connection or null
   public Connection getConnection(String name) {
@@ -48,8 +47,8 @@ public class DBConnectionPoolManager {
     return null;
   }
 
-  // Connection PoolÀ» »ý¼º
-  // @param poolName : »ý¼ºÇÒ Pool Name
+  // Connection Poolï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  // @param poolName : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Pool Name
   // @param url : DB URL
   // @param user : DB UserID
   // @param password : DB Password
@@ -66,7 +65,7 @@ public class DBConnectionPoolManager {
     System.out.println("Initialized pool " + poolName);
   }
 
-  // ÃÊ±âÈ­ ÀÛ¾÷
+  // ï¿½Ê±ï¿½È­ ï¿½Û¾ï¿½
   public void init(String poolName,
       String driver,
       String url,
@@ -81,7 +80,7 @@ public class DBConnectionPoolManager {
   }
 
   // JDBC Driver Loading
-  // @param driverClassName : »ç¿ëÇÏ°íÀÚ ÇÏ´Â DBÀÇ JDBC µå¶óÀÌ¹ö
+  // @param driverClassName : ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ DBï¿½ï¿½ JDBC ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½
   private void loadDrivers(String driverClassName) {
     try {
       Class.forName(driverClassName);

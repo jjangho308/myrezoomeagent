@@ -1,9 +1,11 @@
 package io.rezoome.manager.provider;
 
-import io.rezoome.job.JobManager;
-import io.rezoome.job.JobManagerImpl;
+
+
 import io.rezoome.manager.arrange.ClassArrangeManager;
 import io.rezoome.manager.arrange.ClassArrangeManagerImpl;
+import io.rezoome.manager.job.JobManager;
+import io.rezoome.manager.job.JobManagerImpl;
 import io.rezoome.manager.log.LogManager;
 import io.rezoome.manager.log.LogManagerImpl;
 import io.rezoome.manager.push.AMQManager;

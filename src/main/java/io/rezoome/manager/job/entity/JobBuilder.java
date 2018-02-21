@@ -17,6 +17,9 @@ public final class JobBuilder {
 	 */
 	public JobBuilder(PushCommandEntity pushCommand){
 		
+	  // YSY - 18.02.19
+	  
+	  
 	}
 	
 	public JobEntity create(){

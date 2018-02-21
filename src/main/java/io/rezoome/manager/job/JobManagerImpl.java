@@ -1,11 +1,18 @@
 package io.rezoome.manager.job;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.http.HttpConnector;
+import io.rezoome.http.HttpManager;
+import io.rezoome.jdbc.ConnectionManager;
+import io.rezoome.jdbc.OracleConnectionManager;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.job.entity.JobAction;
 import io.rezoome.manager.job.entity.JobEntity;
@@ -44,16 +51,20 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 	
 	private final Map<Class<? extends JobEntity>, ? extends JobAction<? extends JobEntity>> actionMap;
 
+	
+	  
 	@Override
 	public void initialize(InitialEvent event) {
 		// TODO Auto-generated method stub
-
+	
 	}
 
 	@Override
 	public void initializeOnThread(InitialEvent event) {
 		// TODO Auto-generated method stub
-
+	  
+	  
+	  
 	}
 
 	@Override

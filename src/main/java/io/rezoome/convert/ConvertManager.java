@@ -1,21 +1,9 @@
 package io.rezoome.convert;
 
-public class ConvertManager {
+import io.rezoome.core.entity.Entity;
 
-  public ConvertManager() {
+public interface ConvertManager {
 
-  }
-
-  public Object convertToRezoomeObject(Object orgEntity) {
-    Object rezoomeEntity = null;
-
-    mapping();
-
-    return rezoomeEntity;
-  }
-
-  private void mapping() {
-
-  }
+  public <T extends Entity> T convert(Entity fromEntity, Entity toEntity);
 
 }

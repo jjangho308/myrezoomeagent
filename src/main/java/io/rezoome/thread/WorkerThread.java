@@ -1,5 +1,7 @@
 package io.rezoome.thread;
 
+import io.rezoome.manager.provider.ManagerProvider;
+
 /**
  * Wrapper of thread for Agent module. <br />
  * 
