@@ -6,7 +6,7 @@ import io.rezoome.manager.arrange.ClassArrangeManager;
 import io.rezoome.manager.arrange.ClassArrangeManagerImpl;
 import io.rezoome.manager.log.LogManager;
 import io.rezoome.manager.log.LogManagerImpl;
-import io.rezoome.manager.push.PushManager;
+import io.rezoome.manager.push.AMQManager;
 import io.rezoome.manager.pushcommand.PushCommandManager;
 import io.rezoome.manager.pushcommand.PushCommandManagerImpl;
 
@@ -27,7 +27,7 @@ public final class ManagerProvider {
 		return LogManagerImpl.getInstance();
 	}
 
-	public static PushManager push() {
+	public static AMQManager push() {
 		return null;
 	}
 
