@@ -7,19 +7,18 @@ import java.util.Date;
 import java.util.Vector;
 
 public class DBConnectionPool {
-  // 현재 사용 중인 Connection 개수
   private int checkedOut;
 
   // Free Connection List
   private Vector<Connection> freeConnections = new Vector<Connection>();
 
-  // Connection 최대 개수
+  // Connection
   private int maxConn;
 
-  // Connection 초기 개수
+  // Connection
   private int initConn;
 
-  // Waiting time (pool에 connection이 없을때 기다리는 최대시간)
+  // Waiting time 
   private int maxWait;
 
   // Connection Pool Name
@@ -55,35 +54,31 @@ public class DBConnectionPool {
     }
   }
 
-  // Connection 반납
-  // @param con : 반납할 Connection
   public synchronized void freeConnection(Connection con) {
     freeConnections.addElement(con);
     checkedOut--;
-    // Connection을 얻기 위해 대기하고 있는 thread에 알림
     notifyAll();
   }
 
-  // Connection 을 얻음
   public synchronized Connection getConnection() {
     Connection con = null;
-    // Connection이 Free List에 있으면 List의 첫 번째를 얻음
+    // Connection
     if (freeConnections.size() > 0) {
       con = freeConnections.firstElement();
       freeConnections.removeElementAt(0);
 
       try {
-        // DBMS에 의해 Connection이 close 되었으면 다시 요구
+        // DBMS
         if (con.isClosed()) {
           System.out.println("Removed bad connection from " + name);
           con = getConnection();
         }
-      } // 요상한 Connection 발생하면 다시 요구
+      }
       catch (SQLException e) {
         e.printStackTrace();
         con = getConnection();
       }
-    } // Connection이 Free List에 없으면 새로 생성
+    } 
     else if (maxConn == 0 || checkedOut < maxConn) {
       con = newConnection();
     }
@@ -95,8 +90,6 @@ public class DBConnectionPool {
     return con;
   }
 
-  // Connection을 얻음
-  // @param timeout : Connection을 얻기 위한 최대 기다림 시간
   public synchronized Connection getConnection(long timeout) {
     long startTime = new Date().getTime();
     Connection con;
@@ -106,15 +99,13 @@ public class DBConnectionPool {
       } catch (InterruptedException e) {
       }
       if ((new Date().getTime() - startTime) >= timeout) {
-        // 기다림 시간 초과
+        // 占쏙옙摸占� 占시곤옙 占십곤옙
         return null;
       }
     }
 
     return con;
   }
-
-  // Connection 생성
   private Connection newConnection() {
     Connection con = null;
     try {

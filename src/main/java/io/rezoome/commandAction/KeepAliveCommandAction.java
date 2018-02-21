@@ -10,12 +10,6 @@ public class KeepAliveCommandAction extends AbstractCommandAction{
   @Override
   public void invokeCommandInternal(CommandVO commandVo) {
     // TODO Auto-generated method stub
-    
-    // 실제 수행 로직
-    
-    
-    
-    
   }
 
 }
