@@ -8,8 +8,8 @@ import io.rezoome.manager.Manager;
  * @author TACKSU
  *
  */
-public interface PushManager extends Manager {
-	void registerPush(PushConfigEntity config) throws Exception;
-	void unregisterPush(PushConfigEntity config) throws Exception;
+public interface AMQManager extends Manager {
+	void registerPush(PushConfigEntity config);
+	void unregisterPush(PushConfigEntity config);
 	void registerPushHandler(PushMessageHandler handler);
 }

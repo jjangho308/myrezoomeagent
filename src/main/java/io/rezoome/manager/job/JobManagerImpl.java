@@ -19,6 +19,13 @@ import io.rezoome.manager.job.entity.JobEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.thread.WorkerThread;
 
+/**
+ * Implementation of {@link JobManager}. <br />
+ * 
+ * @since 1.0.0 
+ * @author TACKSU
+ *
+ */
 public final class JobManagerImpl extends AbstractManager implements JobManager {
 	
 	private static class Singleton{

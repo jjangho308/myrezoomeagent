@@ -10,7 +10,7 @@ import io.rezoome.manager.log.LogManager;
 import io.rezoome.manager.log.LogManagerImpl;
 import io.rezoome.manager.property.PropertyManager;
 import io.rezoome.manager.property.PropertyManagerImpl;
-import io.rezoome.manager.push.PushManager;
+import io.rezoome.manager.push.AMQManager;
 import io.rezoome.manager.pushcommand.PushCommandManager;
 import io.rezoome.manager.pushcommand.PushCommandManagerImpl;
 
@@ -23,28 +23,28 @@ import io.rezoome.manager.pushcommand.PushCommandManagerImpl;
  */
 public final class ManagerProvider {
 
-	public static JobManager job() {
-		return JobManagerImpl.getInstance();
-	}
+  public static JobManager job() {
+    return JobManagerImpl.getInstance();
+  }
 
-	public static LogManager log() {
-		return LogManagerImpl.getInstance();
-	}
+  public static LogManager log() {
+    return LogManagerImpl.getInstance();
+  }
 
-	public static PushManager push() {
-		return null;
-	}
+  public static AMQManager push() {
+    return null;
+  }
 
-	public static PushCommandManager pushcommand() {
-		return PushCommandManagerImpl.getInstance();
-	}
+  public static PushCommandManager pushcommand() {
+    return PushCommandManagerImpl.getInstance();
+  }
 
-	public static ClassArrangeManager clsarrange() {
-		return ClassArrangeManagerImpl.getInstance();
-	}
-	
-	public static PropertyManager property(){
-	  return PropertyManagerImpl.getInstance();
-	  
-	}
+  public static ClassArrangeManager clsarrange() {
+    return ClassArrangeManagerImpl.getInstance();
+  }
+  
+  public static PropertyManager property(){
+    return PropertyManagerImpl.getInstance();
+    
+  }
 }
