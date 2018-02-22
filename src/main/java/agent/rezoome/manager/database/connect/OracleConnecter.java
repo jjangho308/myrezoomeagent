@@ -1,7 +1,9 @@
-package agent.rezoome.manager.database;
+package agent.rezoome.manager.database.connect;
 
-public class OracleConnectionManager extends ConnectionManagerImpl {
-  public OracleConnectionManager() {
+
+public class OracleConnecter extends DBConnectionManagerImpl {
+  
+  public OracleConnecter() {
     String JDBCDriver = "oracle.jdbc.driver.OracleDriver";
     String JDBCDriverType = "jdbc:oracle://";
     String url = JDBCDriverType + ":@" + dbServer + ":" + super.dbPort + ":" + super.dbName;

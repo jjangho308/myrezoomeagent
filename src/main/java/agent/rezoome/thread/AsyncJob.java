@@ -9,12 +9,12 @@ import java.util.concurrent.Callable;
 
 import agent.rezoome.http.HttpConnector;
 import agent.rezoome.http.HttpManager;
-import agent.rezoome.manager.database.ConnectionManagerImpl;
-import agent.rezoome.manager.database.OracleConnectionManager;
+import agent.rezoome.manager.database.connect.DBConnectionManagerImpl;
+import agent.rezoome.manager.database.connect.OracleConnecter;
 
 public class AsyncJob implements Callable<Map<String, Object>> {
 
-  private ConnectionManagerImpl connectionManager;
+  private DBConnectionManagerImpl connectionManager;
   private Connection conn = null;
   Statement stmt = null;
   ResultSet rs = null;
@@ -23,7 +23,7 @@ public class AsyncJob implements Callable<Map<String, Object>> {
 
   public AsyncJob() {
     // TODO Auto-generated constructor stub
-    connectionManager = new OracleConnectionManager();
+    connectionManager = new OracleConnecter();
     conn = connectionManager.getConnection();
     // httpManager = new HttpManagerImpl("", "");
     httpManager = new HttpConnector("");
