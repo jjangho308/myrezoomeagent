@@ -9,12 +9,12 @@ import java.util.concurrent.Callable;
 
 import agent.rezoome.http.HttpConnector;
 import agent.rezoome.http.HttpManager;
-import agent.rezoome.manager.database.connect.DBConnectionManagerImpl;
+import agent.rezoome.manager.database.connect.DBConnectionManager;
 import agent.rezoome.manager.database.connect.OracleConnecter;
 
 public class AsyncJob implements Callable<Map<String, Object>> {
 
-  private DBConnectionManagerImpl connectionManager;
+  private DBConnectionManager connectionManager;
   private Connection conn = null;
   Statement stmt = null;
   ResultSet rs = null;

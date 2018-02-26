@@ -3,9 +3,9 @@ package agent.rezoome.manager.database.convert;
 
 import agent.rezoome.manager.job.entity.JobEntity;
 
-public class MysqlConverter extends DBConvertManagerImpl {
+public class MysqlConverter extends DBConvertManager {
   private static class Singleton {
-    private static final DBConvertManagerImpl instance = new MysqlConverter();
+    private static final DBConvertManager instance = new MysqlConverter();
   }
 
   public static MysqlConverter getInstance() {

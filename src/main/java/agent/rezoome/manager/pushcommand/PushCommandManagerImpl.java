@@ -56,7 +56,7 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 
 	@Override
 	public PushCommandResult invokeCommand(PushCommandEntity command) {
-		PushCommandAction<PushCommandEntity> action = this.actionMap.get(command.getClass());
+		PushCommandAction<PushCommandEntity> action = (PushCommandAction<PushCommandEntity>) this.actionMap.get(command.getClass());
 		action.process(command);
 		return null;
 	}

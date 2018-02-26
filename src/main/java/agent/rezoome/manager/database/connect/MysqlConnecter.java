@@ -1,6 +1,6 @@
 package agent.rezoome.manager.database.connect;
 
-public class MysqlConnecter extends DBConnectionManagerImpl {
+public class MysqlConnecter extends DBConnectionManager {
   public MysqlConnecter() {
     String JDBCDriver = "com.mysql.jdbc.Driver";
     String JDBCDriverType = "jdbc:mysql://";

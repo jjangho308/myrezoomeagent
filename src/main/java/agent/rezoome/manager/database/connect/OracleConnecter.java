@@ -1,7 +1,7 @@
 package agent.rezoome.manager.database.connect;
 
 
-public class OracleConnecter extends DBConnectionManagerImpl {
+public class OracleConnecter extends DBConnectionManager {
   
   public OracleConnecter() {
     String JDBCDriver = "oracle.jdbc.driver.OracleDriver";

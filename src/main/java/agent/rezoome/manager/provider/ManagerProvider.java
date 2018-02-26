@@ -6,8 +6,8 @@ import agent.rezoome.manager.amq.AMQManager;
 import agent.rezoome.manager.amq.AMQManagerImpl;
 import agent.rezoome.manager.arrange.ClassArrangeManager;
 import agent.rezoome.manager.arrange.ClassArrangeManagerImpl;
+import agent.rezoome.manager.database.connect.AbstractDBConnectionManager;
 import agent.rezoome.manager.database.connect.DBConnectionManager;
-import agent.rezoome.manager.database.connect.DBConnectionManagerImpl;
 import agent.rezoome.manager.job.JobManager;
 import agent.rezoome.manager.job.JobManagerImpl;
 import agent.rezoome.manager.log.LogManager;
@@ -51,8 +51,8 @@ public final class ManagerProvider {
     
   }
   
-  public static DBConnectionManager dbConnect(){
-    return DBConnectionManagerImpl.getInstance();    
+  public static AbstractDBConnectionManager dbConnect(){
+    return DBConnectionManager.getInstance();    
   }
   
   

@@ -2,9 +2,9 @@ package agent.rezoome.manager.database.convert;
 
 import agent.rezoome.manager.job.entity.JobEntity;
 
-public class OracleConverter extends DBConvertManagerImpl {
+public class OracleConverter extends DBConvertManager {
   private static class Singleton {
-    private static final DBConvertManagerImpl instance = new OracleConverter();
+    private static final DBConvertManager instance = new OracleConverter();
   }
 
   public static OracleConverter getInstance() {

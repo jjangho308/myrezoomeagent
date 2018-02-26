@@ -1,5 +1,5 @@
 package agent.rezoome.manager.database.dao;
 
-public class MysqlDao extends DaoManagerImpl{
-
+public abstract class MysqlDao extends DaoManager{
+  
 }

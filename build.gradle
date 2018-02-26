@@ -32,11 +32,9 @@ def version = [
     junit: '4.12',
     slf4j: '1.7.12',
     jstl: '1.2',
-    activemq: '5.15.0'
-    
+    activemq: '5.15.0',
+    mybatis: '3.1.1'
 ]
-
-
 
 dependencies {
     
@@ -46,4 +44,6 @@ dependencies {
     compile "org.apache.activemq:activemq-client:${version.activemq}"
     compile "org.apache.activemq:activemq-pool:${version.activemq}"
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "org.mybatis:mybatis:${version.mybatis}"
+			
 }

@@ -2,26 +2,29 @@ package agent.rezoome.manager.database;
 
 import agent.rezoome.core.ServiceInitializer.InitialEvent;
 import agent.rezoome.manager.Manager;
-import agent.rezoome.manager.database.connect.DBConnectionManagerImpl;
+import agent.rezoome.manager.database.connect.DBConnectionManager;
 import agent.rezoome.manager.database.connect.MysqlConnecter;
 import agent.rezoome.manager.database.connect.OracleConnecter;
-import agent.rezoome.manager.database.convert.DBConvertManagerImpl;
+import agent.rezoome.manager.database.convert.DBConvertManager;
 import agent.rezoome.manager.database.convert.MysqlConverter;
 import agent.rezoome.manager.database.convert.OracleConverter;
-import agent.rezoome.manager.database.dao.DaoManagerImpl;
+import agent.rezoome.manager.database.dao.AbstractDaoManager;
+import agent.rezoome.manager.database.dao.DaoManager;
 import agent.rezoome.manager.database.dao.MysqlDao;
 import agent.rezoome.manager.database.dao.OracleDao;
 import agent.rezoome.manager.property.PropertyEnum;
 import agent.rezoome.manager.provider.ManagerProvider;
 
-public class DatabaseManager implements Manager {
+public class DatabaseManagerImpl implements DatabaseManager, Manager{
   
   protected String poolName, dbType, dbVersion, dbHost, dbServer, dbName, dbPort, dbUserID, dbPasswd;
+  protected String mybatisConfigXmlPath;
+  //= "org/mybatis/example/mybatis-config.xml";
   protected int maxConn, initConn, maxWait;
   
-  DBConnectionManagerImpl connecter = null;
-  DBConvertManagerImpl converter = null;
-  DaoManagerImpl dao = null;
+  protected DBConnectionManager connecter = null;
+  protected DBConvertManager converter = null;
+  protected DaoManager dao = null;
   
   
   @Override
@@ -40,18 +43,12 @@ public class DatabaseManager implements Manager {
     initConn = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.DB_INIT_CONNECTION, true));
     maxWait = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.DB_MAX_WAIT, true));
     
-    // annotation
-    if("ORACLE".equals(dbType.toUpperCase())){
-      connecter = new OracleConnecter();
-      converter = new OracleConverter();
-      dao = new OracleDao();
-    }else if("MYSQL".equals(dbType.toUpperCase())){
-      connecter = new MysqlConnecter();
-      converter = new MysqlConverter();
-      dao = new MysqlDao();
-    }else{
-      throw new NullPointerException();
-    }    
+    // mybatis Config file 
+    mybatisConfigXmlPath = ManagerProvider.property().getProperty(PropertyEnum.MYBATIS_CONFIG_FILE_PATH, true);
+   
+    connecter = (DBConnectionManager) DBConnectionManager.getInstance();
+    converter = (DBConvertManager) DBConvertManager.getInstance();
+    dao = DaoManager.getInstance();
   }
 
   @Override
@@ -69,5 +66,27 @@ public class DatabaseManager implements Manager {
       return false;
   }
 
+  @Override
+  public DBConnectionManager getConnecter() {
+    // TODO Auto-generated method stub
+    if(connecter == null) return null;
+    else return connecter;
+  }
+
+  @Override
+  public DBConvertManager getConeverter() {
+    // TODO Auto-generated method stub
+    if(converter == null) return null;
+    else return converter;
+  }
+
+  @Override
+  public DaoManager getDao() {
+    // TODO Auto-generated method stub
+    if(dao == null) return null;
+    else return dao;
+  }
+
+ 
   
 }

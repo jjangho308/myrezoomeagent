@@ -12,7 +12,7 @@ import agent.rezoome.core.ServiceInitializer.InitialEvent;
 import agent.rezoome.http.HttpConnector;
 import agent.rezoome.http.HttpManager;
 import agent.rezoome.manager.AbstractManager;
-import agent.rezoome.manager.database.connect.DBConnectionManagerImpl;
+import agent.rezoome.manager.database.connect.DBConnectionManager;
 import agent.rezoome.manager.database.connect.OracleConnecter;
 import agent.rezoome.manager.job.entity.JobAction;
 import agent.rezoome.manager.job.entity.JobEntity;
