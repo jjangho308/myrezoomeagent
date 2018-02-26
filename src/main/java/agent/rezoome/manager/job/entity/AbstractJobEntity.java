@@ -11,5 +11,4 @@ import agent.rezoome.core.entity.AbstractEntity;
  */
 public abstract class AbstractJobEntity extends AbstractEntity implements JobEntity{
   
-  public abstract void progress();
 }

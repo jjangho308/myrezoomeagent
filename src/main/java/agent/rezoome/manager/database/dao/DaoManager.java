@@ -25,8 +25,7 @@ public class DaoManager extends AbstractDaoManager{
   protected AbstractDaoManager dao = null;
   
   public DaoManager(){
-    String resource = super.mybatisConfigXmlPath;
-    
+    String resource = super.mybatisConfigXmlPath;    
     InputStream inputStream;
     try {
       inputStream = Resources.getResourceAsStream(resource);
@@ -42,7 +41,7 @@ public class DaoManager extends AbstractDaoManager{
   }
   
   public void setMapper(AbstractDaoManager dao){
-    dao = sqlsession.getMapper(dao.getClass());
+    this.dao = sqlsession.getMapper(dao.getClass());
   }
   
   

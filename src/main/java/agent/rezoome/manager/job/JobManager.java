@@ -19,7 +19,6 @@ public interface JobManager extends Manager {
 	 * @author TACKSU
 	 * 
 	 * @param job
-	 * @return
 	 */
-	JobEntity addJob(JobEntity job);
+	void addJob(JobEntity job);
 }

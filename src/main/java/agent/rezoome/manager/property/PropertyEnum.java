@@ -2,6 +2,9 @@ package agent.rezoome.manager.property;
 
 public enum PropertyEnum {
   
+  // Job
+  THREAD_POOL_CAPAVILITY,
+
   // DB 
   DBMS_TYPE,
   DBMS_VERSION,

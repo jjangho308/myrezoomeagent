@@ -3,15 +3,11 @@ package agent.rezoome.manager.database;
 import agent.rezoome.core.ServiceInitializer.InitialEvent;
 import agent.rezoome.manager.Manager;
 import agent.rezoome.manager.database.connect.DBConnectionManager;
-import agent.rezoome.manager.database.connect.MysqlConnecter;
-import agent.rezoome.manager.database.connect.OracleConnecter;
+
 import agent.rezoome.manager.database.convert.DBConvertManager;
-import agent.rezoome.manager.database.convert.MysqlConverter;
-import agent.rezoome.manager.database.convert.OracleConverter;
-import agent.rezoome.manager.database.dao.AbstractDaoManager;
+
 import agent.rezoome.manager.database.dao.DaoManager;
-import agent.rezoome.manager.database.dao.MysqlDao;
-import agent.rezoome.manager.database.dao.OracleDao;
+
 import agent.rezoome.manager.property.PropertyEnum;
 import agent.rezoome.manager.provider.ManagerProvider;
 
@@ -26,7 +22,14 @@ public class DatabaseManagerImpl implements DatabaseManager, Manager{
   protected DBConvertManager converter = null;
   protected DaoManager dao = null;
   
-  
+  private static class Singleton {
+	    private static final DatabaseManager instance = new DatabaseManagerImpl();
+	  }
+
+	  public static DatabaseManagerImpl getInstance() {
+	    return (DaoManager) Singleton.instance;
+	  }
+	  
   @Override
   public void initialize(InitialEvent event) {
     
