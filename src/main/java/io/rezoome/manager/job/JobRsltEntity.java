@@ -5,5 +5,5 @@ package io.rezoome.manager.job;
  * @author Saver
  *
  */
-public interface JobResult {
+public interface JobRsltEntity {
 }

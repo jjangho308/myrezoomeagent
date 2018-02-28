@@ -2,8 +2,10 @@ package io.rezoome.manager.property;
 
 public enum PropertyEnum {
   
-  // DAO 
+  // AGENCY DAO 
   DAO_CLASS_NAME,
+  // AGENCY MAPPER
+  MAPPER_CLASS_NAME,
   
   // Job
   THREAD_POOL_CAPAVILITY,

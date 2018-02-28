@@ -8,7 +8,7 @@ import io.rezoome.manager.database.dao.DaoManager;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
-public class DatabaseManagerImpl implements DatabaseManager, Manager{
+public class DatabaseManagerImpl implements DatabaseManager{
   
   protected String poolName, dbType, dbVersion, dbHost, dbServer, dbName, dbPort, dbUserID, dbPasswd;
   protected String mybatisConfigXmlPath;
@@ -22,8 +22,8 @@ public class DatabaseManagerImpl implements DatabaseManager, Manager{
 	    private static final DatabaseManager instance = new DatabaseManagerImpl();
 	  }
 
-	  public static DatabaseManagerImpl getInstance() {
-	    return (DaoManager) Singleton.instance;
+	  public static DatabaseManager getInstance() {
+	    return Singleton.instance;
 	  }
 	  
   @Override

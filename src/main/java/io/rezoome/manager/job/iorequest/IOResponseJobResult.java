@@ -1,7 +1,7 @@
 package io.rezoome.manager.job.iorequest;
 
-import io.rezoome.manager.job.JobResult;
+import io.rezoome.manager.job.JobRsltEntity;
 
-public enum IOResponseJobResult implements JobResult {
+public enum IOResponseJobResult implements JobRsltEntity {
 
 }

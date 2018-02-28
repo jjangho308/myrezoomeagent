@@ -1,6 +1,6 @@
 package io.rezoome.manager.database.convert;
 
-import io.rezoome.manager.database.entity.DatabaseEntity;
+import io.rezoome.manager.database.entity.DBEntity;
 import io.rezoome.manager.job.entity.AbstractJobEntity;
 
 public class MysqlConverter extends DBConvertManager implements DBConverter{
@@ -18,7 +18,7 @@ public class MysqlConverter extends DBConvertManager implements DBConverter{
 
 
   @Override
-  public DatabaseEntity convert(AbstractJobEntity job) {
+  public DBEntity convert(AbstractJobEntity job) {
     // TODO Auto-generated method stub
     
     

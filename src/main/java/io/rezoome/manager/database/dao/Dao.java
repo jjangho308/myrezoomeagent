@@ -3,9 +3,9 @@ package io.rezoome.manager.database.dao;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import io.rezoome.manager.database.entity.DatabaseResultEntity;
-import io.rezoome.manager.database.entity.DatabaseEntity;
+import io.rezoome.manager.database.entity.DBRsltEntity;
+import io.rezoome.manager.database.entity.DBEntity;
 
 public interface Dao {
-  public DatabaseResultEntity getRecord(DatabaseEntity entity) throws IOException;
+  public DBRsltEntity getRecord(DBEntity entity) throws IOException;
 }

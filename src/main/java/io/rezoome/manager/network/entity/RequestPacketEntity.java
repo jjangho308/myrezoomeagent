@@ -8,5 +8,15 @@ import io.rezoome.core.entity.AbstractEntity;
  *
  */
 public class RequestPacketEntity extends AbstractEntity {
+  private String protocol;
 
+  public String getProtocol() {
+    return protocol;
+  }
+
+  public void setProtocol(String protocol) {
+    this.protocol = protocol;
+  }
+  
+  
 }
