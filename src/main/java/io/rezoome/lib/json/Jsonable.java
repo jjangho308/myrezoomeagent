@@ -92,12 +92,13 @@ public interface Jsonable {
 						throw new JsonParseException("Serialized name of " + field.getName() + " field is duplicated.");
 					}
 					keyMap.put(keyName, field);
-					for (String altKey : serializedName.alternate()) {
-						if (keyMap.containsKey(altKey)) {
-							continue;
-						}
-						keyMap.put(keyName, field);
-					}
+					// FIXME 여기 고쳐야됨
+//					for (String altKey : serializedName.alternate()) {
+//						if (keyMap.containsKey(altKey)) {
+//							continue;
+//						}
+//						keyMap.put(keyName, field);
+//					}
 				}
 			}
 
