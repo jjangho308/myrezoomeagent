@@ -6,76 +6,57 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
 
-public class HttpConnecter implements HttpManager {
 
-  private HttpURLConnection httpURLConnection;
+public class HttpsConnector implements HttpManager {
+  private HttpsURLConnection httpsURLConnection;
   private URL url;
 
   private final int CONNECT_TIMEOUT = 10000;
   private final int READ_TIMEOUT = 10000;
   private String response = "";
 
-  private static class Singleton {
-    private static final HttpManager instance = new HttpConnecter();
-  }
-
-  public static HttpManager getInstance() {
-    return Singleton.instance;
-  }
-  
-  public HttpConnecter(){
-    
-  }
-
-  public HttpConnecter(String endpoint) {
-    // TODO Auto-generated constructor stub
+  @Override
+  public String sendPost(String endpoint, Map<String, Object> headers, Object parameters) throws ServiceException {
+    // TODO Auto-generated method stub
 
     try {
       url = new URL(endpoint);
 
-      httpURLConnection = (HttpURLConnection) url.openConnection();
+      httpsURLConnection = (HttpsURLConnection) url.openConnection();
 
-      httpURLConnection.setDoInput(true);
-      httpURLConnection.setDoOutput(true);
+      httpsURLConnection.setDoInput(true);
+      httpsURLConnection.setDoOutput(true);
 
-      httpURLConnection.setConnectTimeout(CONNECT_TIMEOUT);
-      httpURLConnection.setReadTimeout(READ_TIMEOUT);
-    } catch (Exception e) {
-      throw new ServiceException("failed to initiallize");
-    }
-  }
+      httpsURLConnection.setConnectTimeout(CONNECT_TIMEOUT);
+      httpsURLConnection.setReadTimeout(READ_TIMEOUT);
 
-  @SuppressWarnings("unchecked")
-  @Override
-  public String post(Map<String, Object> headers, Object parameters) throws ServiceException {
-    // TODO Auto-generated method stub
-
-    try {
-      httpURLConnection.setRequestMethod(Constants.PARAM_METHOD_POST);
-      httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+      httpsURLConnection.setRequestMethod(Constants.PARAM_METHOD_POST);
+      httpsURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
       // set request header
       if (headers != null) {
         for (Map.Entry<String, Object> header : headers.entrySet()) {
-          httpURLConnection.setRequestProperty(header.getKey(), header.getValue().toString());
+          httpsURLConnection.setRequestProperty(header.getKey(), header.getValue().toString());
         }
       }
 
       String body = "";
       if (parameters != null) {
-        if (httpURLConnection.getRequestProperty("Content-Type").contains("form")) {
+        if (httpsURLConnection.getRequestProperty("Content-Type").contains("form")) {
           // set request parameter
           StringBuilder bodyBuilder = new StringBuilder();
 
+          @SuppressWarnings("unchecked")
           Map<String, Object> parameterMap = (Map<String, Object>) parameters;
 
           if (parameterMap != null && parameterMap.size() > 0) {
@@ -88,30 +69,28 @@ public class HttpConnecter implements HttpManager {
           }
           body = bodyBuilder.toString();
           body = body.substring(0, body.length() - 1);
-        } else if (httpURLConnection.getRequestProperty("Content-Type").contains("json")) {
-
+        } else if (httpsURLConnection.getRequestProperty("Content-Type").contains("json")) {
           body = (String) parameters;
-
         }
       }
-      OutputStream outputStream = httpURLConnection.getOutputStream();
+      OutputStream outputStream = httpsURLConnection.getOutputStream();
       outputStream.write(body.toString().getBytes());
 
       outputStream.flush();
       outputStream.close();
 
-      int responseCode = httpURLConnection.getResponseCode();
+      int responseCode = httpsURLConnection.getResponseCode();
       if (responseCode != Constants.HTTP_STATUS_CODE_200) {
         throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);
       }
 
-      response = getResponse(httpURLConnection.getInputStream());
+      response = getResponse(httpsURLConnection.getInputStream());
 
       if (response == "") {
         throw new ServiceException("failed to get response");
       }
 
-      httpURLConnection.disconnect();
+      httpsURLConnection.disconnect();
 
     } catch (
 
@@ -125,31 +104,41 @@ public class HttpConnecter implements HttpManager {
   }
 
   @Override
-  public String get(Map<String, Object> headers) throws ServiceException {
+  public String sendGet(String endpoint, Map<String, Object> headers) throws ServiceException {
 
     try {
-      httpURLConnection.setRequestMethod(Constants.PARAM_METHOD_GET);
+      url = new URL(endpoint);
+
+      httpsURLConnection = (HttpsURLConnection) url.openConnection();
+
+      httpsURLConnection.setDoInput(true);
+      httpsURLConnection.setDoOutput(true);
+
+      httpsURLConnection.setConnectTimeout(CONNECT_TIMEOUT);
+      httpsURLConnection.setReadTimeout(READ_TIMEOUT);
+
+      httpsURLConnection.setRequestMethod(Constants.PARAM_METHOD_GET);
 
       // set request header
       if (headers != null) {
         for (Map.Entry<String, Object> header : headers.entrySet()) {
-          httpURLConnection.setRequestProperty(header.getKey(), header.getValue().toString());
+          httpsURLConnection.setRequestProperty(header.getKey(), header.getValue().toString());
         }
       }
 
-      int responseCode = httpURLConnection.getResponseCode();
+      int responseCode = httpsURLConnection.getResponseCode();
       if (responseCode != Constants.HTTP_STATUS_CODE_200) {
         System.out.println(responseCode);
         throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);
       }
 
-      response = getResponse(httpURLConnection.getInputStream());
+      response = getResponse(httpsURLConnection.getInputStream());
 
       if (response == "") {
         throw new ServiceException("failed to get response");
       }
 
-      httpURLConnection.disconnect();
+      httpsURLConnection.disconnect();
 
     } catch (MalformedURLException e) {
       e.printStackTrace();
@@ -169,8 +158,6 @@ public class HttpConnecter implements HttpManager {
       response.append(inputLine);
     }
     reader.close();
-    return response.toString();
+    return reader.toString();
   }
 }
-
-
