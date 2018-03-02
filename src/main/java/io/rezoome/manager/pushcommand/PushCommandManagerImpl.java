@@ -53,10 +53,11 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 		// TODO Auto-generated method stub
 
 	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public PushCommandResult invokeCommand(PushCommandEntity command) {
-		PushCommandAction<PushCommandEntity> action = (PushCommandAction<PushCommandEntity>) this.actionMap.get(command.getClass());
+		
+    PushCommandAction<PushCommandEntity> action = (PushCommandAction<PushCommandEntity>) this.actionMap.get(command.getClass());
 		action.process(command);
 		return null;
 	}

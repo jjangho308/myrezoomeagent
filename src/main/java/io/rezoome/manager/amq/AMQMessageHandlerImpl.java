@@ -45,7 +45,8 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListene
       e.printStackTrace();
       return false;
     }finally{
-      return true;
+     
     }
+    return true;
   }
 }
