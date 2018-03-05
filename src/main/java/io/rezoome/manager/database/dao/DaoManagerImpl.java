@@ -42,7 +42,7 @@ public class DaoManagerImpl extends DatabaseManagerImpl  implements DaoManager{
   public void createDao()   {
     // TODO Auto-generated method stub
  // TODO Auto-generated method stub
-    String daoClass = super.daoClass;
+    //String daoClass = super.daoClass;
     String resource = super.mybatisConfigXmlPath;    
     InputStream inputStream;
     try {
@@ -53,18 +53,16 @@ public class DaoManagerImpl extends DatabaseManagerImpl  implements DaoManager{
       
       ClassLoader loader = ClassLoader.getSystemClassLoader();
       Class<?> daoCls = loader.loadClass(daoClass);
+      
       //this.dao = (Dao) daoCls.newInstance();
       this.dao = sqlsession.getMapper(Dao.class);
       
       //sqlsession.getMapper(OpicDaoImpl.class);
       
-    } catch (IOException e) {
+    } catch (IOException | ClassNotFoundException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    } catch (ClassNotFoundException ce){
-      ce.printStackTrace();
-    } 
-    
+    }
   }
   
 }
