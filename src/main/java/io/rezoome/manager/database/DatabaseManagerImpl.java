@@ -2,21 +2,22 @@ package io.rezoome.manager.database;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.manager.Manager;
-import io.rezoome.manager.database.connect.DBConnectionManager;
-import io.rezoome.manager.database.convert.DBConvertManager;
-import io.rezoome.manager.database.dao.DaoManager;
+import io.rezoome.manager.database.connect.DBConnectionManagerImpl;
+import io.rezoome.manager.database.convert.DBConvertManagerImpl;
+import io.rezoome.manager.database.dao.DaoManagerImpl;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
 public class DatabaseManagerImpl implements DatabaseManager{
   
-  protected String poolName, dbType, dbVersion, dbHost, dbServer, dbName, dbPort, dbUserID, dbPasswd;
-  protected String mybatisConfigXmlPath;
-  protected int maxConn, initConn, maxWait;
+  protected static String poolName, dbType, dbVersion, dbHost, dbServer, dbName, dbPort, dbUserID, dbPasswd;
+  protected static String mybatisConfigXmlPath;
+  protected static String daoClass;
+  protected static int maxConn, initConn, maxWait;
   
-  protected DBConnectionManager connecter = null;
-  protected DBConvertManager converter = null;
-  protected DaoManager dao = null;
+  protected static DBConnectionManagerImpl connecter = null;
+  protected static DBConvertManagerImpl converter = null;
+  protected static DaoManagerImpl dao = null;
   
   private static class Singleton {
 	    private static final DatabaseManager instance = new DatabaseManagerImpl();
@@ -35,7 +36,7 @@ public class DatabaseManagerImpl implements DatabaseManager{
     dbHost = ManagerProvider.property().getProperty(PropertyEnum.DB_HOST, true);
     dbPort = ManagerProvider.property().getProperty(PropertyEnum.DB_PORT, true);
     dbName = ManagerProvider.property().getProperty(PropertyEnum.DB_NAME, true);
-    poolName = ManagerProvider.property().getProperty(PropertyEnum.DB_NAME, true);
+    poolName = ManagerProvider.property().getProperty(PropertyEnum.CONNECTION_POOL_NAME, true);
     dbUserID = ManagerProvider.property().getProperty(PropertyEnum.DB_USER_ID, true);
     dbPasswd = ManagerProvider.property().getProperty(PropertyEnum.DB_PASSWORD, true);
     maxConn = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.DB_MAX_CONNECTION, true));
@@ -44,10 +45,15 @@ public class DatabaseManagerImpl implements DatabaseManager{
     
     // mybatis Config file 
     mybatisConfigXmlPath = ManagerProvider.property().getProperty(PropertyEnum.MYBATIS_CONFIG_FILE_PATH, true);
-   
-    connecter = (DBConnectionManager) DBConnectionManager.getInstance();
-    converter = (DBConvertManager) DBConvertManager.getInstance();
-    dao = DaoManager.getInstance();
+    daoClass = ManagerProvider.property().getProperty(PropertyEnum.DAO_CLASS_NAME, true);
+    
+    connecter = ((DBConnectionManagerImpl) DBConnectionManagerImpl.getInstance());
+    connecter.createConnection();
+    converter = (DBConvertManagerImpl) DBConvertManagerImpl.getInstance();
+    converter.createConverter();
+    dao = ((DaoManagerImpl)DaoManagerImpl.getInstance());
+    dao.createDao();
+    
   }
 
   @Override
@@ -66,21 +72,21 @@ public class DatabaseManagerImpl implements DatabaseManager{
   }
 
   @Override
-  public DBConnectionManager getConnectManager() {
+  public DBConnectionManagerImpl getConnectManager() {
     // TODO Auto-generated method stub
     if(connecter == null) return null;
     else return connecter;
   }
 
   @Override
-  public DBConvertManager getConvertManager() {
+  public DBConvertManagerImpl getConvertManager() {
     // TODO Auto-generated method stub
     if(converter == null) return null;
     else return converter;
   }
 
   @Override
-  public DaoManager getDaoManager() {
+  public DaoManagerImpl getDaoManager() {
     // TODO Auto-generated method stub
     if(dao == null) return null;
     else return dao;

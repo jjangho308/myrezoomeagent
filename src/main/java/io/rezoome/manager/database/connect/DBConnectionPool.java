@@ -131,6 +131,7 @@ public class DBConnectionPool {
       sb.append(user);
       sb.append(" passwd: ");
       sb.append(password);
+      System.out.println(sb.toString());
       e.printStackTrace();
       return null;
     }

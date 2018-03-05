@@ -3,20 +3,8 @@ package io.rezoome.manager.database.convert;
 import io.rezoome.manager.database.entity.DBEntity;
 import io.rezoome.manager.job.entity.AbstractJobEntity;
 
-public class MysqlConverter extends DBConvertManager implements DBConverter{
-  private static class Singleton {
-    private static final AbstractDBConverter instance = new MysqlConverter();
-  }
-
-  public static AbstractDBConverter getInstance() {
-    return (AbstractDBConverter) Singleton.instance;
-  }
+public class MysqlConverter extends DBConvertManagerImpl implements DBConverter{
   
-  
-  public MysqlConverter() {
-  }
-
-
   @Override
   public DBEntity convert(AbstractJobEntity job) {
     // TODO Auto-generated method stub

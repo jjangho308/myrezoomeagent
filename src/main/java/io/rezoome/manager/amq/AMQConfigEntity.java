@@ -12,58 +12,31 @@ import io.rezoome.core.entity.AbstractEntity;
  *
  */
 public final class AMQConfigEntity extends AbstractEntity {
-	
-	private final String queueMeta;
-	
 	private final String queueName;
-
-	private final String sererProtocol;
-
 	private final String serverHost;
-
-	private final int serverPort;
-
 	private final String userName;
-
 	private final String userPassword;
 	
 	
 
-	public AMQConfigEntity(String queueMeta,
-							String queueName,
-							String sererProtocol,
+	public AMQConfigEntity(String queueName,
 							String serverHost,
-							int serverPort,
 							String userName,
 							String userPassword) {
 		super();
-		this.queueMeta = queueMeta;
 		this.queueName = queueName;
-		this.sererProtocol = sererProtocol;
 		this.serverHost = serverHost;
-		this.serverPort = serverPort;
 		this.userName = userName;
 		this.userPassword = userPassword;
-	}
-
-	public String getQueueMeta() {
-		return queueMeta;
 	}
 
 	public String getQueueName() {
 		return queueName;
 	}
 
-	public String getSererProtocol() {
-		return sererProtocol;
-	}
-	
+		
 	public String getServerHost() {
 		return serverHost;
-	}
-
-	public int getServerPort() {
-		return serverPort;
 	}
 
 	public String getUserName() {

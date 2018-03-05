@@ -11,5 +11,5 @@ import io.rezoome.manager.Manager;
 public interface AMQManager extends Manager {
 	void registerPush(AMQConfigEntity config);
 	void unregisterPush();
-	void registerPushHandler(AMQMessageHandler handler);
+	void registerPushHandler();
 }

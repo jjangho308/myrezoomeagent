@@ -22,7 +22,8 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListene
   public void onMessage(Message message) {
     // TODO Auto-generated method stub
     try {
-      TextMessage consumerTextMessage = (TextMessage) message;      
+      TextMessage consumerTextMessage = (TextMessage) message;
+      System.out.println(consumerTextMessage.getText());
       AMQMessageEntity amqEntity = new AMQMessageEntity(consumerTextMessage.getText());
       AMQMessageHandlerImpl.getInstance().handleMessage(amqEntity);
     } catch (NullPointerException ne) {
@@ -39,8 +40,11 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListene
     // TODO Auto-generated method stub    
     try{
       PushCommandEntity pcEntity = JSON.fromJson(msg.getMessage(), PushCommandEntity.class);
+      System.out.println(msg.getMessage());
       ManagerProvider.pushcommand().invokeCommand(pcEntity);
       
+    } catch(RuntimeException re){
+      return false; 
     } catch(Exception e){
       e.printStackTrace();
       return false;

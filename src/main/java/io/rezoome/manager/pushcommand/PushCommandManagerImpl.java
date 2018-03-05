@@ -56,7 +56,7 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 	@SuppressWarnings("unchecked")
 	@Override
 	public PushCommandResult invokeCommand(PushCommandEntity command) {
-		
+		System.out.println(command.toString());
     PushCommandAction<PushCommandEntity> action = (PushCommandAction<PushCommandEntity>) this.actionMap.get(command.getClass());
 		action.process(command);
 		return null;

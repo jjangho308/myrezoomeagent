@@ -11,6 +11,8 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.manager.AbstractManager;
+import io.rezoome.manager.property.PropertyEnum;
+import io.rezoome.manager.provider.ManagerProvider;
 /**
  * Implementation of {@link AMQManager}. <br />
  * 
@@ -43,7 +45,16 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
 	  consumerSession = null;
 	  consumerDestination = null;
 	  consumer = null;
-    
+	  
+	  String serverHost = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_SERVER_HOST, true);
+	  String queueName = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_QUEUE_NAME, true);
+	  String userName = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_USER_NAME, true);
+	  String userPassword = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_USER_PASSWORD, true);
+	  AMQConfigEntity amqConfig = new AMQConfigEntity(queueName, serverHost, userName, userPassword);
+	  
+	  this.registerPush(amqConfig);
+	  this.registerPushHandler();
+	  System.out.println("PushManager Init Complete.");
 	}
 
 	@Override
@@ -54,7 +65,7 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
 
 
   @Override
-  public void registerPush(AMQConfigEntity config) {
+  public synchronized void registerPush(AMQConfigEntity config) {
     // TODO Auto-generated method stub
     try {
  
@@ -94,7 +105,7 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
   }
 
   @Override
-  public void registerPushHandler(AMQMessageHandler handler) {
+  public void registerPushHandler() {
     // TODO Auto-generated method stub
     try {
       consumer.setMessageListener((MessageListener) AMQMessageHandlerImpl.getInstance());

@@ -14,8 +14,9 @@ import io.rezoome.manager.provider.ManagerProvider;
 public class Runtime {
 
   public static void main(String[] args) {
-    registration();
-    // initailize();
+    System.out.println("Runtime");
+    //registration();
+    initailize();
   }
 
   private static void registration() {

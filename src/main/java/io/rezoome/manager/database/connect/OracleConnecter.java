@@ -1,13 +1,13 @@
 package io.rezoome.manager.database.connect;
 
 
-public class OracleConnecter extends DBConnectionManager {
+public class OracleConnecter extends DBConnectionManagerImpl {
   
   public OracleConnecter() {
     String JDBCDriver = "oracle.jdbc.driver.OracleDriver";
     String JDBCDriverType = "jdbc:oracle://";
-    String url = JDBCDriverType + ":@" + dbServer + ":" + super.dbPort + ":" + super.dbName;
+    String url = JDBCDriverType + ":@" + dbHost + ":" + dbPort + "/" + dbName;
     connMgr = DBConnectionPoolManager.getInstance();
-    connMgr.init(poolName, JDBCDriver, url, super.dbUserID, super.dbPasswd, super.maxConn, super.initConn, super.maxWait);
+    connMgr.init(poolName, JDBCDriver, url, dbUserID, dbPasswd, maxConn, initConn, maxWait);
   }
 }
