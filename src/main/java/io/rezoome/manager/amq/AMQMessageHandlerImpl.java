@@ -8,6 +8,7 @@ import javax.jms.TextMessage;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
+import io.rezoome.manager.pushcommand.entity.search.SearchCommandEntity;
 
 public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListener {
   private static class Singleton {
@@ -39,12 +40,20 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListene
   public boolean handleMessage(AMQMessageEntity msg) {
     // TODO Auto-generated method stub    
     try{
-      PushCommandEntity pcEntity = JSON.fromJson(msg.getMessage(), PushCommandEntity.class);
+      PushCommandEntity pcEntity = JSON.fromJson(msg.getMessage(), SearchCommandEntity.class);
+      
+      /*{"mid":"msgid-0001","token":"Rm9vYmFyIQ==Rm9vYmFyIQ==Rm9vYmFyIQ==","cmd":"Search",
+        "args":{"username":"CH","birth":"1987-03-08","gender":1,"phone":"010-0000-0000","from":"2016-10-10","to":"2017-02-28","pkey":"asdlf;kjasl;dfkjasl;dfkjjjjeic==",
+        "orgs":["\"01\"","\
+        "02\""]}}
+      */
+      System.out.println("YYY");
       System.out.println(pcEntity);
       ManagerProvider.pushcommand().invokeCommand(pcEntity);
       
     } catch(RuntimeException re){
-      return false; 
+      re.printStackTrace();
+      //return false; 
     } catch(Exception e){
       e.printStackTrace();
       return false;

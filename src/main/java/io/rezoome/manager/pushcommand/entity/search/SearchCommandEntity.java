@@ -2,6 +2,7 @@ package io.rezoome.manager.pushcommand.entity.search;
 
 import java.util.Date;
 
+import io.rezoome.lib.json.Jsonable;
 import io.rezoome.manager.pushcommand.entity.AbstractPushCommandEntity;
 
 /**
@@ -12,29 +13,52 @@ import io.rezoome.manager.pushcommand.entity.AbstractPushCommandEntity;
  * @author TACKSU
  *
  */
-public class SearchCommandEntity extends AbstractPushCommandEntity {
-	private final MemberProfile profile;
+public class SearchCommandEntity extends AbstractPushCommandEntity implements Jsonable  {
+	/*private final MemberProfile profile;
 	
-	private final Date from;
-	
-	private final Date to;
-
-	public SearchCommandEntity(MemberProfile profile, Date from, Date to) {
+	public SearchCommandEntity(MemberProfile profile) {
 		super();
 		this.profile = profile;
-		this.from = from;
-		this.to = to;
 	}
 
 	public MemberProfile getProfile() {
 		return profile;
-	}
-
-	public Date getFrom() {
-		return from;
-	}
-
-	public Date getTo() {
-		return to;
-	}
+	}*/
+  String cmd;
+  String username;
+  String birth;
+  String gender;
+  String phone;
+  
+  public String getCmd() {
+    return cmd;
+  }
+  public void setCmd(String cmd) {
+    this.cmd = cmd;
+  }
+  public String getUsername() {
+    return username;
+  }
+  public void setUsername(String username) {
+    this.username = username;
+  }
+  public String getBirth() {
+    return birth;
+  }
+  public void setBirth(String birth) {
+    this.birth = birth;
+  }
+  public String getGender() {
+    return gender;
+  }
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
+  public String getPhone() {
+    return phone;
+  }
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+  
 }
