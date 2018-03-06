@@ -30,7 +30,7 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
 	@Override
 	public void initialize(InitialEvent event) {
 		// TODO Auto-generated method stub
-	  configFile = "./agent.ini";
+	  configFile = "./agent.prop";
 	  try {
 	    properties = this.readProperties();
       System.out.println("PropertyManager Init Complete.");
