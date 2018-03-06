@@ -1,20 +1,21 @@
 package io.rezoome.manager.mapper;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
-public class MapperManagerImpl implements MapperManager {
+public class MapperManagerImpl extends AbstractManager implements MapperManager {
   
   private static class Singleton {
     private static final MapperManager instance = new MapperManagerImpl();
   }
 
-  public static MapperManagerImpl getInstance() {
-    return (MapperManagerImpl) Singleton.instance;
+  public static MapperManager getInstance() {
+    return Singleton.instance;
   }
   
-  AbstractMapper mapper;
+  Mapper mapper;
   
   @Override
   public void initialize(InitialEvent event) {
@@ -31,6 +32,7 @@ public class MapperManagerImpl implements MapperManager {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    setPrepared();
   }
 
   @Override
@@ -52,10 +54,10 @@ public class MapperManagerImpl implements MapperManager {
     ClassLoader loader = ClassLoader.getSystemClassLoader();
     Class<?> mapperCls;
     mapperCls = loader.loadClass(mapperClass);
-    this.mapper = (AbstractMapper) mapperCls.newInstance();
+    this.mapper = (Mapper) mapperCls.newInstance();
   }
 
-  public AbstractMapper getMapper() {
+  public Mapper getMapper() {
     // TODO Auto-generated method stub
     if(mapper != null)  return this.mapper;
     else return null;

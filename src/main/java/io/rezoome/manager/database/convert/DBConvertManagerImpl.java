@@ -22,13 +22,12 @@ public class DBConvertManagerImpl extends DatabaseManagerImpl implements DBConve
   @SuppressWarnings("static-access")
   @Override
   public void createConverter(){
-    System.out.println(super.dbType);
     if("ORACLE".equals(super.dbType.toUpperCase())){
       super.converter =  new OracleConverter();
     }else if("MYSQL".equals(super.dbType.toUpperCase())){
       super.converter = new MysqlConverter();    
     }
-    
+    System.out.println("Create Converter - " + super.dbType.toUpperCase());
   }
   
   @Override

@@ -55,6 +55,7 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
 	  this.registerPush(amqConfig);
 	  this.registerPushHandler();
 	  System.out.println("PushManager Init Complete.");
+	  setPrepared();
 	}
 
 	@Override

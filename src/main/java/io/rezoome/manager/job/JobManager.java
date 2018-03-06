@@ -21,4 +21,19 @@ public interface JobManager extends Manager {
 	 * @param job
 	 */
 	void addJob(JobEntity job);
+	
+	/**
+	 * create job file before job start
+	 * delete job file after job completed
+	 * when agent start in server, read uncomplete job file. and excute uncomplete job file.
+	 * 
+	 * @since 1.0.0
+	 * @author YSY
+	 * 
+	 * 
+	 */
+	boolean excuteUncompleteJob();	
+	boolean createJobFile(JobEntity job);
+	boolean deleteJobFile(JobEntity job);
+	
 }

@@ -33,6 +33,7 @@ public class DBConnectionManagerImpl extends DatabaseManagerImpl implements DBCo
     }else if("MYSQL".equals(super.dbType.toUpperCase())){
       super.connecter =  new MysqlConnecter();    
     }
+    System.out.println("Create Connecter - " + super.dbType.toUpperCase());
   }
 
 

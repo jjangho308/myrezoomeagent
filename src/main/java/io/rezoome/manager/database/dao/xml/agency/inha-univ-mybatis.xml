@@ -5,8 +5,13 @@
   
   
 <mapper namespace='io.rezoome.manager.database.dao.xml.agency.Dao'>
-	
-	<select id="getRecord" resultType="int">
-		select 1 from mysql.user;
+	<resultMap id="InhaUnivEntity" type="result">
+		<result property="user" column="user"/>
+		<result property="host" column="host"/>
+	</resultMap>
+
+
+	<select id="getRecord" resultMap="InhaUnivEntity">
+		select user,host from mysql.user where user = 'root';
 	</select>
 </mapper>

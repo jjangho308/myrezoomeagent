@@ -7,6 +7,6 @@ import io.rezoome.manager.job.entity.AbstractJobEntity;
  * @author TACKSU
  *
  */
-public final class IOResponseJob extends AbstractJobEntity {
+public final class IORequestJob extends AbstractJobEntity {
 
 }

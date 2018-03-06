@@ -40,7 +40,7 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListene
     // TODO Auto-generated method stub    
     try{
       PushCommandEntity pcEntity = JSON.fromJson(msg.getMessage(), PushCommandEntity.class);
-      System.out.println(msg.getMessage());
+      System.out.println(pcEntity);
       ManagerProvider.pushcommand().invokeCommand(pcEntity);
       
     } catch(RuntimeException re){

@@ -28,6 +28,7 @@ public class SearchCommand extends AbstractPushCommandAction<SearchCommandEntity
 	  JobEntity searchJob = new SearchJobEntity(entity.getProfile());
 	  entity.getProfile();
 	  ManagerProvider.job().addJob(searchJob);
+	  System.out.println("pushcommand searchCommand");
 	  return null;
 	}
 

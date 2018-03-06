@@ -31,6 +31,9 @@ public enum PropertyEnum {
   AMAZONE_USER_PASSWORD,
   
   // Mybatis
-  MYBATIS_CONFIG_FILE_PATH
+  MYBATIS_CONFIG_FILE_PATH,
+  
+  // Job
+  JOB_TEMP_FILE_PATH,
   
   }

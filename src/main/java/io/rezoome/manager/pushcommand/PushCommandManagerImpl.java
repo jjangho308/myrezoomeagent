@@ -46,6 +46,7 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 	@Override
 	public void initialize(InitialEvent event) {
 		ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
+		setPrepared();
 	}
 
 	@Override

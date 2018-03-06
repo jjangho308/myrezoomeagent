@@ -38,7 +38,7 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-	  
+	  setPrepared();
 	}
 
 	@Override

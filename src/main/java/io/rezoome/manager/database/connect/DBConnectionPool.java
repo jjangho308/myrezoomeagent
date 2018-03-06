@@ -130,8 +130,7 @@ public class DBConnectionPool {
       sb.append(" user: ");
       sb.append(user);
       sb.append(" passwd: ");
-      sb.append(password);
-      System.out.println(sb.toString());
+      sb.append(password);      
       e.printStackTrace();
       return null;
     }

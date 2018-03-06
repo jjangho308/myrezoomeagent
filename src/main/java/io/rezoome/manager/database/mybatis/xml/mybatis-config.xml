@@ -4,7 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
  
 <configuration>
-  <mappers>
-    <mapper resource="io/rezoome/manager/database/dao/xml/agency/inha-univ-mybatis.xml"/>
-  </mappers>
+	<typeAliases> 
+		<typeAlias alias="result" type="io.rezoome.manager.database.entity.agency.InhaUnivEntity" /> 
+	</typeAliases>
+
+
+	<mappers>
+		<mapper resource="io/rezoome/manager/database/dao/xml/agency/inha-univ-mybatis.xml"/>
+	</mappers>
 </configuration>

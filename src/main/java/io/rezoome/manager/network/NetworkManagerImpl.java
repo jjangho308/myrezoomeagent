@@ -4,13 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.entity.RzmRsltEntity;
+import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
 import io.rezoome.manager.network.entity.ResponsePacketEntity;
 import io.rezoome.manager.network.http.HttpConnector;
 import io.rezoome.manager.network.http.HttpManager;
 import io.rezoome.manager.network.http.HttpsConnector;
 
-public class NetworkManagerImpl implements NetworkManager {
+public class NetworkManagerImpl extends AbstractManager implements NetworkManager {
 
   HttpConnector httpConnector;
   HttpsConnector httpsConnector;
@@ -33,6 +35,7 @@ public class NetworkManagerImpl implements NetworkManager {
     // HttpsConnecter.getInstance();
     httpConnector = new HttpConnector();
     httpsConnector = new HttpsConnector();
+    setPrepared();
   }
 
   @Override
@@ -74,4 +77,11 @@ public class NetworkManagerImpl implements NetworkManager {
     return null;
   }
 
+  
+  @Override
+  public RequestPacketEntity convert(RzmRsltEntity entity, String protocol, String method){
+    RequestPacketEntity rsltEntity = new RequestPacketEntity();
+    
+    return rsltEntity;
+  }
 }

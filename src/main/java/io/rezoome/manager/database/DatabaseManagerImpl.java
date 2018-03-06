@@ -1,14 +1,14 @@
 package io.rezoome.manager.database;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
-import io.rezoome.manager.Manager;
+import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.database.connect.DBConnectionManagerImpl;
 import io.rezoome.manager.database.convert.DBConvertManagerImpl;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
-public class DatabaseManagerImpl implements DatabaseManager{
+public class DatabaseManagerImpl extends AbstractManager implements DatabaseManager{
   
   protected static String poolName, dbType, dbVersion, dbHost, dbServer, dbName, dbPort, dbUserID, dbPasswd;
   protected static String mybatisConfigXmlPath;
@@ -53,7 +53,7 @@ public class DatabaseManagerImpl implements DatabaseManager{
     converter.createConverter();
     dao = ((DaoManagerImpl)DaoManagerImpl.getInstance());
     dao.createDao();
-    
+    setPrepared();
   }
 
   @Override

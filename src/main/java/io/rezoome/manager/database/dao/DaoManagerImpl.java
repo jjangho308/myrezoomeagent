@@ -2,6 +2,7 @@ package io.rezoome.manager.database.dao;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -10,6 +11,8 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import io.rezoome.manager.database.DatabaseManagerImpl;
 import io.rezoome.manager.database.dao.xml.agency.Dao;
+import io.rezoome.manager.database.entity.DBEntity;
+import io.rezoome.manager.database.entity.DBRsltEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
@@ -55,9 +58,10 @@ public class DaoManagerImpl extends DatabaseManagerImpl  implements DaoManager{
       Class<?> daoCls = loader.loadClass(daoClass);
       
       //this.dao = (Dao) daoCls.newInstance();
-      this.dao = sqlsession.getMapper(Dao.class);
+      this.dao = sqlsession.getMapper(Dao.class);      
+     
+      System.out.println("Create dao - " + super.dbType.toUpperCase());
       
-      //sqlsession.getMapper(OpicDaoImpl.class);
       
     } catch (IOException | ClassNotFoundException e) {
       // TODO Auto-generated catch block
