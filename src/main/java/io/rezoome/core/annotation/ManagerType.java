@@ -32,5 +32,5 @@ public @interface ManagerType {
 	 * @since 1.0.0
 	 * @return
 	 */
-	int initPriority() default -1;
+	int initPriority() default 999;
 }
