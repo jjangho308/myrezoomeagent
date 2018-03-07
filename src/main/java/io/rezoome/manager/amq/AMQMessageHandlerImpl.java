@@ -42,12 +42,6 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListene
     try{
       PushCommandEntity pcEntity = JSON.fromJson(msg.getMessage(), SearchCommandEntity.class);
       
-      /*{"mid":"msgid-0001","token":"Rm9vYmFyIQ==Rm9vYmFyIQ==Rm9vYmFyIQ==","cmd":"Search",
-        "args":{"username":"CH","birth":"1987-03-08","gender":1,"phone":"010-0000-0000","from":"2016-10-10","to":"2017-02-28","pkey":"asdlf;kjasl;dfkjasl;dfkjjjjeic==",
-        "orgs":["\"01\"","\
-        "02\""]}}
-      */
-      System.out.println("YYY");
       System.out.println(pcEntity);
       ManagerProvider.pushcommand().invokeCommand(pcEntity);
       
