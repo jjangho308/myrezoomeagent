@@ -15,6 +15,7 @@ public class AllTests extends TestSuite{
 	public void initialize(){
 		ServiceInitializer.initialize(InitialEvent.RUNTIME);
 	}
+	
 	@Test
 	public void amqMessageTest(){
 		AMQMessageEntity msg = new AMQMessageEntity("asdkfjlhsd");

@@ -68,13 +68,13 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
 
       if (!"200".equals(responseEntity.getCode())) {
         System.out.println("CONNECTION ERROR!");
-        System.exit(1);
+        //System.exit(1);
       } else {
       
       }
     } catch (Exception e) {
       e.printStackTrace();
-      System.exit(1);
+      //System.exit(1);
     }
   }
 
