@@ -55,8 +55,8 @@ public final class ServiceInitializer {
 
 						@Override
 						public int compare(Manager o1, Manager o2) {
-							return o1.getClass().getAnnotation(ManagerType.class).initPriority()
-									- o2.getClass().getAnnotation(ManagerType.class).initPriority();
+							return o2.getClass().getAnnotation(ManagerType.class).initPriority()
+									- o1.getClass().getAnnotation(ManagerType.class).initPriority();
 						}
 					});
 				} catch (IllegalArgumentException | IllegalAccessException e) {
