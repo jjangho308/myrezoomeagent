@@ -1,3 +1,5 @@
+package io.rezoome.manager.pushcommand;
+
 import java.util.HashMap;
 import java.util.Map;
 

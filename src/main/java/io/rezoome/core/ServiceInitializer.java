@@ -47,6 +47,7 @@ public final class ServiceInitializer {
 					&& manager.getType().asSubclass(Manager.class) != null) {
 				
 				try {
+					manager.setAccessible(true);
 					managers.add((Manager) manager.get(null));
 
 					// @ManagerType의 initPriority를 기준으로 정렬. 숫자가 낮을 수록 먼저 초기화 됨
