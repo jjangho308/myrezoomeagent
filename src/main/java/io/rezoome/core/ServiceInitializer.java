@@ -18,10 +18,6 @@ import io.rezoome.thread.WorkerThread;
  * @author TACKSU
  *
  */
-/**
- * @author Saver
- *
- */
 public final class ServiceInitializer {
 
 	public enum InitialEvent {
@@ -47,7 +43,9 @@ public final class ServiceInitializer {
 		for (Field manager : ManagerProvider.class.getDeclaredFields()) {
 			
 			// Static member이자 Manager type의 member만 가져옴
-			if (Modifier.isStatic(manager.getModifiers()) && manager.getType().asSubclass(Manager.class) != null) {
+			if (Modifier.isStatic(manager.getModifiers())
+					&& manager.getType().asSubclass(Manager.class) != null) {
+				
 				try {
 					managers.add((Manager) manager.get(null));
 
@@ -72,7 +70,7 @@ public final class ServiceInitializer {
 
 		phase = InitializationPhase.SYNC_INITIALIZED;
 
-		// Assync initialization.
+		// Async initialization.
 		new WorkerThread(new Runnable() {
 
 			@Override

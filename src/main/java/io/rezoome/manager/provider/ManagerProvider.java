@@ -20,6 +20,8 @@ import io.rezoome.manager.property.PropertyManager;
 import io.rezoome.manager.property.PropertyManagerImpl;
 import io.rezoome.manager.pushcommand.PushCommandManager;
 import io.rezoome.manager.pushcommand.PushCommandManagerImpl;
+import io.rezoome.manager.status.StatusManager;
+import io.rezoome.manager.status.StatusManagerImpl;
 
 /**
  * Manager provider. <br />
@@ -30,15 +32,16 @@ import io.rezoome.manager.pushcommand.PushCommandManagerImpl;
  */
 public final class ManagerProvider {
 
-	static final JobManager job = JobManagerImpl.getInstance();
-	static final LogManager log = LogManagerImpl.getInstance();
-	static final AMQManager push = AMQManagerImpl.getInstance();
-	static final PushCommandManager command = PushCommandManagerImpl.getInstance();
-	static final ClassArrangeManager cls = ClassArrangeManagerImpl.getInstance();
-	static final PropertyManager property = PropertyManagerImpl.getInstance();
-	static final DatabaseManager db = DatabaseManagerImpl.getInstance();
-	static final NetworkManager network = NetworkManagerImpl.getInstance();
-	static final AuthManager auth = AuthManagerImpl.getInstance();
+	private static final JobManager job = JobManagerImpl.getInstance();
+	private static final LogManager log = LogManagerImpl.getInstance();
+	private static final AMQManager push = AMQManagerImpl.getInstance();
+	private static final PushCommandManager command = PushCommandManagerImpl.getInstance();
+	private static final ClassArrangeManager cls = ClassArrangeManagerImpl.getInstance();
+	private static final PropertyManager property = PropertyManagerImpl.getInstance();
+	private static final DatabaseManager db = DatabaseManagerImpl.getInstance();
+	private static final NetworkManager network = NetworkManagerImpl.getInstance();
+	private static final AuthManager auth = AuthManagerImpl.getInstance();
+	private static final StatusManager status = StatusManagerImpl.getInstance();
 	private static MapperManager mapper = MapperManagerImpl.getInstance();
 
 	public static JobManager job() {
@@ -74,11 +77,14 @@ public final class ManagerProvider {
 	}
 
 	public static NetworkManager network() {
-		return NetworkManagerImpl.getInstance();
+		return network;
 	}
 
 	public static AuthManager authentication() {
-		return AuthManagerImpl.getInstance();
+		return auth;
 	}
-
+	
+	public static StatusManager status(){
+		return status;
+	}
 }
