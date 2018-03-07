@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
 /**
  * Implementation of {@link PropertyManager}. <br />
@@ -14,6 +15,7 @@ import io.rezoome.manager.AbstractManager;
  * @author TACKSU
  *
  */
+@ManagerType(value = "Property", initPriority = 10)
 public class PropertyManagerImpl extends AbstractManager implements PropertyManager {
 
   private static class Singleton {

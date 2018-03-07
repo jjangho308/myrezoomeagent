@@ -1,7 +1,5 @@
 package io.rezoome.manager.provider;
 
-
-
 import io.rezoome.manager.amq.AMQManager;
 import io.rezoome.manager.amq.AMQManagerImpl;
 import io.rezoome.manager.arrange.ClassArrangeManager;
@@ -32,47 +30,55 @@ import io.rezoome.manager.pushcommand.PushCommandManagerImpl;
  */
 public final class ManagerProvider {
 
+	static final JobManager job = JobManagerImpl.getInstance();
+	static final LogManager log = LogManagerImpl.getInstance();
+	static final AMQManager push = AMQManagerImpl.getInstance();
+	static final PushCommandManager command = PushCommandManagerImpl.getInstance();
+	static final ClassArrangeManager cls = ClassArrangeManagerImpl.getInstance();
+	static final PropertyManager property = PropertyManagerImpl.getInstance();
+	static final DatabaseManager db = DatabaseManagerImpl.getInstance();
+	static final NetworkManager network = NetworkManagerImpl.getInstance();
+	static final AuthManager auth = AuthManagerImpl.getInstance();
+	private static MapperManager mapper = MapperManagerImpl.getInstance();
 
-  public static JobManager job() {
-    return JobManagerImpl.getInstance();
-  }
+	public static JobManager job() {
+		return job;
+	}
 
-  public static LogManager log() {
-    return LogManagerImpl.getInstance();
-  }
+	public static LogManager log() {
+		return log;
+	}
 
-  public static AMQManager push() {
-    return AMQManagerImpl.getInstance();
-  }
+	public static AMQManager push() {
+		return push;
+	}
 
-  public static PushCommandManager pushcommand() {
-    return PushCommandManagerImpl.getInstance();
-  }
+	public static PushCommandManager pushcommand() {
+		return command;
+	}
 
-  public static ClassArrangeManager clsarrange() {
-    return ClassArrangeManagerImpl.getInstance();
-  }
-  
-  public static PropertyManager property(){
-    return PropertyManagerImpl.getInstance();    
-  }
-  
-  public static DatabaseManager database(){
-    return DatabaseManagerImpl.getInstance();    
-  }
-  
-  public static MapperManager mapper(){
-    return MapperManagerImpl.getInstance();
-  }
-  
-  public static NetworkManager network(){
-    return NetworkManagerImpl.getInstance();
-  }
-  
-  public static AuthManager authentication(){
-    return AuthManagerImpl.getInstance();
-  }
-  
-  
-  
+	public static ClassArrangeManager clsarrange() {
+		return cls;
+	}
+
+	public static PropertyManager property() {
+		return property;
+	}
+
+	public static DatabaseManager database() {
+		return db;
+	}
+
+	public static MapperManager mapper() {
+		return mapper;
+	}
+
+	public static NetworkManager network() {
+		return NetworkManagerImpl.getInstance();
+	}
+
+	public static AuthManager authentication() {
+		return AuthManagerImpl.getInstance();
+	}
+
 }

@@ -17,6 +17,7 @@ public final class WorkerThread extends Thread {
 	};
 	
 	/**
+	 * Constructor with runn. <br />
 	 * 
 	 * @param runnable
 	 */

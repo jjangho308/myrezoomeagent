@@ -1,6 +1,15 @@
 package io.rezoome.core;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import io.rezoome.core.annotation.ManagerType;
+import io.rezoome.manager.Manager;
 import io.rezoome.manager.provider.ManagerProvider;
+import io.rezoome.thread.WorkerThread;
 
 /**
  * Service initializer. <br />
@@ -9,41 +18,80 @@ import io.rezoome.manager.provider.ManagerProvider;
  * @author TACKSU
  *
  */
+/**
+ * @author Saver
+ *
+ */
 public final class ServiceInitializer {
 
-  public enum InitialEvent {
-    NOT_RUNTIME, RUNTIME
-  }
+	public enum InitialEvent {
+		NOT_RUNTIME, RUNTIME
+	}
 
-  public enum InitializationPhase {
-    UNINITLIAZED, INITIALIZING, SYNC_INITIALIZED, ASYNC_INITIALIZED
-  }
+	public enum InitializationPhase {
+		UNINITLIAZED, INITIALIZING, SYNC_INITIALIZED, ASYNC_INITIALIZED
+	}
 
-  private static InitializationPhase phase = InitializationPhase.UNINITLIAZED;
-  private static InitialEvent event;
+	private static InitializationPhase phase = InitializationPhase.UNINITLIAZED;
+	private static InitialEvent event;
 
-  public static synchronized void initialize(InitialEvent from) {
-    if (phase != InitializationPhase.UNINITLIAZED) {
-      return;
-    }
-    event = from;
-    phase = InitializationPhase.INITIALIZING;
+	private static final List<Manager> managers = new ArrayList<>();
 
-    // TODO Do sync initialization
-    ManagerProvider.pushcommand().initialize(from);
+	public static synchronized void initialize(InitialEvent from) {
+		if (phase != InitializationPhase.UNINITLIAZED) {
+			return;
+		}
+		event = from;
+		phase = InitializationPhase.INITIALIZING;
 
-    ManagerProvider.log().initialize(from);
+		for (Field manager : ManagerProvider.class.getDeclaredFields()) {
+			
+			// Static member이자 Manager type의 member만 가져옴
+			if (Modifier.isStatic(manager.getModifiers()) && manager.getType().asSubclass(Manager.class) != null) {
+				try {
+					managers.add((Manager) manager.get(null));
 
-    phase = InitializationPhase.SYNC_INITIALIZED;
+					// @ManagerType의 initPriority를 기준으로 정렬. 숫자가 낮을 수록 먼저 초기화 됨
+					managers.sort(new Comparator<Manager>() {
 
-    // TODO do async initialization.
-  }
+						@Override
+						public int compare(Manager o1, Manager o2) {
+							return o1.getClass().getAnnotation(ManagerType.class).initPriority()
+									- o2.getClass().getAnnotation(ManagerType.class).initPriority();
+						}
+					});
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 
-  /**
-   * Hide constructor. <br />
-   * 
-   * @since 1.0.0
-   * @author TACKSU
-   */
-  private ServiceInitializer() {}
+		for (Manager manager : managers) {
+			manager.initialize(event);
+		}
+
+		phase = InitializationPhase.SYNC_INITIALIZED;
+
+		// Assync initialization.
+		new WorkerThread(new Runnable() {
+
+			@Override
+			public void run() {
+				// {
+				for (Manager manager : managers) {
+					manager.initializeOnThread(event);
+				}
+
+			}
+		}).start();
+	}
+
+	/**
+	 * Hide constructor. <br />
+	 * 
+	 * @since 1.0.0
+	 * @author TACKSU
+	 */
+	private ServiceInitializer() {
+	}
 }
