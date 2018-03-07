@@ -1,6 +1,7 @@
 package io.rezoome.manager.database;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.database.connect.DBConnectionManagerImpl;
 import io.rezoome.manager.database.convert.DBConvertManagerImpl;
@@ -8,6 +9,7 @@ import io.rezoome.manager.database.dao.DaoManagerImpl;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
+@ManagerType("DB")
 public class DatabaseManagerImpl extends AbstractManager implements DatabaseManager{
   
   protected static String poolName, dbType, dbVersion, dbHost, dbServer, dbName, dbPort, dbUserID, dbPasswd;

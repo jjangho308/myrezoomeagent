@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.core.entity.annotation.EntityType;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.job.entity.JobAction;
@@ -25,14 +26,7 @@ import io.rezoome.thread.WorkerThread;
  * @author TACKSU
  *
  */
-/**
- * @author Saver
- *
- */
-/**
- * @author Saver
- *
- */
+@ManagerType("Job")
 public final class JobManagerImpl extends AbstractManager implements JobManager {
 
 	private static class Singleton {

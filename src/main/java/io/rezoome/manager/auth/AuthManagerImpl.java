@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
@@ -11,6 +12,7 @@ import io.rezoome.manager.network.entity.RequestRegistrationArgsEntity;
 import io.rezoome.manager.network.entity.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 
+@ManagerType("Auth")
 public class AuthManagerImpl extends AbstractManager implements AuthManager {
 
   private static class Singleton {

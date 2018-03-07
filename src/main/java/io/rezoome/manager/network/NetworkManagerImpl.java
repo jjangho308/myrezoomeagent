@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
@@ -12,6 +13,7 @@ import io.rezoome.manager.network.http.HttpConnector;
 import io.rezoome.manager.network.http.HttpManager;
 import io.rezoome.manager.network.http.HttpsConnector;
 
+@ManagerType("Network")
 public class NetworkManagerImpl extends AbstractManager implements NetworkManager {
 
   HttpConnector httpConnector;

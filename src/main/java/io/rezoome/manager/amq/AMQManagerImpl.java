@@ -10,6 +10,7 @@ import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
@@ -20,6 +21,7 @@ import io.rezoome.manager.provider.ManagerProvider;
  * @author SEONGYEON
  *
  */
+@ManagerType("AMQ")
 public class AMQManagerImpl extends AbstractManager implements AMQManager {
 
   private static class Singleton {
