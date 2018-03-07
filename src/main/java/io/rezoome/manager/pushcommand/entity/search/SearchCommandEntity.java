@@ -1,8 +1,5 @@
 package io.rezoome.manager.pushcommand.entity.search;
 
-import java.util.Date;
-
-import io.rezoome.lib.json.Jsonable;
 import io.rezoome.manager.pushcommand.entity.AbstractPushCommandEntity;
 
 /**
@@ -13,7 +10,7 @@ import io.rezoome.manager.pushcommand.entity.AbstractPushCommandEntity;
  * @author TACKSU
  *
  */
-public class SearchCommandEntity extends AbstractPushCommandEntity implements Jsonable  {
+public class SearchCommandEntity extends AbstractPushCommandEntity {
 	private final MemberProfile profile;
 	
 	public SearchCommandEntity(MemberProfile profile) {

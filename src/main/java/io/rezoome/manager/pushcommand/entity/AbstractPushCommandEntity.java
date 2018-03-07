@@ -1,7 +1,6 @@
 package io.rezoome.manager.pushcommand.entity;
 
 import io.rezoome.core.entity.AbstractEntity;
-import io.rezoome.lib.json.Jsonable;
 
 /**
  * Abstract class of {@link PushCommandEntity}. <br />

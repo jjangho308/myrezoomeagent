@@ -10,6 +10,8 @@ import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandAction;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 import io.rezoome.manager.pushcommand.entity.PushCommandResult;
+import io.rezoome.manager.pushcommand.entity.search.SearchCommand;
+import io.rezoome.manager.pushcommand.entity.search.SearchCommandEntity;
 
 /**
  * Implementation of {@link PushCommandManager}. <br />
@@ -20,12 +22,15 @@ import io.rezoome.manager.pushcommand.entity.PushCommandResult;
 @ManagerType("PushCommand")
 public class PushCommandManagerImpl extends AbstractManager implements PushCommandManager {
 
-	private final Map<String, Class<PushCommandEntity>> entityCodeMap;
-	private final Map<Class<PushCommandEntity>, PushCommandAction<? extends PushCommandEntity>> actionMap;
+	private final Map<String, Class<? extends PushCommandEntity>> entityCodeMap;
+	private final Map<Class<? extends PushCommandEntity>, PushCommandAction<? extends PushCommandEntity>> actionMap;
 
 	{
-		this.entityCodeMap = new HashMap<String, Class<PushCommandEntity>>();
-		this.actionMap = new HashMap<Class<PushCommandEntity>, PushCommandAction<? extends PushCommandEntity>>();
+		this.entityCodeMap = new HashMap<>();
+		this.actionMap = new HashMap<>();
+
+		this.entityCodeMap.put("SearchRecord", SearchCommandEntity.class);
+		this.actionMap.put(SearchCommandEntity.class, new SearchCommand());
 	}
 
 	/**
@@ -54,18 +59,23 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 		// TODO Auto-generated method stub
 
 	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public PushCommandResult invokeCommand(PushCommandEntity command) {
-    PushCommandAction<PushCommandEntity> action = (PushCommandAction<PushCommandEntity>) this.actionMap.get(command.getClass());
+		
+		PushCommandAction<PushCommandEntity> action =
+				(PushCommandAction<PushCommandEntity>) this.actionMap
+				.get(command.getClass());
 		action.process(command);
+		
 		return null;
 	}
 
 	@Override
 	public <T extends PushCommandEntity> PushCommandAction<T> getAction(T command) {
 		// TODO Auto-generated method stub
-	  
+
 		return null;
 	}
 
