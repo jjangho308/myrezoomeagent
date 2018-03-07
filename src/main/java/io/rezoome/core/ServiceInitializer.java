@@ -41,11 +41,10 @@ public final class ServiceInitializer {
 		phase = InitializationPhase.INITIALIZING;
 
 		for (Field manager : ManagerProvider.class.getDeclaredFields()) {
-			
+
 			// Static member이자 Manager type의 member만 가져옴
-			if (Modifier.isStatic(manager.getModifiers())
-					&& manager.getType().asSubclass(Manager.class) != null) {
-				
+			if (Modifier.isStatic(manager.getModifiers()) && manager.getType().asSubclass(Manager.class) != null) {
+
 				try {
 					manager.setAccessible(true);
 					managers.add((Manager) manager.get(null));
@@ -66,7 +65,11 @@ public final class ServiceInitializer {
 		}
 
 		for (Manager manager : managers) {
-			manager.initialize(event);
+			try {
+				manager.initialize(event);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
 		}
 
 		phase = InitializationPhase.SYNC_INITIALIZED;
@@ -76,9 +79,12 @@ public final class ServiceInitializer {
 
 			@Override
 			public void run() {
-				// {
 				for (Manager manager : managers) {
-					manager.initializeOnThread(event);
+					try {
+						manager.initializeOnThread(event);
+					} catch (Throwable t) {
+						t.printStackTrace();
+					}
 				}
 
 			}
