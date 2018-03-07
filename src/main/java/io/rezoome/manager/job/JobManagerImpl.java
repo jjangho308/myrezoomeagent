@@ -104,7 +104,7 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 	}
 
 	@Override
-	public boolean excuteUncompleteJob() {
+	public boolean executeUncompleteJob() {
 		// TODO Auto-generated method stub
 		File folder = new File(JOB_TEMP_FILE_PATH);
 		File[] listOfFiles = folder.listFiles();

@@ -32,7 +32,7 @@ public interface JobManager extends Manager {
 	 * 
 	 * 
 	 */
-	boolean excuteUncompleteJob();	
+	boolean executeUncompleteJob();	
 	boolean createJobFile(JobEntity job);
 	boolean deleteJobFile(JobEntity job);
 	
