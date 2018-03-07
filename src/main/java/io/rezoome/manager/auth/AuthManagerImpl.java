@@ -25,6 +25,9 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   @Override
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
+    
+    // MID
+    
     this.authentication();
     setPrepared();
   }
@@ -42,7 +45,6 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
       Map<String, Object> headers = new HashMap<String, Object>();
 
       RequestPacketEntity requestEntity = new RequestPacketEntity();
-      requestEntity.setMid("mid11111");
       requestEntity.setCmd("registration");
 
       RequestRegistrationArgsEntity argsEntity = new RequestRegistrationArgsEntity();

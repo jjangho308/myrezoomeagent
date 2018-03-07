@@ -36,4 +36,10 @@ public enum PropertyEnum {
   // Job
   JOB_TEMP_FILE_PATH,
   
+  // Status Manager  
+  KEEP_ALIVE_SEND_TIME,
+  LIMIT_ALLOW_NOT_SIGNAL_NUMBER,
+  IS_KILL_AGENT,
+  
+  
   }
