@@ -6,6 +6,8 @@ import io.rezoome.manager.amq.AMQManager;
 import io.rezoome.manager.amq.AMQManagerImpl;
 import io.rezoome.manager.arrange.ClassArrangeManager;
 import io.rezoome.manager.arrange.ClassArrangeManagerImpl;
+import io.rezoome.manager.auth.AuthManager;
+import io.rezoome.manager.auth.AuthManagerImpl;
 import io.rezoome.manager.database.DatabaseManager;
 import io.rezoome.manager.database.DatabaseManagerImpl;
 import io.rezoome.manager.job.JobManager;
@@ -67,6 +69,9 @@ public final class ManagerProvider {
     return NetworkManagerImpl.getInstance();
   }
   
+  public static AuthManager authentication(){
+    return AuthManagerImpl.getInstance();
+  }
   
   
   

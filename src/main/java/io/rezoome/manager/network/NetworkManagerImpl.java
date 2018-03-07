@@ -84,4 +84,16 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     
     return rsltEntity;
   }
+
+  @Override
+  public HttpConnector getHttpConnecter() {
+    // TODO Auto-generated method stub
+    return this.httpConnector;
+  }
+
+  @Override
+  public HttpsConnector getHttpsConnecter() {
+    // TODO Auto-generated method stub
+    return this.httpsConnector;
+  }
 }

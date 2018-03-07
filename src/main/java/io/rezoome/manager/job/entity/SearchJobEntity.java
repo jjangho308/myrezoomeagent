@@ -7,13 +7,8 @@ public class SearchJobEntity implements JobEntity{
 
   private MemberProfile profile = null;
   
-  public SearchJobEntity(String username, String birth, String phone, String gender){
-    
-    this.profile.setBirth(birth);
-    this.profile.setGender(gender);
-    this.profile.setPhone(phone);
-    this.profile.setUsername(username);
-    
+  public SearchJobEntity(MemberProfile profile){
+    this.profile = profile;
   }
   
   public MemberProfile getProfile() {

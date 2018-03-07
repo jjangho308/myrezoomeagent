@@ -40,7 +40,10 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListene
   public boolean handleMessage(AMQMessageEntity msg) {
     // TODO Auto-generated method stub    
     try{
-      PushCommandEntity pcEntity = JSON.fromJson(msg.getMessage(), SearchCommandEntity.class);
+      //PushCommandEntity pcEntity = JSON.fromJson(msg.getMessage(), SearchCommandEntity.class);
+      
+      // 안택수 
+      PushCommandEntity pcEntity = null;
       
       System.out.println(pcEntity);
       ManagerProvider.pushcommand().invokeCommand(pcEntity);
