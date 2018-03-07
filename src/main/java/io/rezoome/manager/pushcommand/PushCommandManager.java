@@ -15,4 +15,5 @@ import io.rezoome.manager.pushcommand.entity.PushCommandResult;
 public interface PushCommandManager extends Manager {
 	public PushCommandResult invokeCommand(PushCommandEntity command);
 	public <T extends PushCommandEntity> PushCommandAction<T> getAction(T command);
+	public Class<? extends PushCommandEntity> getCommandEntity(String cmdName);
 }

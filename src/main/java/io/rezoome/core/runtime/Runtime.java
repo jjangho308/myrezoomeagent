@@ -19,7 +19,7 @@ public class Runtime {
     InitialEvent event = InitialEvent.RUNTIME;
     ServiceInitializer.initialize(event);
     
-    AMQMessageEntity msg = new AMQMessageEntity("asdkfjlhsd");
+    AMQMessageEntity msg = new AMQMessageEntity();
 	AMQMessageHandlerImpl.getInstance().handleMessage(msg);
   }
 }

@@ -10,5 +10,4 @@ import io.rezoome.core.entity.AbstractEntity;
  *
  */
 public class AbstractPushCommandEntity extends AbstractEntity implements PushCommandEntity {
-
 }

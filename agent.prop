@@ -3,7 +3,7 @@ DAO_CLASS_NAME = io.rezoome.manager.database.dao.xml.agency.Dao
 MAPPER_CLASS_NAME = io.rezoome.manager.mapper.agency.InhaUnivMapper
   
 [THREAD]
-THREAD_POOL_CAPAVILITY = 1
+THREAD_POOL_CAPAVILITY = 10
 
 [DB] 
 DBMS_TYPE = mysql

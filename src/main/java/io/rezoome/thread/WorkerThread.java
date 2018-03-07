@@ -22,7 +22,7 @@ public final class WorkerThread extends Thread {
 	 * @param runnable
 	 */
 	public WorkerThread(Runnable runnable){
-		
+		super(runnable);
 	}
 	
 	/**
@@ -31,11 +31,5 @@ public final class WorkerThread extends Thread {
 	 */
 	public WorkerThread(UncaughtExceptionHandler handler){
 		this.setUncaughtExceptionHandler(handler);
-	}
-
-
-	@Override
-	public void run() {
-		super.run();
 	}
 }

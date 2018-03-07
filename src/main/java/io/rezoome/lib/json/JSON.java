@@ -26,7 +26,12 @@ public final class JSON {
 	 */
 	public static <T extends Jsonable, U extends JsonSerializer<T> & JsonDeserializer<T>>
 		void registerSelfConverter(U converter) {
-		builder.registerTypeHierarchyAdapter(Thread.currentThread().getStackTrace()[0].getClass(), converter);
+		
+		try {
+			builder.registerTypeHierarchyAdapter(ClassLoader.getSystemClassLoader().loadClass(Thread.currentThread().getStackTrace()[2].getClassName()), converter);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

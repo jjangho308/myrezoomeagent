@@ -25,7 +25,7 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListene
     try {
       TextMessage consumerTextMessage = (TextMessage) message;
       System.out.println(consumerTextMessage.getText());
-      AMQMessageEntity amqEntity = new AMQMessageEntity(consumerTextMessage.getText());
+      AMQMessageEntity amqEntity = null;//new AMQMessageEntity(consumerTextMessage.getText());
       AMQMessageHandlerImpl.getInstance().handleMessage(amqEntity);
     } catch (NullPointerException ne) {
       // TODO Auto-generated catch block

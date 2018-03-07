@@ -79,4 +79,9 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 		return null;
 	}
 
+	@Override
+	public Class<? extends PushCommandEntity> getCommandEntity(String cmdName) {
+		return this.entityCodeMap.get(cmdName);
+	}
+
 }
