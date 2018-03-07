@@ -18,12 +18,6 @@ import io.rezoome.manager.pushcommand.entity.AbstractPushCommandAction;
 public class SearchCommand extends AbstractPushCommandAction<SearchCommandEntity> {
 
 	@Override
-	public ActionResult process(SearchCommandEntity entity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected ActionResult processInternal(SearchCommandEntity entity) {
 	  JobEntity searchJob = new SearchJobEntity(entity.getProfile());	  
 	  ManagerProvider.job().addJob(searchJob);

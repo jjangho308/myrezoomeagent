@@ -25,13 +25,11 @@ public @interface ManagerType {
 	
 	/**
 	 * Priority to be initialized. <br />
-	 * -1	: Do not care. (Initialized randomly)
-	 * 0	: N/A <br />
 	 * 1	: First priority <br />
-	 * N	: Smaller is more prior. <br /> 
+	 * N	: Smaller is more prior. <br />
+	 * 999	: Do not care. (Initialized randomly)
 	 * 
 	 * @since 1.0.0
-	 * 
 	 * @return
 	 */
 	int initPriority() default -1;

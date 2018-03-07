@@ -17,7 +17,6 @@ import io.rezoome.manager.provider.ManagerProvider;
  * Implementation of {@link AMQManager}. <br />
  * 
  * @since 1.0.0
- * @author TACKSU
  * @author SEONGYEON
  *
  */
@@ -67,7 +66,7 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
 
   @Override
   public synchronized void registerPush(AMQConfigEntity config) {
-    // TODO Auto-generated method stub
+    // FIXME connection이 맺어져 있는 상태값을 확인하여 맺어져 있으면 skip 하도록 수정.
     try {
  
       connectionFactory = new ActiveMQConnectionFactory(config.getServerHost());      

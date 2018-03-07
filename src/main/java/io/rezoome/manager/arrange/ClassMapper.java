@@ -8,4 +8,5 @@ package io.rezoome.manager.arrange;
  *
  */
 final class ClassMapper {
+	
 }

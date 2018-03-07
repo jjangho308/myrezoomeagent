@@ -5,9 +5,9 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
+import io.rezoome.manager.pushcommand.entity.search.MemberProfile;
 import io.rezoome.manager.pushcommand.entity.search.SearchCommandEntity;
 
 public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListener {
@@ -43,7 +43,10 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListene
       //PushCommandEntity pcEntity = JSON.fromJson(msg.getMessage(), SearchCommandEntity.class);
       
       // 안택수 
-      PushCommandEntity pcEntity = null;
+    	MemberProfile profile = new MemberProfile();
+    	profile.setUsername("안택수");
+    	profile.setBirth("1987-45");
+      PushCommandEntity pcEntity = new SearchCommandEntity(profile);
       
       System.out.println(pcEntity);
       ManagerProvider.pushcommand().invokeCommand(pcEntity);

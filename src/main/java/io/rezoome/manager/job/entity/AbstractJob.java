@@ -13,20 +13,7 @@ import io.rezoome.manager.job.JobRsltEntity;
  */
 public abstract class AbstractJob<JOB extends JobEntity> implements JobAction<JOB> {
 
-	/**
-	 * 
-	 */
-	protected final JOB jobEntity;
-
-	public AbstractJob(JOB entity) {
-		this.jobEntity = entity;
-	}
-
-	@Override
-	public JobRsltEntity call() throws Exception {
-		JobRsltEntity result = null;
-		this.process(this.jobEntity);
-		return result;
+	public AbstractJob() {
 	}
 
 	@Override
@@ -38,5 +25,5 @@ public abstract class AbstractJob<JOB extends JobEntity> implements JobAction<JO
 		return result;
 	}
 
-	protected abstract JobRsltEntity processInternal(JOB entity);
+	protected abstract JobRsltEntity processInternal(JOB entity); 
 }
