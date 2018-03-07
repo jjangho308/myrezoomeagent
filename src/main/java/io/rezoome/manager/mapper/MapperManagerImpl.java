@@ -1,10 +1,12 @@
 package io.rezoome.manager.mapper;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
+@ManagerType("Mapper")
 public class MapperManagerImpl extends AbstractManager implements MapperManager {
   
   private static class Singleton {
