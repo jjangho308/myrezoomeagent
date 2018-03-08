@@ -13,10 +13,13 @@ import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
+import io.rezoome.core.entity.Action;
+import io.rezoome.core.entity.Entity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.lib.json.util.ConstructorUtils;
 import io.rezoome.lib.json.util.ReflectionUtils;
 import io.rezoome.manager.provider.ManagerProvider;
+import io.rezoome.manager.pushcommand.EntityMapper;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 
 /**
@@ -28,7 +31,8 @@ import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 public final class AMQMessageEntity extends AbstractEntity {
 
 	static {
-		JSON.registerSelfConverter(new Converter());
+//		JSON.registerSelfConverter(new Converter());
+		JSON.registerDeserializer("cmd", "args", ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class));
 	}
 
 	private static class Converter implements JsonDeserializer<AMQMessageEntity> {
@@ -50,7 +54,7 @@ public final class AMQMessageEntity extends AbstractEntity {
 								throw new JsonParseException("Command key is missing");
 							}
 							Class<? extends PushCommandEntity> cmdEntityCls = ManagerProvider.pushcommand()
-									.getCommandEntity(cmdName);
+									.getEntity(cmdName);
 							PushCommandEntity commandEntity = context.deserialize(((JsonObject) json).get("args"),
 									cmdEntityCls);
 							ReflectionUtils.setField(entity, field, commandEntity);

@@ -3,18 +3,20 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import io.rezoome.core.ServiceInitializer;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.amq.AMQMessageEntity;
 import io.rezoome.manager.amq.AMQMessageHandlerImpl;
+import io.rezoome.manager.provider.ManagerProvider;
 import junit.framework.TestSuite;
 
 public class AllTests extends TestSuite{
 
 	@Before
 	public void initialize(){
-	  ServiceInitializer.initialize(InitialEvent.RUNTIME);
+	  ManagerProvider.property().initialize(InitialEvent.RUNTIME);
+	  ManagerProvider.clsarrange().initialize(InitialEvent.RUNTIME);
+	  ManagerProvider.pushcommand().initialize(InitialEvent.RUNTIME);
 	}
 	
 	@Test
@@ -28,7 +30,7 @@ public class AllTests extends TestSuite{
 		AMQMessageEntity entity = null;
 		entity = new AMQMessageEntity();
 		String msg = "{\r\n" + 
-				"  cmd : \"SearchRecord\",\r\n" + 
+				"  cmd : \"Search\",\r\n" + 
 				"  mid : \"leifajlsif\",\r\n" + 
 				"  token : \"welajslkdjfasdf\",\r\n" + 
 				"  args : {\r\n" + 
