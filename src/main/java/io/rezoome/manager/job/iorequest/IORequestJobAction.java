@@ -3,6 +3,7 @@ package io.rezoome.manager.job.iorequest;
 import java.io.IOException;
 
 import io.rezoome.entity.RzmRsltEntity;
+import io.rezoome.manager.database.convert.DBConverter;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
 import io.rezoome.manager.database.entity.DBEntity;
 import io.rezoome.manager.database.entity.DBRsltEntity;
@@ -12,51 +13,58 @@ import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 
-public class IORequestJobAction extends AbstractJob<IORequestJob> {
+public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
-	public IORequestJobAction() {
-		super();
-	}
+  public IORequestJobAction() {
+    super();
+  }
 
-	@Override
-	protected JobRsltEntity processInternal(IORequestJob entity) {
+  @Override
+  protected JobRsltEntity processInternal(IORequestJobEntity entity) {
 
-		try {
+    try {
 
-		  System.out.println("IORequest Job");
-		  System.out.println(entity);
-			// Database
-			DBEntity dbEntity = ManagerProvider.database().getConvertManager().getConverter().convert(entity);
-			DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
+      System.out.println("IORequest Job");
+      System.out.println(entity);
 
-			/*
-			 * List<DBRsltEntity> dbRsltList = null; dbRsltList =
-			 * (List<DBRsltEntity>) daoMgr.getDao().getRecord(dbEntity);
-			 * for(DBRsltEntity rslt : dbRsltList){ System.out.println(rslt); }
-			 */
+      System.out.println("dbentity before: ");
+      // Database
+      
+      DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
+      
+      DBEntity dbEntity = converter.convert(entity);
+      System.out.println("dbentity : ");
+      System.out.println(dbEntity);
+      DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
 
-			DBRsltEntity dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
-			System.out.println(dbRsltEntity);
+      /*
+       * List<DBRsltEntity> dbRsltList = null; dbRsltList = (List<DBRsltEntity>)
+       * daoMgr.getDao().getRecodrd(dbEntity); for(DBRsltEntity rslt : dbRsltList){
+       * System.out.println(rslt); }
+       */
 
-			// Agency Mapping
-			Mapper mapper = ManagerProvider.mapper().getMapper();
-			RzmRsltEntity response = mapper.convert(dbRsltEntity);
+      DBRsltEntity dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
+      System.out.println(dbRsltEntity);
 
-			// convert to Networking
-			RequestPacketEntity packetEntity = ManagerProvider.network().convert(response, "http", "Post");
+      // Agency Mapping
+      Mapper mapper = ManagerProvider.mapper().getMapper();
+      RzmRsltEntity response = mapper.convert(dbRsltEntity);
 
-			// request to server using api
-			ManagerProvider.network().request(packetEntity);
+      // convert to Networking
+      RequestPacketEntity packetEntity = ManagerProvider.network().convert(response, "http", "Post");
 
-			// log
-			ManagerProvider.log();
+      // request to server using api
+      ManagerProvider.network().request(packetEntity);
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+      // log
+      ManagerProvider.log();
 
-	}
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return null;
+
+  }
 
 }

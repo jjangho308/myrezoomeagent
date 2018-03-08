@@ -1,8 +1,9 @@
 package io.rezoome.manager.pushcommand.entity.search;
 
 import io.rezoome.core.entity.ActionResult;
+import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.job.entity.JobEntity;
-import io.rezoome.manager.job.iorequest.IORequestJob;
+import io.rezoome.manager.job.iorequest.IORequestJobEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.annotation.PushCommand;
 import io.rezoome.manager.pushcommand.entity.AbstractPushCommandAction;
@@ -19,7 +20,11 @@ public class SearchCommandAction extends AbstractPushCommandAction<SearchCommand
 
 	@Override
 	protected ActionResult processInternal(SearchCommandEntity entity) {
-	  JobEntity searchJob = new IORequestJob();
+
+	  JobEntity searchJob = JSON.fromJson(entity.toString(), IORequestJobEntity.class);
+	  ((IORequestJobEntity)searchJob).setJobMethod("ASYNC");
+	  
+	  System.out.println(searchJob);
 	  ManagerProvider.job().addJob(searchJob);
 	  System.out.println("pushcommand searchCommand");
 	  return null;

@@ -35,11 +35,16 @@ public class AllTests extends TestSuite{
 				"    username : 'ATS',\r\n" + 
 				"    birth : '1987-03-18',\r\n" + 
 				"    gender : 1,\r\n" + 
-				"    phone : '010-6464-4554'\r\n" + 
+				"    phone : '010-6464-4554',\r\n" + 
+        "    ci : '123456789abcdeftg',\r\n" +
+        "    email : 'exle@nate.com'\r\n" +
 				"  }\r\n" + 
 				"}";
 		
+	  
+		System.out.println(entity);
 		entity = JSON.fromJson(msg, AMQMessageEntity.class);
+		System.out.println(entity);
 		return entity;
 	}
 }
