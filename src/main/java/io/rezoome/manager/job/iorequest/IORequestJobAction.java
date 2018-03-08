@@ -11,6 +11,7 @@ import io.rezoome.manager.job.JobRsltEntity;
 import io.rezoome.manager.job.entity.AbstractJob;
 import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
+import io.rezoome.manager.network.entity.RequestSearchResultArgsEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 
 public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
@@ -20,6 +21,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   }
 
   @Override
+
   protected JobRsltEntity processInternal(IORequestJobEntity entity) {
 
     try {
@@ -49,12 +51,22 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       // Agency Mapping
       Mapper mapper = ManagerProvider.mapper().getMapper();
       RzmRsltEntity response = mapper.convert(dbRsltEntity);
-
-      // convert to Networking
-      RequestPacketEntity packetEntity = ManagerProvider.network().convert(response, "http", "Post");
+      
+      //RequestPacketEntity packetEntity = ManagerProvider.network().convert(response, "http", "Post");
 
       // request to server using api
-      ManagerProvider.network().request(packetEntity);
+      RequestPacketEntity requestEntity = new RequestPacketEntity();
+      requestEntity.setCmd("SearchResult");
+
+      RequestSearchResultArgsEntity argsEntity = new RequestSearchResultArgsEntity();
+      argsEntity.setOrgCode("code001");
+      argsEntity.setEncryptedData("setEncryptedData");
+      argsEntity.setEncryptedKey("setEncryptedKey");
+      argsEntity.setHashedData("setHashedData");
+      requestEntity.setArgs(argsEntity);
+
+      System.out.println(requestEntity.toString());
+      ManagerProvider.network().request(requestEntity);
 
       // log
       ManagerProvider.log();

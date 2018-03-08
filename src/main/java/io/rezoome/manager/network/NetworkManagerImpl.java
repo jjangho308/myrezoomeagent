@@ -6,6 +6,7 @@ import java.util.Map;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.entity.RzmRsltEntity;
+import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
 import io.rezoome.manager.network.entity.ResponsePacketEntity;
@@ -56,34 +57,22 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   public ResponsePacketEntity request(RequestPacketEntity entity) {
     // TODO Auto-generated method stub
 
-    // HttpConnecter.getInstance().post(headers, parameters);
+    System.out.println("searchResult : " + JSON.toJson(entity));
 
-    // For test
     Map<String, Object> headers = new HashMap<String, Object>();
-    Object jsonString = "";
-
     headers.put("Content-type", "application/json");
-    headers.put("Authorization", "bearer ~~~~~~~~~~~~~~~~~~~~~~");
 
-    httpConnector.sendPost("", headers, jsonString);
+    String result = httpConnector.sendPost("http://localhost:3000/agent", headers, JSON.toJson(entity));
+    System.out.println(result);
 
-    // Map<String, Object> headers = new HashMap<String, Object>();
-    // Object jsonString = "";
-    //
-    // headers.put("Content-type", "application/json");
-    // headers.put("Authorization", "bearer ~~~~~~~~~~~~~~~~~~~~~~");
-    //
-    // httpsConnector.sendPost(headers, jsonString);
-
-
-    return null;
+    return new ResponsePacketEntity();
   }
 
-  
+
   @Override
-  public RequestPacketEntity convert(RzmRsltEntity entity, String protocol, String method){
+  public RequestPacketEntity convert(RzmRsltEntity entity, String protocol, String method) {
     RequestPacketEntity rsltEntity = new RequestPacketEntity();
-    
+
     return rsltEntity;
   }
 
