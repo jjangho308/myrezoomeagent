@@ -24,11 +24,12 @@ public final class JSON {
 	 * @author TACKSU
 	 * @param converter
 	 */
-	public static <T extends Jsonable, U extends JsonSerializer<T> & JsonDeserializer<T>>
-		void registerSelfConverter(U converter) {
-		
+	public static <T extends Jsonable, U extends JsonSerializer<T> & JsonDeserializer<T>> void registerSelfConverter(
+			U converter) {
+
 		try {
-			builder.registerTypeHierarchyAdapter(ClassLoader.getSystemClassLoader().loadClass(Thread.currentThread().getStackTrace()[2].getClassName()), converter);
+			builder.registerTypeHierarchyAdapter(ClassLoader.getSystemClassLoader()
+					.loadClass(Thread.currentThread().getStackTrace()[2].getClassName()), converter);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -65,16 +66,16 @@ public final class JSON {
 		T entity = builder.create().fromJson(jsonString, cls);
 		return entity;
 	}
-	
+
 	/**
 	 * Hide constructor. <br />
 	 */
-	private JSON(){
-		
+	private JSON() {
+
 	}
-	
+
 	@Deprecated
-	public static JSON pretty(){
+	public static JSON pretty() {
 		return null;
 	}
 
@@ -82,7 +83,7 @@ public final class JSON {
 		entity = (T) fromJson(jsonString, entity.getClass());
 		return entity;
 	}
-	
+
 	/**
 	 * Jsonable to JSON string presentation. <br />
 	 * 
@@ -92,7 +93,7 @@ public final class JSON {
 	 * @param jsonable
 	 * @return
 	 */
-	public static String toJson(Jsonable jsonable){
+	public static String toJson(Jsonable jsonable) {
 		return builder.create().toJson(jsonable);
 	}
 
@@ -105,7 +106,7 @@ public final class JSON {
 	 */
 	@Deprecated
 	public static String toJson(Jsonable jsonable, boolean mask) {
-//		return builder.create().toJson(jsonable);
+		// return builder.create().toJson(jsonable);
 		return null;
 	}
 }

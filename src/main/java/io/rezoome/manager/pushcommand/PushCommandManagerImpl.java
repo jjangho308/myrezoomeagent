@@ -34,7 +34,7 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 	}
 
 	/**
-	 * Hide defaut constructor. <br />
+	 * Hide default constructor. <br />
 	 */
 	private PushCommandManagerImpl() {
 

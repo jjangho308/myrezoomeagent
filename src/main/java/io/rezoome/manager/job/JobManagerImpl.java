@@ -70,13 +70,14 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 							return new WorkerThread(r);
 						}
 					});
+			setPrepared();
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 			service = null;
 		} finally {
 			executor = service;
 		}
-		setPrepared();
+
 	}
 
 	@Override
