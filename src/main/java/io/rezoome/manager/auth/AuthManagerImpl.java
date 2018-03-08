@@ -28,9 +28,9 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
     
-    // MID
     
-    this.authentication();
+
+    //this.authentication();
     setPrepared();
   }
 

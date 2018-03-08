@@ -42,7 +42,7 @@ public final class ManagerProvider {
 	private static final NetworkManager network = NetworkManagerImpl.getInstance();
 	private static final AuthManager auth = AuthManagerImpl.getInstance();
 	private static final StatusManager status = StatusManagerImpl.getInstance();
-	private static MapperManager mapper = MapperManagerImpl.getInstance();
+	private static final MapperManager mapper = MapperManagerImpl.getInstance();
 
 	public static JobManager job() {
 		return job;

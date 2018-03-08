@@ -28,4 +28,4 @@ AMAZONE_USER_PASSWORD = sgen2018!!!!
 MYBATIS_CONFIG_FILE_PATH = io/rezoome/manager/database/mybatis/xml/mybatis-config.xml
 
 [Job]
-JOB_TEMP_FILE_PATH = /
+JOB_TEMP_FILE_PATH = ./

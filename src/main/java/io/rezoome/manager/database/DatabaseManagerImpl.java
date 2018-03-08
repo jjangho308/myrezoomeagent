@@ -54,8 +54,9 @@ public class DatabaseManagerImpl extends AbstractManager implements DatabaseMana
     converter = (DBConvertManagerImpl) DBConvertManagerImpl.getInstance();
     converter.createConverter();
     dao = ((DaoManagerImpl)DaoManagerImpl.getInstance());
-    dao.createDao();
+    dao.createDao();    
     setPrepared();
+    System.out.println("DatabaseManager Init Complete.");
   }
 
   @Override
