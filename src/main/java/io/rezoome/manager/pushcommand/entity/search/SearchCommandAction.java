@@ -15,7 +15,7 @@ import io.rezoome.manager.pushcommand.entity.AbstractPushCommandAction;
  *
  */
 @PushCommand(SearchCommandEntity.class)
-public class SearchCommand extends AbstractPushCommandAction<SearchCommandEntity> {
+public class SearchCommandAction extends AbstractPushCommandAction<SearchCommandEntity> {
 
 	@Override
 	protected ActionResult processInternal(SearchCommandEntity entity) {
