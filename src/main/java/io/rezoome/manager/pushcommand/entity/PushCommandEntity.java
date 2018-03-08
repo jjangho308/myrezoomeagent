@@ -5,4 +5,3 @@ import io.rezoome.core.entity.Entity;
 public interface PushCommandEntity extends Entity {
   
 }
-

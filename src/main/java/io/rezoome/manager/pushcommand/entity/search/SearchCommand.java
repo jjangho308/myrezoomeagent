@@ -19,7 +19,7 @@ public class SearchCommand extends AbstractPushCommandAction<SearchCommandEntity
 
 	@Override
 	protected ActionResult processInternal(SearchCommandEntity entity) {
-	  JobEntity searchJob = new IORequestJob();	  
+	  JobEntity searchJob = new IORequestJob();
 	  ManagerProvider.job().addJob(searchJob);
 	  System.out.println("pushcommand searchCommand");
 	  return null;

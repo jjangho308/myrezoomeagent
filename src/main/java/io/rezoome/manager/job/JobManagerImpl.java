@@ -60,10 +60,9 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 
 		ExecutorService service = null;
 		try {
-			service = Executors.newScheduledThreadPool(
-					Integer.parseInt(
-							ManagerProvider.property().getProperty(PropertyEnum.THREAD_POOL_CAPAVILITY, false)),
-					
+			service = Executors.newScheduledThreadPool(Integer
+					.parseInt(ManagerProvider.property().getProperty(PropertyEnum.THREAD_POOL_CAPAVILITY, false)),
+
 					new ThreadFactory() {
 
 						@Override
@@ -88,7 +87,7 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 
 	@Override
 	public void addJob(final JobEntity job) {
-		this.executor.submit(new Runnable() {
+		this.executor.execute(new Runnable() {
 
 			@SuppressWarnings("unchecked")
 			@Override
