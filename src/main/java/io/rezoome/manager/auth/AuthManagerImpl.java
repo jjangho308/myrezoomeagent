@@ -9,7 +9,6 @@ import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
 import io.rezoome.manager.network.entity.RequestRegistrationArgsEntity;
-import io.rezoome.manager.network.entity.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 
 @ManagerType("Auth")
@@ -22,14 +21,14 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   public static AuthManager getInstance() {
     return Singleton.instance;
   }
-  
-  
+
+
   @Override
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
-    
+
     // MID
-    
+
     this.authentication();
     setPrepared();
   }
@@ -37,8 +36,8 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   @Override
   public void initializeOnThread(InitialEvent event) {
     // TODO Auto-generated method stub
-    
-    
+
+
   }
 
   @Override
@@ -59,22 +58,22 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
       System.out.println(JSON.toJson(requestEntity));
       headers.put("Content-type", "application/json");
 
-      
       String result = ManagerProvider.network().getHttpConnecter().sendPost("http://localhost:3000/agent/reg",
           headers, JSON.toJson(requestEntity));
-      
-      ResponsePacketEntity responseEntity = JSON.fromJson(result, ResponsePacketEntity.class);
-      System.out.println(responseEntity.toString());
-
-      if (!"200".equals(responseEntity.getCode())) {
-        System.out.println("CONNECTION ERROR!");
-        //System.exit(1);
-      } else {
-      
-      }
+      System.out.println("CONNECTION SUCCESS!");
+      System.out.println(result);
+      // ResponsePacketEntity responseEntity = JSON.fromJson(result, ResponsePacketEntity.class);
+      // System.out.println(responseEntity.toString());
+      //
+      // if (!"200".equals(responseEntity.getCode())) {
+      // System.out.println("CONNECTION ERROR!");
+      // // System.exit(1);
+      // } else {
+      // System.out.println("CONNECTION SUCCESS!");
+      // }
     } catch (Exception e) {
       e.printStackTrace();
-      //System.exit(1);
+      // System.exit(1);
     }
   }
 

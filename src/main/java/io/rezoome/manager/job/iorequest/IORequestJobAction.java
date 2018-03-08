@@ -10,51 +10,63 @@ import io.rezoome.manager.job.JobRsltEntity;
 import io.rezoome.manager.job.entity.AbstractJob;
 import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
+import io.rezoome.manager.network.entity.RequestSearchResultArgsEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 
 public class IORequestJobAction extends AbstractJob<IORequestJob> {
 
-	public IORequestJobAction() {
-		super();
-	}
+  public IORequestJobAction() {
+    super();
+  }
 
-	@Override
-	protected JobRsltEntity processInternal(IORequestJob entity) {
+  @Override
+  protected JobRsltEntity processInternal(IORequestJob entity) {
 
-		try {
+    try {
 
-			// Database
-			DBEntity dbEntity = ManagerProvider.database().getConvertManager().getConverter().convert(entity);
-			DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
+      // Database
+      DBEntity dbEntity = ManagerProvider.database().getConvertManager().getConverter().convert(entity);
+      DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
 
-			/*
-			 * List<DBRsltEntity> dbRsltList = null; dbRsltList =
-			 * (List<DBRsltEntity>) daoMgr.getDao().getRecord(dbEntity);
-			 * for(DBRsltEntity rslt : dbRsltList){ System.out.println(rslt); }
-			 */
+      /*
+       * List<DBRsltEntity> dbRsltList = null; dbRsltList = (List<DBRsltEntity>)
+       * daoMgr.getDao().getRecord(dbEntity); for(DBRsltEntity rslt : dbRsltList){
+       * System.out.println(rslt); }
+       */
 
-			DBRsltEntity dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
-			System.out.println(dbRsltEntity);
+      DBRsltEntity dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
+      System.out.println(dbRsltEntity);
 
-			// Agency Mapping
-			Mapper mapper = ManagerProvider.mapper().getMapper();
-			RzmRsltEntity response = mapper.convert(dbRsltEntity);
+      // Agency Mapping
+      Mapper mapper = ManagerProvider.mapper().getMapper();
+      RzmRsltEntity response = mapper.convert(dbRsltEntity);
 
-			// convert to Networking
-			RequestPacketEntity packetEntity = ManagerProvider.network().convert(response, "http", "Post");
+      // convert to Networking
+      RequestPacketEntity packetEntity = ManagerProvider.network().convert(response, "http", "Post");
 
-			// request to server using api
-			ManagerProvider.network().request(packetEntity);
+      // request to server using api
+      RequestPacketEntity requestEntity = new RequestPacketEntity();
+      requestEntity.setCmd("SearchResult");
 
-			// log
-			ManagerProvider.log();
+      RequestSearchResultArgsEntity argsEntity = new RequestSearchResultArgsEntity();
+      argsEntity.setOrgCode("code001");
+      argsEntity.setEncryptedData("setEncryptedData");
+      argsEntity.setEncryptedKey("setEncryptedKey");
+      argsEntity.setHashedData("setHashedData");
+      requestEntity.setArgs(argsEntity);
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+      System.out.println(requestEntity.toString());
+      ManagerProvider.network().request(requestEntity);
 
-	}
+      // log
+      ManagerProvider.log();
+
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return null;
+
+  }
 
 }
