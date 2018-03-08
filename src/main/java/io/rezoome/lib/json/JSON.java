@@ -24,9 +24,7 @@ public final class JSON {
 	 * @author TACKSU
 	 * @param converter
 	 */
-	public static <T extends Jsonable, U extends JsonSerializer<T> & JsonDeserializer<T>> void registerSelfConverter(
-			U converter) {
-
+	public static <T extends Jsonable> void registerSelfConverter(Object converter) {
 		try {
 			builder.registerTypeHierarchyAdapter(ClassLoader.getSystemClassLoader()
 					.loadClass(Thread.currentThread().getStackTrace()[2].getClassName()), converter);
