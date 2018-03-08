@@ -1,9 +1,10 @@
 
 
- import org.junit.Before;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
+import io.rezoome.core.ServiceInitializer;
+import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.amq.AMQMessageEntity;
 import io.rezoome.manager.amq.AMQMessageHandlerImpl;
@@ -13,18 +14,17 @@ public class AllTests extends TestSuite{
 
 	@Before
 	public void initialize(){
-//		ServiceInitializer.initialize(InitialEvent.RUNTIME);
+	  ServiceInitializer.initialize(InitialEvent.RUNTIME);
 	}
 	
 	@Test
-	@Ignore
 	public void amqMessageTest(){
-		AMQMessageEntity msg = new AMQMessageEntity();
+		AMQMessageEntity msg = this.AMQMessageParseTest();
+		System.out.println("msg : " + msg);
 		AMQMessageHandlerImpl.getInstance().handleMessage(msg);
 	}
 	
-	@Test
-	public void AMQMessageParseTest(){
+	public AMQMessageEntity AMQMessageParseTest(){
 		AMQMessageEntity entity = null;
 		entity = new AMQMessageEntity();
 		String msg = "{\r\n" + 
@@ -40,6 +40,6 @@ public class AllTests extends TestSuite{
 				"}";
 		
 		entity = JSON.fromJson(msg, AMQMessageEntity.class);
-		System.out.println(entity.toString());
+		return entity;
 	}
 }

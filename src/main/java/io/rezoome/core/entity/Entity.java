@@ -13,8 +13,6 @@ import io.rezoome.lib.json.Jsonable;
  */
 public interface Entity extends Jsonable{
 	EntityType getAnnotation();
-	
-	
 }
 
 

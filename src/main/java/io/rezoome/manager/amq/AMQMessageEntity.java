@@ -33,7 +33,7 @@ public final class AMQMessageEntity extends AbstractEntity {
 		JSON.registerSelfConverter(new Converter());
 	}
 
-	private static class Converter implements JsonSerializer<AMQMessageEntity>, JsonDeserializer<AMQMessageEntity> {
+	private static class Converter implements JsonDeserializer<AMQMessageEntity> {
 
 		@Override
 		public AMQMessageEntity deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
@@ -69,12 +69,6 @@ public final class AMQMessageEntity extends AbstractEntity {
 			}
 
 			return entity;
-		}
-
-		@Override
-		public JsonElement serialize(AMQMessageEntity src, Type typeOfSrc, JsonSerializationContext context) {
-			// TODO Auto-generated method stub
-			return null;
 		}
 	}
 

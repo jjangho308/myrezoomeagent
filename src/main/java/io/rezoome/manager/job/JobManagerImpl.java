@@ -76,8 +76,7 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 		} finally {
 			executor = service;
 		}
-		System.out.println("JobManager Init Complete");
-		setPrepared();
+
 	}
 
 	@Override

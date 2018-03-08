@@ -12,15 +12,15 @@ import io.rezoome.lib.json.JSON;
  */
 public abstract class AbstractEntity implements Entity {
 	private final EntityType ant;
-	
+
 	{
 		ant = this.getClass().getDeclaredAnnotation(EntityType.class);
 	}
-	
+
 	/**
 	 * Hide default constructor. <br />
 	 */
-	protected AbstractEntity(){
+	protected AbstractEntity() {
 	}
 
 	@Override
