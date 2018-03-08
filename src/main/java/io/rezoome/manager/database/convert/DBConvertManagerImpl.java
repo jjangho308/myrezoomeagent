@@ -39,6 +39,8 @@ public class DBConvertManagerImpl extends DatabaseManagerImpl implements DBConve
   @Override
   public DBConverter getConverter() {
     // TODO Auto-generated method stub
+
+    System.out.println("getConverter()");
     return (DBConverter) converter;
   }
 

@@ -5,10 +5,9 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
+import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
-import io.rezoome.manager.pushcommand.entity.search.MemberProfile;
-import io.rezoome.manager.pushcommand.entity.search.SearchCommandEntity;
 
 public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListener {
   private static class Singleton {
@@ -25,7 +24,13 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListene
     try {
       TextMessage consumerTextMessage = (TextMessage) message;
       System.out.println(consumerTextMessage.getText());
-      AMQMessageEntity amqEntity = null;//new AMQMessageEntity(consumerTextMessage.getText());
+      //AMQMessageEntity amqEntity = null;//
+      AMQMessageEntity amqEntity = new AMQMessageEntity();
+      
+      amqEntity = JSON.fromJson(consumerTextMessage.getText(), AMQMessageEntity.class);
+      
+      System.out.println(amqEntity);
+      
       AMQMessageHandlerImpl.getInstance().handleMessage(amqEntity);
     } catch (NullPointerException ne) {
       // TODO Auto-generated catch block
@@ -40,13 +45,8 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler , MessageListene
   public boolean handleMessage(AMQMessageEntity msg) {
     // TODO Auto-generated method stub    
     try{
-      //PushCommandEntity pcEntity = JSON.fromJson(msg.getMessage(), SearchCommandEntity.class);
-      
-      // 안택수 
-    	MemberProfile profile = new MemberProfile();
-    	profile.setUsername("안택수");
-    	profile.setBirth("1987-45");
-      PushCommandEntity pcEntity = new SearchCommandEntity(profile);
+      //PushCommandEntity pcEntity = JSON.fromJson(msg.toString(), SearchCommandEntity.class);
+      PushCommandEntity pcEntity = msg.getCommand();
       
       System.out.println(pcEntity);
       ManagerProvider.pushcommand().invokeCommand(pcEntity);

@@ -10,6 +10,11 @@ import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandAction;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 import io.rezoome.manager.pushcommand.entity.PushCommandResult;
+<<<<<<< HEAD
+=======
+import io.rezoome.manager.pushcommand.entity.search.SearchCommandAction;
+import io.rezoome.manager.pushcommand.entity.search.SearchCommandEntity;
+>>>>>>> 501648b5a876aebf2b0923fa32163fbec6feb070
 
 /**
  * Implementation of {@link PushCommandManager}. <br />
@@ -26,6 +31,12 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 	{
 		this.entityCodeMap = new HashMap<>();
 		this.actionMap = new HashMap<>();
+<<<<<<< HEAD
+=======
+
+		this.entityCodeMap.put("SearchRecord", SearchCommandEntity.class);
+		this.actionMap.put(SearchCommandEntity.class, new SearchCommandAction());
+>>>>>>> 501648b5a876aebf2b0923fa32163fbec6feb070
 	}
 
 	/**
