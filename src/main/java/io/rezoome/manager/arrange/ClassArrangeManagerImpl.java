@@ -1,14 +1,18 @@
 package io.rezoome.manager.arrange;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.gson.reflect.TypeToken;
+
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.core.entity.Action;
 import io.rezoome.core.entity.Entity;
+import io.rezoome.lib.json.util.ConstructorUtils;
 import io.rezoome.manager.AbstractManager;
 
 /**
@@ -31,7 +35,7 @@ public final class ClassArrangeManagerImpl extends AbstractManager implements Cl
 
 	@Override
 	public void initialize(InitialEvent event) {
-		// TODO Auto-generated method stub
+		ClassMapper.setEntityKeyMap(this);
 		this.setPrepared();
 	}
 
@@ -55,7 +59,7 @@ public final class ClassArrangeManagerImpl extends AbstractManager implements Cl
 
 	@Override
 	public <T extends Entity> Map<String, Class<? extends T>> getEntityCodeMap(Class<T> cls) {
-		Map<String, Class<? extends T>> result = Collections.;
+		Map<String, Class<? extends T>> result = new HashMap<>();
 		for (Entry<String, Class<? extends Entity>> entry : entityKeyMap.get(cls).entrySet()) {
 			result.put(entry.getKey(), entry.getValue().asSubclass(cls));
 		}
@@ -63,12 +67,18 @@ public final class ClassArrangeManagerImpl extends AbstractManager implements Cl
 	}
 
 	@Override
-	public <T extends Entity> Map<Class<?>, Class<?>> getActionMap(Class<T> cls) {
-		return Collections.unmodifiableMap(entityActionMap.get(cls));
+	@SuppressWarnings("unchecked")
+	public <T extends Entity, U extends Action<? super T>> Map<Class<? extends T>, U> getActionMap(Class<T> entityCls,
+			Class<U> actionCls) {
+		Map<Class<? extends T>, U> result = new HashMap<>();
+		for (Entry<Class<? extends Entity>, Action<? super Entity>> entry : entityActionMap.get(entityCls).entrySet()) {
+			result.put(entry.getKey().asSubclass(entityCls), (U) entry.getValue());
+		}
+		return Collections.unmodifiableMap(result);
 	}
 
 	private static final Map<Class<? extends Entity>, Map<String, Class<? extends Entity>>> entityKeyMap = new HashMap<>();
-	private static final Map<Class<? extends Entity>, Map<Class<? extends Entity>, Class<? extends Action<? extends Entity>>>> entityActionMap = new HashMap<>();
+	private static final Map<Class<? extends Entity>, Map<Class<? extends Entity>, Action<? super Entity>>> entityActionMap = new HashMap<>();
 
 	/**
 	 * Key-Entity map에 항목 추가.
@@ -103,15 +113,22 @@ public final class ClassArrangeManagerImpl extends AbstractManager implements Cl
 	 * @param entity
 	 * @param action
 	 */
-	<T extends Entity, U extends T, V extends Action<U>>
-	void addActionMap(Class<T> rootEntityInterface, Class<U> entity, Class<V> action) {
-		Map<Class<? extends Entity>, Class<? extends Action<? extends Entity>>> actionMap;
+	@SuppressWarnings("unchecked")
+	<T extends Entity, U extends T, V extends Action<? extends T>> void addActionMap(Class<T> rootEntityInterface,
+			Class<U> entity, Class<V> action) {
+		Map<Class<? extends Entity>, Action<? super Entity>> actionMap;
 		if (!entityActionMap.containsKey(rootEntityInterface)) {
 			actionMap = new HashMap<>();
-			entityActionMap.put(rootEntityInterface, actionMap);
+			entityActionMap.put((Class<? extends Entity>) rootEntityInterface, actionMap);
 		} else {
 			actionMap = entityActionMap.get(rootEntityInterface);
 		}
-		actionMap.put(entity, action);
+		try {
+			actionMap.put(entity.asSubclass(Entity.class),
+					(Action<? super Entity>) ConstructorUtils.newInstance(action));
+		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 }

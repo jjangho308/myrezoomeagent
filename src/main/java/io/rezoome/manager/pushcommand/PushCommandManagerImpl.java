@@ -2,7 +2,6 @@ package io.rezoome.manager.pushcommand;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
@@ -11,8 +10,6 @@ import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandAction;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 import io.rezoome.manager.pushcommand.entity.PushCommandResult;
-import io.rezoome.manager.pushcommand.entity.search.SearchCommand;
-import io.rezoome.manager.pushcommand.entity.search.SearchCommandEntity;
 
 /**
  * Implementation of {@link PushCommandManager}. <br />
@@ -23,8 +20,8 @@ import io.rezoome.manager.pushcommand.entity.search.SearchCommandEntity;
 @ManagerType("PushCommand")
 public class PushCommandManagerImpl extends AbstractManager implements PushCommandManager {
 
-	private final Map<String, Class<? extends PushCommandEntity>> entityCodeMap;
-	private final Map<Class<? extends PushCommandEntity>, PushCommandAction<? extends PushCommandEntity>> actionMap;
+	private Map<String, Class<? extends PushCommandEntity>> entityCodeMap;
+	private Map<Class<? extends PushCommandEntity>, PushCommandAction<? super PushCommandEntity>> actionMap;
 
 	{
 		this.entityCodeMap = new HashMap<>();
@@ -47,12 +44,14 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void initialize(InitialEvent event) {
-		Map<String, Class<?>> map = ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
-	
 
-		this.entityCodeMap.put("SearchRecord", SearchCommandEntity.class);
-		this.actionMap.put(SearchCommandEntity.class, new SearchCommand());
+		entityCodeMap = ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
+		actionMap = ManagerProvider.clsarrange().getActionMap(PushCommandEntity.class, PushCommandAction.class);
+
+		// this.entityCodeMap.put("SearchRecord", SearchCommandEntity.class);
+		// this.actionMap.put(SearchCommandEntity.class, new SearchCommand());
 		setPrepared();
 	}
 
@@ -62,15 +61,10 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public PushCommandResult invokeCommand(PushCommandEntity command) {
-		
-		PushCommandAction<PushCommandEntity> action =
-				(PushCommandAction<PushCommandEntity>) this.actionMap
-				.get(command.getClass());
-		action.process(command);
-		
+
+		this.actionMap.get(command.getClass()).process(command);
 		return null;
 	}
 

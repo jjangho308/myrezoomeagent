@@ -3,8 +3,6 @@ package io.rezoome.lib.json.util;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import io.rezoome.lib.json.Jsonable;
-
 /**
  * Bulk utility class for Constructor. <br />
  * 
@@ -30,7 +28,7 @@ public class ConstructorUtils {
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static <T extends Jsonable> T newInstance(Class<T> cls) throws NoSuchMethodException, SecurityException,
+	public static <T> T newInstance(Class<T> cls) throws NoSuchMethodException, SecurityException,
 			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		T entity = null;
 		Constructor<T> defaultConstructor = cls.getConstructor();

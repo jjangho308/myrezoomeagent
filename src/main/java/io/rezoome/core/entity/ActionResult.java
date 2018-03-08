@@ -1,5 +1,5 @@
 package io.rezoome.core.entity;
 
-public interface ActionResult {
+public interface ActionResult{
 	boolean isSucceed();
 }
