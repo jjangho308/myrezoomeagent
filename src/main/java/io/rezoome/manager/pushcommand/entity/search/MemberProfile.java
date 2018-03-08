@@ -8,6 +8,29 @@ public class MemberProfile extends AbstractEntity implements Jsonable{
   String birth;
   String gender;
   String phone;
+  String agencyId;
+  String agencyPwd;
+  String socialNumber;
+  
+  
+  public String getAgencyId() {
+    return agencyId;
+  }
+  public void setAgencyId(String agencyId) {
+    this.agencyId = agencyId;
+  }
+  public String getAgencyPwd() {
+    return agencyPwd;
+  }
+  public void setAgencyPwd(String agencyPwd) {
+    this.agencyPwd = agencyPwd;
+  }
+  public String getSocialNumber() {
+    return socialNumber;
+  }
+  public void setSocialNumber(String socialNumber) {
+    this.socialNumber = socialNumber;
+  }
   public String getUsername() {
     return username;
   }

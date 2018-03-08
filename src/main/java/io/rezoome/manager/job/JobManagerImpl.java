@@ -13,7 +13,7 @@ import io.rezoome.core.entity.annotation.EntityType;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.job.entity.JobAction;
 import io.rezoome.manager.job.entity.JobEntity;
-import io.rezoome.manager.job.iorequest.IORequestJob;
+import io.rezoome.manager.job.iorequest.IORequestJobEntity;
 import io.rezoome.manager.job.iorequest.IORequestJobAction;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
@@ -49,7 +49,7 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 
 	{
 		this.actionMap = new HashMap<>();
-		this.actionMap.put(IORequestJob.class, new IORequestJobAction());
+		this.actionMap.put(IORequestJobEntity.class, new IORequestJobAction());
 	}
 
 	private final Map<Class<? extends JobEntity>, JobAction<? extends JobEntity>> actionMap;
@@ -70,7 +70,6 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 							return new WorkerThread(r);
 						}
 					});
-			setPrepared();
 		} catch (NumberFormatException nfe) {
 			nfe.printStackTrace();
 			service = null;

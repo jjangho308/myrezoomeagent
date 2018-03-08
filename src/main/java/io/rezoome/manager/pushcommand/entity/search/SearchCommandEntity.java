@@ -1,5 +1,7 @@
 package io.rezoome.manager.pushcommand.entity.search;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.rezoome.manager.pushcommand.entity.AbstractPushCommandEntity;
 
 /**
@@ -12,29 +14,23 @@ import io.rezoome.manager.pushcommand.entity.AbstractPushCommandEntity;
  *
  */
 public class SearchCommandEntity extends AbstractPushCommandEntity {
-	private final MemberProfile profile;
-
-	public SearchCommandEntity(){
-		this.profile = null;
-	}
-	
-	public SearchCommandEntity(MemberProfile profile) {
-		super();
-		this.profile = profile;
-	}
-
-	public MemberProfile getProfile() {
-		return profile;
-	}
-
-	String cmd;
-
-	public String getCmd() {
-		return cmd;
-	}
-
-	public void setCmd(String cmd) {
-		this.cmd = cmd;
-	}
+  @SerializedName("username")
+  private final String username = null;
+  
+  @SerializedName("birth")
+  private final String birth = null;
+  
+  @SerializedName("gender")
+  private final String gender = null;
+  
+  @SerializedName("phone")
+  private final String phone = null;
+  
+  @SerializedName("email")
+  private final String email = null;
+  
+  @SerializedName("ci")
+  private final String ci = null;
+  
 
 }
