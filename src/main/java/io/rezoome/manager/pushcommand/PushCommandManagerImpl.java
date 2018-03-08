@@ -2,6 +2,7 @@ package io.rezoome.manager.pushcommand;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
@@ -28,9 +29,6 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 	{
 		this.entityCodeMap = new HashMap<>();
 		this.actionMap = new HashMap<>();
-
-		this.entityCodeMap.put("SearchRecord", SearchCommandEntity.class);
-		this.actionMap.put(SearchCommandEntity.class, new SearchCommand());
 	}
 
 	/**
@@ -50,7 +48,11 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 
 	@Override
 	public void initialize(InitialEvent event) {
-		ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
+		Map<String, Class<?>> map = ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
+	
+
+		this.entityCodeMap.put("SearchRecord", SearchCommandEntity.class);
+		this.actionMap.put(SearchCommandEntity.class, new SearchCommand());
 		setPrepared();
 	}
 

@@ -2,7 +2,6 @@ package io.rezoome.manager.arrange;
 
 import java.util.Map;
 
-import io.rezoome.core.entity.Action;
 import io.rezoome.core.entity.Entity;
 import io.rezoome.manager.Manager;
 
@@ -28,6 +27,6 @@ public interface ClassArrangeManager extends Manager {
 	 * @param cls
 	 * @return
 	 */
-	public <T extends Entity> Map<Class<? extends T>, ? extends Action<? extends T>> getActionMap(Class<T> cls);
+	public <T extends Entity> Map<Class<?>, Class<?>> getActionMap(Class<T> cls);
 
 }
