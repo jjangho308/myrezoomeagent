@@ -11,41 +11,41 @@ import io.rezoome.core.entity.AbstractEntity;
  */
 public class ResponsePacketEntity extends AbstractEntity {
 
-  private String mid;
-  private String cmd;
-  private String code;
-  private ResponseArgsEntity result;
+	private String				mid;
+	private String				cmd;
+	private String				code;
+	private ResponseArgsEntity	result;
 
-  public String getMid() {
-    return mid;
-  }
+	public String getMid() {
+		return mid;
+	}
 
-  public void setMid(String mid) {
-    this.mid = mid;
-  }
+	public void setMid(String mid) {
+		this.mid = mid;
+	}
 
-  public String getCmd() {
-    return cmd;
-  }
+	public String getCmd() {
+		return cmd;
+	}
 
-  public void setCmd(String cmd) {
-    this.cmd = cmd;
-  }
+	public void setCmd(String cmd) {
+		this.cmd = cmd;
+	}
 
-  public String getCode() {
-    return code;
-  }
+	public String getCode() {
+		return code;
+	}
 
-  public void setCode(String code) {
-    this.code = code;
-  }
+	public void setCode(String code) {
+		this.code = code;
+	}
 
-  public ResponseArgsEntity getResult() {
-    return result;
-  }
+	public ResponseArgsEntity getResult() {
+		return result;
+	}
 
-  public void setResult(ResponseArgsEntity result) {
-    this.result = result;
-  }
+	public void setResult(ResponseArgsEntity result) {
+		this.result = result;
+	}
 
 }

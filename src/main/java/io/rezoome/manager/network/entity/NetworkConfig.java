@@ -14,9 +14,9 @@ import io.rezoome.core.entity.AbstractEntity;
  *
  */
 public final class NetworkConfig extends AbstractEntity {
-	private final URL url;
-	private final SSLContext sslContext;
-	
+	private final URL			url;
+	private final SSLContext	sslContext;
+
 	public NetworkConfig(URL url, SSLContext sslContext) {
 		super();
 		this.url = url;

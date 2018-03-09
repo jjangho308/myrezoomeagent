@@ -12,9 +12,9 @@ import io.rezoome.manager.provider.ManagerProvider;
  */
 @ManagerType("Status")
 public class StatusManagerImpl extends AbstractManager implements StatusManager {
-	protected String keepAliveSendTime;
-	protected String limitAllowNotSignalNumber;
-	protected Boolean isKillAgent;
+	protected String	keepAliveSendTime;
+	protected String	limitAllowNotSignalNumber;
+	protected Boolean	isKillAgent;
 
 	@Override
 	public void initialize(InitialEvent event) {

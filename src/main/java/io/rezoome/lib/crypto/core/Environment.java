@@ -8,7 +8,7 @@ package io.rezoome.lib.crypto.core;
  *
  */
 public class Environment {
-	
+
 	static {
 		// Do something
 	}

@@ -28,10 +28,10 @@ public final class ServiceInitializer {
 		UNINITLIAZED, INITIALIZING, SYNC_INITIALIZED, ASYNC_INITIALIZED
 	}
 
-	private static InitializationPhase phase = InitializationPhase.UNINITLIAZED;
-	private static InitialEvent event;
+	private static InitializationPhase	phase		= InitializationPhase.UNINITLIAZED;
+	private static InitialEvent			event;
 
-	private static final List<Manager> managers = new ArrayList<>();
+	private static final List<Manager>	managers	= new ArrayList<>();
 
 	public static synchronized void initialize(InitialEvent from) {
 		if (phase != InitializationPhase.UNINITLIAZED) {

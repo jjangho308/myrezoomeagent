@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation for {@link PushCommandEntity} <br />
+ * 
  * @since 1.0.0
  * @author Saver
  *
@@ -15,5 +16,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PushCommandEntity {
 	String value();
+
 	int priority() default -1;
 }

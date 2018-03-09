@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface ManagerType {
-	
+
 	/**
 	 * Code name of specific manager. <br />
 	 * 
@@ -22,12 +22,12 @@ public @interface ManagerType {
 	 * @return
 	 */
 	String value();
-	
+
 	/**
 	 * Priority to be initialized. <br />
-	 * 1	: First priority <br />
-	 * N	: Smaller is more prior. <br />
-	 * 999	: Do not care. (Initialized randomly)
+	 * 1 : First priority <br />
+	 * N : Smaller is more prior. <br />
+	 * 999 : Do not care. (Initialized randomly)
 	 * 
 	 * @since 1.0.0
 	 * @return

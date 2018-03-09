@@ -10,6 +10,7 @@ import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 
 /**
  * Annotation for {@link PushCommandAction}. <br />
+ * 
  * @author Saver
  *
  */

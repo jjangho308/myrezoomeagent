@@ -13,13 +13,10 @@ import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
-import io.rezoome.core.entity.Action;
-import io.rezoome.core.entity.Entity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.lib.json.util.ConstructorUtils;
 import io.rezoome.lib.json.util.ReflectionUtils;
 import io.rezoome.manager.provider.ManagerProvider;
-import io.rezoome.manager.pushcommand.EntityMapper;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 
 /**
@@ -31,8 +28,9 @@ import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 public final class AMQMessageEntity extends AbstractEntity {
 
 	static {
-//		JSON.registerSelfConverter(new Converter());
-		JSON.registerDeserializer("cmd", "args", ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class));
+		// JSON.registerSelfConverter(new Converter());
+		JSON.registerDeserializer("cmd", "args",
+				ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class));
 	}
 
 	private static class Converter implements JsonDeserializer<AMQMessageEntity> {
@@ -75,16 +73,16 @@ public final class AMQMessageEntity extends AbstractEntity {
 	}
 
 	@SerializedName("mid")
-	private final String mid = null;
+	private final String			mid		= null;
 
 	@SerializedName("token")
-	private final String token = null;
+	private final String			token	= null;
 
 	@SerializedName("cmd")
-	private final String cmd = null;
+	private final String			cmd		= null;
 
 	@SerializedName("args")
-	private final PushCommandEntity args = null;
+	private final PushCommandEntity	args	= null;
 
 	public AMQMessageEntity() {
 		super();

@@ -8,6 +8,7 @@ import java.util.Properties;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
+
 /**
  * Implementation of {@link PropertyManager}. <br />
  * 
@@ -18,29 +19,29 @@ import io.rezoome.manager.AbstractManager;
 @ManagerType(value = "Property", initPriority = 10)
 public class PropertyManagerImpl extends AbstractManager implements PropertyManager {
 
-  private static class Singleton {
-    private static final PropertyManager instance = new PropertyManagerImpl();
-  }
+	private static class Singleton {
+		private static final PropertyManager instance = new PropertyManagerImpl();
+	}
 
-  public static PropertyManager getInstance() {
-    return Singleton.instance;
-  }
-  
-  private String configFile;
-  private Properties properties;
-  
+	public static PropertyManager getInstance() {
+		return Singleton.instance;
+	}
+
+	private String		configFile;
+	private Properties	properties;
+
 	@Override
 	public void initialize(InitialEvent event) {
 		// TODO Auto-generated method stub
-	  configFile = "./agent.prop";
-	  try {
-	    properties = this.readProperties();
-      System.out.println("PropertyManager Init Complete.");
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-	  setPrepared();
+		configFile = "./agent.prop";
+		try {
+			properties = this.readProperties();
+			System.out.println("PropertyManager Init Complete.");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		setPrepared();
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
 
 	@Override
 	public String getProperty(PropertyEnum key, boolean... refresh) {
-		// TODO Auto-generated method stub	  
+		// TODO Auto-generated method stub
 		return properties.getProperty(key.toString());
 	}
 
@@ -68,9 +69,9 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
 	}
 
 	private synchronized Properties readProperties() throws IOException {
-    Properties tempProperties = new Properties();
-    FileInputStream in = new FileInputStream(configFile);
-    tempProperties.load(in);
-    return tempProperties;
-  }
+		Properties tempProperties = new Properties();
+		FileInputStream in = new FileInputStream(configFile);
+		tempProperties.load(in);
+		return tempProperties;
+	}
 }

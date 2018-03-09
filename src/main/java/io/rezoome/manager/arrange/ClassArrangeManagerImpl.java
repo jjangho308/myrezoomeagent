@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.gson.reflect.TypeToken;
-
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.core.entity.Action;
@@ -77,8 +75,8 @@ public final class ClassArrangeManagerImpl extends AbstractManager implements Cl
 		return Collections.unmodifiableMap(result);
 	}
 
-	private static final Map<Class<? extends Entity>, Map<String, Class<? extends Entity>>> entityKeyMap = new HashMap<>();
-	private static final Map<Class<? extends Entity>, Map<Class<? extends Entity>, Action<? super Entity>>> entityActionMap = new HashMap<>();
+	private static final Map<Class<? extends Entity>, Map<String, Class<? extends Entity>>>					entityKeyMap	= new HashMap<>();
+	private static final Map<Class<? extends Entity>, Map<Class<? extends Entity>, Action<? super Entity>>>	entityActionMap	= new HashMap<>();
 
 	/**
 	 * Key-Entity map에 항목 추가.

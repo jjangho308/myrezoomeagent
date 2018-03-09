@@ -10,19 +10,19 @@ import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
  *
  */
 public final class JobBuilder {
-	
+
 	/**
 	 * Prepare job to handler push command. <br />
+	 * 
 	 * @param pushCommand
 	 */
-	public JobBuilder(PushCommandEntity pushCommand){
-		
-	  
+	public JobBuilder(PushCommandEntity pushCommand) {
+
 	}
-	
-	public JobEntity create(){
+
+	public JobEntity create() {
 		JobEntity entity = null;
-		
+
 		return entity;
 	}
 }

@@ -15,6 +15,6 @@ import io.rezoome.manager.Manager;
  */
 public interface CryptoManager extends Manager {
 	public KeyPair generateAssymmetricKey();
-	
+
 	public SecretKey generateSymmetricKey();
 }

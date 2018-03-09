@@ -10,5 +10,5 @@ import io.rezoome.core.entity.Entity;
  *
  */
 public interface JobEntity extends Entity {
-	
+
 }
