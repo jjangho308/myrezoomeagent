@@ -10,10 +10,11 @@ import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
 @ManagerType("DB")
-public class DatabaseManagerImpl extends AbstractManager implements DatabaseManager {
+public class DatabaseManagerImpl extends AbstractManager
+		implements DatabaseManager {
 
-	protected static String						poolName, dbType, dbVersion, dbHost, dbServer, dbName, dbPort, dbUserID,
-			dbPasswd;
+	protected static String						poolName, dbType, dbVersion,
+			dbHost, dbServer, dbName, dbPort, dbUserID, dbPasswd;
 	protected static String						mybatisConfigXmlPath;
 	protected static String						daoClass;
 	protected static int						maxConn, initConn, maxWait;
@@ -34,23 +35,37 @@ public class DatabaseManagerImpl extends AbstractManager implements DatabaseMana
 	public void initialize(InitialEvent event) {
 
 		// TODO Auto-generated method stub
-		dbType = ManagerProvider.property().getProperty(PropertyEnum.DBMS_TYPE, true);
-		dbVersion = ManagerProvider.property().getProperty(PropertyEnum.DBMS_VERSION, true);
-		dbHost = ManagerProvider.property().getProperty(PropertyEnum.DB_HOST, true);
-		dbPort = ManagerProvider.property().getProperty(PropertyEnum.DB_PORT, true);
-		dbName = ManagerProvider.property().getProperty(PropertyEnum.DB_NAME, true);
-		poolName = ManagerProvider.property().getProperty(PropertyEnum.CONNECTION_POOL_NAME, true);
-		dbUserID = ManagerProvider.property().getProperty(PropertyEnum.DB_USER_ID, true);
-		dbPasswd = ManagerProvider.property().getProperty(PropertyEnum.DB_PASSWORD, true);
-		maxConn = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.DB_MAX_CONNECTION, true));
-		initConn = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.DB_INIT_CONNECTION, true));
-		maxWait = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.DB_MAX_WAIT, true));
+		dbType = ManagerProvider.property().getProperty(PropertyEnum.DBMS_TYPE,
+				true);
+		dbVersion = ManagerProvider.property()
+				.getProperty(PropertyEnum.DBMS_VERSION, true);
+		dbHost = ManagerProvider.property().getProperty(PropertyEnum.DB_HOST,
+				true);
+		dbPort = ManagerProvider.property().getProperty(PropertyEnum.DB_PORT,
+				true);
+		dbName = ManagerProvider.property().getProperty(PropertyEnum.DB_NAME,
+				true);
+		poolName = ManagerProvider.property()
+				.getProperty(PropertyEnum.CONNECTION_POOL_NAME, true);
+		dbUserID = ManagerProvider.property()
+				.getProperty(PropertyEnum.DB_USER_ID, true);
+		dbPasswd = ManagerProvider.property()
+				.getProperty(PropertyEnum.DB_PASSWORD, true);
+		maxConn = Integer.parseInt(ManagerProvider.property()
+				.getProperty(PropertyEnum.DB_MAX_CONNECTION, true));
+		initConn = Integer.parseInt(ManagerProvider.property()
+				.getProperty(PropertyEnum.DB_INIT_CONNECTION, true));
+		maxWait = Integer.parseInt(ManagerProvider.property()
+				.getProperty(PropertyEnum.DB_MAX_WAIT, true));
 
 		// mybatis Config file
-		mybatisConfigXmlPath = ManagerProvider.property().getProperty(PropertyEnum.MYBATIS_CONFIG_FILE_PATH, true);
-		daoClass = ManagerProvider.property().getProperty(PropertyEnum.DAO_CLASS_NAME, true);
+		mybatisConfigXmlPath = ManagerProvider.property()
+				.getProperty(PropertyEnum.MYBATIS_CONFIG_FILE_PATH, true);
+		daoClass = ManagerProvider.property()
+				.getProperty(PropertyEnum.DAO_CLASS_NAME, true);
 
-		connecter = ((DBConnectionManagerImpl) DBConnectionManagerImpl.getInstance());
+		connecter = ((DBConnectionManagerImpl) DBConnectionManagerImpl
+				.getInstance());
 		connecter.createConnection();
 		converter = (DBConvertManagerImpl) DBConvertManagerImpl.getInstance();
 		converter.createConverter();

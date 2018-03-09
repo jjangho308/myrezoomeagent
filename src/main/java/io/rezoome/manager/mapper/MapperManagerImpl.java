@@ -7,7 +7,8 @@ import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
 @ManagerType("Mapper")
-public class MapperManagerImpl extends AbstractManager implements MapperManager {
+public class MapperManagerImpl extends AbstractManager
+		implements MapperManager {
 
 	private static class Singleton {
 		private static final MapperManager instance = new MapperManagerImpl();
@@ -49,9 +50,11 @@ public class MapperManagerImpl extends AbstractManager implements MapperManager 
 		return false;
 	}
 
-	public void createMapper() throws InstantiationException, ClassNotFoundException, IllegalAccessException {
+	public void createMapper() throws InstantiationException,
+			ClassNotFoundException, IllegalAccessException {
 		// TODO Auto-generated method stub
-		String mapperClass = ManagerProvider.property().getProperty(PropertyEnum.MAPPER_CLASS_NAME, true);
+		String mapperClass = ManagerProvider.property()
+				.getProperty(PropertyEnum.MAPPER_CLASS_NAME, true);
 		// "io.rezoome.agent.db.dao.inha.InhaUnivDao.class"
 		ClassLoader loader = ClassLoader.getSystemClassLoader();
 		Class<?> mapperCls;

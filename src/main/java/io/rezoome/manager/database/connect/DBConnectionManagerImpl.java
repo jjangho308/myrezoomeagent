@@ -4,7 +4,8 @@ import java.sql.Connection;
 
 import io.rezoome.manager.database.DatabaseManagerImpl;
 
-public class DBConnectionManagerImpl extends DatabaseManagerImpl implements DBConnectionManager {
+public class DBConnectionManagerImpl extends DatabaseManagerImpl
+		implements DBConnectionManager {
 	protected DBConnectionPoolManager connMgr;
 
 	private static class Singleton {

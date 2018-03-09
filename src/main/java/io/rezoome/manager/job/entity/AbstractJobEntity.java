@@ -11,7 +11,8 @@ import io.rezoome.core.entity.AbstractEntity;
  * @author TACKSU
  *
  */
-public abstract class AbstractJobEntity extends AbstractEntity implements JobEntity {
+public abstract class AbstractJobEntity extends AbstractEntity
+		implements JobEntity {
 	@SerializedName("username")
 	protected final String	username	= null;
 
@@ -34,7 +35,8 @@ public abstract class AbstractJobEntity extends AbstractEntity implements JobEnt
 	protected final String	cmd			= null;
 
 	public String toJSON() {
-		return "{username:" + username + ",birth:" + birth + ",gender:" + gender + ",phone:" + phone + ",email:" + email
-				+ ",ci:" + ci + ",cmd:" + cmd + "}";
+		return "{username:" + username + ",birth:" + birth + ",gender:" + gender
+				+ ",phone:" + phone + ",email:" + email + ",ci:" + ci + ",cmd:"
+				+ cmd + "}";
 	}
 }

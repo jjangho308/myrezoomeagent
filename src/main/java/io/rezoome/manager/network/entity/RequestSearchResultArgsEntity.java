@@ -2,7 +2,8 @@ package io.rezoome.manager.network.entity;
 
 import io.rezoome.core.entity.AbstractEntity;
 
-public class RequestSearchResultArgsEntity extends AbstractEntity implements RequestArgsEntity {
+public class RequestSearchResultArgsEntity extends AbstractEntity
+		implements RequestArgsEntity {
 
 	private String	orgCode;
 	private String	encryptedData;

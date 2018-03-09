@@ -25,7 +25,8 @@ public class HttpsConnector implements HttpManager {
 	private String				response		= "";
 
 	@Override
-	public String sendPost(String endpoint, Map<String, Object> headers, Object parameters) throws ServiceException {
+	public String sendPost(String endpoint, Map<String, Object> headers,
+			Object parameters) throws ServiceException {
 		// TODO Auto-generated method stub
 
 		try {
@@ -40,18 +41,21 @@ public class HttpsConnector implements HttpManager {
 			httpsURLConnection.setReadTimeout(READ_TIMEOUT);
 
 			httpsURLConnection.setRequestMethod(Constants.PARAM_METHOD_POST);
-			httpsURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			httpsURLConnection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded");
 
 			// set request header
 			if (headers != null) {
 				for (Map.Entry<String, Object> header : headers.entrySet()) {
-					httpsURLConnection.setRequestProperty(header.getKey(), header.getValue().toString());
+					httpsURLConnection.setRequestProperty(header.getKey(),
+							header.getValue().toString());
 				}
 			}
 
 			String body = "";
 			if (parameters != null) {
-				if (httpsURLConnection.getRequestProperty("Content-Type").contains("form")) {
+				if (httpsURLConnection.getRequestProperty("Content-Type")
+						.contains("form")) {
 					// set request parameter
 					StringBuilder bodyBuilder = new StringBuilder();
 
@@ -59,7 +63,8 @@ public class HttpsConnector implements HttpManager {
 					Map<String, Object> parameterMap = (Map<String, Object>) parameters;
 
 					if (parameterMap != null && parameterMap.size() > 0) {
-						for (Map.Entry<String, Object> parameter : parameterMap.entrySet()) {
+						for (Map.Entry<String, Object> parameter : parameterMap
+								.entrySet()) {
 							bodyBuilder.append(parameter.getKey().toString());
 							bodyBuilder.append("=");
 							bodyBuilder.append(parameter.getValue().toString());
@@ -68,7 +73,8 @@ public class HttpsConnector implements HttpManager {
 					}
 					body = bodyBuilder.toString();
 					body = body.substring(0, body.length() - 1);
-				} else if (httpsURLConnection.getRequestProperty("Content-Type").contains("json")) {
+				} else if (httpsURLConnection.getRequestProperty("Content-Type")
+						.contains("json")) {
 					body = (String) parameters;
 				}
 			}
@@ -80,7 +86,8 @@ public class HttpsConnector implements HttpManager {
 
 			int responseCode = httpsURLConnection.getResponseCode();
 			if (responseCode != Constants.HTTP_STATUS_CODE_200) {
-				throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);
+				throw new ServiceException(
+						ErrorCodeConstants.ERROR_CODE_UNDEFINED);
 			}
 
 			response = getResponse(httpsURLConnection.getInputStream());
@@ -103,7 +110,8 @@ public class HttpsConnector implements HttpManager {
 	}
 
 	@Override
-	public String sendGet(String endpoint, Map<String, Object> headers) throws ServiceException {
+	public String sendGet(String endpoint, Map<String, Object> headers)
+			throws ServiceException {
 
 		try {
 			url = new URL(endpoint);
@@ -121,14 +129,16 @@ public class HttpsConnector implements HttpManager {
 			// set request header
 			if (headers != null) {
 				for (Map.Entry<String, Object> header : headers.entrySet()) {
-					httpsURLConnection.setRequestProperty(header.getKey(), header.getValue().toString());
+					httpsURLConnection.setRequestProperty(header.getKey(),
+							header.getValue().toString());
 				}
 			}
 
 			int responseCode = httpsURLConnection.getResponseCode();
 			if (responseCode != Constants.HTTP_STATUS_CODE_200) {
 				System.out.println(responseCode);
-				throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);
+				throw new ServiceException(
+						ErrorCodeConstants.ERROR_CODE_UNDEFINED);
 			}
 
 			response = getResponse(httpsURLConnection.getInputStream());
@@ -148,8 +158,10 @@ public class HttpsConnector implements HttpManager {
 		return response;
 	}
 
-	private String getResponse(InputStream inputStream) throws UnsupportedEncodingException, IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Constants.PARAM_UTF_8));
+	private String getResponse(InputStream inputStream)
+			throws UnsupportedEncodingException, IOException {
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader(inputStream, Constants.PARAM_UTF_8));
 		StringBuffer response = new StringBuffer();
 		String inputLine;
 

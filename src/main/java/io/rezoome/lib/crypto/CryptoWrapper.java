@@ -21,7 +21,8 @@ public class CryptoWrapper {
 		try {
 			Method getInstance = clazz.getDeclaredMethod("getInstance");
 			instance = (CryptoManager) getInstance.invoke(null);
-		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+		} catch (NoSuchMethodException | SecurityException
+				| IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
 			// Never occur.
 			e.printStackTrace();

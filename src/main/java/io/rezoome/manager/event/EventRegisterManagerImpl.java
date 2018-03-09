@@ -17,7 +17,8 @@ import io.rezoome.manager.event.listener.EventListener;
  * @author Saver
  *
  */
-public final class EventRegisterManagerImpl extends AbstractManager implements EventRegisterManager {
+public final class EventRegisterManagerImpl extends AbstractManager
+		implements EventRegisterManager {
 
 	private final Map<Class<EventListener>, List<EventListener>> listenerMap = new HashMap<>();
 
@@ -53,7 +54,8 @@ public final class EventRegisterManagerImpl extends AbstractManager implements E
 	public void addEventListener(EventListener listener) {
 		Class<? extends EventListener> listenerCls = listener.getClass();
 		if (!listenerMap.containsKey(listenerCls)) {
-			listenerMap.put((Class<EventListener>) listenerCls, new ArrayList<EventListener>());
+			listenerMap.put((Class<EventListener>) listenerCls,
+					new ArrayList<EventListener>());
 		}
 		listenerMap.get(listenerCls).add(listener);
 	}

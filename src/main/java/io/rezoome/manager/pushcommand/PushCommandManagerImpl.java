@@ -17,7 +17,8 @@ import io.rezoome.manager.pushcommand.entity.PushCommandResult;
  * @author Saver +
  */
 @ManagerType("PushCommand")
-public class PushCommandManagerImpl extends AbstractManager implements PushCommandManager {
+public class PushCommandManagerImpl extends AbstractManager
+		implements PushCommandManager {
 
 	private Map<String, Class<? extends PushCommandEntity>>											entityCodeMap;
 	private Map<Class<? extends PushCommandEntity>, PushCommandAction<? super PushCommandEntity>>	actionMap;
@@ -46,8 +47,10 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 	@SuppressWarnings("unchecked")
 	public void initialize(InitialEvent event) {
 
-		entityCodeMap = ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
-		actionMap = ManagerProvider.clsarrange().getActionMap(PushCommandEntity.class, PushCommandAction.class);
+		entityCodeMap = ManagerProvider.clsarrange()
+				.getEntityCodeMap(PushCommandEntity.class);
+		actionMap = ManagerProvider.clsarrange()
+				.getActionMap(PushCommandEntity.class, PushCommandAction.class);
 
 		setPrepared();
 	}
@@ -71,7 +74,8 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 	}
 
 	@Override
-	public <V extends PushCommandEntity> PushCommandAction<? super PushCommandEntity> getAction(V entity) {
+	public <V extends PushCommandEntity> PushCommandAction<? super PushCommandEntity> getAction(
+			V entity) {
 		return this.actionMap.get(entity);
 	}
 }

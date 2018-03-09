@@ -53,8 +53,9 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
 			System.out.println(JSON.toJson(requestEntity));
 			headers.put("Content-type", "application/json");
 
-			String result = ManagerProvider.network().getHttpConnecter().sendPost("http://localhost:3000/agent/reg",
-					headers, JSON.toJson(requestEntity));
+			String result = ManagerProvider.network().getHttpConnecter()
+					.sendPost("http://localhost:3000/agent/reg", headers,
+							JSON.toJson(requestEntity));
 			System.out.println("CONNECTION SUCCESS!");
 			System.out.println(result);
 			// ResponsePacketEntity responseEntity = JSON.fromJson(result,

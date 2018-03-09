@@ -28,8 +28,9 @@ public class ConstructorUtils {
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static <T> T newInstance(Class<T> cls) throws NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T> T newInstance(Class<T> cls) throws NoSuchMethodException,
+			SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
 		T entity = null;
 		Constructor<T> defaultConstructor = cls.getConstructor();
 		entity = defaultConstructor.newInstance();

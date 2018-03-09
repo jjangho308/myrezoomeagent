@@ -9,5 +9,6 @@ import io.rezoome.core.entity.AbstractEntity;
  * @author TACKSU
  *
  */
-public class AbstractPushCommandEntity extends AbstractEntity implements PushCommandEntity {
+public class AbstractPushCommandEntity extends AbstractEntity
+		implements PushCommandEntity {
 }

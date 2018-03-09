@@ -9,7 +9,8 @@ import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 
-public class AMQMessageHandlerImpl implements AMQMessageHandler, MessageListener {
+public class AMQMessageHandlerImpl
+		implements AMQMessageHandler, MessageListener {
 	private static class Singleton {
 		private static final AMQMessageHandler instance = new AMQMessageHandlerImpl();
 	}
@@ -27,7 +28,8 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler, MessageListener
 			// AMQMessageEntity amqEntity = null;//
 			AMQMessageEntity amqEntity = new AMQMessageEntity();
 
-			amqEntity = JSON.fromJson(consumerTextMessage.getText(), AMQMessageEntity.class);
+			amqEntity = JSON.fromJson(consumerTextMessage.getText(),
+					AMQMessageEntity.class);
 
 			System.out.println(amqEntity);
 

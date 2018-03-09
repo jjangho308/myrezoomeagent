@@ -48,11 +48,16 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
 		consumerDestination = null;
 		consumer = null;
 
-		String serverHost = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_SERVER_HOST, true);
-		String queueName = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_QUEUE_NAME, true);
-		String userName = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_USER_NAME, true);
-		String userPassword = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_USER_PASSWORD, true);
-		AMQConfigEntity amqConfig = new AMQConfigEntity(queueName, serverHost, userName, userPassword);
+		String serverHost = ManagerProvider.property()
+				.getProperty(PropertyEnum.AMAZONE_SERVER_HOST, true);
+		String queueName = ManagerProvider.property()
+				.getProperty(PropertyEnum.AMAZONE_QUEUE_NAME, true);
+		String userName = ManagerProvider.property()
+				.getProperty(PropertyEnum.AMAZONE_USER_NAME, true);
+		String userPassword = ManagerProvider.property()
+				.getProperty(PropertyEnum.AMAZONE_USER_PASSWORD, true);
+		AMQConfigEntity amqConfig = new AMQConfigEntity(queueName, serverHost,
+				userName, userPassword);
 
 		this.registerPush(amqConfig);
 		this.registerPushHandler();
@@ -71,16 +76,19 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
 		// FIXME connection이 맺어져 있는 상태값을 확인하여 맺어져 있으면 skip 하도록 수정.
 		try {
 
-			connectionFactory = new ActiveMQConnectionFactory(config.getServerHost());
+			connectionFactory = new ActiveMQConnectionFactory(
+					config.getServerHost());
 			connectionFactory.setUserName(config.getUserName());
 			connectionFactory.setPassword(config.getUserPassword());
 
 			consumerConnection = connectionFactory.createConnection();
 			consumerConnection.start();
 
-			consumerSession = consumerConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			consumerSession = consumerConnection.createSession(false,
+					Session.AUTO_ACKNOWLEDGE);
 			// Create a queue named "MyQueue".
-			consumerDestination = consumerSession.createQueue(config.getQueueName());
+			consumerDestination = consumerSession
+					.createQueue(config.getQueueName());
 			// Create a message consumer from the session to the queue.
 			consumer = consumerSession.createConsumer(consumerDestination);
 		} catch (JMSException e) {
@@ -110,7 +118,8 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
 	public void registerPushHandler() {
 		// TODO Auto-generated method stub
 		try {
-			consumer.setMessageListener((MessageListener) AMQMessageHandlerImpl.getInstance());
+			consumer.setMessageListener(
+					(MessageListener) AMQMessageHandlerImpl.getInstance());
 		} catch (NullPointerException ne) {
 			ne.printStackTrace();
 		} catch (JMSException e) {

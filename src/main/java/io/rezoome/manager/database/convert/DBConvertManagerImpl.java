@@ -2,7 +2,8 @@ package io.rezoome.manager.database.convert;
 
 import io.rezoome.manager.database.DatabaseManagerImpl;
 
-public class DBConvertManagerImpl extends DatabaseManagerImpl implements DBConverterManager {
+public class DBConvertManagerImpl extends DatabaseManagerImpl
+		implements DBConverterManager {
 
 	private static class Singleton {
 		private static final DatabaseManagerImpl instance = new DBConvertManagerImpl();

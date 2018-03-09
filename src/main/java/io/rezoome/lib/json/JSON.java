@@ -36,54 +36,82 @@ public final class JSON {
 	 * @author TACKSU
 	 * @param converter
 	 */
-	public static <T extends Jsonable> void registerSelfConverter(Object converter) {
+	public static <T extends Jsonable> void registerSelfConverter(
+			Object converter) {
 		try {
-			builder.registerTypeHierarchyAdapter(ClassLoader.getSystemClassLoader()
-					.loadClass(Thread.currentThread().getStackTrace()[2].getClassName()), converter);
+			builder.registerTypeHierarchyAdapter(
+					ClassLoader.getSystemClassLoader()
+							.loadClass(Thread.currentThread().getStackTrace()[2]
+									.getClassName()),
+					converter);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static <T extends Entity> void registerDeserializer(final String codeKey, final String instanceKey,
+	public static <T extends Entity> void registerDeserializer(
+			final String codeKey, final String instanceKey,
 			final Map<String, Class<? extends T>> mapper) {
 		try {
-			builder.registerTypeAdapter(ClassLoader.getSystemClassLoader().loadClass(
-					Thread.currentThread().getStackTrace()[2].getClassName()), new JsonDeserializer<Entity>() {
+			builder.registerTypeAdapter(
+					ClassLoader.getSystemClassLoader()
+							.loadClass(Thread.currentThread().getStackTrace()[2]
+									.getClassName()),
+					new JsonDeserializer<Entity>() {
 
 						@SuppressWarnings("unchecked")
 						@Override
-						public Entity deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+						public Entity deserialize(JsonElement json,
+								Type typeOfT,
+								JsonDeserializationContext context)
 								throws JsonParseException {
 							Entity rootEntity = null;
 							try {
-								rootEntity = (Entity) ConstructorUtils.newInstance((Class<Object>) typeOfT);
+								rootEntity = (Entity) ConstructorUtils
+										.newInstance((Class<Object>) typeOfT);
 
-								for (Field field : ReflectionUtils.getAllFields(typeOfT)) {
+								for (Field field : ReflectionUtils
+										.getAllFields(typeOfT)) {
 
-									String key = ReflectionUtils.getSerializedKey(field);
+									String key = ReflectionUtils
+											.getSerializedKey(field);
 
-									if (!Modifier.isStatic(field.getModifiers()) && key != null) {
+									if (!Modifier.isStatic(field.getModifiers())
+											&& key != null) {
 										if (key.equals(instanceKey)) {
-											String codeName = ((JsonObject) json).get(codeKey).getAsString();
+											String codeName = ((JsonObject) json)
+													.get(codeKey).getAsString();
 											if (codeName == null) {
-												throw new JsonParseException("Command key is missing");
+												throw new JsonParseException(
+														"Command key is missing");
 											}
-											Class<? extends T> entityCls = mapper.get(codeName);
+											Class<? extends T> entityCls = mapper
+													.get(codeName);
 
-											T memberEntity = context.deserialize(((JsonObject) json).get(instanceKey),
-													entityCls);
+											T memberEntity = context
+													.deserialize(
+															((JsonObject) json)
+																	.get(instanceKey),
+															entityCls);
 
-											ReflectionUtils.setField(rootEntity, field, memberEntity);
+											ReflectionUtils.setField(rootEntity,
+													field, memberEntity);
 											continue;
 										}
 
-										ReflectionUtils.setField(rootEntity, field,
-												context.deserialize(((JsonObject) json).get(key), field.getType()));
+										ReflectionUtils.setField(rootEntity,
+												field,
+												context.deserialize(
+														((JsonObject) json)
+																.get(key),
+														field.getType()));
 									}
 								}
-							} catch (NoSuchMethodException | SecurityException | InstantiationException
-									| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+							} catch (NoSuchMethodException | SecurityException
+									| InstantiationException
+									| IllegalAccessException
+									| IllegalArgumentException
+									| InvocationTargetException e) {
 								e.printStackTrace();
 							}
 							return rootEntity;
@@ -113,15 +141,19 @@ public final class JSON {
 		builder = new GsonBuilder();
 	}
 
-	public static <T extends Jsonable> T fromJson(InputStream is, Class<T> cls) {
-		return builder.create().fromJson(new JsonReader(new InputStreamReader(is)), cls);
+	public static <T extends Jsonable> T fromJson(InputStream is,
+			Class<T> cls) {
+		return builder.create()
+				.fromJson(new JsonReader(new InputStreamReader(is)), cls);
 	}
 
 	public static <T extends Jsonable> void fromJson(InputStream is, T entity) {
-		entity = builder.create().fromJson(new JsonReader(new InputStreamReader(is)), entity.getClass());
+		entity = builder.create().fromJson(
+				new JsonReader(new InputStreamReader(is)), entity.getClass());
 	}
 
-	public static <T extends Jsonable> T fromJson(String jsonString, Class<T> cls) {
+	public static <T extends Jsonable> T fromJson(String jsonString,
+			Class<T> cls) {
 		T entity = builder.create().fromJson(jsonString, cls);
 		return entity;
 	}

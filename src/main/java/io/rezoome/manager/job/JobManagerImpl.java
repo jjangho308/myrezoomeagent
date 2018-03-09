@@ -27,7 +27,8 @@ import io.rezoome.thread.WorkerThread;
  *
  */
 @ManagerType("Job")
-public final class JobManagerImpl extends AbstractManager implements JobManager {
+public final class JobManagerImpl extends AbstractManager
+		implements JobManager {
 
 	private static class Singleton {
 		private static final JobManager instance = new JobManagerImpl();
@@ -56,12 +57,14 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 
 	@Override
 	public void initialize(InitialEvent event) {
-		JOB_TEMP_FILE_PATH = ManagerProvider.property().getProperty(PropertyEnum.JOB_TEMP_FILE_PATH, true);
+		JOB_TEMP_FILE_PATH = ManagerProvider.property()
+				.getProperty(PropertyEnum.JOB_TEMP_FILE_PATH, true);
 
 		ExecutorService service = null;
 		try {
-			service = Executors.newScheduledThreadPool(Integer
-					.parseInt(ManagerProvider.property().getProperty(PropertyEnum.THREAD_POOL_CAPAVILITY, false)),
+			service = Executors.newScheduledThreadPool(
+					Integer.parseInt(ManagerProvider.property().getProperty(
+							PropertyEnum.THREAD_POOL_CAPAVILITY, false)),
 
 					new ThreadFactory() {
 
@@ -91,7 +94,8 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
-				((JobAction<JobEntity>) JobManagerImpl.this.actionMap.get(job.getClass())).process(job);
+				((JobAction<JobEntity>) JobManagerImpl.this.actionMap
+						.get(job.getClass())).process(job);
 			}
 		});
 	}
@@ -105,7 +109,8 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 		for (File file : listOfFiles) {
 			if (file.isFile()) {
 
-				String uncompleteJob = file.getName().substring(JOB_TEMP_FILE_PATH.length() + 1);
+				String uncompleteJob = file.getName()
+						.substring(JOB_TEMP_FILE_PATH.length() + 1);
 				// JobEntity job = new
 				JobEntity job = new JobEntity() {
 

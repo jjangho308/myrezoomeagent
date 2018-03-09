@@ -17,7 +17,8 @@ import io.rezoome.manager.AbstractManager;
  *
  */
 @ManagerType(value = "Property", initPriority = 10)
-public class PropertyManagerImpl extends AbstractManager implements PropertyManager {
+public class PropertyManagerImpl extends AbstractManager
+		implements PropertyManager {
 
 	private static class Singleton {
 		private static final PropertyManager instance = new PropertyManagerImpl();

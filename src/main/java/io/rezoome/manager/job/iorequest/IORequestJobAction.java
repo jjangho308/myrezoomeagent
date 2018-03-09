@@ -32,7 +32,8 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 			System.out.println("dbentity before: ");
 			// Database
 
-			DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
+			DBConverter converter = ManagerProvider.database()
+					.getConvertManager().getConverter();
 
 			DBEntity dbEntity = converter.convert(entity);
 			System.out.println("dbentity : ");

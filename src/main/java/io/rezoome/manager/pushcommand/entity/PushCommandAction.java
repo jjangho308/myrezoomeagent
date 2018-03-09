@@ -11,6 +11,7 @@ import io.rezoome.core.entity.Action;
  * @param <T>
  *            Entity class that charge of it. <br />
  */
-public interface PushCommandAction<T extends PushCommandEntity> extends Action<T> {
+public interface PushCommandAction<T extends PushCommandEntity>
+		extends Action<T> {
 
 }

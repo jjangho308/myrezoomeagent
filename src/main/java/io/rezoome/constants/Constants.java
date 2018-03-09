@@ -3,7 +3,8 @@ package io.rezoome.constants;
 public class Constants {
 
 	public static final String	SAMPLE					= "sample";
-	public static final String	CRLF					= System.getProperty("line.separator");
+	public static final String	CRLF					= System
+			.getProperty("line.separator");
 
 	public static final String	PARAM_UTF_8				= "UTF-8";
 

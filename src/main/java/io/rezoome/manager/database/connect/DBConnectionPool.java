@@ -35,8 +35,8 @@ public class DBConnectionPool {
 	private String				user;
 
 	// Constructor
-	public DBConnectionPool(String name, String URL, String user, String password, int maxConn, int initConn,
-			int waitTime) {
+	public DBConnectionPool(String name, String URL, String user,
+			String password, int maxConn, int initConn, int waitTime) {
 
 		this.name = name;
 		this.URL = URL;

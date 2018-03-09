@@ -11,7 +11,8 @@ import io.rezoome.manager.provider.ManagerProvider;
  *
  */
 @ManagerType("Status")
-public class StatusManagerImpl extends AbstractManager implements StatusManager {
+public class StatusManagerImpl extends AbstractManager
+		implements StatusManager {
 	protected String	keepAliveSendTime;
 	protected String	limitAllowNotSignalNumber;
 	protected Boolean	isKillAgent;
@@ -19,10 +20,12 @@ public class StatusManagerImpl extends AbstractManager implements StatusManager 
 	@Override
 	public void initialize(InitialEvent event) {
 		// TODO Auto-generated method stub
-		keepAliveSendTime = ManagerProvider.property().getProperty(PropertyEnum.KEEP_ALIVE_SEND_TIME, true);
-		limitAllowNotSignalNumber = ManagerProvider.property().getProperty(PropertyEnum.LIMIT_ALLOW_NOT_SIGNAL_NUMBER,
-				true);
-		isKillAgent = Boolean.getBoolean(ManagerProvider.property().getProperty(PropertyEnum.IS_KILL_AGENT, true));
+		keepAliveSendTime = ManagerProvider.property()
+				.getProperty(PropertyEnum.KEEP_ALIVE_SEND_TIME, true);
+		limitAllowNotSignalNumber = ManagerProvider.property()
+				.getProperty(PropertyEnum.LIMIT_ALLOW_NOT_SIGNAL_NUMBER, true);
+		isKillAgent = Boolean.getBoolean(ManagerProvider.property()
+				.getProperty(PropertyEnum.IS_KILL_AGENT, true));
 		setPrepared();
 	}
 
