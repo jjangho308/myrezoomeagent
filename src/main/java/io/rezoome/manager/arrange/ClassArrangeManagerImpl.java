@@ -15,7 +15,7 @@ import io.rezoome.manager.AbstractManager;
  * @author TACKSU
  *
  */
-@ManagerType("ClassArrange")
+@ManagerType(value = "ClassArrange", initPriority = 20)
 public final class ClassArrangeManagerImpl extends AbstractManager implements ClassArrangeManager {
 	
 	private Map<Class<Entity>, Map<String, Class<Entity>>> classMap = null;
