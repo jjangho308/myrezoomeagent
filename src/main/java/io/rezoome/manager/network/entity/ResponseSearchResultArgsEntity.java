@@ -2,8 +2,7 @@ package io.rezoome.manager.network.entity;
 
 import io.rezoome.core.entity.AbstractEntity;
 
-public class ResponseSearchResultArgsEntity extends AbstractEntity
-		implements ResponseArgsEntity {
+public class ResponseSearchResultArgsEntity extends AbstractEntity implements ResponseArgsEntity {
 
 	private String	code;
 	private String	msg;

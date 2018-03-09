@@ -11,8 +11,7 @@ import io.rezoome.manager.job.JobRsltEntity;
  *
  * @param <JOB>
  */
-public abstract class AbstractJob<JOB extends JobEntity>
-		implements JobAction<JOB> {
+public abstract class AbstractJob<JOB extends JobEntity> implements JobAction<JOB> {
 
 	public AbstractJob() {
 	}

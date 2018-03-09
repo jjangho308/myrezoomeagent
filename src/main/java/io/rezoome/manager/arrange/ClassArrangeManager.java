@@ -21,8 +21,7 @@ public interface ClassArrangeManager extends Manager {
 	 * @param cls
 	 * @return
 	 */
-	public <T extends Entity> Map<String, Class<? extends T>> getEntityCodeMap(
-			Class<T> cls);
+	public <T extends Entity> Map<String, Class<? extends T>> getEntityCodeMap(Class<T> cls);
 
 	/**
 	 * 
@@ -31,6 +30,5 @@ public interface ClassArrangeManager extends Manager {
 	 * @param cls
 	 * @return
 	 */
-	public <T extends Entity, U extends Action<? super T>> Map<Class<? extends T>, U> getActionMap(
-			Class<T> entityCls, Class<U> actionCls);
+	public <T extends Entity, U extends Action<? super T>> Map<Class<? extends T>, U> getActionMap(Class<T> entityCls, Class<U> actionCls);
 }

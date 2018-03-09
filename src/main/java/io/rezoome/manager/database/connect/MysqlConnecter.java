@@ -8,7 +8,6 @@ public class MysqlConnecter extends DBConnectionManagerImpl {
 		// dbName;
 		String url = JDBCDriverType + dbHost + ":" + dbPort + "/" + dbName;
 		connMgr = DBConnectionPoolManager.getInstance();
-		connMgr.init(poolName, JDBCDriver, url, dbUserID, dbPasswd, maxConn,
-				initConn, maxWait);
+		connMgr.init(poolName, JDBCDriver, url, dbUserID, dbPasswd, maxConn, initConn, maxWait);
 	}
 }

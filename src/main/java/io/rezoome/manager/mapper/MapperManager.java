@@ -4,8 +4,7 @@ import io.rezoome.manager.Manager;
 
 public interface MapperManager extends Manager {
 
-	public void createMapper() throws InstantiationException,
-			ClassNotFoundException, IllegalAccessException;
+	public void createMapper() throws InstantiationException, ClassNotFoundException, IllegalAccessException;
 
 	public Mapper getMapper();
 }

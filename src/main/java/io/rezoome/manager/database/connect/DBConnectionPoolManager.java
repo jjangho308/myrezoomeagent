@@ -49,17 +49,14 @@ public class DBConnectionPoolManager {
 	// @param url : DB URL
 	// @param user : DB UserID
 	// @param password : DB Password
-	private void createPools(String poolName, String url, String user,
-			String password, int maxConn, int initConn, int maxWait) {
+	private void createPools(String poolName, String url, String user, String password, int maxConn, int initConn, int maxWait) {
 
-		DBConnectionPool pool = new DBConnectionPool(poolName, url, user,
-				password, maxConn, initConn, maxWait);
+		DBConnectionPool pool = new DBConnectionPool(poolName, url, user, password, maxConn, initConn, maxWait);
 		pools.put(poolName, pool);
 		System.out.println("Initialized pool " + poolName);
 	}
 
-	public void init(String poolName, String driver, String url, String user,
-			String passwd, int maxConn, int initConn, int maxWait) {
+	public void init(String poolName, String driver, String url, String user, String passwd, int maxConn, int initConn, int maxWait) {
 
 		loadDrivers(driver);
 		createPools(poolName, url, user, passwd, maxConn, initConn, maxWait);

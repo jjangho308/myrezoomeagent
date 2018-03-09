@@ -16,7 +16,6 @@ import io.rezoome.thread.WorkerThread;
  * 
  * @since 1.0.0
  * @author TACKSU
- *
  */
 public final class ServiceInitializer {
 
@@ -25,26 +24,29 @@ public final class ServiceInitializer {
 	}
 
 	public enum InitializationPhase {
-		UNINITLIAZED, INITIALIZING, SYNC_INITIALIZED, ASYNC_INITIALIZED
+		ASYNC_INITIALIZED, INITIALIZING, SYNC_INITIALIZED, UNINITLIAZED
 	}
 
-	private static InitializationPhase	phase		= InitializationPhase.UNINITLIAZED;
 	private static InitialEvent			event;
 
-	private static final List<Manager>	managers	= new ArrayList<>();
+	private static final String			INITIALIZATION_THREAD	= "Initialization-thread";
+	private static final List<Manager>	managers				= new ArrayList<>();
+
+	private static InitializationPhase	phase					= InitializationPhase.UNINITLIAZED;
 
 	public static synchronized void initialize(InitialEvent from) {
 		if (phase != InitializationPhase.UNINITLIAZED) {
 			return;
 		}
+
+		Thread.currentThread().setName(INITIALIZATION_THREAD);
 		event = from;
 		phase = InitializationPhase.INITIALIZING;
 
 		for (Field manager : ManagerProvider.class.getDeclaredFields()) {
 
 			// Static member이자 Manager type의 member만 가져옴
-			if (Modifier.isStatic(manager.getModifiers())
-					&& manager.getType().asSubclass(Manager.class) != null) {
+			if (Modifier.isStatic(manager.getModifiers()) && manager.getType().asSubclass(Manager.class) != null) {
 
 				try {
 					manager.setAccessible(true);
@@ -55,12 +57,8 @@ public final class ServiceInitializer {
 
 						@Override
 						public int compare(Manager o1, Manager o2) {
-							return o1.getClass()
-									.getAnnotation(ManagerType.class)
-									.initPriority()
-									- o2.getClass()
-											.getAnnotation(ManagerType.class)
-											.initPriority();
+							return o1.getClass().getAnnotation(ManagerType.class).initPriority()
+									- o2.getClass().getAnnotation(ManagerType.class).initPriority();
 						}
 					});
 				} catch (IllegalArgumentException | IllegalAccessException e) {
@@ -79,7 +77,7 @@ public final class ServiceInitializer {
 
 		phase = InitializationPhase.SYNC_INITIALIZED;
 
-		// Async initialization.
+		// Asynchronous initialization.
 		new WorkerThread(new Runnable() {
 
 			@Override
@@ -91,7 +89,6 @@ public final class ServiceInitializer {
 						t.printStackTrace();
 					}
 				}
-
 			}
 		}).start();
 	}

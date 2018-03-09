@@ -5,10 +5,8 @@ public class OracleConnecter extends DBConnectionManagerImpl {
 	public OracleConnecter() {
 		String JDBCDriver = "oracle.jdbc.driver.OracleDriver";
 		String JDBCDriverType = "jdbc:oracle://";
-		String url = JDBCDriverType + ":@" + dbHost + ":" + dbPort + "/"
-				+ dbName;
+		String url = JDBCDriverType + ":@" + dbHost + ":" + dbPort + "/" + dbName;
 		connMgr = DBConnectionPoolManager.getInstance();
-		connMgr.init(poolName, JDBCDriver, url, dbUserID, dbPasswd, maxConn,
-				initConn, maxWait);
+		connMgr.init(poolName, JDBCDriver, url, dbUserID, dbPasswd, maxConn, initConn, maxWait);
 	}
 }

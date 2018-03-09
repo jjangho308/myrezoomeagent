@@ -5,8 +5,7 @@ import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
 
 @ManagerType("Log")
-public final class LogManagerImpl extends AbstractManager
-		implements LogManager {
+public final class LogManagerImpl extends AbstractManager implements LogManager {
 
 	private static class Singleton {
 		private static final LogManager instance = new LogManagerImpl();

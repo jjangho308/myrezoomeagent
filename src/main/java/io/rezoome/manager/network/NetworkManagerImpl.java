@@ -14,9 +14,8 @@ import io.rezoome.manager.network.http.HttpConnector;
 import io.rezoome.manager.network.http.HttpManager;
 import io.rezoome.manager.network.http.HttpsConnector;
 
-@ManagerType("Network")
-public class NetworkManagerImpl extends AbstractManager
-		implements NetworkManager {
+@ManagerType(value = "Network", initPriority = 30)
+public class NetworkManagerImpl extends AbstractManager implements NetworkManager {
 
 	HttpConnector	httpConnector;
 	HttpsConnector	httpsConnector;
@@ -63,16 +62,14 @@ public class NetworkManagerImpl extends AbstractManager
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put("Content-type", "application/json");
 
-		String result = httpConnector.sendPost("http://localhost:3000/agent",
-				headers, JSON.toJson(entity));
+		String result = httpConnector.sendPost("http://localhost:3000/agent", headers, JSON.toJson(entity));
 		System.out.println(result);
 
 		return new ResponsePacketEntity();
 	}
 
 	@Override
-	public RequestPacketEntity convert(RzmRsltEntity entity, String protocol,
-			String method) {
+	public RequestPacketEntity convert(RzmRsltEntity entity, String protocol, String method) {
 		RequestPacketEntity rsltEntity = new RequestPacketEntity();
 
 		return rsltEntity;

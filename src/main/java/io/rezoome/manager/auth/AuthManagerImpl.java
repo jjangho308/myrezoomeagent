@@ -11,7 +11,7 @@ import io.rezoome.manager.network.entity.RequestPacketEntity;
 import io.rezoome.manager.network.entity.RequestRegistrationArgsEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 
-@ManagerType("Auth")
+@ManagerType(value = "Auth", initPriority = 40)
 public class AuthManagerImpl extends AbstractManager implements AuthManager {
 
 	private static class Singleton {
@@ -53,9 +53,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
 			System.out.println(JSON.toJson(requestEntity));
 			headers.put("Content-type", "application/json");
 
-			String result = ManagerProvider.network().getHttpConnecter()
-					.sendPost("http://localhost:3000/agent/reg", headers,
-							JSON.toJson(requestEntity));
+			String result = ManagerProvider.network().getHttpConnecter().sendPost("http://localhost:3000/agent/reg", headers, JSON.toJson(requestEntity));
 			System.out.println("CONNECTION SUCCESS!");
 			System.out.println(result);
 			// ResponsePacketEntity responseEntity = JSON.fromJson(result,

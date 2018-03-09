@@ -17,8 +17,7 @@ public final class AMQConfigEntity extends AbstractEntity {
 	private final String	userName;
 	private final String	userPassword;
 
-	public AMQConfigEntity(String queueName, String serverHost, String userName,
-			String userPassword) {
+	public AMQConfigEntity(String queueName, String serverHost, String userName, String userPassword) {
 		super();
 		this.queueName = queueName;
 		this.serverHost = serverHost;

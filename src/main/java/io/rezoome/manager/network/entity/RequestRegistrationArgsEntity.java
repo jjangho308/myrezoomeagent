@@ -2,8 +2,7 @@ package io.rezoome.manager.network.entity;
 
 import io.rezoome.core.entity.AbstractEntity;
 
-public class RequestRegistrationArgsEntity extends AbstractEntity
-		implements RequestArgsEntity {
+public class RequestRegistrationArgsEntity extends AbstractEntity implements RequestArgsEntity {
 
 	private String	orgCode;
 	private String	orgPasscode;
