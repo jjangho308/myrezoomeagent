@@ -16,5 +16,5 @@ import io.rezoome.manager.network.entity.ResponsePacketEntity;
 public interface HttpRequestManager extends Manager {
 	RequestPacketEntity obtainRequestPacket();
 
-	ResponsePacketEntity sendRequest(RequestPacketEntity packet);
+	ResponsePacketEntity sendRequest(RequestPacket packet);
 }
