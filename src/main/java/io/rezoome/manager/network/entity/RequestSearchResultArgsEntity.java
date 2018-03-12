@@ -1,12 +1,21 @@
 package io.rezoome.manager.network.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.rezoome.core.entity.AbstractEntity;
 
 public class RequestSearchResultArgsEntity extends AbstractEntity implements RequestArgsEntity {
 
+  @SerializedName("orgCode")
   private String orgCode;
+
+  @SerializedName("encryptedData")
   private String encryptedData;
+
+  @SerializedName("hashedData")
   private String hashedData;
+
+  @SerializedName("encryptedKey")
   private String encryptedKey;
 
   public String getOrgCode() {
