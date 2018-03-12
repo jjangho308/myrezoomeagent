@@ -8,5 +8,5 @@ package io.rezoome.manager.amq;
  */
 public interface AMQMessageHandler {
 
-  boolean handleMessage(AMQMessageEntity msg);
+	boolean handleMessage(AMQMessageEntity msg);
 }

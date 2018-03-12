@@ -11,29 +11,29 @@ import io.rezoome.core.entity.AbstractEntity;
  * @author TACKSU
  *
  */
-public abstract class AbstractJobEntity extends AbstractEntity implements JobEntity{
-  @SerializedName("username")
-  protected final String username = null;
-  
-  @SerializedName("birth")
-  protected final String birth = null;
-  
-  @SerializedName("gender")
-  protected final String gender = null;
-  
-  @SerializedName("phone")
-  protected final String phone = null;
+public abstract class AbstractJobEntity extends AbstractEntity implements JobEntity {
+	@SerializedName("username")
+	protected final String	username	= null;
 
-  @SerializedName("email")
-  protected final String email = null;
-  
-  @SerializedName("ci")
-  protected final String ci = null;
-  
-  @SerializedName("cmd")
-  protected final String cmd = null;
+	@SerializedName("birth")
+	protected final String	birth		= null;
 
-  public String toJSON(){
-    return "{username:" + username + ",birth:" + birth + ",gender:" + gender + ",phone:" + phone + ",email:" + email + ",ci:" + ci + ",cmd:" + cmd + "}";
-  }
+	@SerializedName("gender")
+	protected final String	gender		= null;
+
+	@SerializedName("phone")
+	protected final String	phone		= null;
+
+	@SerializedName("email")
+	protected final String	email		= null;
+
+	@SerializedName("ci")
+	protected final String	ci			= null;
+
+	@SerializedName("cmd")
+	protected final String	cmd			= null;
+
+	public String toJSON() {
+		return "{username:" + username + ",birth:" + birth + ",gender:" + gender + ",phone:" + phone + ",email:" + email + ",ci:" + ci + ",cmd:" + cmd + "}";
+	}
 }

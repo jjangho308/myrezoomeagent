@@ -28,21 +28,20 @@ import io.rezoome.manager.status.StatusManagerImpl;
  * 
  * @since 1.0.0
  * @author TACKSU
- *
  */
 public final class ManagerProvider {
 
-	private static final JobManager job = JobManagerImpl.getInstance();
-	private static final LogManager log = LogManagerImpl.getInstance();
-	private static final AMQManager push = AMQManagerImpl.getInstance();
-	private static final PushCommandManager command = PushCommandManagerImpl.getInstance();
-	private static final ClassArrangeManager cls = ClassArrangeManagerImpl.getInstance();
-	private static final PropertyManager property = PropertyManagerImpl.getInstance();
-	private static final DatabaseManager db = DatabaseManagerImpl.getInstance();
-	private static final NetworkManager network = NetworkManagerImpl.getInstance();
-	private static final AuthManager auth = AuthManagerImpl.getInstance();
-	private static final StatusManager status = StatusManagerImpl.getInstance();
-	private static final MapperManager mapper = MapperManagerImpl.getInstance();
+	private static final JobManager				job			= JobManagerImpl.getInstance();
+	private static final LogManager				log			= LogManagerImpl.getInstance();
+	private static final AMQManager				push		= AMQManagerImpl.getInstance();
+	private static final PushCommandManager		command		= PushCommandManagerImpl.getInstance();
+	private static final ClassArrangeManager	cls			= ClassArrangeManagerImpl.getInstance();
+	private static final PropertyManager		property	= PropertyManagerImpl.getInstance();
+	private static final DatabaseManager		db			= DatabaseManagerImpl.getInstance();
+	private static final NetworkManager			network		= NetworkManagerImpl.getInstance();
+	private static final AuthManager			auth		= AuthManagerImpl.getInstance();
+	private static final StatusManager			status		= StatusManagerImpl.getInstance();
+	private static final MapperManager			mapper		= MapperManagerImpl.getInstance();
 
 	public static JobManager job() {
 		return job;
@@ -83,8 +82,8 @@ public final class ManagerProvider {
 	public static AuthManager authentication() {
 		return auth;
 	}
-	
-	public static StatusManager status(){
+
+	public static StatusManager status() {
 		return status;
 	}
 }

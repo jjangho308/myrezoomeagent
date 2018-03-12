@@ -10,12 +10,12 @@ import java.util.UUID;
  *
  */
 public class LoggerBuilder {
-	
-	private final ThreadLocal<String> taskIdLocal = new ThreadLocal<>();
 
-	private String taskId;
+	private final ThreadLocal<String>	taskIdLocal	= new ThreadLocal<>();
 
-	private Class<?> cls;
+	private String						taskId;
+
+	private Class<?>					cls;
 
 	public LoggerBuilder() {
 	}
@@ -27,11 +27,11 @@ public class LoggerBuilder {
 
 	public Logger create() {
 		Logger logger = null;
-		
-		if(taskIdLocal.get() == null){
+
+		if (taskIdLocal.get() == null) {
 			taskIdLocal.set(UUID.randomUUID().toString());
 		}
-		
+
 		// TODO Set task id to logger.
 
 		return logger;

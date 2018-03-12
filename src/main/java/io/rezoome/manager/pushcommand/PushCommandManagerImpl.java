@@ -19,8 +19,8 @@ import io.rezoome.manager.pushcommand.entity.PushCommandResult;
 @ManagerType("PushCommand")
 public class PushCommandManagerImpl extends AbstractManager implements PushCommandManager {
 
-	private Map<String, Class<? extends PushCommandEntity>> entityCodeMap;
-	private Map<Class<? extends PushCommandEntity>, PushCommandAction<? super PushCommandEntity>> actionMap;
+	private Map<String, Class<? extends PushCommandEntity>>											entityCodeMap;
+	private Map<Class<? extends PushCommandEntity>, PushCommandAction<? super PushCommandEntity>>	actionMap;
 
 	{
 		this.entityCodeMap = new HashMap<>();
@@ -47,6 +47,7 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 	public void initialize(InitialEvent event) {
 
 		entityCodeMap = ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
+
 		actionMap = ManagerProvider.clsarrange().getActionMap(PushCommandEntity.class, PushCommandAction.class);
 
 		setPrepared();

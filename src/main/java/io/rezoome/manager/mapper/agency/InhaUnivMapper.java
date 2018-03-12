@@ -6,7 +6,7 @@ import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.manager.database.entity.DBRsltEntity;
 import io.rezoome.manager.mapper.Mapper;
 
-public class InhaUnivMapper implements Mapper  {
+public class InhaUnivMapper implements Mapper {
 
   @Override
   public RzmRsltEntity convert(DBRsltEntity entity) {
@@ -17,11 +17,11 @@ public class InhaUnivMapper implements Mapper  {
     
     return rsltEntity;
   }
-
-  @Override
-  public List<RzmRsltEntity> convert(List<DBRsltEntity> entity) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+  
+	@Override
+	public List<RzmRsltEntity> convert(List<DBRsltEntity> entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

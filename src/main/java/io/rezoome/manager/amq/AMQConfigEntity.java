@@ -12,17 +12,12 @@ import io.rezoome.core.entity.AbstractEntity;
  *
  */
 public final class AMQConfigEntity extends AbstractEntity {
-	private final String queueName;
-	private final String serverHost;
-	private final String userName;
-	private final String userPassword;
-	
-	
+	private final String	queueName;
+	private final String	serverHost;
+	private final String	userName;
+	private final String	userPassword;
 
-	public AMQConfigEntity(String queueName,
-							String serverHost,
-							String userName,
-							String userPassword) {
+	public AMQConfigEntity(String queueName, String serverHost, String userName, String userPassword) {
 		super();
 		this.queueName = queueName;
 		this.serverHost = serverHost;
@@ -34,7 +29,6 @@ public final class AMQConfigEntity extends AbstractEntity {
 		return queueName;
 	}
 
-		
 	public String getServerHost() {
 		return serverHost;
 	}
@@ -46,8 +40,8 @@ public final class AMQConfigEntity extends AbstractEntity {
 	public String getUserPassword() {
 		return userPassword;
 	}
-	
-	public URL toURL(){
+
+	public URL toURL() {
 		// TODO Assemble parameters to push server url.
 		return null;
 	}

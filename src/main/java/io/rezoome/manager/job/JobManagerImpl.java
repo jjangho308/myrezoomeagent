@@ -13,8 +13,8 @@ import io.rezoome.core.entity.annotation.EntityType;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.job.entity.JobAction;
 import io.rezoome.manager.job.entity.JobEntity;
-import io.rezoome.manager.job.iorequest.IORequestJobEntity;
 import io.rezoome.manager.job.iorequest.IORequestJobAction;
+import io.rezoome.manager.job.iorequest.IORequestJobEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.thread.WorkerThread;
@@ -60,8 +60,7 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 
 		ExecutorService service = null;
 		try {
-			service = Executors.newScheduledThreadPool(Integer
-					.parseInt(ManagerProvider.property().getProperty(PropertyEnum.THREAD_POOL_CAPAVILITY, false)),
+			service = Executors.newScheduledThreadPool(Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.THREAD_POOL_CAPAVILITY, false)),
 
 					new ThreadFactory() {
 

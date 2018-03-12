@@ -12,8 +12,8 @@ import io.rezoome.core.ServiceInitializer.InitialEvent;
 public interface Manager {
 
 	void initialize(InitialEvent event);
-	
+
 	void initializeOnThread(InitialEvent event);
-	
+
 	boolean isPrepared();
 }

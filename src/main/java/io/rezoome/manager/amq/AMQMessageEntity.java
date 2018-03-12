@@ -13,13 +13,11 @@ import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
-import io.rezoome.core.entity.Action;
-import io.rezoome.core.entity.Entity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.lib.json.util.ConstructorUtils;
 import io.rezoome.lib.json.util.ReflectionUtils;
+import io.rezoome.manager.job.entity.JobEntity;
 import io.rezoome.manager.provider.ManagerProvider;
-import io.rezoome.manager.pushcommand.EntityMapper;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 
 /**
@@ -31,60 +29,21 @@ import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 public final class AMQMessageEntity extends AbstractEntity {
 
 	static {
-//		JSON.registerSelfConverter(new Converter());
+		// JSON.registerSelfConverter(new Converter());
 		JSON.registerDeserializer("cmd", "args", ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class));
 	}
 
-	private static class Converter implements JsonDeserializer<AMQMessageEntity> {
-
-		@Override
-		public AMQMessageEntity deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-				throws JsonParseException {
-			AMQMessageEntity entity = null;
-			try {
-				entity = ConstructorUtils.newInstance(AMQMessageEntity.class);
-				for (Field field : ReflectionUtils.getAllFields(typeOfT)) {
-
-					String key = ReflectionUtils.getSerializedKey(field);
-
-					if (!Modifier.isStatic(field.getModifiers()) && key != null) {
-						if (field.getType().equals(PushCommandEntity.class)) {
-							String cmdName = ((JsonObject) json).get("cmd").getAsString();
-							if (cmdName == null) {
-								throw new JsonParseException("Command key is missing");
-							}
-							Class<? extends PushCommandEntity> cmdEntityCls = ManagerProvider.pushcommand()
-									.getEntity(cmdName);
-							PushCommandEntity commandEntity = context.deserialize(((JsonObject) json).get("args"),
-									cmdEntityCls);
-							ReflectionUtils.setField(entity, field, commandEntity);
-							continue;
-						}
-
-						ReflectionUtils.setField(entity, field,
-								context.deserialize(((JsonObject) json).get(key), field.getType()));
-					}
-				}
-			} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}
-
-			return entity;
-		}
-	}
-
 	@SerializedName("mid")
-	private final String mid = null;
+	private final String			mid		= null;
 
 	@SerializedName("token")
-	private final String token = null;
+	private final String			token	= null;
 
 	@SerializedName("cmd")
-	private final String cmd = null;
+	private final String			cmd		= null;
 
 	@SerializedName("args")
-	private final PushCommandEntity args = null;
+	private final PushCommandEntity	args	= null;
 
 	public AMQMessageEntity() {
 		super();

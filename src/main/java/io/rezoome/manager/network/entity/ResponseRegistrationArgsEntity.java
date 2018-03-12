@@ -1,11 +1,18 @@
 package io.rezoome.manager.network.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.rezoome.core.entity.AbstractEntity;
 
 public class ResponseRegistrationArgsEntity extends AbstractEntity implements ResponseArgsEntity {
 
+  @SerializedName("code")
   private String code;
+
+  @SerializedName("msg")
   private String msg;
+
+  @SerializedName("queueName")
   private String queueName;
 
   public String getCode() {

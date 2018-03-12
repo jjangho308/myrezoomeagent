@@ -11,7 +11,7 @@ import io.rezoome.manager.job.JobRsltEntity;
 import io.rezoome.manager.job.entity.AbstractJob;
 import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
-import io.rezoome.manager.network.entity.RequestSearchResultArgsEntity;
+import io.rezoome.manager.network.entity.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 
 public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
@@ -28,10 +28,17 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
       System.out.println("IORequest Job");
       System.out.println(entity);
+<<<<<<< HEAD
       
       // Database      
+=======
+
+      System.out.println("dbentity before: ");
+      // Database
+
+>>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
       DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
-      
+
       DBEntity dbEntity = converter.convert(entity);
       DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
 
@@ -47,22 +54,13 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       // Agency Mapping
       Mapper mapper = ManagerProvider.mapper().getMapper();
       RzmRsltEntity response = mapper.convert(dbRsltEntity);
-      
-      //RequestPacketEntity packetEntity = ManagerProvider.network().convert(response, "http", "Post");
 
-      // request to server using api
-      RequestPacketEntity requestEntity = new RequestPacketEntity();
-      requestEntity.setCmd("SearchResult");
+      // RequestPacketEntity requestEntity =
+      // ManagerProvider.network().convert(response, "http", "Post");
+      RequestPacketEntity requestEntity = ManagerProvider.network().convert(response, "search");
+      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "https", "post");
 
-      RequestSearchResultArgsEntity argsEntity = new RequestSearchResultArgsEntity();
-      argsEntity.setOrgCode("code001");
-      argsEntity.setEncryptedData("setEncryptedData");
-      argsEntity.setEncryptedKey("setEncryptedKey");
-      argsEntity.setHashedData("setHashedData");
-      requestEntity.setArgs(argsEntity);
-
-      System.out.println(requestEntity.toString());
-      ManagerProvider.network().request(requestEntity);
+      // TODO 택수 마무리좀
 
       // log
       ManagerProvider.log();

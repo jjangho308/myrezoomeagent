@@ -1,5 +1,7 @@
 package io.rezoome.manager.network.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.rezoome.core.entity.AbstractEntity;
 
 /**
@@ -11,9 +13,16 @@ import io.rezoome.core.entity.AbstractEntity;
  */
 public class ResponsePacketEntity extends AbstractEntity {
 
+  @SerializedName("mid")
   private String mid;
+
+  @SerializedName("cmd")
   private String cmd;
+
+  @SerializedName("code")
   private String code;
+
+  @SerializedName("result")
   private ResponseArgsEntity result;
 
   public String getMid() {

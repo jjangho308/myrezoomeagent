@@ -9,16 +9,22 @@ import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
+import io.rezoome.manager.network.entity.RequestRegistrationArgsEntity;
+import io.rezoome.manager.network.entity.RequestSearchResultArgsEntity;
 import io.rezoome.manager.network.entity.ResponsePacketEntity;
 import io.rezoome.manager.network.http.HttpConnector;
 import io.rezoome.manager.network.http.HttpManager;
 import io.rezoome.manager.network.http.HttpsConnector;
+import io.rezoome.manager.property.PropertyEnum;
+import io.rezoome.manager.provider.ManagerProvider;
 
-@ManagerType("Network")
+@ManagerType(value = "Network", initPriority = 30)
 public class NetworkManagerImpl extends AbstractManager implements NetworkManager {
 
-  HttpConnector httpConnector;
-  HttpsConnector httpsConnector;
+  private HttpConnector httpConnector;
+  private HttpsConnector httpsConnector;
+  private String portalUrl;
+  private Map<String, Object> headers;
 
   private static class Singleton {
     private static final NetworkManager instance = new NetworkManagerImpl();
@@ -38,6 +44,11 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     // HttpsConnecter.getInstance();
     httpConnector = new HttpConnector();
     httpsConnector = new HttpsConnector();
+    portalUrl = ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, true);
+
+    // Content-type is application/json
+    headers = new HashMap<String, Object>();
+    headers.put("Content-type", "application/json");
     setPrepared();
   }
 
@@ -54,26 +65,55 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   }
 
   @Override
-  public ResponsePacketEntity request(RequestPacketEntity entity) {
+  public ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method) {
     // TODO Auto-generated method stub
+    System.out.println("http request : " + entity);
+    String response = null;
+    if ("HTTPS".equals(protocol.toUpperCase())) {
+      if ("GET".equals(method.toUpperCase())) {
+        response = httpsConnector.sendGet(portalUrl, headers);
+      } else if ("POST".equals(method.toUpperCase())) {
+        response = httpsConnector.sendPost(portalUrl, headers, JSON.toJson(entity));
+      }
+    } else {
+      if ("GET".equals(method.toUpperCase())) {
+        response = httpsConnector.sendGet(portalUrl, headers);
+      } else if ("POST".equals(method.toUpperCase())) {
+        response = httpsConnector.sendPost(portalUrl, headers, JSON.toJson(entity));
+      }
+    }
 
-    System.out.println("searchResult : " + JSON.toJson(entity));
-
-    Map<String, Object> headers = new HashMap<String, Object>();
-    headers.put("Content-type", "application/json");
-
-    String result = httpConnector.sendPost("http://localhost:3000/agent", headers, JSON.toJson(entity));
-    System.out.println(result);
-
-    return new ResponsePacketEntity();
+    System.out.println(response);
+    ResponsePacketEntity responseEntity = JSON.fromJson(response, ResponsePacketEntity.class);
+    return responseEntity;
   }
 
-
   @Override
-  public RequestPacketEntity convert(RzmRsltEntity entity, String protocol, String method) {
-    RequestPacketEntity rsltEntity = new RequestPacketEntity();
+  public RequestPacketEntity convert(RzmRsltEntity entity, String cmd) {
+    RequestPacketEntity requestEntity = new RequestPacketEntity();
 
-    return rsltEntity;
+    if ("registration".equals(cmd.toUpperCase())) {
+      requestEntity.setCmd("registration");
+
+      RequestRegistrationArgsEntity argsEntity = new RequestRegistrationArgsEntity();
+      argsEntity.setOrgCode("code001");
+      argsEntity.setOrgPasscode("passcode");
+      argsEntity.setOrgName("orgName");
+      requestEntity.setArgs(argsEntity);
+
+    } else if ("SearchResult".equals(cmd.toUpperCase())) {
+      requestEntity.setCmd("SearchResult");
+
+      RequestSearchResultArgsEntity argsEntity = new RequestSearchResultArgsEntity();
+      argsEntity.setOrgCode("code001");
+      argsEntity.setEncryptedData("setEncryptedData");
+      argsEntity.setEncryptedKey("setEncryptedKey");
+      argsEntity.setHashedData("setHashedData");
+      requestEntity.setArgs(argsEntity);
+    }
+
+    System.out.println(requestEntity.toString());
+    return requestEntity;
   }
 
   @Override

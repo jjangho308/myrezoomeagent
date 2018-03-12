@@ -13,5 +13,6 @@ import io.rezoome.manager.event.listener.EventListener;
 public interface EventRegisterManager extends Manager {
 
 	public void addEventListener(EventListener listener);
+
 	public void removeEventListener(EventListener eventListener);
 }

@@ -1,5 +1,7 @@
 package io.rezoome.manager.network.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.rezoome.core.entity.AbstractEntity;
 
 /**
@@ -10,9 +12,17 @@ import io.rezoome.core.entity.AbstractEntity;
  */
 public class RequestPacketEntity extends AbstractEntity {
 
+<<<<<<< HEAD
   
+=======
+  @SerializedName("mid")
+>>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
   private String mid;
+
+  @SerializedName("cmd")
   private String cmd;
+
+  @SerializedName("args")
   private RequestArgsEntity args;
 
   public String getMid() {

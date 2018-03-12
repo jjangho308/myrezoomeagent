@@ -5,18 +5,17 @@ import io.rezoome.manager.AbstractManager;
 
 public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvisionManager {
 
-  @Override
-  public void initialize(InitialEvent event) {
-    // TODO Auto-generated method stub
-    
-    setPrepared();
-  }
+	@Override
+	public void initialize(InitialEvent event) {
+		// TODO Auto-generated method stub
 
-  @Override
-  public void initializeOnThread(InitialEvent event) {
-    // TODO Auto-generated method stub
-    
-  }
-  
+		setPrepared();
+	}
+
+	@Override
+	public void initializeOnThread(InitialEvent event) {
+		// TODO Auto-generated method stub
+
+	}
 
 }

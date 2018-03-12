@@ -14,6 +14,7 @@ import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
+
 /**
  * Implementation of {@link AMQManager}. <br />
  * 
@@ -24,99 +25,98 @@ import io.rezoome.manager.provider.ManagerProvider;
 @ManagerType("AMQ")
 public class AMQManagerImpl extends AbstractManager implements AMQManager {
 
-  private static class Singleton {
-    private static final AMQManager instance = new AMQManagerImpl();
-  }
+	private static class Singleton {
+		private static final AMQManager instance = new AMQManagerImpl();
+	}
 
-  public static AMQManager getInstance() {
-    return Singleton.instance;
-  }
-  
-  private ActiveMQConnectionFactory connectionFactory;
-  private Connection consumerConnection;
-  private Session consumerSession;
-  private Destination consumerDestination;
-  private MessageConsumer consumer;
-  
+	public static AMQManager getInstance() {
+		return Singleton.instance;
+	}
+
+	private ActiveMQConnectionFactory	connectionFactory;
+	private Connection					consumerConnection;
+	private Session						consumerSession;
+	private Destination					consumerDestination;
+	private MessageConsumer				consumer;
+
 	@Override
 	public void initialize(InitialEvent event) {
 		// TODO Auto-generated method stub
-	  connectionFactory = null;
-	  consumerConnection = null;
-	  consumerSession = null;
-	  consumerDestination = null;
-	  consumer = null;
-	  
-	  String serverHost = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_SERVER_HOST, true);
-	  String queueName = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_QUEUE_NAME, true);
-	  String userName = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_USER_NAME, true);
-	  String userPassword = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_USER_PASSWORD, true);
-	  AMQConfigEntity amqConfig = new AMQConfigEntity(queueName, serverHost, userName, userPassword);
-	  
-	  this.registerPush(amqConfig);
-	  this.registerPushHandler();
-	  System.out.println("PushManager Init Complete.");
-	  setPrepared();
+		connectionFactory = null;
+		consumerConnection = null;
+		consumerSession = null;
+		consumerDestination = null;
+		consumer = null;
+
+		String serverHost = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_SERVER_HOST, true);
+		String queueName = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_QUEUE_NAME, true);
+		String userName = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_USER_NAME, true);
+		String userPassword = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_USER_PASSWORD, true);
+		AMQConfigEntity amqConfig = new AMQConfigEntity(queueName, serverHost, userName, userPassword);
+
+		this.registerPush(amqConfig);
+		this.registerPushHandler();
+		System.out.println("PushManager Init Complete.");
+		setPrepared();
 	}
 
 	@Override
 	public void initializeOnThread(InitialEvent event) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	@Override
+	public synchronized void registerPush(AMQConfigEntity config) {
+		// FIXME connection이 맺어져 있는 상태값을 확인하여 맺어져 있으면 skip 하도록 수정.
+		try {
 
-  @Override
-  public synchronized void registerPush(AMQConfigEntity config) {
-    // FIXME connection이 맺어져 있는 상태값을 확인하여 맺어져 있으면 skip 하도록 수정.
-    try {
- 
-      connectionFactory = new ActiveMQConnectionFactory(config.getServerHost());      
-      connectionFactory.setUserName(config.getUserName());
-      connectionFactory.setPassword(config.getUserPassword());
+			connectionFactory = new ActiveMQConnectionFactory(config.getServerHost());
+			connectionFactory.setUserName(config.getUserName());
+			connectionFactory.setPassword(config.getUserPassword());
 
-      consumerConnection = connectionFactory.createConnection();
-      consumerConnection.start();
-      
-      consumerSession = consumerConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-      // Create a queue named "MyQueue".
-      consumerDestination = consumerSession.createQueue(config.getQueueName());
-      // Create a message consumer from the session to the queue.
-      consumer = consumerSession.createConsumer(consumerDestination);
-    } catch (JMSException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+			consumerConnection = connectionFactory.createConnection();
+			consumerConnection.start();
 
-  }
+			consumerSession = consumerConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			// Create a queue named "MyQueue".
+			consumerDestination = consumerSession.createQueue(config.getQueueName());
+			// Create a message consumer from the session to the queue.
+			consumer = consumerSession.createConsumer(consumerDestination);
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-  @Override
-  public void unregisterPush() {
-    // TODO Auto-generated method stub
-    try {
-      consumer.close();
-      consumerSession.close();
-      consumerConnection.close();
-    } catch (NullPointerException ne){
-      ne.printStackTrace();
-    } catch (JMSException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-   
-  }
+	}
 
-  @Override
-  public void registerPushHandler() {
-    // TODO Auto-generated method stub
-    try {
-      consumer.setMessageListener((MessageListener) AMQMessageHandlerImpl.getInstance());
-    } catch (NullPointerException ne){
-      ne.printStackTrace();
-    } catch (JMSException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } 
-  }
+	@Override
+	public void unregisterPush() {
+		// TODO Auto-generated method stub
+		try {
+			consumer.close();
+			consumerSession.close();
+			consumerConnection.close();
+		} catch (NullPointerException ne) {
+			ne.printStackTrace();
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void registerPushHandler() {
+		// TODO Auto-generated method stub
+		try {
+			consumer.setMessageListener((MessageListener) AMQMessageHandlerImpl.getInstance());
+		} catch (NullPointerException ne) {
+			ne.printStackTrace();
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

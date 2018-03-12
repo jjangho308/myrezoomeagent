@@ -38,23 +38,21 @@ public final class JSON {
 	 */
 	public static <T extends Jsonable> void registerSelfConverter(Object converter) {
 		try {
-			builder.registerTypeHierarchyAdapter(ClassLoader.getSystemClassLoader()
-					.loadClass(Thread.currentThread().getStackTrace()[2].getClassName()), converter);
+			builder.registerTypeHierarchyAdapter(ClassLoader.getSystemClassLoader().loadClass(Thread.currentThread().getStackTrace()[2].getClassName()),
+					converter);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static <T extends Entity> void registerDeserializer(final String codeKey, final String instanceKey,
-			final Map<String, Class<? extends T>> mapper) {
+	public static <T extends Entity> void registerDeserializer(final String codeKey, final String instanceKey, final Map<String, Class<? extends T>> mapper) {
 		try {
-			builder.registerTypeAdapter(ClassLoader.getSystemClassLoader().loadClass(
-					Thread.currentThread().getStackTrace()[2].getClassName()), new JsonDeserializer<Entity>() {
+			builder.registerTypeAdapter(ClassLoader.getSystemClassLoader().loadClass(Thread.currentThread().getStackTrace()[2].getClassName()),
+					new JsonDeserializer<Entity>() {
 
 						@SuppressWarnings("unchecked")
 						@Override
-						public Entity deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-								throws JsonParseException {
+						public Entity deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 							Entity rootEntity = null;
 							try {
 								rootEntity = (Entity) ConstructorUtils.newInstance((Class<Object>) typeOfT);
@@ -64,26 +62,29 @@ public final class JSON {
 									String key = ReflectionUtils.getSerializedKey(field);
 
 									if (!Modifier.isStatic(field.getModifiers()) && key != null) {
-										if (key.equals(instanceKey)) {
-											String codeName = ((JsonObject) json).get(codeKey).getAsString();
+										if (key.equals(instanceKey)) { // "args
+																		// : ?
+																		// extends
+																		// PushCommandEntity"
+											String codeName = ((JsonObject) json).get(codeKey).getAsString(); // "cmd
+																												// :
+																												// Search"
 											if (codeName == null) {
 												throw new JsonParseException("Command key is missing");
 											}
-											Class<? extends T> entityCls = mapper.get(codeName);
+											Class<? extends T> entityCls = mapper.get(codeName); // Class<SearchRecordPushCommandEntity>
 
-											T memberEntity = context.deserialize(((JsonObject) json).get(instanceKey),
-													entityCls);
+											T memberEntity = context.deserialize(((JsonObject) json).get(instanceKey), entityCls);
 
 											ReflectionUtils.setField(rootEntity, field, memberEntity);
 											continue;
 										}
 
-										ReflectionUtils.setField(rootEntity, field,
-												context.deserialize(((JsonObject) json).get(key), field.getType()));
+										ReflectionUtils.setField(rootEntity, field, context.deserialize(((JsonObject) json).get(key), field.getType()));
 									}
 								}
-							} catch (NoSuchMethodException | SecurityException | InstantiationException
-									| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+							} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException
+									| InvocationTargetException e) {
 								e.printStackTrace();
 							}
 							return rootEntity;

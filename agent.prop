@@ -29,3 +29,6 @@ MYBATIS_CONFIG_FILE_PATH = io/rezoome/manager/database/mybatis/xml/mybatis-confi
 
 [Job]
 JOB_TEMP_FILE_PATH = ./
+
+[HTTP]
+PORTAL_URL = http://devportalalb-1075047289.ap-northeast-2.elb.amazonaws.com:3000/agent

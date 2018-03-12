@@ -25,7 +25,8 @@ public interface ClassArrangeManager extends Manager {
 
 	/**
 	 * 
-	 * @param actionCls TODO
+	 * @param actionCls
+	 *            TODO
 	 * @param cls
 	 * @return
 	 */
