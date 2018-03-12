@@ -11,9 +11,11 @@ import io.rezoome.manager.Manager;
  * @author TACKSU
  */
 public interface PropertyManager extends Manager {
-	
+
 	public boolean hasProperty(final PropertyEnum key, boolean... refresh);
+
 	public String getProperty(final PropertyEnum key, boolean... refresh);
+
 	public Map<String, String> getProperties(PropertyEnum... keys);
-	
+
 }

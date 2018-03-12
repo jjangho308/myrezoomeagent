@@ -25,5 +25,5 @@ public abstract class AbstractJob<JOB extends JobEntity> implements JobAction<JO
 		return result;
 	}
 
-	protected abstract JobRsltEntity processInternal(JOB entity); 
+	protected abstract JobRsltEntity processInternal(JOB entity);
 }

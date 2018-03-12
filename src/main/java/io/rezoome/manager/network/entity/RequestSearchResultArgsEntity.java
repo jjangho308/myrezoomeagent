@@ -6,6 +6,7 @@ import io.rezoome.core.entity.AbstractEntity;
 
 public class RequestSearchResultArgsEntity extends AbstractEntity implements RequestArgsEntity {
 
+<<<<<<< HEAD
   @SerializedName("orgCode")
   private String orgCode;
 
@@ -17,36 +18,42 @@ public class RequestSearchResultArgsEntity extends AbstractEntity implements Req
 
   @SerializedName("encryptedKey")
   private String encryptedKey;
+=======
+	private String	orgCode;
+	private String	encryptedData;
+	private String	hashedData;
+	private String	encryptedKey;
+>>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
 
-  public String getOrgCode() {
-    return orgCode;
-  }
+	public String getOrgCode() {
+		return orgCode;
+	}
 
-  public void setOrgCode(String orgCode) {
-    this.orgCode = orgCode;
-  }
+	public void setOrgCode(String orgCode) {
+		this.orgCode = orgCode;
+	}
 
-  public String getEncryptedData() {
-    return encryptedData;
-  }
+	public String getEncryptedData() {
+		return encryptedData;
+	}
 
-  public void setEncryptedData(String encryptedData) {
-    this.encryptedData = encryptedData;
-  }
+	public void setEncryptedData(String encryptedData) {
+		this.encryptedData = encryptedData;
+	}
 
-  public String getHashedData() {
-    return hashedData;
-  }
+	public String getHashedData() {
+		return hashedData;
+	}
 
-  public void setHashedData(String hashedData) {
-    this.hashedData = hashedData;
-  }
+	public void setHashedData(String hashedData) {
+		this.hashedData = hashedData;
+	}
 
-  public String getEncryptedKey() {
-    return encryptedKey;
-  }
+	public String getEncryptedKey() {
+		return encryptedKey;
+	}
 
-  public void setEncryptedKey(String encryptedKey) {
-    this.encryptedKey = encryptedKey;
-  }
+	public void setEncryptedKey(String encryptedKey) {
+		this.encryptedKey = encryptedKey;
+	}
 }

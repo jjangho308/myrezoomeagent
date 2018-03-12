@@ -10,27 +10,21 @@ import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandAction;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 import io.rezoome.manager.pushcommand.entity.PushCommandResult;
-import io.rezoome.manager.pushcommand.entity.search.SearchCommandAction;
-import io.rezoome.manager.pushcommand.entity.search.SearchCommandEntity;
 
 /**
  * Implementation of {@link PushCommandManager}. <br />
  * 
- * @author Saver
- *
+ * @author Saver +
  */
 @ManagerType("PushCommand")
 public class PushCommandManagerImpl extends AbstractManager implements PushCommandManager {
 
-	private final Map<String, Class<? extends PushCommandEntity>> entityCodeMap;
-	private final Map<Class<? extends PushCommandEntity>, PushCommandAction<? extends PushCommandEntity>> actionMap;
+	private Map<String, Class<? extends PushCommandEntity>>											entityCodeMap;
+	private Map<Class<? extends PushCommandEntity>, PushCommandAction<? super PushCommandEntity>>	actionMap;
 
 	{
 		this.entityCodeMap = new HashMap<>();
 		this.actionMap = new HashMap<>();
-
-		this.entityCodeMap.put("SearchRecord", SearchCommandEntity.class);
-		this.actionMap.put(SearchCommandEntity.class, new SearchCommandAction());
 	}
 
 	/**
@@ -49,8 +43,13 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void initialize(InitialEvent event) {
-		ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
+
+		entityCodeMap = ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
+
+		actionMap = ManagerProvider.clsarrange().getActionMap(PushCommandEntity.class, PushCommandAction.class);
+
 		setPrepared();
 	}
 
@@ -60,28 +59,20 @@ public class PushCommandManagerImpl extends AbstractManager implements PushComma
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public PushCommandResult invokeCommand(PushCommandEntity command) {
-		
-		PushCommandAction<PushCommandEntity> action =
-				(PushCommandAction<PushCommandEntity>) this.actionMap
-				.get(command.getClass());
-		action.process(command);
-		
+
+		this.actionMap.get(command.getClass()).process(command);
 		return null;
 	}
 
 	@Override
-	public <T extends PushCommandEntity> PushCommandAction<T> getAction(T command) {
-		// TODO Auto-generated method stub
-
-		return null;
+	public Class<? extends PushCommandEntity> getEntity(String code) {
+		return this.entityCodeMap.get(code);
 	}
 
 	@Override
-	public Class<? extends PushCommandEntity> getCommandEntity(String cmdName) {
-		return this.entityCodeMap.get(cmdName);
+	public <V extends PushCommandEntity> PushCommandAction<? super PushCommandEntity> getAction(V entity) {
+		return this.actionMap.get(entity);
 	}
-
 }

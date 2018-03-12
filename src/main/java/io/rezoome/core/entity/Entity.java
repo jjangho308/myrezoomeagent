@@ -3,7 +3,6 @@ package io.rezoome.core.entity;
 import io.rezoome.core.entity.annotation.EntityType;
 import io.rezoome.lib.json.Jsonable;
 
-
 /**
  * Root interface of all entity class. <br />
  * 
@@ -11,9 +10,6 @@ import io.rezoome.lib.json.Jsonable;
  * @author TACKSU
  *
  */
-public interface Entity extends Jsonable{
+public interface Entity extends Jsonable {
 	EntityType getAnnotation();
 }
-
-
-

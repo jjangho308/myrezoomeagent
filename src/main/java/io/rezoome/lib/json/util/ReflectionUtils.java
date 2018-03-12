@@ -42,8 +42,7 @@ public class ReflectionUtils {
 		return sName != null ? sName.value() : null;
 	}
 
-	public static void setField(Entity entity, Field field, Object value)
-			throws IllegalArgumentException, IllegalAccessException {
+	public static void setField(Entity entity, Field field, Object value) throws IllegalArgumentException, IllegalAccessException {
 		field.setAccessible(true);
 		field.set(entity, value);
 	}

@@ -16,67 +16,68 @@ import io.rezoome.manager.provider.ManagerProvider;
 
 public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
-  public IORequestJobAction() {
-    super();
-  }
+	public IORequestJobAction() {
+		super();
+	}
 
-  @Override
+	@Override
 
-  protected JobRsltEntity processInternal(IORequestJobEntity entity) {
+	protected JobRsltEntity processInternal(IORequestJobEntity entity) {
 
-    try {
+		try {
 
-      System.out.println("IORequest Job");
-      System.out.println(entity);
+			System.out.println("IORequest Job");
+			System.out.println(entity);
 
-      System.out.println("dbentity before: ");
-      // Database
-      
-      DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
-      
-      DBEntity dbEntity = converter.convert(entity);
-      System.out.println("dbentity : ");
-      System.out.println(dbEntity);
-      DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
+			System.out.println("dbentity before: ");
+			// Database
 
-      /*
-       * List<DBRsltEntity> dbRsltList = null; dbRsltList = (List<DBRsltEntity>)
-       * daoMgr.getDao().getRecodrd(dbEntity); for(DBRsltEntity rslt : dbRsltList){
-       * System.out.println(rslt); }
-       */
+			DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
 
-      DBRsltEntity dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
-      System.out.println(dbRsltEntity);
+			DBEntity dbEntity = converter.convert(entity);
+			System.out.println("dbentity : ");
+			System.out.println(dbEntity);
+			DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
 
-      // Agency Mapping
-      Mapper mapper = ManagerProvider.mapper().getMapper();
-      RzmRsltEntity response = mapper.convert(dbRsltEntity);
-      
-      //RequestPacketEntity packetEntity = ManagerProvider.network().convert(response, "http", "Post");
+			/*
+			 * List<DBRsltEntity> dbRsltList = null; dbRsltList =
+			 * (List<DBRsltEntity>) daoMgr.getDao().getRecodrd(dbEntity);
+			 * for(DBRsltEntity rslt : dbRsltList){ System.out.println(rslt); }
+			 */
 
-      // request to server using api
-      RequestPacketEntity requestEntity = new RequestPacketEntity();
-      requestEntity.setCmd("SearchResult");
+			DBRsltEntity dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
+			System.out.println(dbRsltEntity);
 
-      RequestSearchResultArgsEntity argsEntity = new RequestSearchResultArgsEntity();
-      argsEntity.setOrgCode("code001");
-      argsEntity.setEncryptedData("setEncryptedData");
-      argsEntity.setEncryptedKey("setEncryptedKey");
-      argsEntity.setHashedData("setHashedData");
-      requestEntity.setArgs(argsEntity);
+			// Agency Mapping
+			Mapper mapper = ManagerProvider.mapper().getMapper();
+			RzmRsltEntity response = mapper.convert(dbRsltEntity);
 
-      System.out.println(requestEntity.toString());
-      ManagerProvider.network().request(requestEntity);
+			// RequestPacketEntity packetEntity =
+			// ManagerProvider.network().convert(response, "http", "Post");
 
-      // log
-      ManagerProvider.log();
+			// request to server using api
+			RequestPacketEntity requestEntity = new RequestPacketEntity();
+			requestEntity.setCmd("SearchResult");
 
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    return null;
+			RequestSearchResultArgsEntity argsEntity = new RequestSearchResultArgsEntity();
+			argsEntity.setOrgCode("code001");
+			argsEntity.setEncryptedData("setEncryptedData");
+			argsEntity.setEncryptedKey("setEncryptedKey");
+			argsEntity.setHashedData("setHashedData");
+			requestEntity.setArgs(argsEntity);
 
-  }
+			System.out.println(requestEntity.toString());
+			ManagerProvider.network().request(requestEntity);
+
+			// log
+			ManagerProvider.log();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
+	}
 
 }
