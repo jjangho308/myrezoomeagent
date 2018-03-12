@@ -28,15 +28,11 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
       System.out.println("IORequest Job");
       System.out.println(entity);
-
-      System.out.println("dbentity before: ");
-      // Database
       
+      // Database      
       DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
       
       DBEntity dbEntity = converter.convert(entity);
-      System.out.println("dbentity : ");
-      System.out.println(dbEntity);
       DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
 
       /*

@@ -14,6 +14,7 @@ public class InhaUnivMapper implements Mapper  {
     
     RzmRsltEntity rsltEntity = new RzmRsltEntity();
     
+    
     return rsltEntity;
   }
 

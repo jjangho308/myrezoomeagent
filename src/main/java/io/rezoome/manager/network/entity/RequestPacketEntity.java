@@ -10,6 +10,7 @@ import io.rezoome.core.entity.AbstractEntity;
  */
 public class RequestPacketEntity extends AbstractEntity {
 
+  
   private String mid;
   private String cmd;
   private RequestArgsEntity args;

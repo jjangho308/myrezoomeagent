@@ -26,7 +26,6 @@ public class SearchCommandAction extends AbstractPushCommandAction<SearchCommand
 	  
 	  System.out.println(searchJob);
 	  ManagerProvider.job().addJob(searchJob);
-	  System.out.println("pushcommand searchCommand");
 	  return null;
 	}
 
