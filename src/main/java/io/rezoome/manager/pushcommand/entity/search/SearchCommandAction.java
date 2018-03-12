@@ -22,23 +22,14 @@ public class SearchCommandAction extends AbstractPushCommandAction<SearchCommand
 	@Override
 	protected ActionResult processInternal(SearchCommandEntity entity) {
 
-<<<<<<< HEAD
+
 	  JobEntity searchJob = JSON.fromJson(entity.toString(), IORequestJobEntity.class);
 	  ((IORequestJobEntity)searchJob).setJobMethod("ASYNC");
 	  
 	  System.out.println(searchJob);
 	  ManagerProvider.job().addJob(searchJob);
 	  return null;
-=======
-		JobEntity searchJob = JSON.fromJson(entity.toString(), IORequestJobEntity.class);
 
-		((IORequestJobEntity) searchJob).setJobMethod("ASYNC");
-
-		System.out.println(searchJob);
-		ManagerProvider.job().addJob(searchJob);
-		System.out.println("pushcommand searchCommand");
-		return null;
->>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
 	}
 
 	@Override

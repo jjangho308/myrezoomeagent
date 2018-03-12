@@ -12,11 +12,8 @@ import io.rezoome.core.entity.AbstractEntity;
  */
 public class RequestPacketEntity extends AbstractEntity {
 
-<<<<<<< HEAD
-  
-=======
+
   @SerializedName("mid")
->>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
   private String mid;
 
   @SerializedName("cmd")

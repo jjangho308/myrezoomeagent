@@ -28,15 +28,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
       System.out.println("IORequest Job");
       System.out.println(entity);
-<<<<<<< HEAD
-      
-      // Database      
-=======
 
-      System.out.println("dbentity before: ");
-      // Database
-
->>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
       DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
 
       DBEntity dbEntity = converter.convert(entity);

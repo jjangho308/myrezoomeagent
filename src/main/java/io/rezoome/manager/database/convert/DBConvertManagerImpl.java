@@ -14,13 +14,7 @@ public class DBConvertManagerImpl extends DatabaseManagerImpl implements DBConve
 
 	public DBConvertManagerImpl() {
 
-<<<<<<< HEAD
-  @Override
-  public DBConverter getConverter() {
-    // TODO Auto-generated method stub
-    return (DBConverter) converter;
-  }
-=======
+
 	}
 
 	@SuppressWarnings("static-access")
@@ -33,7 +27,6 @@ public class DBConvertManagerImpl extends DatabaseManagerImpl implements DBConve
 		}
 		System.out.println("Create Converter - " + super.dbType.toUpperCase());
 	}
->>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
 
 	@Override
 	public boolean isPrepared() {
