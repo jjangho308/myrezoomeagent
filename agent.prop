@@ -29,3 +29,6 @@ MYBATIS_CONFIG_FILE_PATH = io/rezoome/manager/database/mybatis/xml/mybatis-confi
 
 [Job]
 JOB_TEMP_FILE_PATH = ./
+
+[HTTP]
+PORTAL_URL = http://localhost:3000/agent
