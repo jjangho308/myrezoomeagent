@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper
+  PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+  
+  
+<mapper namespace='io.rezoome.manager.database.dao.xml.agency.Dao'>
+	<resultMap id="OpicResultEntity" type="opic_result">
+		<result property="name" column="name"/>
+		<result property="examNo" column="examno"/>
+		<result property="examDay" column="examday"/>
+		<result property="grade" column="grade"/>
+	</resultMap>
+
+	<select id="getRecord" parameterType="db_entity" resultMap="OpicResultEntity">
+		select 
+			name, examno, examday, grade 
+		from TBL_EXAM 
+		where 
+			user = 'root'
+		limit 1;
+	</select>
+	
+	<select id="getRecords" parameterType="db_entity" resultMap="OpicResultEntity">
+		select 
+			name, examno, examday, grade 
+		from TBL_EXAM 
+		where 
+			name = 'username' AND....ㅅㅂ 귀찮
+			
+			;
+	</select>
+</mapper>

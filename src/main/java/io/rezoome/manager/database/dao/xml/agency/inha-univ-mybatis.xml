@@ -12,6 +12,10 @@
 
 
 	<select id="getRecord" resultMap="InhaUnivEntity">
+		select user,host from mysql.user where user = 'root' limit 1;
+	</select>
+	
+	<select id="getRecords" resultMap="InhaUnivEntity">
 		select user,host from mysql.user where user = 'root';
 	</select>
 </mapper>

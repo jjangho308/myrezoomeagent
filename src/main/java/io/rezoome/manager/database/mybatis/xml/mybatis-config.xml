@@ -5,11 +5,13 @@
  
 <configuration>
 	<typeAliases> 
-		<typeAlias alias="result" type="io.rezoome.manager.database.entity.agency.InhaUnivEntity" /> 
+		<typeAlias alias="result" type="io.rezoome.manager.database.entity.agency.InhaUnivEntity" />
+		<typeAlias alias="opic_result" type="io.rezoome.manager.database.entity.agency.OpicResultEntity" /> 
+		<typeAlias alias="db_entity" type="io.rezoome.manager.database.entity.DBEntity" />
 	</typeAliases>
-
-
+	
 	<mappers>
 		<mapper resource="io/rezoome/manager/database/dao/xml/agency/inha-univ-mybatis.xml"/>
+		<mapper resource="io/rezoome/manager/database/dao/xml/agency/opic-mybatis.xml"/>
 	</mappers>
 </configuration>

@@ -77,9 +77,9 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
       }
     } else {
       if ("GET".equals(method.toUpperCase())) {
-        response = httpsConnector.sendGet(portalUrl, headers);
+        response = httpConnector.sendGet(portalUrl, headers);
       } else if ("POST".equals(method.toUpperCase())) {
-        response = httpsConnector.sendPost(portalUrl, headers, JSON.toJson(entity));
+        response = httpConnector.sendPost(portalUrl, headers, JSON.toJson(entity));
       }
     }
 
@@ -92,8 +92,8 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   public RequestPacketEntity convert(RzmRsltEntity entity, String cmd) {
     RequestPacketEntity requestEntity = new RequestPacketEntity();
 
-    if ("registration".equals(cmd.toUpperCase())) {
-      requestEntity.setCmd("registration");
+    if ("Registration".equals(cmd)) {
+      requestEntity.setCmd("Registration");
 
       RequestRegistrationArgsEntity argsEntity = new RequestRegistrationArgsEntity();
       argsEntity.setOrgCode("code001");
@@ -101,7 +101,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
       argsEntity.setOrgName("orgName");
       requestEntity.setArgs(argsEntity);
 
-    } else if ("SearchResult".equals(cmd.toUpperCase())) {
+    } else if ("SearchResult".equals(cmd)) {
       requestEntity.setCmd("SearchResult");
 
       RequestSearchResultArgsEntity argsEntity = new RequestSearchResultArgsEntity();

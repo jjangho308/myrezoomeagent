@@ -25,7 +25,6 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   protected JobRsltEntity processInternal(IORequestJobEntity entity) {
 
     try {
-
       System.out.println("IORequest Job");
       System.out.println(entity);
 
@@ -47,17 +46,49 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       Mapper mapper = ManagerProvider.mapper().getMapper();
       RzmRsltEntity response = mapper.convert(dbRsltEntity);
 
+      // List<DBRsltEntity> dbRsltList = null;
+      // // step1. select * from tbl where ci
+      // dbRsltList = daoMgr.getDao().getRecords(dbEntity);
+      //
+      // if (dbRsltList.size() == 0) {
+      // // step2. select * from tbl where name, birthday, gender
+      // dbRsltList = daoMgr.getDao().getRecords(dbEntity);
+      //
+      // if (dbRsltList.size() == 0) {
+      // // step3. select * from tbl where phone, email
+      // dbRsltList = daoMgr.getDao().getRecords(dbEntity);
+      //
+      // } else if (dbRsltList.size() == 1) {
+      // // step3. select * from tbl where phone, email
+      // dbRsltList = daoMgr.getDao().getRecords(dbEntity);
+      //
+      // if (dbRsltList.size() == 0) {
+      // // response required info
+      // }
+      // } else {
+      // // response required info
+      // }
+      // } else if (dbRsltList.size() >= 2) {
+      // // throw error;
+      // }
+      //
+      // Mapper mapper = ManagerProvider.mapper().getMapper();
+      // RzmRsltEntity response = mapper.convert(dbRsltList.get(0));
+
       // RequestPacketEntity requestEntity =
       // ManagerProvider.network().convert(response, "http", "Post");
-      RequestPacketEntity requestEntity = ManagerProvider.network().convert(response, "search");
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "https", "post");
+      RequestPacketEntity requestEntity = ManagerProvider.network().convert(response, "SearchResult");
+      System.out.println(requestEntity);
+      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post");
 
       // TODO 택수 마무리좀
 
       // log
       ManagerProvider.log();
 
-    } catch (IOException e) {
+    } catch (
+
+    IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
