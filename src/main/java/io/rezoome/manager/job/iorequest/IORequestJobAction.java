@@ -14,6 +14,7 @@ import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.mapper.MapperEntity;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
 import io.rezoome.manager.network.entity.ResponsePacketEntity;
+import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
 public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
@@ -51,13 +52,19 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       String dataEnc = ManagerProvider.crypto().encryptAES(mapperRsltEntity);
       String dataHash = ManagerProvider.crypto().hash(mapperRsltEntity);
       
-      RzmRsltEntity rzmRsltEntity = new RzmRsltEntity();
+      RzmRsltEntity rzmRsltEntity = new RzmRsltEntity();      
       rzmRsltEntity.setDataEnc(dataEnc);
       rzmRsltEntity.setKeyEnc(keyEnc);
       rzmRsltEntity.setDataHash(dataHash);
       
-      RequestPacketEntity requestEntity = ManagerProvider.network().convert(rzmRsltEntity, "SearchResult");
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", "");
+      RequestPacketEntity requestEntity = new RequestPacketEntity();
+      requestEntity.setArgs(rzmRsltEntity);
+      requestEntity.setCmd(entity.getCmd());
+      requestEntity.setCode("return Code");
+      requestEntity.setMid(entity.getMid());     
+      
+      //RequestPacketEntity requestEntity = ManagerProvider.network().convert(rzmRsltEntity, "SearchResult");
+      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", entity.getSid());
       System.out.println(responseEntity.toString());
 
       // log

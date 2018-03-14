@@ -1,7 +1,8 @@
 [GENERAL]
 DAO_CLASS_NAME = io.rezoome.manager.database.dao.xml.agency.Dao
 MAPPER_CLASS_NAME = io.rezoome.manager.mapper.agency.OpicMapper
-  
+ORG_CD = code001
+
 [THREAD]
 THREAD_POOL_CAPAVILITY = 10
 

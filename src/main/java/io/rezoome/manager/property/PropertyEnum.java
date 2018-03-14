@@ -26,6 +26,10 @@ public enum PropertyEnum {
   KEEP_ALIVE_SEND_TIME, LIMIT_ALLOW_NOT_SIGNAL_NUMBER, IS_KILL_AGENT,
 
   // Http
-  PORTAL_URL
+  PORTAL_URL,
+  
+  // GENERAL
+  ORG_CD,
+  
 
 }

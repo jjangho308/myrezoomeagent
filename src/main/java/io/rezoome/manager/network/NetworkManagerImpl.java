@@ -90,7 +90,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     ResponsePacketEntity responseEntity = JSON.fromJson(response, ResponsePacketEntity.class);
     return responseEntity;
   }
-
+/*
   @Override
   public RequestPacketEntity convert(RzmRsltEntity entity, String cmd) {
     RequestPacketEntity requestEntity = new RequestPacketEntity();
@@ -122,7 +122,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
 
     System.out.println(requestEntity.toString());
     return requestEntity;
-  }
+  }*/
 
   @Override
   public HttpConnector getHttpConnecter() {

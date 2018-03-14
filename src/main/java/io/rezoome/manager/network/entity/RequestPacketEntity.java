@@ -19,6 +19,10 @@ public class RequestPacketEntity extends AbstractEntity {
   @SerializedName("cmd")
   private String cmd;
 
+  @SerializedName("code")
+  private String code;
+
+
   @SerializedName("args")
   private RequestArgsEntity args;
 
@@ -38,6 +42,16 @@ public class RequestPacketEntity extends AbstractEntity {
     this.cmd = cmd;
   }
 
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
+
+  
   public RequestArgsEntity getArgs() {
     return args;
   }

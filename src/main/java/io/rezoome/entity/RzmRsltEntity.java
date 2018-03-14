@@ -1,9 +1,13 @@
 package io.rezoome.entity;
 
-public final class RzmRsltEntity {
-  
+import io.rezoome.manager.network.entity.RequestArgsEntity;
+
+public final class RzmRsltEntity implements RequestArgsEntity{
+
   String keyEnc;
   String dataEnc;
+  String dataHash;
+  
   public String getKeyEnc() {
     return keyEnc;
   }
@@ -22,7 +26,5 @@ public final class RzmRsltEntity {
   public void setDataHash(String dataHash) {
     this.dataHash = dataHash;
   }
-  String dataHash;
-  
   
 }
