@@ -1,5 +1,7 @@
 package io.rezoome.manager.network.entity;
 
-public interface RequestArgsEntity {
+import io.rezoome.core.entity.Entity;
+
+public interface RequestArgsEntity extends Entity {
 
 }

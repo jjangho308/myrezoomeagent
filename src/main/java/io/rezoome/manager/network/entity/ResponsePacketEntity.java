@@ -3,6 +3,8 @@ package io.rezoome.manager.network.entity;
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
+import io.rezoome.lib.json.JSON;
+import io.rezoome.manager.provider.ManagerProvider;
 
 /**
  * Network response entity. <br />
@@ -12,6 +14,10 @@ import io.rezoome.core.entity.AbstractEntity;
  *
  */
 public class ResponsePacketEntity extends AbstractEntity {
+
+  static {
+    JSON.registerDeserializer("cmd", "result", ManagerProvider.clsarrange().getEntityCodeMap(ResponseArgsEntity.class));
+  }
 
   @SerializedName("mid")
   private String mid;
@@ -57,9 +63,12 @@ public class ResponsePacketEntity extends AbstractEntity {
     this.result = result;
   }
 
-  @Override
-  public String toString() {
-    return "Http Response [mid=" + mid + ", cmd=" + cmd + ", code=" + code + "]";
+  public ResponsePacketEntity() {
+    super();
   }
 
+  @Override
+  public String toString() {
+    return "ResponsePacketEntity [mid=" + mid + ", cmd=" + cmd + ", code=" + code + ", result=" + result + "]";
+  }
 }

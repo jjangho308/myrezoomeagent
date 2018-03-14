@@ -70,6 +70,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     System.out.println("http request : " + entity);
 
     String response = null;
+
     if ("HTTPS".equals(protocol.toUpperCase())) {
       httpsConnector = new HttpsConnector();
       if ("GET".equals(method.toUpperCase())) {
@@ -86,7 +87,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
       }
     }
 
-    System.out.println(response);
+    System.out.println("http response : " + response);
     ResponsePacketEntity responseEntity = JSON.fromJson(response, ResponsePacketEntity.class);
     return responseEntity;
   }
