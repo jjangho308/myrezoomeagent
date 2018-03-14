@@ -11,6 +11,7 @@ import io.rezoome.manager.database.entity.DBRsltEntity;
 import io.rezoome.manager.job.JobRsltEntity;
 import io.rezoome.manager.job.entity.AbstractJob;
 import io.rezoome.manager.mapper.Mapper;
+import io.rezoome.manager.mapper.MapperEntity;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
 import io.rezoome.manager.network.entity.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
@@ -22,20 +23,41 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   }
 
   @Override
+
   protected JobRsltEntity processInternal(IORequestJobEntity entity) {
 
     try {
       System.out.println("IORequest Job");
 
+      /*
+       * List<DBRsltEntity> dbRsltList = null; dbRsltList = (List<DBRsltEntity>)
+       * daoMgr.getDao().getRecodrd(dbEntity); for(DBRsltEntity rslt : dbRsltList){
+       * System.out.println(rslt); }
+       */      
+
+      
       DBRsltEntity dbRsltEntity = getDBData(entity);
-      System.out.println("[DBRsltEntity] : " + dbRsltEntity.toString());
+      System.out.println("[DBRsltEntity] : " + dbRsltEntity);
 
       Mapper mapper = ManagerProvider.mapper().getMapper();
-      RzmRsltEntity response = mapper.convert(dbRsltEntity);
-      System.out.println("[RzmRsltEntity] : " + response);
+      
+            
+      MapperEntity mapperRsltEntity = mapper.convert(dbRsltEntity);
+      System.out.println("[MapperRsltEntity] : " + mapperRsltEntity.toString());
 
-      RequestPacketEntity requestEntity = ManagerProvider.network().convert(response, "SearchResult");
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", "/");
+      String agentKey ="AGENCY PUBLIC KEY - ";
+      
+      String keyEnc = ManagerProvider.crypto().encryptRSA(entity.getPkey(), agentKey);
+      String dataEnc = ManagerProvider.crypto().encryptAES(mapperRsltEntity);
+      String dataHash = ManagerProvider.crypto().hash(mapperRsltEntity);
+      
+      RzmRsltEntity rzmRsltEntity = new RzmRsltEntity();
+      rzmRsltEntity.setDataEnc(dataEnc);
+      rzmRsltEntity.setKeyEnc(keyEnc);
+      rzmRsltEntity.setDataHash(dataHash);
+      
+      RequestPacketEntity requestEntity = ManagerProvider.network().convert(rzmRsltEntity, "SearchResult");
+      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", "");
       System.out.println(responseEntity.toString());
 
       // log
@@ -46,6 +68,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       e.printStackTrace();
     }
     return null;
+
   }
 
   private DBRsltEntity getDBData(IORequestJobEntity entity) throws IOException {
@@ -57,8 +80,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     DBRsltEntity dbRsltEntity = null;
     List<DBRsltEntity> dbRsltEntityList = null;
 
-    // dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
-    dbRsltEntity = daoMgr.getDao().opic(dbEntity);
+    dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
 
     // // step1. select * from tbl where ci
     // dbRsltEntity = daoMgr.getDao().getRecordByCi(dbEntity);

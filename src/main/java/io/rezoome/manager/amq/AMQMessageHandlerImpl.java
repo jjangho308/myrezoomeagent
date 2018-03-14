@@ -23,13 +23,11 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler, MessageListener
 		// TODO Auto-generated method stub
 		try {
 			TextMessage consumerTextMessage = (TextMessage) message;
-			System.out.println(consumerTextMessage.getText());
+			System.out.println("AMQMessage : " + consumerTextMessage.getText());
 			// AMQMessageEntity amqEntity = null;//
 			AMQMessageEntity amqEntity = new AMQMessageEntity();
 
 			amqEntity = JSON.fromJson(consumerTextMessage.getText(), AMQMessageEntity.class);
-
-			System.out.println(amqEntity);
 
 			AMQMessageHandlerImpl.getInstance().handleMessage(amqEntity);
 		} catch (NullPointerException ne) {
@@ -47,9 +45,14 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler, MessageListener
 		try {
 			// PushCommandEntity pcEntity = JSON.fromJson(msg.toString(),
 			// SearchCommandEntity.class);
-			PushCommandEntity pcEntity = msg.getCommand();
-
-			System.out.println(pcEntity);
+		  PushCommandEntity pcEntity  = msg.getCommand();
+		  pcEntity.setMid(msg.getMid());
+		  pcEntity.setSid(msg.getSid());
+		  pcEntity.setToken(msg.getToken());
+		  pcEntity.setCmd(msg.getCmd());
+		  
+		  
+		  System.out.println("pcEntity : " + pcEntity);
 			ManagerProvider.pushcommand().invokeCommand(pcEntity);
 
 		} catch (RuntimeException re) {

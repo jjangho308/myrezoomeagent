@@ -21,7 +21,7 @@ public class SearchCommandAction extends AbstractPushCommandAction<SearchCommand
 	@Override
 	protected ActionResult processInternal(SearchCommandEntity entity) {
 
-
+	  System.out.println("PushCommandAction : " + entity.toString());
 	  JobEntity searchJob = JSON.fromJson(entity.toString(), IORequestJobEntity.class);
 	  ((IORequestJobEntity)searchJob).setJobMethod("ASYNC");
 	  

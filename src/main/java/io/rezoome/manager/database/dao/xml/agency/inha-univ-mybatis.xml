@@ -5,7 +5,7 @@
   
   
 <mapper namespace='io.rezoome.manager.database.dao.xml.agency.Dao'>
-	<resultMap id="InhaUnivEntity" type="result">
+<!-- 	<resultMap id="InhaUnivEntity" type="result">
 		<result property="user" column="user"/>
 		<result property="host" column="host"/>
 	</resultMap>
@@ -17,5 +17,5 @@
 	
 	<select id="getRecords" resultMap="InhaUnivEntity">
 		select user,host from mysql.user where user = 'root';
-	</select>
+	</select> -->
 </mapper>

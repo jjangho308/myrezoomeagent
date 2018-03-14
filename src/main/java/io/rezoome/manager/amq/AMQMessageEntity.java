@@ -1,22 +1,10 @@
 package io.rezoome.manager.amq;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
 import io.rezoome.lib.json.JSON;
-import io.rezoome.lib.json.util.ConstructorUtils;
-import io.rezoome.lib.json.util.ReflectionUtils;
-import io.rezoome.manager.job.entity.JobEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 
@@ -28,7 +16,23 @@ import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
  */
 public final class AMQMessageEntity extends AbstractEntity {
 
-	static {
+	public String getMid() {
+    return mid;
+  }
+
+  public String getSid() {
+    return sid;
+  }
+
+  public String getToken() {
+    return token;
+  }
+
+  public String getCmd() {
+    return cmd;
+  }
+
+  static {
 		// JSON.registerSelfConverter(new Converter());
 		JSON.registerDeserializer("cmd", "args", ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class));
 	}
@@ -36,6 +40,9 @@ public final class AMQMessageEntity extends AbstractEntity {
 	@SerializedName("mid")
 	private final String			mid		= null;
 
+	@SerializedName("sid")
+  private final String      sid   = null;
+	
 	@SerializedName("token")
 	private final String			token	= null;
 
@@ -52,4 +59,11 @@ public final class AMQMessageEntity extends AbstractEntity {
 	public PushCommandEntity getCommand() {
 		return args;
 	}
+
+  @Override
+  public String toString() {
+    return "AMQMessageEntity [mid=" + mid + ", sid=" + sid + ", token=" + token + ", cmd=" + cmd + ", args=" + args + "]";
+  }
+	
+	
 }

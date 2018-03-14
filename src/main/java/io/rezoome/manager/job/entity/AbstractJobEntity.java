@@ -12,6 +12,18 @@ import io.rezoome.core.entity.AbstractEntity;
  *
  */
 public abstract class AbstractJobEntity extends AbstractEntity implements JobEntity {
+  @SerializedName("mid")
+  private final String      mid   = null;
+
+  @SerializedName("sid")
+  private final String      sid   = null;
+  
+  @SerializedName("token")
+  private final String      token = null;
+  
+  @SerializedName("cmd")
+  protected final String  cmd     = null;
+  
 	@SerializedName("username")
 	protected final String	username	= null;
 
@@ -29,11 +41,92 @@ public abstract class AbstractJobEntity extends AbstractEntity implements JobEnt
 
 	@SerializedName("ci")
 	protected final String	ci			= null;
+	
 
-	@SerializedName("cmd")
-	protected final String	cmd			= null;
+  @SerializedName("pkey")
+  private final String      pkey = null;
 
-	public String toJSON() {
-		return "{username:" + username + ",birth:" + birth + ",gender:" + gender + ",phone:" + phone + ",email:" + email + ",ci:" + ci + ",cmd:" + cmd + "}";
+
+	
+	
+	public String getMid() {
+    return mid;
+  }
+
+
+
+
+  public String getSid() {
+    return sid;
+  }
+
+
+
+
+  public String getToken() {
+    return token;
+  }
+
+
+
+
+  public String getCmd() {
+    return cmd;
+  }
+
+
+
+
+  public String getUsername() {
+    return username;
+  }
+
+
+
+
+  public String getBirth() {
+    return birth;
+  }
+
+
+
+
+  public String getGender() {
+    return gender;
+  }
+
+
+
+
+  public String getPhone() {
+    return phone;
+  }
+
+
+
+
+  public String getEmail() {
+    return email;
+  }
+
+
+
+
+  public String getCi() {
+    return ci;
+  }
+
+
+
+
+  public String getPkey() {
+    return pkey;
+  }
+
+
+
+
+  public String toJSON() {
+		return "{mid:" + mid + ",sid:" + sid + ",token:" + token+ ",cmd:" + cmd + ",username:" + username + ",birth:" + birth + ",gender:" + gender + ",phone:" + phone + ",email:" + email + ",ci:" + ci + ",pkey:" + pkey +"}";
 	}
 }

@@ -42,11 +42,7 @@ public final class IORequestJobEntity extends AbstractJobEntity {
 	 * ", email=" + email + ", ci=" + ci + ", cmd=" + cmd + "]"; }
 	 * 
 	 */
-
-	@Override
-	public String toString() {
-		return "IORequestJobEntity [jobMethod=" + jobMethod + ", username=" + username + ", birth=" + birth + ", gender=" + gender + ", phone=" + phone
-				+ ", email=" + email + ", ci=" + ci + ", cmd=" + cmd + "]";
-	}
+	
+	
 
 }

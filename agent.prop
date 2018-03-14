@@ -1,17 +1,17 @@
 [GENERAL]
 DAO_CLASS_NAME = io.rezoome.manager.database.dao.xml.agency.Dao
-MAPPER_CLASS_NAME = io.rezoome.manager.mapper.agency.InhaUnivMapper
+MAPPER_CLASS_NAME = io.rezoome.manager.mapper.agency.OpicMapper
   
 [THREAD]
 THREAD_POOL_CAPAVILITY = 10
 
 [DB] 
-DBMS_TYPE = mysql
-DBMS_VERSION = 5.7.21
+DBMS_TYPE = oracle
+DBMS_VERSION = 12
 DB_HOST = localhost
-DB_PORT = 5306
-DB_NAME = rezoome_db
-DB_USER_ID = rezoomer
+DB_PORT = 2345
+DB_NAME = REZOOME
+DB_USER_ID = DB_ADMIN
 DB_PASSWORD = sgen2018!
 DB_MAX_CONNECTION = 1000
 DB_INIT_CONNECTION = 1
