@@ -41,7 +41,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager{
   @Override
   public String hash(MapperEntity entity) {
     // TODO Auto-generated method stub
-    return entity.toString();
+    return "HASH - " + entity.toString();
   }
 
 
@@ -55,7 +55,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager{
   @Override
   public String encryptAES(MapperEntity entity) {
     // TODO Auto-generated method stub
-    return entity.toString();
+    return "AES - " + entity.toString();
   }
 
 
