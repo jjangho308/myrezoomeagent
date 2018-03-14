@@ -16,7 +16,7 @@ import io.rezoome.manager.network.http.HttpsConnector;
  */
 public interface NetworkManager extends Manager {
 
-  ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method);
+  ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method, String path);
 
   public RequestPacketEntity convert(RzmRsltEntity entity, String cmd);
 

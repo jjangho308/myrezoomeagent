@@ -22,38 +22,30 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   }
 
   @Override
-
   protected JobRsltEntity processInternal(IORequestJobEntity entity) {
 
     try {
       System.out.println("IORequest Job");
 
-      /*
-       * List<DBRsltEntity> dbRsltList = null; dbRsltList = (List<DBRsltEntity>)
-       * daoMgr.getDao().getRecodrd(dbEntity); for(DBRsltEntity rslt : dbRsltList){
-       * System.out.println(rslt); }
-       */
-
       DBRsltEntity dbRsltEntity = getDBData(entity);
-      System.out.println("[DBRsltEntity] : " + dbRsltEntity);
+      System.out.println("[DBRsltEntity] : " + dbRsltEntity.toString());
 
       Mapper mapper = ManagerProvider.mapper().getMapper();
       RzmRsltEntity response = mapper.convert(dbRsltEntity);
       System.out.println("[RzmRsltEntity] : " + response);
 
       RequestPacketEntity requestEntity = ManagerProvider.network().convert(response, "SearchResult");
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post");
+      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", "/");
       System.out.println(responseEntity.toString());
 
       // log
       ManagerProvider.log();
 
-    } catch (IOException e) {
+    } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return null;
-
   }
 
   private DBRsltEntity getDBData(IORequestJobEntity entity) throws IOException {
@@ -65,7 +57,8 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     DBRsltEntity dbRsltEntity = null;
     List<DBRsltEntity> dbRsltEntityList = null;
 
-    dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
+    // dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
+    dbRsltEntity = daoMgr.getDao().opic(dbEntity);
 
     // // step1. select * from tbl where ci
     // dbRsltEntity = daoMgr.getDao().getRecordByCi(dbEntity);

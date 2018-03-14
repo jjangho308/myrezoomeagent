@@ -42,8 +42,8 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     // httpConnecter = HttpConnecter.get
     // HttpConnecter.getInstance();
     // HttpsConnecter.getInstance();
-    httpConnector = new HttpConnector();
-    httpsConnector = new HttpsConnector();
+    // httpConnector = new HttpConnector();
+    // httpsConnector = new HttpsConnector();
     portalUrl = ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, true);
 
     // Content-type is application/json
@@ -65,21 +65,24 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   }
 
   @Override
-  public ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method) {
+  public ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method, String path) {
     // TODO Auto-generated method stub
     System.out.println("http request : " + entity);
+
     String response = null;
     if ("HTTPS".equals(protocol.toUpperCase())) {
+      httpsConnector = new HttpsConnector();
       if ("GET".equals(method.toUpperCase())) {
-        response = httpsConnector.sendGet(portalUrl, headers);
+        response = httpsConnector.sendGet(portalUrl + path, headers);
       } else if ("POST".equals(method.toUpperCase())) {
-        response = httpsConnector.sendPost(portalUrl, headers, JSON.toJson(entity));
+        response = httpsConnector.sendPost(portalUrl + path, headers, JSON.toJson(entity));
       }
     } else {
+      httpConnector = new HttpConnector();
       if ("GET".equals(method.toUpperCase())) {
-        response = httpConnector.sendGet(portalUrl, headers);
+        response = httpConnector.sendGet(portalUrl + path, headers);
       } else if ("POST".equals(method.toUpperCase())) {
-        response = httpConnector.sendPost(portalUrl, headers, JSON.toJson(entity));
+        response = httpConnector.sendPost(portalUrl + path, headers, JSON.toJson(entity));
       }
     }
 

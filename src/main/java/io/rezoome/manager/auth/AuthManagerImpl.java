@@ -39,7 +39,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
       RequestPacketEntity requestEntity = ManagerProvider.network().convert(entity, "Registration");
       // ResponsePacketEntity responseEntity =
       // ManagerProvider.network().request(requestEntity,"https", "post");
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post");
+      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", "/");
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("file to connect Portal server");

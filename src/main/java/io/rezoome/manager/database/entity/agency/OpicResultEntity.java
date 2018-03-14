@@ -4,9 +4,14 @@ import io.rezoome.manager.database.entity.DBRsltEntity;
 
 public class OpicResultEntity implements DBRsltEntity {
   private String name;
-  private String examNo;
-  private String grade;
-  private String examDate;
+  private String cname;
+  private String testDay;
+  private String rating;
+  private String birth;
+  private String testId;
+  private String testRoom;
+  private String testName;
+  private String language;
 
   public String getName() {
     return name;
@@ -16,33 +21,75 @@ public class OpicResultEntity implements DBRsltEntity {
     this.name = name;
   }
 
-  public String getExamNo() {
-    return examNo;
+  public String getCname() {
+    return cname;
   }
 
-  public void setExamNo(String examNo) {
-    this.examNo = examNo;
+  public void setCname(String cname) {
+    this.cname = cname;
   }
 
-  public String getGrade() {
-    return grade;
+  public String getTestDay() {
+    return testDay;
   }
 
-  public void setGrade(String grade) {
-    this.grade = grade;
+  public void setTestDay(String testDay) {
+    this.testDay = testDay;
   }
 
-  public String getExamDate() {
-    return examDate;
+  public String getRating() {
+    return rating;
   }
 
-  public void setExamDate(String examDate) {
-    this.examDate = examDate;
+  public void setRating(String rating) {
+    this.rating = rating;
+  }
+
+  public String getBirth() {
+    return birth;
+  }
+
+  public void setBirth(String birth) {
+    this.birth = birth;
+  }
+
+  public String getTestId() {
+    return testId;
+  }
+
+  public void setTestId(String testId) {
+    this.testId = testId;
+  }
+
+  public String getTestRoom() {
+    return testRoom;
+  }
+
+  public void setTestRoom(String testRoom) {
+    this.testRoom = testRoom;
+  }
+
+  public String getTestName() {
+    return testName;
+  }
+
+  public void setTestName(String testName) {
+    this.testName = testName;
+  }
+
+  public String getLanguage() {
+    return language;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
   }
 
   @Override
   public String toString() {
-    return "OpicResultEntity [id=" + name + ", examNo=" + examNo + "]";
+    return "OpicResultEntity [name=" + name + ", cname=" + cname + ", testDay=" + testDay + ", rating=" + rating + ", birth=" + birth + ", testId=" + testId + ", testRoom=" + testRoom + ", testName="
+        + testName + ", language=" + language + "]";
   }
+
 
 }

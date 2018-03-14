@@ -8,6 +8,8 @@ import io.rezoome.manager.database.entity.DBRsltEntity;
 
 public interface Dao {
 
+  public DBRsltEntity opic(DBEntity entity) throws IOException;
+
   public DBRsltEntity getRecord(DBEntity entity) throws IOException;
 
   public DBRsltEntity getRecordByCi(DBEntity entity) throws IOException;

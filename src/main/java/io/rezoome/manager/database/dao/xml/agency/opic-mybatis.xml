@@ -2,41 +2,47 @@
 <!DOCTYPE mapper
   PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
   'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
-  
-  
+
+
 <mapper namespace='io.rezoome.manager.database.dao.xml.agency.Dao'>
 	<resultMap id="OpicResultEntity" type="opic_result">
-		<result property="name" column="name"/>
-		<result property="examNo" column="examno"/>
-		<result property="examDate" column="examdate"/>
-		<result property="grade" column="grade"/>
+		<result property="name" column="CNAME" />
+		<result property="testId" column="TESTID" />
+		<result property="testDay" column="CNATION" />
+		<result property="rating" column="CLEVEL" />
 	</resultMap>
 
 	<select id="getRecordByCi" parameterType="db_entity" resultMap="OpicResultEntity">
-		select 
-			name, examno, examdate, grade 
-		from TBL_EXAM 
-		where 
-			ci = #{ci}
+		select
+		CNAME, TESTID, CNATION, CLEVEL
+		from TBL_EXAM
+		where
+		ci = #{ci}
 		limit 1;
 	</select>
-	
-	<select id="getRecordsByName" parameterType="db_entity" resultMap="OpicResultEntity">
-		select 
-			name, examno, examdate, grade 
-		from TBL_EXAM 
-		where 
-			name = #{username} AND
-			birth = #{birth} AND
-			gender = #{gender};
+
+	<select id="getRecordsByName" parameterType="db_entity"
+		resultMap="OpicResultEntity">
+		select
+		CNAME, TESTID, CNATION, CLEVEL
+		from TBL_EXAM
+		where
+		CNAME = #{username} AND
+		BIRTH = #{birth} AND
+		gender = #{gender};
 	</select>
-	
-	<select id="getRecordsByPhone" parameterType="db_entity" resultMap="OpicResultEntity">
-		select 
-			name, examno, examdate, grade 
-		from TBL_EXAM 
-		where 
-			phone = #{phone} AND
-			email = #{email};
+
+	<select id="getRecordsByPhone" parameterType="db_entity"
+		resultMap="OpicResultEntity">
+		select
+		CNAME, TESTID, CNATION, CLEVEL
+		from TBL_EXAM
+		where
+		phone = #{phone} AND
+		email = #{email};
+	</select>
+
+	<select id="opic" parameterType="db_entity" resultMap="OpicResultEntity">
+		SELECT CNAME, TESTID, CNATION, CLEVEL FROM OPIC_CERT WHERE ROWNUM = 1
 	</select>
 </mapper>
