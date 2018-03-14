@@ -8,26 +8,35 @@
 	<resultMap id="OpicResultEntity" type="opic_result">
 		<result property="name" column="name"/>
 		<result property="examNo" column="examno"/>
-		<result property="examDay" column="examday"/>
+		<result property="examDate" column="examdate"/>
 		<result property="grade" column="grade"/>
 	</resultMap>
 
-	<select id="getRecord" parameterType="db_entity" resultMap="OpicResultEntity">
+	<select id="getRecordByCi" parameterType="db_entity" resultMap="OpicResultEntity">
 		select 
-			name, examno, examday, grade 
+			name, examno, examdate, grade 
 		from TBL_EXAM 
 		where 
-			user = 'root'
+			ci = #{ci}
 		limit 1;
 	</select>
 	
-	<select id="getRecords" parameterType="db_entity" resultMap="OpicResultEntity">
+	<select id="getRecordsByName" parameterType="db_entity" resultMap="OpicResultEntity">
 		select 
-			name, examno, examday, grade 
+			name, examno, examdate, grade 
 		from TBL_EXAM 
 		where 
-			name = 'username' AND....ㅅㅂ 귀찮
-			
-			;
+			name = #{username} AND
+			birth = #{birth} AND
+			gender = #{gender};
+	</select>
+	
+	<select id="getRecordsByPhone" parameterType="db_entity" resultMap="OpicResultEntity">
+		select 
+			name, examno, examdate, grade 
+		from TBL_EXAM 
+		where 
+			phone = #{phone} AND
+			email = #{email};
 	</select>
 </mapper>

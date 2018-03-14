@@ -57,4 +57,9 @@ public class ResponsePacketEntity extends AbstractEntity {
     this.result = result;
   }
 
+  @Override
+  public String toString() {
+    return "Http Response [mid=" + mid + ", cmd=" + cmd + ", code=" + code + "]";
+  }
+
 }

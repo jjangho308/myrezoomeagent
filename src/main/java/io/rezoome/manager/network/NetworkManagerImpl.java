@@ -100,15 +100,20 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
       argsEntity.setOrgPasscode("passcode");
       argsEntity.setOrgName("orgName");
       requestEntity.setArgs(argsEntity);
-
     } else if ("SearchResult".equals(cmd)) {
       requestEntity.setCmd("SearchResult");
-
       RequestSearchResultArgsEntity argsEntity = new RequestSearchResultArgsEntity();
+
       argsEntity.setOrgCode("code001");
-      argsEntity.setEncryptedData("setEncryptedData");
-      argsEntity.setEncryptedKey("setEncryptedKey");
-      argsEntity.setHashedData("setHashedData");
+      if (entity == null) {
+        argsEntity.setEncryptedData(null);
+        argsEntity.setEncryptedKey(null);
+        argsEntity.setHashedData(null);
+      } else {
+        argsEntity.setEncryptedData("setEncryptedData");
+        argsEntity.setEncryptedKey("setEncryptedKey");
+        argsEntity.setHashedData("setHashedData");
+      }
       requestEntity.setArgs(argsEntity);
     }
 

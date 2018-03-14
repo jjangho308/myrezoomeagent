@@ -10,5 +10,9 @@ public interface Dao {
 
   public DBRsltEntity getRecord(DBEntity entity) throws IOException;
 
-  public List<DBRsltEntity> getRecords(DBEntity entity) throws IOException;
+  public DBRsltEntity getRecordByCi(DBEntity entity) throws IOException;
+
+  public List<DBRsltEntity> getRecordsByName(DBEntity entity) throws IOException;
+
+  public List<DBRsltEntity> getRecordsByPhone(DBEntity entity) throws IOException;
 }

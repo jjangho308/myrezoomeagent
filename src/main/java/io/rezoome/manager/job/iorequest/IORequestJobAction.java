@@ -1,6 +1,7 @@
 package io.rezoome.manager.job.iorequest;
 
 import java.io.IOException;
+import java.util.List;
 
 import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.manager.database.convert.DBConverter;
@@ -26,12 +27,6 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
     try {
       System.out.println("IORequest Job");
-      System.out.println(entity);
-
-      DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
-
-      DBEntity dbEntity = converter.convert(entity);
-      DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
 
       /*
        * List<DBRsltEntity> dbRsltList = null; dbRsltList = (List<DBRsltEntity>)
@@ -39,61 +34,56 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
        * System.out.println(rslt); }
        */
 
-      DBRsltEntity dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
-      System.out.println(dbRsltEntity);
+      DBRsltEntity dbRsltEntity = getDBData(entity);
+      System.out.println("[DBRsltEntity] : " + dbRsltEntity);
 
-      // Agency Mapping
       Mapper mapper = ManagerProvider.mapper().getMapper();
       RzmRsltEntity response = mapper.convert(dbRsltEntity);
+      System.out.println("[RzmRsltEntity] : " + response);
 
-      // List<DBRsltEntity> dbRsltList = null;
-      // // step1. select * from tbl where ci
-      // dbRsltList = daoMgr.getDao().getRecords(dbEntity);
-      //
-      // if (dbRsltList.size() == 0) {
-      // // step2. select * from tbl where name, birthday, gender
-      // dbRsltList = daoMgr.getDao().getRecords(dbEntity);
-      //
-      // if (dbRsltList.size() == 0) {
-      // // step3. select * from tbl where phone, email
-      // dbRsltList = daoMgr.getDao().getRecords(dbEntity);
-      //
-      // } else if (dbRsltList.size() == 1) {
-      // // step3. select * from tbl where phone, email
-      // dbRsltList = daoMgr.getDao().getRecords(dbEntity);
-      //
-      // if (dbRsltList.size() == 0) {
-      // // response required info
-      // }
-      // } else {
-      // // response required info
-      // }
-      // } else if (dbRsltList.size() >= 2) {
-      // // throw error;
-      // }
-      //
-      // Mapper mapper = ManagerProvider.mapper().getMapper();
-      // RzmRsltEntity response = mapper.convert(dbRsltList.get(0));
-
-      // RequestPacketEntity requestEntity =
-      // ManagerProvider.network().convert(response, "http", "Post");
       RequestPacketEntity requestEntity = ManagerProvider.network().convert(response, "SearchResult");
-      System.out.println(requestEntity);
       ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post");
-
-      // TODO 택수 마무리좀
+      System.out.println(responseEntity.toString());
 
       // log
       ManagerProvider.log();
 
-    } catch (
-
-    IOException e) {
+    } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
     return null;
 
+  }
+
+  private DBRsltEntity getDBData(IORequestJobEntity entity) throws IOException {
+
+    DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
+    DBEntity dbEntity = converter.convert(entity);
+
+    DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
+    DBRsltEntity dbRsltEntity = null;
+    List<DBRsltEntity> dbRsltEntityList = null;
+
+    dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
+
+    // // step1. select * from tbl where ci
+    // dbRsltEntity = daoMgr.getDao().getRecordByCi(dbEntity);
+    //
+    // if (dbRsltEntity == null) {
+    // // step2. select * from tbl where name, birthday, gender
+    // dbRsltEntityList = daoMgr.getDao().getRecordsByName(dbEntity);
+    //
+    // if (dbRsltEntityList.size() >= 1) {
+    // // step3. select * from tbl where phone, email
+    // dbRsltEntityList = daoMgr.getDao().getRecordsByPhone(dbEntity);
+    //
+    // if (dbRsltEntityList.size() == 1) {
+    // dbRsltEntity = dbRsltEntityList.get(0);
+    // }
+    // }
+    // }
+    return dbRsltEntity;
   }
 
 }

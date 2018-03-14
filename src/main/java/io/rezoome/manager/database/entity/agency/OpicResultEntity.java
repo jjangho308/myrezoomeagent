@@ -6,7 +6,7 @@ public class OpicResultEntity implements DBRsltEntity {
   private String name;
   private String examNo;
   private String grade;
-  private String examDay;
+  private String examDate;
 
   public String getName() {
     return name;
@@ -32,12 +32,12 @@ public class OpicResultEntity implements DBRsltEntity {
     this.grade = grade;
   }
 
-  public String getExamDay() {
-    return examDay;
+  public String getExamDate() {
+    return examDate;
   }
 
-  public void setExamDay(String examDay) {
-    this.examDay = examDay;
+  public void setExamDate(String examDate) {
+    this.examDate = examDate;
   }
 
   @Override
