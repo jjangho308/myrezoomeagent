@@ -3,7 +3,6 @@ package io.rezoome.manager.pushcommand.entity.search;
 import io.rezoome.core.entity.ActionResult;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.job.entity.JobEntity;
-import io.rezoome.manager.job.iorequest.IORequestJobAction;
 import io.rezoome.manager.job.iorequest.IORequestJobEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.annotation.PushCommand;

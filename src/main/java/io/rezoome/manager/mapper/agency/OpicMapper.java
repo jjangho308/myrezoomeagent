@@ -14,6 +14,8 @@ public class OpicMapper implements Mapper {
 
     if (entity == null) {
       return null;
+      
+      
     }
 
     RzmRsltEntity rsltEntity = new RzmRsltEntity();
