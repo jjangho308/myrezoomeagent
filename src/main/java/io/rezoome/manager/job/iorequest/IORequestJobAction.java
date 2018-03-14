@@ -46,7 +46,6 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       MapperEntity mapperRsltEntity = mapper.convert(dbRsltEntity);
       System.out.println("[MapperRsltEntity] : " + mapperRsltEntity.toString());
 
-<<<<<<< HEAD
       String agentKey ="AGENCY PUBLIC KEY - ";
       
       String keyEnc = ManagerProvider.crypto().encryptRSA(entity.getPkey(), agentKey);
@@ -67,11 +66,6 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       //RequestPacketEntity requestEntity = ManagerProvider.network().convert(rzmRsltEntity, "SearchResult");
       ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", entity.getSid());
       System.out.println(responseEntity.toString());
-=======
-      RequestPacketEntity requestEntity = ManagerProvider.network().convert(response, "SearchResult");
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", "/");
-      System.out.println("[ResponsePacketEntity] :" + responseEntity);
->>>>>>> branch 'development' of https://github.com/Team-REZOOME/agent.git
 
       // log
       ManagerProvider.log();

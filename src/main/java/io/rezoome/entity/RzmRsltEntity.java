@@ -1,5 +1,6 @@
 package io.rezoome.entity;
 
+import io.rezoome.core.entity.annotation.EntityType;
 import io.rezoome.manager.network.entity.RequestArgsEntity;
 
 public final class RzmRsltEntity implements RequestArgsEntity{
@@ -25,6 +26,11 @@ public final class RzmRsltEntity implements RequestArgsEntity{
   }
   public void setDataHash(String dataHash) {
     this.dataHash = dataHash;
+  }
+  @Override
+  public EntityType getAnnotation() {
+    // TODO Auto-generated method stub
+    return null;
   }
   
 }
