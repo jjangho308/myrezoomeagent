@@ -46,7 +46,7 @@ public class DaoManagerImpl extends DatabaseManagerImpl implements DaoManager {
 
 			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 			sqlsession = sqlSessionFactory.openSession(ManagerProvider.database().getConnectManager().getConnection(super.poolName));
-
+			
 			ClassLoader loader = ClassLoader.getSystemClassLoader();
 			Class<?> daoCls = loader.loadClass(daoClass);
 

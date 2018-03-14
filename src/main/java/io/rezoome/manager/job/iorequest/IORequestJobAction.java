@@ -37,7 +37,10 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
        */      
 
       
-      DBRsltEntity dbRsltEntity = getDBData(entity);
+      List<DBRsltEntity> dbRsltEntity = getDBData(entity);
+      
+
+      
       System.out.println("[DBRsltEntity] : " + dbRsltEntity);
 
       Mapper mapper = ManagerProvider.mapper().getMapper();
@@ -78,7 +81,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
   }
 
-  private DBRsltEntity getDBData(IORequestJobEntity entity) throws IOException {
+  private List<DBRsltEntity> getDBData(IORequestJobEntity entity) throws IOException {
 
     DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
     DBEntity dbEntity = converter.convert(entity);
@@ -87,8 +90,15 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     DBRsltEntity dbRsltEntity = null;
     List<DBRsltEntity> dbRsltEntityList = null;
 
-    dbRsltEntity = daoMgr.getDao().getRecord(dbEntity);
-
+    dbRsltEntityList  = daoMgr.getDao().getRecords(dbEntity);
+    
+    
+    for(DBRsltEntity record : dbRsltEntityList){
+      System.out.println(record);
+    }
+    
+    return dbRsltEntityList;  
+    
     // // step1. select * from tbl where ci
     // dbRsltEntity = daoMgr.getDao().getRecordByCi(dbEntity);
     //
@@ -105,7 +115,6 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     // }
     // }
     // }
-    return dbRsltEntity;
   }
 
 }

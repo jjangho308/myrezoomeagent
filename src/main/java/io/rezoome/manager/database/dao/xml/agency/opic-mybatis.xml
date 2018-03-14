@@ -18,7 +18,7 @@
 		from TBL_EXAM
 		where
 		ci = #{ci}
-		limit 1;
+		limit 1
 	</select>
 
 	<select id="getRecordsByName" parameterType="db_entity"
@@ -29,7 +29,7 @@
 		where
 		CNAME = #{username} AND
 		BIRTH = #{birth} AND
-		gender = #{gender};
+		gender = #{gender}
 	</select>
 
 	<select id="getRecordsByPhone" parameterType="db_entity"
@@ -39,10 +39,10 @@
 		from TBL_EXAM
 		where
 		phone = #{phone} AND
-		email = #{email};
+		email = #{email}
 	</select>
 
-	<select id="getRecord" parameterType="db_entity" resultMap="OpicResultEntity">
-		SELECT ENAME, TESTID, ISSUDATE, RATING FROM OPIC_CERT WHERE ROWNUM = 1
+	<select id="getRecords" parameterType="db_entity" resultMap="OpicResultEntity">
+		 SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE ENAME = #{username}
 	</select>
 </mapper>
