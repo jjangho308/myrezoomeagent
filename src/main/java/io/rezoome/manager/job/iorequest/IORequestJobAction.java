@@ -36,7 +36,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
       RequestPacketEntity requestEntity = ManagerProvider.network().convert(response, "SearchResult");
       ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", "/");
-      System.out.println(responseEntity.toString());
+      System.out.println("[ResponsePacketEntity] :" + responseEntity);
 
       // log
       ManagerProvider.log();
