@@ -18,7 +18,7 @@ public interface NetworkManager extends Manager {
 
   ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method, String path);
 
-//  public RequestPacketEntity convert(RzmRsltEntity entity, String cmd);
+  public RequestPacketEntity convert(RzmRsltEntity entity, String cmd);
 
   public HttpConnector getHttpConnecter();
 

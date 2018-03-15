@@ -93,11 +93,11 @@ public class HttpConnector implements HttpManager {
 
       httpURLConnection.disconnect();
 
-    } catch (
-
-    MalformedURLException e) {
+    } catch (MalformedURLException e) {
       e.printStackTrace();
     } catch (IOException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
       e.printStackTrace();
     }
 

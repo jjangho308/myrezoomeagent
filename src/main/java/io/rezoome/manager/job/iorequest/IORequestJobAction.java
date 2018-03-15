@@ -14,7 +14,6 @@ import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.mapper.MapperEntity;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
 import io.rezoome.manager.network.entity.ResponsePacketEntity;
-import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
 public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
@@ -30,68 +29,19 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     try {
       System.out.println("IORequest Job");
 
-      /*
-       * List<DBRsltEntity> dbRsltList = null; dbRsltList = (List<DBRsltEntity>)
-       * daoMgr.getDao().getRecodrd(dbEntity); for(DBRsltEntity rslt : dbRsltList){
-       * System.out.println(rslt); }
-       */      
-
-      
       List<DBRsltEntity> dbRsltEntity = getDBData(entity);
-      
+
       System.out.println("[DBRsltEntity] : " + dbRsltEntity);
 
       Mapper mapper = ManagerProvider.mapper().getMapper();
-      MapperEntity mapperRsltEntity = null;
-      RzmRsltEntity rzmRsltEntity = new RzmRsltEntity();      
-      RequestPacketEntity requestEntity = new RequestPacketEntity();
-      if(dbRsltEntity == null){
-        rzmRsltEntity.setDataEnc("");
-        rzmRsltEntity.setKeyEnc("");
-        rzmRsltEntity.setDataHash("");
-        
-        
-        requestEntity.setArgs(rzmRsltEntity);
-        requestEntity.setCmd(entity.getCmd());
-        requestEntity.setCode("EMPTY");
-        requestEntity.setMid(entity.getMid());     
-        
-      }else if(dbRsltEntity.size() == 1){        
-        mapperRsltEntity = mapper.convert(dbRsltEntity.get(0));
-        System.out.println("[MapperRsltEntity] : " + mapperRsltEntity.toString());
 
-        String agentKey ="AGENCY PUBLIC KEY - ";
-        
-        String keyEnc = ManagerProvider.crypto().encryptRSA(entity.getPkey(), agentKey);
-        String dataEnc = ManagerProvider.crypto().encryptAES(mapperRsltEntity);
-        String dataHash = ManagerProvider.crypto().hash(mapperRsltEntity);
-        
-       
-        rzmRsltEntity.setDataEnc(dataEnc);
-        rzmRsltEntity.setKeyEnc(keyEnc);
-        rzmRsltEntity.setDataHash(dataHash);
-        
-        requestEntity.setArgs(rzmRsltEntity);
-        requestEntity.setCmd(entity.getCmd());
-        requestEntity.setCode("OK");
-        requestEntity.setMid(entity.getMid());     
-        
-      }else if(dbRsltEntity.size() > 1){              
-        rzmRsltEntity.setDataEnc("");
-        rzmRsltEntity.setKeyEnc("");
-        rzmRsltEntity.setDataHash("");
-        
-        
-        requestEntity.setArgs(rzmRsltEntity);
-        requestEntity.setCmd(entity.getCmd());
-        requestEntity.setCode("REQUIRED KEY");
-        requestEntity.setMid(entity.getMid());     
-        
-      }
-      
-      
-      
-      //RequestPacketEntity requestEntity = ManagerProvider.network().convert(rzmRsltEntity, "SearchResult");
+      RzmRsltEntity rzmRsltEntity = new RzmRsltEntity();
+      RequestPacketEntity requestEntity = new RequestPacketEntity();
+      makeRequestPacketEntity(entity, dbRsltEntity, mapper, rzmRsltEntity, requestEntity);
+
+      // RequestPacketEntity requestEntity = ManagerProvider.network().convert(rzmRsltEntity,
+      // "SearchResult");
+
       ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", entity.getSid());
       System.out.println(responseEntity.toString());
 
@@ -106,6 +56,50 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
   }
 
+  private void makeRequestPacketEntity(IORequestJobEntity entity, List<DBRsltEntity> dbRsltEntity, Mapper mapper, RzmRsltEntity rzmRsltEntity, RequestPacketEntity requestEntity) {
+
+    MapperEntity mapperRsltEntity;
+    if (dbRsltEntity == null) {
+      rzmRsltEntity.setDataEnc("");
+      rzmRsltEntity.setKeyEnc("");
+      rzmRsltEntity.setDataHash("");
+
+      requestEntity.setArgs(rzmRsltEntity);
+      requestEntity.setCmd("SearchResult");
+      requestEntity.setCode("EMPTY");
+      requestEntity.setMid(entity.getMid());
+
+    } else if (dbRsltEntity.size() == 1) {
+      mapperRsltEntity = mapper.convert(dbRsltEntity.get(0));
+      System.out.println("[MapperRsltEntity] : " + mapperRsltEntity.toString());
+
+      String agentKey = "AGENCY PUBLIC KEY - ";
+
+      String keyEnc = ManagerProvider.crypto().encryptRSA(entity.getPkey(), agentKey);
+      String dataEnc = ManagerProvider.crypto().encryptAES(mapperRsltEntity);
+      String dataHash = ManagerProvider.crypto().hash(mapperRsltEntity);
+
+      rzmRsltEntity.setDataEnc(dataEnc);
+      rzmRsltEntity.setKeyEnc(keyEnc);
+      rzmRsltEntity.setDataHash(dataHash);
+
+      requestEntity.setArgs(rzmRsltEntity);
+      requestEntity.setCmd("SearchResult");
+      requestEntity.setCode("OK");
+      requestEntity.setMid(entity.getMid());
+
+    } else if (dbRsltEntity.size() > 1) {
+      rzmRsltEntity.setDataEnc("");
+      rzmRsltEntity.setKeyEnc("");
+      rzmRsltEntity.setDataHash("");
+
+      requestEntity.setArgs(rzmRsltEntity);
+      requestEntity.setCmd("SearchResult");
+      requestEntity.setCode("REQUIRED KEY");
+      requestEntity.setMid(entity.getMid());
+    }
+  }
+
   private List<DBRsltEntity> getDBData(IORequestJobEntity entity) throws IOException {
 
     DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
@@ -115,15 +109,14 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     DBRsltEntity dbRsltEntity = null;
     List<DBRsltEntity> dbRsltEntityList = null;
 
-    dbRsltEntityList  = daoMgr.getDao().getRecords(dbEntity);
-    
-    
-    for(DBRsltEntity record : dbRsltEntityList){
+    dbRsltEntityList = daoMgr.getDao().getRecords(dbEntity);
+
+    for (DBRsltEntity record : dbRsltEntityList) {
       System.out.println(record);
     }
-    
-    return dbRsltEntityList;  
-    
+
+    return dbRsltEntityList;
+
     // // step1. select * from tbl where ci
     // dbRsltEntity = daoMgr.getDao().getRecordByCi(dbEntity);
     //

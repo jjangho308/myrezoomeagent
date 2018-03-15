@@ -39,11 +39,8 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   @Override
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
-    // httpConnecter = HttpConnecter.get
-    // HttpConnecter.getInstance();
-    // HttpsConnecter.getInstance();
-    // httpConnector = new HttpConnector();
-    // httpsConnector = new HttpsConnector();
+    httpConnector = new HttpConnector();
+    httpsConnector = new HttpsConnector();
     portalUrl = ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, true);
 
     // Content-type is application/json
@@ -67,23 +64,21 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   @Override
   public ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method, String path) {
     // TODO Auto-generated method stub
-    System.out.println("http request : " + entity);
 
     String response = null;
 
     if ("HTTPS".equals(protocol.toUpperCase())) {
-      httpsConnector = new HttpsConnector();
       if ("GET".equals(method.toUpperCase())) {
         response = httpsConnector.sendGet(portalUrl + path, headers);
       } else if ("POST".equals(method.toUpperCase())) {
         response = httpsConnector.sendPost(portalUrl + path, headers, JSON.toJson(entity));
       }
     } else {
-      httpConnector = new HttpConnector();
       if ("GET".equals(method.toUpperCase())) {
-        response = httpConnector.sendGet(portalUrl + path, headers);
+        response = httpConnector.sendGet(portalUrl, headers);
       } else if ("POST".equals(method.toUpperCase())) {
-        response = httpConnector.sendPost(portalUrl + path, headers, JSON.toJson(entity));
+        System.out.println(portalUrl);
+        response = httpConnector.sendPost(portalUrl, headers, JSON.toJson(entity));
       }
     }
 
@@ -91,7 +86,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     ResponsePacketEntity responseEntity = JSON.fromJson(response, ResponsePacketEntity.class);
     return responseEntity;
   }
-/*
+
   @Override
   public RequestPacketEntity convert(RzmRsltEntity entity, String cmd) {
     RequestPacketEntity requestEntity = new RequestPacketEntity();
@@ -123,7 +118,8 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
 
     System.out.println(requestEntity.toString());
     return requestEntity;
-  }*/
+  }
+
 
   @Override
   public HttpConnector getHttpConnecter() {
