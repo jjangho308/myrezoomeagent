@@ -39,32 +39,57 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       
       List<DBRsltEntity> dbRsltEntity = getDBData(entity);
       
-
-      
       System.out.println("[DBRsltEntity] : " + dbRsltEntity);
 
       Mapper mapper = ManagerProvider.mapper().getMapper();
-      
-            
-      MapperEntity mapperRsltEntity = mapper.convert(dbRsltEntity);
-      System.out.println("[MapperRsltEntity] : " + mapperRsltEntity.toString());
-
-      String agentKey ="AGENCY PUBLIC KEY - ";
-      
-      String keyEnc = ManagerProvider.crypto().encryptRSA(entity.getPkey(), agentKey);
-      String dataEnc = ManagerProvider.crypto().encryptAES(mapperRsltEntity);
-      String dataHash = ManagerProvider.crypto().hash(mapperRsltEntity);
-      
+      MapperEntity mapperRsltEntity = null;
       RzmRsltEntity rzmRsltEntity = new RzmRsltEntity();      
-      rzmRsltEntity.setDataEnc(dataEnc);
-      rzmRsltEntity.setKeyEnc(keyEnc);
-      rzmRsltEntity.setDataHash(dataHash);
-      
       RequestPacketEntity requestEntity = new RequestPacketEntity();
-      requestEntity.setArgs(rzmRsltEntity);
-      requestEntity.setCmd(entity.getCmd());
-      requestEntity.setCode("return Code");
-      requestEntity.setMid(entity.getMid());     
+      if(dbRsltEntity == null){
+        rzmRsltEntity.setDataEnc("");
+        rzmRsltEntity.setKeyEnc("");
+        rzmRsltEntity.setDataHash("");
+        
+        
+        requestEntity.setArgs(rzmRsltEntity);
+        requestEntity.setCmd(entity.getCmd());
+        requestEntity.setCode("EMPTY");
+        requestEntity.setMid(entity.getMid());     
+        
+      }else if(dbRsltEntity.size() == 1){        
+        mapperRsltEntity = mapper.convert(dbRsltEntity.get(0));
+        System.out.println("[MapperRsltEntity] : " + mapperRsltEntity.toString());
+
+        String agentKey ="AGENCY PUBLIC KEY - ";
+        
+        String keyEnc = ManagerProvider.crypto().encryptRSA(entity.getPkey(), agentKey);
+        String dataEnc = ManagerProvider.crypto().encryptAES(mapperRsltEntity);
+        String dataHash = ManagerProvider.crypto().hash(mapperRsltEntity);
+        
+       
+        rzmRsltEntity.setDataEnc(dataEnc);
+        rzmRsltEntity.setKeyEnc(keyEnc);
+        rzmRsltEntity.setDataHash(dataHash);
+        
+        requestEntity.setArgs(rzmRsltEntity);
+        requestEntity.setCmd(entity.getCmd());
+        requestEntity.setCode("OK");
+        requestEntity.setMid(entity.getMid());     
+        
+      }else if(dbRsltEntity.size() > 1){              
+        rzmRsltEntity.setDataEnc("");
+        rzmRsltEntity.setKeyEnc("");
+        rzmRsltEntity.setDataHash("");
+        
+        
+        requestEntity.setArgs(rzmRsltEntity);
+        requestEntity.setCmd(entity.getCmd());
+        requestEntity.setCode("REQUIRED KEY");
+        requestEntity.setMid(entity.getMid());     
+        
+      }
+      
+      
       
       //RequestPacketEntity requestEntity = ManagerProvider.network().convert(rzmRsltEntity, "SearchResult");
       ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", entity.getSid());

@@ -6,5 +6,5 @@ import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.manager.database.entity.DBRsltEntity;
 
 public interface Mapper {
-	public MapperEntity convert(List<DBRsltEntity> entity);
+	public MapperEntity convert(DBRsltEntity entity);
 }

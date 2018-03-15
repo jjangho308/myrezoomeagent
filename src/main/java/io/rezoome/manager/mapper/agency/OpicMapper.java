@@ -10,18 +10,14 @@ import io.rezoome.manager.mapper.MapperEntity;
 public class OpicMapper implements Mapper {
 
   @Override
-  public MapperEntity convert(List<DBRsltEntity> records) {
+  public MapperEntity convert(DBRsltEntity entity) {
 
-    if (records == null) {
+    if (entity == null) {
       return null;
       
       
     }
-    DBRsltEntity entity = null;
     
-    for(DBRsltEntity record : records ){
-     // ((OpicResultEntity)record).get
-    }
     
     
     MapperEntity mapperEntity = new OpicMapperEntity();
