@@ -77,7 +77,6 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
       if ("GET".equals(method.toUpperCase())) {
         response = httpConnector.sendGet(portalUrl, headers);
       } else if ("POST".equals(method.toUpperCase())) {
-        System.out.println(portalUrl);
         response = httpConnector.sendPost(portalUrl, headers, JSON.toJson(entity));
       }
     }
