@@ -1,23 +1,25 @@
 [GENERAL]
 DAO_CLASS_NAME = io.rezoome.manager.database.dao.xml.agency.Dao
 MAPPER_CLASS_NAME = io.rezoome.manager.mapper.agency.OpicMapper
-ORG_CD = code001
-
+ORG_CODE = code001
+ORG_NAME = opic
+ORG_PASSCODE = passcode
+  
 [THREAD]
 THREAD_POOL_CAPAVILITY = 10
 
 [DB] 
 DBMS_TYPE = oracle
-DBMS_VERSION = 12
+DBMS_VERSION = 5.7.21
 DB_HOST = localhost
-DB_PORT = 2345
+DB_PORT = 11521
 DB_NAME = REZOOME
-DB_USER_ID = DB_ADMIN
+DB_USER_ID = db_admin
 DB_PASSWORD = sgen2018!
 DB_MAX_CONNECTION = 1000
 DB_INIT_CONNECTION = 1
-DB_MAX_WAIT = 6
-CONNECTION_POOL_NAME = inha
+DB_MAX_WAIT = 5
+CONNECTION_POOL_NAME = opic
 	  
 [AMQ]
 AMAZONE_QUEUE_NAME = QUEUE_A
@@ -32,4 +34,4 @@ MYBATIS_CONFIG_FILE_PATH = io/rezoome/manager/database/mybatis/xml/mybatis-confi
 JOB_TEMP_FILE_PATH = ./
 
 [HTTP]
-PORTAL_URL = devportalalb-1075047289.ap-northeast-2.elb.amazonaws.com:3000/agent
+PORTAL_URL = http://devportalalb-1075047289.ap-northeast-2.elb.amazonaws.com:3000/agent/
