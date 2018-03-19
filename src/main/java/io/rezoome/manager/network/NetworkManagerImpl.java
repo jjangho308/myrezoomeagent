@@ -44,11 +44,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   private final int CONNECT_TIMEOUT = 10000;
   private final int READ_TIMEOUT = 10000;
 
-  // private HttpClient httpClient;
-  // private HttpConnector httpConnector;
-  // private HttpsConnector httpsConnector;
   private String portalUrl;
-  // private Map<String, Object> headers;
 
   private static class Singleton {
     private static final NetworkManager instance = new NetworkManagerImpl();
@@ -58,26 +54,16 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     return Singleton.instance;
   }
 
-  // protected HttpManager httpManager;
-
   @Override
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
-    // httpClient = new HttpClientImpl();
-    // httpConnector = new HttpConnector();
-    // httpsConnector = new HttpsConnector();
     portalUrl = ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, true);
-
-    // Content-type is application/json
-    // headers = new HashMap<String, Object>();
-    // headers.put("Content-type", "application/json");
     setPrepared();
   }
 
   @Override
   public void initializeOnThread(InitialEvent event) {
     // TODO Auto-generated method stub
-
   }
 
   @Override
@@ -118,33 +104,6 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     System.out.println(requestEntity.toString());
     return requestEntity;
   }
-
-  @Override
-  public ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method, String path) {
-    // TODO Auto-generated method stub
-
-    // String response = null;
-    //
-    // if ("HTTPS".equals(protocol.toUpperCase())) {
-    // if ("GET".equals(method.toUpperCase())) {
-    // response = httpsConnector.sendGet(portalUrl + path, headers);
-    // } else if ("POST".equals(method.toUpperCase())) {
-    // response = httpsConnector.sendPost(portalUrl + path, headers, JSON.toJson(entity));
-    // }
-    // } else {
-    // if ("GET".equals(method.toUpperCase())) {
-    // response = httpConnector.sendGet(portalUrl + path, headers);
-    // } else if ("POST".equals(method.toUpperCase())) {
-    // response = httpConnector.sendPost(portalUrl + path, headers, JSON.toJson(entity));
-    // }
-    // }
-    //
-    // System.out.println("http response : " + response);
-    // ResponsePacketEntity responseEntity = JSON.fromJson(response, ResponsePacketEntity.class);
-    // return responseEntity;
-    return null;
-  }
-
 
   @Override
   public ResponsePacketEntity request(RequestPacket packet) {
@@ -193,9 +152,6 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
       if (Constants.HTTP_STATUS_CODE_200 != connection.getResponseCode()) {
         throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);
       }
-
-      System.out.println(response);
-
     } catch (Exception e) {
       e.printStackTrace();
     }

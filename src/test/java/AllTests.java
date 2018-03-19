@@ -24,11 +24,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import io.rezoome.constants.Constants;
+import io.rezoome.core.ServiceInitializer;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.amq.AMQMessageEntity;
 import io.rezoome.manager.amq.AMQMessageHandlerImpl;
-import io.rezoome.manager.network.entity.RequestObject;
+import io.rezoome.manager.network.entity.RequestPacket;
+import io.rezoome.manager.network.entity.request.RequestPacketEntity;
+import io.rezoome.manager.network.entity.request.RequestSearchRecordArgsEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 import junit.framework.TestSuite;
 
@@ -79,12 +83,27 @@ public class AllTests extends TestSuite {
   }
 
   @Test
-  public void httpClientTest() {
-    String portalUrl = "http://devportalalb-1075047289.ap-northeast-2.elb.amazonaws.com:3000/agent/";
-    String requestData = "{\"cmd\":\"SearchResult\"}";
-    RequestObject requestObject = new RequestObject(portalUrl, requestData);
+  public void initializeTest() {
+    InitialEvent event = InitialEvent.RUNTIME;
+    ServiceInitializer.initialize(event);
+  }
 
-    // ResponsePacketEntity responseEntity = ManagerProvider.network().request(null);
+  @Test
+  public void httpClientTest() {
+    ManagerProvider.network().initialize(InitialEvent.RUNTIME);
+
+    RequestPacketEntity requestEntity = new RequestPacketEntity();
+
+    requestEntity.setCmd("SearchResult");
+    RequestSearchRecordArgsEntity argsEntity = new RequestSearchRecordArgsEntity();
+    argsEntity.setEncryptedData("setEncryptedData");
+    argsEntity.setEncryptedKey("setEncryptedKey");
+    argsEntity.setHashedData("setHashedData");
+
+    requestEntity.setArgs(argsEntity);
+
+    RequestPacket packet = new RequestPacket("/", JSON.toJson(requestEntity));
+    ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
   }
 
 

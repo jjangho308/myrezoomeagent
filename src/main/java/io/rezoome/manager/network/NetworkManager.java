@@ -15,8 +15,6 @@ import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
  */
 public interface NetworkManager extends Manager {
 
-  ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method, String path);
-
   ResponsePacketEntity request(RequestPacket obj);
 
   public RequestPacketEntity convert(RzmRsltEntity entity, String cmd);
