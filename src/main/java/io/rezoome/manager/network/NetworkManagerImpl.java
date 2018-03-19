@@ -8,10 +8,13 @@ import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
+import io.rezoome.manager.network.entity.RequestObject;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
 import io.rezoome.manager.network.entity.RequestRegistrationArgsEntity;
 import io.rezoome.manager.network.entity.RequestSearchResultArgsEntity;
 import io.rezoome.manager.network.entity.ResponsePacketEntity;
+import io.rezoome.manager.network.http.HttpClient;
+import io.rezoome.manager.network.http.HttpClientImpl;
 import io.rezoome.manager.network.http.HttpConnector;
 import io.rezoome.manager.network.http.HttpManager;
 import io.rezoome.manager.network.http.HttpsConnector;
@@ -21,6 +24,7 @@ import io.rezoome.manager.provider.ManagerProvider;
 @ManagerType(value = "Network", initPriority = 30)
 public class NetworkManagerImpl extends AbstractManager implements NetworkManager {
 
+  private HttpClient httpClient;
   private HttpConnector httpConnector;
   private HttpsConnector httpsConnector;
   private String portalUrl;
@@ -39,6 +43,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   @Override
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
+    httpClient = new HttpClientImpl();
     httpConnector = new HttpConnector();
     httpsConnector = new HttpsConnector();
     portalUrl = ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, true);
@@ -59,31 +64,6 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   public boolean isPrepared() {
     // TODO Auto-generated method stub
     return false;
-  }
-
-  @Override
-  public ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method, String path) {
-    // TODO Auto-generated method stub
-
-    String response = null;
-
-    if ("HTTPS".equals(protocol.toUpperCase())) {
-      if ("GET".equals(method.toUpperCase())) {
-        response = httpsConnector.sendGet(portalUrl + path, headers);
-      } else if ("POST".equals(method.toUpperCase())) {
-        response = httpsConnector.sendPost(portalUrl + path, headers, JSON.toJson(entity));
-      }
-    } else {
-      if ("GET".equals(method.toUpperCase())) {
-        response = httpConnector.sendGet(portalUrl, headers);
-      } else if ("POST".equals(method.toUpperCase())) {
-        response = httpConnector.sendPost(portalUrl, headers, JSON.toJson(entity));
-      }
-    }
-
-    System.out.println("http response : " + response);
-    ResponsePacketEntity responseEntity = JSON.fromJson(response, ResponsePacketEntity.class);
-    return responseEntity;
   }
 
   @Override
@@ -119,16 +99,37 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     return requestEntity;
   }
 
-
   @Override
-  public HttpConnector getHttpConnecter() {
+  public ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method, String path) {
     // TODO Auto-generated method stub
-    return this.httpConnector;
+
+    String response = null;
+
+    if ("HTTPS".equals(protocol.toUpperCase())) {
+      if ("GET".equals(method.toUpperCase())) {
+        response = httpsConnector.sendGet(portalUrl + path, headers);
+      } else if ("POST".equals(method.toUpperCase())) {
+        response = httpsConnector.sendPost(portalUrl + path, headers, JSON.toJson(entity));
+      }
+    } else {
+      if ("GET".equals(method.toUpperCase())) {
+        response = httpConnector.sendGet(portalUrl + path, headers);
+      } else if ("POST".equals(method.toUpperCase())) {
+        response = httpConnector.sendPost(portalUrl + path, headers, JSON.toJson(entity));
+      }
+    }
+
+    System.out.println("http response : " + response);
+    ResponsePacketEntity responseEntity = JSON.fromJson(response, ResponsePacketEntity.class);
+    return responseEntity;
   }
 
+
   @Override
-  public HttpsConnector getHttpsConnecter() {
+  public ResponsePacketEntity request(RequestPacketEntity entity) {
     // TODO Auto-generated method stub
-    return this.httpsConnector;
+    RequestObject requestObject = new RequestObject(portalUrl, JSON.toJson(entity));
+    ResponsePacketEntity responsePacketEntity = httpClient.request(requestObject);
+    return responsePacketEntity;
   }
 }

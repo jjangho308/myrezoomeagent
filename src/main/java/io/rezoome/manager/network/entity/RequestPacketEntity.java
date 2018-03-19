@@ -51,13 +51,18 @@ public class RequestPacketEntity extends AbstractEntity {
     this.code = code;
   }
 
-  
+
   public RequestArgsEntity getArgs() {
     return args;
   }
 
   public void setArgs(RequestArgsEntity args) {
     this.args = args;
+  }
+
+  @Override
+  public String toString() {
+    return "RequestPacketEntity [mid=" + mid + ", cmd=" + cmd + ", code=" + code + ", args=" + args + "]";
   }
 
 }

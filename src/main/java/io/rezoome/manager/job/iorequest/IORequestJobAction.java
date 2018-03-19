@@ -29,21 +29,17 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     try {
       System.out.println("IORequest Job");
 
-      List<DBRsltEntity> dbRsltEntity = getDBData(entity);
+      RequestPacketEntity requestEntity = convertRequestPacketEntity(entity);
+      System.out.println("[requestEntity] : " + requestEntity.toString());
 
-      System.out.println("[DBRsltEntity] : " + dbRsltEntity);
-
-      Mapper mapper = ManagerProvider.mapper().getMapper();
-
-      RzmRsltEntity rzmRsltEntity = new RzmRsltEntity();
-      RequestPacketEntity requestEntity = new RequestPacketEntity();
-      makeRequestPacketEntity(entity, dbRsltEntity, mapper, rzmRsltEntity, requestEntity);
-
-      // RequestPacketEntity requestEntity = ManagerProvider.network().convert(rzmRsltEntity,
+      // RequestPacketEntity requestEntity2 = ManagerProvider.network().convert(rzmRsltEntity,
       // "SearchResult");
 
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity, "http", "post", entity.getSid());
-      System.out.println(responseEntity.toString());
+      // ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity,
+      // "http", "post", entity.getSid());
+
+      ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity);
+      System.out.println("[responseEntity] : " + responseEntity.toString());
 
       // log
       ManagerProvider.log();
@@ -56,16 +52,23 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
   }
 
-  private void makeRequestPacketEntity(IORequestJobEntity entity, List<DBRsltEntity> dbRsltEntity, Mapper mapper, RzmRsltEntity rzmRsltEntity, RequestPacketEntity requestEntity) {
+  private RequestPacketEntity convertRequestPacketEntity(IORequestJobEntity entity) throws IOException {
 
+    List<DBRsltEntity> dbRsltEntity = getDBData(entity);
+    System.out.println("[DBRsltEntity] : " + dbRsltEntity);
+
+    RequestPacketEntity requestEntity = new RequestPacketEntity();
+    RzmRsltEntity rzmRsltEntity = new RzmRsltEntity();
     MapperEntity mapperRsltEntity;
+    Mapper mapper = ManagerProvider.mapper().getMapper();
+
     if (dbRsltEntity == null) {
       rzmRsltEntity.setDataEnc("");
       rzmRsltEntity.setKeyEnc("");
       rzmRsltEntity.setDataHash("");
 
       requestEntity.setArgs(rzmRsltEntity);
-      requestEntity.setCmd("SearchResult");
+      requestEntity.setCmd(entity.getCmd());
       requestEntity.setCode("EMPTY");
       requestEntity.setMid(entity.getMid());
 
@@ -84,7 +87,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       rzmRsltEntity.setDataHash(dataHash);
 
       requestEntity.setArgs(rzmRsltEntity);
-      requestEntity.setCmd("SearchResult");
+      requestEntity.setCmd(entity.getCmd());
       requestEntity.setCode("OK");
       requestEntity.setMid(entity.getMid());
 
@@ -94,10 +97,12 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       rzmRsltEntity.setDataHash("");
 
       requestEntity.setArgs(rzmRsltEntity);
-      requestEntity.setCmd("SearchResult");
+      requestEntity.setCmd(entity.getCmd());
       requestEntity.setCode("REQUIRED KEY");
       requestEntity.setMid(entity.getMid());
     }
+
+    return requestEntity;
   }
 
   private List<DBRsltEntity> getDBData(IORequestJobEntity entity) throws IOException {

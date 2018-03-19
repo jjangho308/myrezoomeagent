@@ -81,7 +81,7 @@ public class HttpConnector implements HttpManager {
       outputStream.close();
 
       int responseCode = httpURLConnection.getResponseCode();
-      if (responseCode != Constants.HTTP_STATUS_CODE_200) {
+      if (responseCode != HttpURLConnection.HTTP_OK) {
         throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);
       }
 
