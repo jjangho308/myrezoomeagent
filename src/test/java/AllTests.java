@@ -29,7 +29,6 @@ import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.amq.AMQMessageEntity;
 import io.rezoome.manager.amq.AMQMessageHandlerImpl;
 import io.rezoome.manager.network.entity.RequestObject;
-import io.rezoome.manager.network.entity.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 import junit.framework.TestSuite;
 
@@ -85,7 +84,7 @@ public class AllTests extends TestSuite {
     String requestData = "{\"cmd\":\"SearchResult\"}";
     RequestObject requestObject = new RequestObject(portalUrl, requestData);
 
-    ResponsePacketEntity responseEntity = ManagerProvider.network().request(null);
+    // ResponsePacketEntity responseEntity = ManagerProvider.network().request(null);
   }
 
 

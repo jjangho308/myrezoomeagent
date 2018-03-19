@@ -126,9 +126,9 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
 
 
   @Override
-  public ResponsePacketEntity request(RequestPacketEntity entity) {
+  public ResponsePacketEntity request(String sid, RequestPacketEntity entity) {
     // TODO Auto-generated method stub
-    RequestObject requestObject = new RequestObject(portalUrl, JSON.toJson(entity));
+    RequestObject requestObject = new RequestObject(portalUrl + sid, JSON.toJson(entity));
     ResponsePacketEntity responsePacketEntity = httpClient.request(requestObject);
     return responsePacketEntity;
   }
