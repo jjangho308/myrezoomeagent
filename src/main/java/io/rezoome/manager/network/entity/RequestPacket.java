@@ -9,14 +9,14 @@ import java.util.Map;
 import io.rezoome.core.entity.AbstractEntity;
 import io.rezoome.manager.networkv2.ContentType;
 
-public class RequestObject extends AbstractEntity {
+public class RequestPacket extends AbstractEntity {
   private final Map<String, String> header = new HashMap<>();
-  private final String url;
+  private final String sid;
   private final String data;
   private final List<File> fileList = new ArrayList<>();
 
-  public RequestObject(String url, String data) {
-    this.url = url;
+  public RequestPacket(String sid, String data) {
+    this.sid = sid;
     this.data = data;
   }
 
@@ -24,8 +24,8 @@ public class RequestObject extends AbstractEntity {
     return header;
   }
 
-  public String getUrl() {
-    return url;
+  public String getSid() {
+    return sid;
   }
 
   public String getData() {

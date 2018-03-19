@@ -2,6 +2,7 @@ package io.rezoome.manager.network;
 
 import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.manager.Manager;
+import io.rezoome.manager.network.entity.RequestPacket;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
 import io.rezoome.manager.network.entity.ResponsePacketEntity;
 
@@ -16,7 +17,7 @@ public interface NetworkManager extends Manager {
 
   ResponsePacketEntity request(RequestPacketEntity entity, String protocol, String method, String path);
 
-  ResponsePacketEntity request(String sid, RequestPacketEntity entity);
+  ResponsePacketEntity request(RequestPacket obj);
 
   public RequestPacketEntity convert(RzmRsltEntity entity, String cmd);
 }

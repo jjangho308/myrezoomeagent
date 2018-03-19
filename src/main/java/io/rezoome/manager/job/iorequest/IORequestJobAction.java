@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import io.rezoome.entity.RzmRsltEntity;
+import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.database.convert.DBConverter;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
 import io.rezoome.manager.database.entity.DBEntity;
@@ -12,6 +13,7 @@ import io.rezoome.manager.job.JobRsltEntity;
 import io.rezoome.manager.job.entity.AbstractJob;
 import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.mapper.MapperEntity;
+import io.rezoome.manager.network.entity.RequestPacket;
 import io.rezoome.manager.network.entity.RequestPacketEntity;
 import io.rezoome.manager.network.entity.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
@@ -38,7 +40,8 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       // ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity,
       // "http", "post", entity.getSid());
 
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(entity.getSid(), requestEntity);
+      RequestPacket packet = new RequestPacket(entity.getSid(), JSON.toJson(requestEntity));
+      ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
       System.out.println("[responseEntity] : " + responseEntity.toString());
 
       // log
