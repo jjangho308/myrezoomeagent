@@ -14,8 +14,8 @@ import io.rezoome.manager.job.entity.AbstractJob;
 import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.mapper.MapperEntity;
 import io.rezoome.manager.network.entity.RequestPacket;
-import io.rezoome.manager.network.entity.RequestPacketEntity;
-import io.rezoome.manager.network.entity.ResponsePacketEntity;
+import io.rezoome.manager.network.entity.request.RequestPacketEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 
 public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {

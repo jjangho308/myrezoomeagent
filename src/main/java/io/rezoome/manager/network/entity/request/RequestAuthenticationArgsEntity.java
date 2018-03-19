@@ -1,10 +1,10 @@
-package io.rezoome.manager.network.entity;
+package io.rezoome.manager.network.entity.request;
 
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
 
-public class RequestRegistrationArgsEntity extends AbstractEntity implements RequestArgsEntity {
+public class RequestAuthenticationArgsEntity extends AbstractEntity implements RequestArgsEntity {
 
   @SerializedName("orgCode")
   private String orgCode;

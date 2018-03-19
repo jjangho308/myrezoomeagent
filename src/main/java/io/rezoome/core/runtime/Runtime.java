@@ -5,14 +5,13 @@ import io.rezoome.core.ServiceInitializer.InitialEvent;
 
 public class Runtime {
 
-	public static void main(String[] args) {
-		System.out.println("Runtime");
-		initailize();
-	}
+  public static void main(String[] args) {
+    System.out.println("Runtime");
+    initailize();
+  }
 
-	private static void initailize() {
-		InitialEvent event = InitialEvent.RUNTIME;
-		ServiceInitializer.initialize(event);
-
-	}
+  private static void initailize() {
+    InitialEvent event = InitialEvent.RUNTIME;
+    ServiceInitializer.initialize(event);
+  }
 }

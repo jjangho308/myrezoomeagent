@@ -10,6 +10,8 @@ import io.rezoome.manager.crypto.CryptoManager;
 import io.rezoome.manager.crypto.CryptoManagerImpl;
 import io.rezoome.manager.database.DatabaseManager;
 import io.rezoome.manager.database.DatabaseManagerImpl;
+import io.rezoome.manager.health.HealthCheckManager;
+import io.rezoome.manager.health.HealthCheckManagerImpl;
 import io.rezoome.manager.job.JobManager;
 import io.rezoome.manager.job.JobManagerImpl;
 import io.rezoome.manager.log.LogManager;
@@ -45,6 +47,7 @@ public final class ManagerProvider {
   private static final StatusManager status = StatusManagerImpl.getInstance();
   private static final MapperManager mapper = MapperManagerImpl.getInstance();
   private static final CryptoManager crypto = CryptoManagerImpl.getInstance();
+  private static final HealthCheckManager health = HealthCheckManagerImpl.getInstance();
 
   public static JobManager job() {
     return job;
@@ -92,5 +95,9 @@ public final class ManagerProvider {
 
   public static CryptoManager crypto() {
     return crypto;
+  }
+
+  public static HealthCheckManager health() {
+    return health;
   }
 }

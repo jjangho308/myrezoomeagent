@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
 import io.rezoome.core.entity.annotation.EntityType;
-import io.rezoome.manager.network.entity.RequestArgsEntity;
+import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 
 public final class RzmRsltEntity extends AbstractEntity implements RequestArgsEntity {
 

@@ -27,9 +27,9 @@ public enum PropertyEnum {
 
   // Http
   PORTAL_URL,
-  
+
   // GENERAL
-  ORG_CD,
-  
+  ORG_CODE, ORG_NAME, ORG_PASSCODE
+
 
 }

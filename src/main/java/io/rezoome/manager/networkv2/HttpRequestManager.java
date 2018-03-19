@@ -2,8 +2,8 @@ package io.rezoome.manager.networkv2;
 
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.Manager;
-import io.rezoome.manager.network.entity.RequestPacketEntity;
-import io.rezoome.manager.network.entity.ResponsePacketEntity;
+import io.rezoome.manager.network.entity.request.RequestPacketEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 
 /**
  * Send/Receive HTTP Transfering. <br />
@@ -14,7 +14,7 @@ import io.rezoome.manager.network.entity.ResponsePacketEntity;
  */
 @ManagerType(value = "HttpRequest")
 public interface HttpRequestManager extends Manager {
-	RequestPacketEntity obtainRequestPacket();
+  RequestPacketEntity obtainRequestPacket();
 
-	ResponsePacketEntity sendRequest(RequestPacket packet);
+  ResponsePacketEntity sendRequest(RequestPacket packet);
 }

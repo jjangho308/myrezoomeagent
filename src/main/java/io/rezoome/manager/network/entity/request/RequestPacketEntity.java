@@ -1,4 +1,4 @@
-package io.rezoome.manager.network.entity;
+package io.rezoome.manager.network.entity.request;
 
 import com.google.gson.annotations.SerializedName;
 

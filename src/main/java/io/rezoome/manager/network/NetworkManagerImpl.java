@@ -31,11 +31,10 @@ import io.rezoome.exception.ServiceException;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.RequestPacket;
-import io.rezoome.manager.network.entity.RequestPacketEntity;
-import io.rezoome.manager.network.entity.RequestRegistrationArgsEntity;
-import io.rezoome.manager.network.entity.RequestSearchResultArgsEntity;
-import io.rezoome.manager.network.entity.ResponsePacketEntity;
-import io.rezoome.manager.network.http.HttpManager;
+import io.rezoome.manager.network.entity.request.RequestAuthenticationArgsEntity;
+import io.rezoome.manager.network.entity.request.RequestPacketEntity;
+import io.rezoome.manager.network.entity.request.RequestSearchRecordArgsEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
@@ -59,7 +58,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     return Singleton.instance;
   }
 
-  protected HttpManager httpManager;
+  // protected HttpManager httpManager;
 
   @Override
   public void initialize(InitialEvent event) {
@@ -94,14 +93,14 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     if ("Registration".equals(cmd)) {
       requestEntity.setCmd("Registration");
 
-      RequestRegistrationArgsEntity argsEntity = new RequestRegistrationArgsEntity();
+      RequestAuthenticationArgsEntity argsEntity = new RequestAuthenticationArgsEntity();
       argsEntity.setOrgCode("code001");
       argsEntity.setOrgPasscode("passcode");
       argsEntity.setOrgName("orgName");
       requestEntity.setArgs(argsEntity);
     } else if ("SearchResult".equals(cmd)) {
       requestEntity.setCmd("SearchResult");
-      RequestSearchResultArgsEntity argsEntity = new RequestSearchResultArgsEntity();
+      RequestSearchRecordArgsEntity argsEntity = new RequestSearchRecordArgsEntity();
 
       argsEntity.setOrgCode("code001");
       if (entity == null) {

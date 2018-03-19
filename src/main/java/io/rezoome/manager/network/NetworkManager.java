@@ -3,8 +3,8 @@ package io.rezoome.manager.network;
 import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.manager.Manager;
 import io.rezoome.manager.network.entity.RequestPacket;
-import io.rezoome.manager.network.entity.RequestPacketEntity;
-import io.rezoome.manager.network.entity.ResponsePacketEntity;
+import io.rezoome.manager.network.entity.request.RequestPacketEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 
 /**
  * Network manager. <br />
