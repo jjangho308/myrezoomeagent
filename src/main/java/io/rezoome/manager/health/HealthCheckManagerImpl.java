@@ -16,7 +16,7 @@ import io.rezoome.manager.provider.ManagerProvider;
 public class HealthCheckManagerImpl extends AbstractManager implements HealthCheckManager {
 
   private String orgCode;
-  private final int HEALTH_CHECK_INTERVAL = 1000 * 60;
+  private int HEALTH_CHECK_INTERVAL;
 
   private static class Singleton {
     private static final HealthCheckManager instance = new HealthCheckManagerImpl();
@@ -31,8 +31,9 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
     // TODO Auto-generated method stub
 
     orgCode = ManagerProvider.property().getProperty(PropertyEnum.ORG_CODE, true);
+    HEALTH_CHECK_INTERVAL = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.HEALTH_CHECK_INTERVAL, true));
 
-    this.excuteHealthCheck();
+    this.runHealthCheck();
     setPrepared();
   }
 
@@ -62,7 +63,7 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
     return requestEntity;
   }
 
-  private void excuteHealthCheck() {
+  private void runHealthCheck() {
     new Thread(new Runnable() {
       @Override
       public void run() {
