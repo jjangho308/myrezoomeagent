@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration  debug="true" scan="true" scanPeriod="60 seconds">
+
+	<property resource="resource.properties" />
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern> %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Basic Appender -->
+	<appender name="AGENT_APPENDER"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- <file>${AGENT_HOME}/agent.log</file> -->
+		<file>C:\agent.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>agent.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- Basic Appender -->
+	<appender name="ERROR_APPENDER"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- <file>${AGENT_HOME}/agent.log</file> -->
+		<file>C:\error.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>error.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="AGENT_LOG" level="DEBUG" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="AGENT_APPENDER" />
+		<appender-ref ref="ERROR_APPENDER" />		
+	</logger>
+	
+	<logger name="ERROR_LOG" level="DEBUG" additivity="false">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ERROR_APPENDER" />		
+	</logger>
+
+	<logger name="java.net" level="DEBUG" />
+	<logger name="org.mybatis" level="DEBUG" />
+	<logger name="io.rezoome" level="DEBUG" />
+	
+	<root level="DEBUG">	
+		<appender-ref ref="CONSOLE" />			
+		<appender-ref ref="AGENT_APPENDER" />
+		<appender-ref ref="ERROR_APPENDER" />
+	</root>
+	
+	<!-- <if condition='property("envTarget").equals("PRD")'>
+		<then>
+			<root level="INFO">				
+				<appender-ref ref="AGENT_APPENDER" />
+				<appender-ref ref="EXCEPTION_APPENDER" />
+			</root>
+		</then>
+		<else>
+			<root level="DEBUG">
+				<appender-ref ref="CONSOLE" />
+				<appender-ref ref="AGENT_APPENDER" />
+				<appender-ref ref="EXCEPTION_APPENDER" />
+			</root>
+		</else>
+	</if> -->
+</configuration>

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.Manager;
 import io.rezoome.manager.provider.ManagerProvider;
@@ -19,86 +22,88 @@ import io.rezoome.thread.WorkerThread;
  */
 public final class ServiceInitializer {
 
-	public enum InitialEvent {
-		NOT_RUNTIME, RUNTIME
-	}
+  private static final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
-	public enum InitializationPhase {
-		ASYNC_INITIALIZED, INITIALIZING, SYNC_INITIALIZED, UNINITLIAZED
-	}
+  public enum InitialEvent {
+    NOT_RUNTIME, RUNTIME
+  }
 
-	private static InitialEvent			event;
+  public enum InitializationPhase {
+    ASYNC_INITIALIZED, INITIALIZING, SYNC_INITIALIZED, UNINITLIAZED
+  }
 
-	private static final String			INITIALIZATION_THREAD	= "Initialization-thread";
-	private static final List<Manager>	managers				= new ArrayList<>();
+  private static InitialEvent event;
 
-	private static InitializationPhase	phase					= InitializationPhase.UNINITLIAZED;
+  private static final String INITIALIZATION_THREAD = "Initialization-thread";
+  private static final List<Manager> managers = new ArrayList<>();
 
-	public static synchronized void initialize(InitialEvent from) {
-		if (phase != InitializationPhase.UNINITLIAZED) {
-			return;
-		}
+  private static InitializationPhase phase = InitializationPhase.UNINITLIAZED;
 
-		Thread.currentThread().setName(INITIALIZATION_THREAD);
-		event = from;
-		phase = InitializationPhase.INITIALIZING;
+  public static synchronized void initialize(InitialEvent from) {
+    if (phase != InitializationPhase.UNINITLIAZED) {
+      return;
+    }
 
-		for (Field manager : ManagerProvider.class.getDeclaredFields()) {
+    Thread.currentThread().setName(INITIALIZATION_THREAD);
+    event = from;
+    phase = InitializationPhase.INITIALIZING;
 
-			// Static member이자 Manager type의 member만 가져옴
-			if (Modifier.isStatic(manager.getModifiers()) && manager.getType().asSubclass(Manager.class) != null) {
+    for (Field manager : ManagerProvider.class.getDeclaredFields()) {
 
-				try {
-					manager.setAccessible(true);
-					managers.add((Manager) manager.get(null));
+      // Static member이자 Manager type의 member만 가져옴
+      if (Modifier.isStatic(manager.getModifiers()) && manager.getType().asSubclass(Manager.class) != null) {
 
-					// @ManagerType의 initPriority를 기준으로 정렬. 숫자가 낮을 수록 먼저 초기화 됨
-					managers.sort(new Comparator<Manager>() {
+        try {
+          manager.setAccessible(true);
+          managers.add((Manager) manager.get(null));
 
-						@Override
-						public int compare(Manager o1, Manager o2) {
-							return o1.getClass().getAnnotation(ManagerType.class).initPriority()
-									- o2.getClass().getAnnotation(ManagerType.class).initPriority();
-						}
-					});
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+          // @ManagerType의 initPriority를 기준으로 정렬. 숫자가 낮을 수록 먼저 초기화 됨
+          managers.sort(new Comparator<Manager>() {
 
-		for (Manager manager : managers) {
-			try {
-				manager.initialize(event);
-			} catch (Throwable t) {
-				t.printStackTrace();
-			}
-		}
+            @Override
+            public int compare(Manager o1, Manager o2) {
+              return o1.getClass().getAnnotation(ManagerType.class).initPriority()
+                  - o2.getClass().getAnnotation(ManagerType.class).initPriority();
+            }
+          });
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+          e.printStackTrace();
+        }
+      }
+    }
 
-		phase = InitializationPhase.SYNC_INITIALIZED;
+    LOG.info("###### agent managers initialize ######");
+    for (Manager manager : managers) {
+      try {
+        manager.initialize(event);
+      } catch (Throwable t) {
+        t.printStackTrace();
+      }
+    }
 
-		// Asynchronous initialization.
-		new WorkerThread(new Runnable() {
+    phase = InitializationPhase.SYNC_INITIALIZED;
 
-			@Override
-			public void run() {
-				for (Manager manager : managers) {
-					try {
-						manager.initializeOnThread(event);
-					} catch (Throwable t) {
-						t.printStackTrace();
-					}
-				}
-			}
-		}).start();
-	}
+    // Asynchronous initialization.
+    new WorkerThread(new Runnable() {
 
-	/**
-	 * Hide constructor. <br />
-	 * 
-	 * @since 1.0.0
-	 * @author TACKSU
-	 */
-	private ServiceInitializer() {
-	}
+      @Override
+      public void run() {
+        for (Manager manager : managers) {
+          try {
+            manager.initializeOnThread(event);
+          } catch (Throwable t) {
+            t.printStackTrace();
+          }
+        }
+      }
+    }).start();
+  }
+
+  /**
+   * Hide constructor. <br />
+   * 
+   * @since 1.0.0
+   * @author TACKSU
+   */
+  private ServiceInitializer() {}
 }

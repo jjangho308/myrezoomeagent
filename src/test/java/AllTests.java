@@ -53,7 +53,18 @@ public class AllTests extends TestSuite {
 
   @Test
   public void amqMessageTest() {
+    InitialEvent event = InitialEvent.RUNTIME;
+    ServiceInitializer.initialize(event);
+
     AMQMessageEntity msg = this.AMQMessageParseTest();
+    System.out.println("msg : " + msg);
+    AMQMessageHandlerImpl.getInstance().handleMessage(msg);
+
+    msg = this.AMQMessageParseTest();
+    System.out.println("msg : " + msg);
+    AMQMessageHandlerImpl.getInstance().handleMessage(msg);
+
+    msg = this.AMQMessageParseTest();
     System.out.println("msg : " + msg);
     AMQMessageHandlerImpl.getInstance().handleMessage(msg);
   }

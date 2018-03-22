@@ -1,5 +1,8 @@
 package io.rezoome.manager.auth;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.lib.json.JSON;
@@ -13,6 +16,8 @@ import io.rezoome.manager.provider.ManagerProvider;
 
 @ManagerType(value = "Auth", initPriority = 40)
 public class AuthManagerImpl extends AbstractManager implements AuthManager {
+
+  private static final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
   private String orgCode;
   private String orgName;
@@ -34,6 +39,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
     orgPasscode = ManagerProvider.property().getProperty(PropertyEnum.ORG_PASSCODE, true);
 
     if (this.authentication()) {
+      LOG.info("{} Init Complete", this.getClass());
       setPrepared();
     } else {
       System.out.println("retry to auth");
@@ -50,7 +56,9 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   public boolean authentication() {
     try {
       RequestPacketEntity requestEntity = convertRequestPacketEntity();
+
       RequestPacket packet = new RequestPacket("", JSON.toJson(requestEntity));
+
       ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
 
       // set token

@@ -22,8 +22,10 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.rezoome.constants.Constants;
-import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.entity.RzmRsltEntity;
@@ -41,8 +43,12 @@ import io.rezoome.manager.provider.ManagerProvider;
 @ManagerType(value = "Network", initPriority = 30)
 public class NetworkManagerImpl extends AbstractManager implements NetworkManager {
 
-  private final int CONNECT_TIMEOUT = 10000;
-  private final int READ_TIMEOUT = 10000;
+  private Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+
+  private int CONNECT_TIMEOUT = 10000;
+  private int READ_TIMEOUT = 10000;
+  private int RETRIES;
+  private int RETRY_DELAY_SEC;
 
   private String portalUrl;
 
@@ -58,6 +64,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
     portalUrl = ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, true);
+    LOG.info("{} Init Complete", this.getClass());
     setPrepared();
   }
 
@@ -106,55 +113,79 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   }
 
   @Override
-  public ResponsePacketEntity request(RequestPacket packet) {
+  public ResponsePacketEntity request(RequestPacket packet) throws ServiceException {
     // TODO Auto-generated method stub
+
+    int retry = 0;
     String response = null;
+    HttpURLConnection connection = null;
 
-    try {
-      HttpURLConnection connection = (HttpURLConnection) new URL(portalUrl + packet.getSid()).openConnection();
+    do {
+      try {
+        if (retry > 0) {
+          LOG.info("retry to connect server after {}sec, retry:{}", 3, retry);
+          Thread.sleep(3000);
+        }
+        connection = (HttpURLConnection) new URL(portalUrl + packet.getSid()).openConnection();
 
-      if (connection instanceof HttpsURLConnection) {
-        SSLContext ctx = SSLContext.getInstance("TLS");
-        ctx.init(new KeyManager[0], new TrustManager[] { new DefaultTrustManager() }, new SecureRandom());
-        final SSLSocketFactory sslSocketFactory = ctx.getSocketFactory();
-        SSLContext.setDefault(ctx);
-        HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
-        httpsConnection.setHostnameVerifier(new HostnameVerifier() {
-          @Override
-          public boolean verify(String arg0, SSLSession arg1) {
-            return true;
-          }
-        });
-        httpsConnection.setSSLSocketFactory(sslSocketFactory);
+        if (connection instanceof HttpsURLConnection) {
+          SSLContext ctx = SSLContext.getInstance("TLS");
+          ctx.init(new KeyManager[0], new TrustManager[] { new DefaultTrustManager() }, new SecureRandom());
+          final SSLSocketFactory sslSocketFactory = ctx.getSocketFactory();
+          SSLContext.setDefault(ctx);
+          HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
+          httpsConnection.setHostnameVerifier(new HostnameVerifier() {
+            @Override
+            public boolean verify(String arg0, SSLSession arg1) {
+              return true;
+            }
+          });
+          httpsConnection.setSSLSocketFactory(sslSocketFactory);
+        }
+
+        connection.setDoOutput(true);
+        connection.setConnectTimeout(CONNECT_TIMEOUT);
+        connection.setReadTimeout(READ_TIMEOUT);
+
+        for (Entry<String, String> entry : packet.getHeader().entrySet()) {
+          connection.setRequestProperty(entry.getKey(), entry.getValue());
+        }
+
+        connection.connect();
+
+        if (packet.getData() != null) {
+          OutputStream outputStream = connection.getOutputStream();
+          outputStream.write(packet.getData().toString().getBytes());
+          LOG.info("request json data : {}", packet.getData().toString());
+          outputStream.flush();
+          outputStream.close();
+        }
+
+        switch (connection.getResponseCode()) {
+          case HttpURLConnection.HTTP_OK:
+            response = getResponse(connection.getInputStream());
+            LOG.info("response json data : {}", response);
+            break;
+          case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:
+            LOG.error("response code {}", HttpURLConnection.HTTP_GATEWAY_TIMEOUT);
+            break;
+          case HttpURLConnection.HTTP_UNAVAILABLE:
+            LOG.error("response code {}", HttpURLConnection.HTTP_UNAVAILABLE);
+            break;
+          case HttpURLConnection.HTTP_UNAUTHORIZED:
+            LOG.error("response code {}", HttpURLConnection.HTTP_UNAUTHORIZED);
+            break;
+          default:
+            LOG.error("Unknown response code {}", connection.getResponseCode());
+            break;
+        }
+      } catch (Exception e) {
+        throw new ServiceException("Fail to connect server", e);
+      } finally {
+        connection.disconnect();
+        retry++;
       }
-
-      connection.setDoOutput(true);
-
-      connection.setConnectTimeout(CONNECT_TIMEOUT);
-      connection.setReadTimeout(READ_TIMEOUT);
-
-      for (Entry<String, String> entry : packet.getHeader().entrySet()) {
-        connection.setRequestProperty(entry.getKey(), entry.getValue());
-      }
-
-      connection.connect();
-
-      if (packet.getData() != null) {
-        OutputStream outputStream = connection.getOutputStream();
-        outputStream.write(packet.getData().toString().getBytes());
-
-        outputStream.flush();
-        outputStream.close();
-      }
-
-      response = getResponse(connection.getInputStream());
-
-      if (Constants.HTTP_STATUS_CODE_200 != connection.getResponseCode()) {
-        throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    } while (retry < 3);
 
     return JSON.fromJson(response, ResponsePacketEntity.class);
   }

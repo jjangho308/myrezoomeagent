@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import io.rezoome.entity.RzmRsltEntity;
+import io.rezoome.exception.ServiceException;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.database.convert.DBConverter;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
@@ -41,8 +42,15 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       // "http", "post", entity.getSid());
 
       RequestPacket packet = new RequestPacket(entity.getSid(), JSON.toJson(requestEntity));
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
-      System.out.println("[responseEntity] : " + responseEntity.toString());
+
+
+      ResponsePacketEntity responseEntity = null;
+
+      try {
+        responseEntity = ManagerProvider.network().request(packet);
+      } catch (ServiceException e) {
+
+      }
 
       // log
       ManagerProvider.log();
