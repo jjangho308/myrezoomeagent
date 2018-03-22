@@ -1,6 +1,7 @@
 package io.rezoome.manager.job.iorequest;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,7 +12,6 @@ import io.rezoome.exception.ServiceException;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.database.convert.DBConverter;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
-import io.rezoome.manager.database.entity.DBEntity;
 import io.rezoome.manager.database.entity.DBRsltEntity;
 import io.rezoome.manager.job.JobRsltEntity;
 import io.rezoome.manager.job.entity.AbstractJob;
@@ -31,107 +31,99 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   }
 
   @Override
-
   protected JobRsltEntity processInternal(IORequestJobEntity entity) {
 
+    ResponsePacketEntity responseEntity = null;
+
     try {
-      RequestPacketEntity requestEntity = convertRequestPacketEntity(entity);
+      // database
+      List<DBRsltEntity> dbResultEntityList = getDBData(entity);
+      LOG.debug("dbResultEntityList {}", dbResultEntityList);
+
+      // convert
+      RequestPacketEntity requestEntity = new RequestPacketEntity();
+      convertRequestPacket(entity, dbResultEntityList, requestEntity);
       LOG.debug("requestEntity {}", requestEntity.toString());
 
-      // RequestPacketEntity requestEntity2 = ManagerProvider.network().convert(rzmRsltEntity,
-      // "SearchResult");
-
-      // ResponsePacketEntity responseEntity = ManagerProvider.network().request(requestEntity,
-      // "http", "post", entity.getSid());
-
+      // http
       RequestPacket packet = new RequestPacket(entity.getSid(), JSON.toJson(requestEntity));
-      ResponsePacketEntity responseEntity = null;
 
       try {
         responseEntity = ManagerProvider.network().request(packet);
       } catch (ServiceException e) {
 
       }
-
-      // log
-      ManagerProvider.log();
-
     } catch (Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      // throw error
     }
-    return null;
 
+    if (HttpURLConnection.HTTP_OK == Integer.parseInt(responseEntity.getCode())) {
+      // throw ok
+      return null;
+    } else {
+      // throw error
+      return null;
+    }
   }
 
-  private RequestPacketEntity convertRequestPacketEntity(IORequestJobEntity entity) throws IOException {
+  private void convertRequestPacket(IORequestJobEntity entity, List<DBRsltEntity> dbResultEntityList, RequestPacketEntity requestEntity) {
+    // TODO Auto-generated method stub
 
-    List<DBRsltEntity> dbRsltEntity = getDBData(entity);
-    LOG.debug("DBRsltEntity {}", dbRsltEntity);    
-
-    RequestPacketEntity requestEntity = new RequestPacketEntity();
-    RzmRsltEntity rzmRsltEntity = new RzmRsltEntity();
-    MapperEntity mapperRsltEntity;
+    RzmRsltEntity rzmResultEntity = new RzmRsltEntity();
+    MapperEntity mapperResultEntity;
     Mapper mapper = ManagerProvider.mapper().getMapper();
 
-    if (dbRsltEntity == null) {
-      rzmRsltEntity.setDataEnc("");
-      rzmRsltEntity.setKeyEnc("");
-      rzmRsltEntity.setDataHash("");
+    if (dbResultEntityList == null) {
+      rzmResultEntity.setDataEnc("");
+      rzmResultEntity.setKeyEnc("");
+      rzmResultEntity.setDataHash("");
 
-      requestEntity.setArgs(rzmRsltEntity);
+      requestEntity.setArgs(rzmResultEntity);
       requestEntity.setCmd(entity.getCmd());
       requestEntity.setCode("EMPTY");
       requestEntity.setMid(entity.getMid());
 
-    } else if (dbRsltEntity.size() == 1) {
-      mapperRsltEntity = mapper.convert(dbRsltEntity.get(0));      
+    } else if (dbResultEntityList.size() == 1) {
+      mapperResultEntity = mapper.convert(dbResultEntityList.get(0));
 
       String agentKey = "AGENCY PUBLIC KEY - ";
 
       String keyEnc = ManagerProvider.crypto().encryptRSA(entity.getPkey(), agentKey);
-      String dataEnc = ManagerProvider.crypto().encryptAES(mapperRsltEntity);
-      String dataHash = ManagerProvider.crypto().hash(mapperRsltEntity);
+      String dataEnc = ManagerProvider.crypto().encryptAES(mapperResultEntity);
+      String dataHash = ManagerProvider.crypto().hash(mapperResultEntity);
 
-      rzmRsltEntity.setDataEnc(dataEnc);
-      rzmRsltEntity.setKeyEnc(keyEnc);
-      rzmRsltEntity.setDataHash(dataHash);
+      rzmResultEntity.setDataEnc(dataEnc);
+      rzmResultEntity.setKeyEnc(keyEnc);
+      rzmResultEntity.setDataHash(dataHash);
 
-      requestEntity.setArgs(rzmRsltEntity);
+      requestEntity.setArgs(rzmResultEntity);
       requestEntity.setCmd(entity.getCmd());
       requestEntity.setCode("OK");
       requestEntity.setMid(entity.getMid());
 
-    } else if (dbRsltEntity.size() > 1) {
-      rzmRsltEntity.setDataEnc("");
-      rzmRsltEntity.setKeyEnc("");
-      rzmRsltEntity.setDataHash("");
+    } else if (dbResultEntityList.size() > 1) {
+      rzmResultEntity.setDataEnc("");
+      rzmResultEntity.setKeyEnc("");
+      rzmResultEntity.setDataHash("");
 
-      requestEntity.setArgs(rzmRsltEntity);
+      requestEntity.setArgs(rzmResultEntity);
       requestEntity.setCmd(entity.getCmd());
       requestEntity.setCode("REQUIRED KEY");
       requestEntity.setMid(entity.getMid());
     }
-
-    return requestEntity;
   }
 
   private List<DBRsltEntity> getDBData(IORequestJobEntity entity) throws IOException {
 
     DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
-    DBEntity dbEntity = converter.convert(entity);
-
     DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
-    DBRsltEntity dbRsltEntity = null;
-    List<DBRsltEntity> dbRsltEntityList = null;
+    List<DBRsltEntity> dbResultEntityList = daoMgr.getDao().getRecords(converter.convert(entity));
 
-    dbRsltEntityList = daoMgr.getDao().getRecords(dbEntity);
-
-    for (DBRsltEntity record : dbRsltEntityList) {
-      System.out.println(record);
+    for (DBRsltEntity record : dbResultEntityList) {
+      LOG.debug("db record {}", record);
     }
 
-    return dbRsltEntityList;
+    return dbResultEntityList;
 
     // // step1. select * from tbl where ci
     // dbRsltEntity = daoMgr.getDao().getRecordByCi(dbEntity);
