@@ -2,50 +2,59 @@ package io.rezoome.manager.database.connect;
 
 import java.sql.Connection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.rezoome.manager.database.DatabaseManagerImpl;
 
 public class DBConnectionManagerImpl extends DatabaseManagerImpl implements DBConnectionManager {
-	protected DBConnectionPoolManager connMgr;
 
-	private static class Singleton {
-		private static final DatabaseManagerImpl instance = new DBConnectionManagerImpl();
-	}
+  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
-	public static DatabaseManagerImpl getInstance() {
-		return Singleton.instance;
-	}
+  protected DBConnectionPoolManager connMgr;
 
-	public DBConnectionManagerImpl() {
+  private static class Singleton {
+    private static final DatabaseManagerImpl instance = new DBConnectionManagerImpl();
+  }
 
-	}
+  public static DatabaseManagerImpl getInstance() {
+    return Singleton.instance;
+  }
 
-	@SuppressWarnings("static-access")
-	@Override
-	public void createConnection() {
-		if ("ORACLE".equals(super.dbType.toUpperCase())) {
-			super.connecter = new OracleConnecter();
-		} else if ("MYSQL".equals(super.dbType.toUpperCase())) {
-			super.connecter = new MysqlConnecter();
-		}
-		System.out.println("Create Connecter - " + super.dbType.toUpperCase());
-	}
+  public DBConnectionManagerImpl() {
 
-	@Override
-	public boolean isPrepared() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  }
 
-	public Connection getConnection(String poolName) {
-		return (connMgr.getConnection(poolName));
-	}
+  @SuppressWarnings("static-access")
+  @Override
+  public void createConnection() {
+    if ("ORACLE".equals(super.dbType.toUpperCase())) {
+      super.connecter = new OracleConnecter();
+    } else if ("MYSQL".equals(super.dbType.toUpperCase())) {
+      super.connecter = new MysqlConnecter();
+    }
 
-	public void freeConnection(Connection conn) {
-		connMgr.freeConnection(poolName, conn);
-	}
+    LOG.debug("{} created connector.", super.dbType.toUpperCase());
+  }
 
-	public int getDriverNumber() {
-		return connMgr.getDriverNumber();
-	}
+  @Override
+  public boolean isPrepared() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public Connection getConnection(String poolName) {
+    return (connMgr.getConnection(poolName));
+  }
+
+  @Override
+  public void freeConnection(Connection conn) {
+    connMgr.freeConnection(poolName, conn);
+  }
+
+  public int getDriverNumber() {
+    return connMgr.getDriverNumber();
+  }
 
 }

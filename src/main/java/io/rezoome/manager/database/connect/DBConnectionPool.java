@@ -6,7 +6,13 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Vector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DBConnectionPool {
+
+  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+
   //
   private int checkedOut;
 
@@ -114,7 +120,7 @@ public class DBConnectionPool {
       } else {
         con = DriverManager.getConnection(URL, user, password);
       }
-      System.out.println("Created a new connection in pool " + name);
+      LOG.debug("{} created a new connection in pool", name);
     } catch (SQLException e) {
       StringBuffer sb = new StringBuffer();
       sb.append("Can't create a new connection for ");

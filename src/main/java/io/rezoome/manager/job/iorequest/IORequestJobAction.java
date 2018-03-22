@@ -3,6 +3,9 @@ package io.rezoome.manager.job.iorequest;
 import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.exception.ServiceException;
 import io.rezoome.lib.json.JSON;
@@ -21,6 +24,8 @@ import io.rezoome.manager.provider.ManagerProvider;
 
 public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
+  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+
   public IORequestJobAction() {
     super();
   }
@@ -30,10 +35,8 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   protected JobRsltEntity processInternal(IORequestJobEntity entity) {
 
     try {
-      System.out.println("IORequest Job");
-
       RequestPacketEntity requestEntity = convertRequestPacketEntity(entity);
-      System.out.println("[requestEntity] : " + requestEntity.toString());
+      LOG.debug("requestEntity {}", requestEntity.toString());
 
       // RequestPacketEntity requestEntity2 = ManagerProvider.network().convert(rzmRsltEntity,
       // "SearchResult");
@@ -42,8 +45,6 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       // "http", "post", entity.getSid());
 
       RequestPacket packet = new RequestPacket(entity.getSid(), JSON.toJson(requestEntity));
-
-
       ResponsePacketEntity responseEntity = null;
 
       try {
@@ -66,7 +67,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   private RequestPacketEntity convertRequestPacketEntity(IORequestJobEntity entity) throws IOException {
 
     List<DBRsltEntity> dbRsltEntity = getDBData(entity);
-    System.out.println("[DBRsltEntity] : " + dbRsltEntity);
+    LOG.debug("DBRsltEntity {}", dbRsltEntity);    
 
     RequestPacketEntity requestEntity = new RequestPacketEntity();
     RzmRsltEntity rzmRsltEntity = new RzmRsltEntity();
@@ -84,8 +85,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       requestEntity.setMid(entity.getMid());
 
     } else if (dbRsltEntity.size() == 1) {
-      mapperRsltEntity = mapper.convert(dbRsltEntity.get(0));
-      System.out.println("[MapperRsltEntity] : " + mapperRsltEntity.toString());
+      mapperRsltEntity = mapper.convert(dbRsltEntity.get(0));      
 
       String agentKey = "AGENCY PUBLIC KEY - ";
 

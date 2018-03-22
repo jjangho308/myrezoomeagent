@@ -3,6 +3,9 @@ package io.rezoome.manager.pushcommand;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
@@ -19,60 +22,64 @@ import io.rezoome.manager.pushcommand.entity.PushCommandResult;
 @ManagerType("PushCommand")
 public class PushCommandManagerImpl extends AbstractManager implements PushCommandManager {
 
-	private Map<String, Class<? extends PushCommandEntity>>											entityCodeMap;
-	private Map<Class<? extends PushCommandEntity>, PushCommandAction<? super PushCommandEntity>>	actionMap;
+  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
-	{
-		this.entityCodeMap = new HashMap<>();
-		this.actionMap = new HashMap<>();
-	}
+  private Map<String, Class<? extends PushCommandEntity>> entityCodeMap;
+  private Map<Class<? extends PushCommandEntity>, PushCommandAction<? super PushCommandEntity>> actionMap;
 
-	/**
-	 * Hide default constructor. <br />
-	 */
-	private PushCommandManagerImpl() {
+  {
+    this.entityCodeMap = new HashMap<>();
+    this.actionMap = new HashMap<>();
+  }
 
-	}
+  /**
+   * Hide default constructor. <br />
+   */
+  private PushCommandManagerImpl() {
 
-	private static class Singleton {
-		private static final PushCommandManager instance = new PushCommandManagerImpl();
-	}
+  }
 
-	public static PushCommandManager getInstance() {
-		return Singleton.instance;
-	}
+  private static class Singleton {
+    private static final PushCommandManager instance = new PushCommandManagerImpl();
+  }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public void initialize(InitialEvent event) {
+  public static PushCommandManager getInstance() {
+    return Singleton.instance;
+  }
 
-		entityCodeMap = ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
+  @Override
+  @SuppressWarnings("unchecked")
+  public void initialize(InitialEvent event) {
 
-		actionMap = ManagerProvider.clsarrange().getActionMap(PushCommandEntity.class, PushCommandAction.class);
+    entityCodeMap = ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class);
 
-		setPrepared();
-	}
+    actionMap = ManagerProvider.clsarrange().getActionMap(PushCommandEntity.class, PushCommandAction.class);
 
-	@Override
-	public void initializeOnThread(InitialEvent event) {
-		// TODO Auto-generated method stub
+    setPrepared();
 
-	}
+    LOG.info("{} Init Complete.", this.getClass());
+  }
 
-	@Override
-	public PushCommandResult invokeCommand(PushCommandEntity command) {
+  @Override
+  public void initializeOnThread(InitialEvent event) {
+    // TODO Auto-generated method stub
 
-		this.actionMap.get(command.getClass()).process(command);
-		return null;
-	}
+  }
 
-	@Override
-	public Class<? extends PushCommandEntity> getEntity(String code) {
-		return this.entityCodeMap.get(code);
-	}
+  @Override
+  public PushCommandResult invokeCommand(PushCommandEntity command) {
 
-	@Override
-	public <V extends PushCommandEntity> PushCommandAction<? super PushCommandEntity> getAction(V entity) {
-		return this.actionMap.get(entity);
-	}
+    this.actionMap.get(command.getClass()).process(command);
+    return null;
+  }
+
+  @Override
+  public Class<? extends PushCommandEntity> getEntity(String code) {
+    return this.entityCodeMap.get(code);
+  }
+
+  @Override
+  public <V extends PushCommandEntity> PushCommandAction<? super PushCommandEntity> getAction(V entity) {
+    return this.actionMap.get(entity);
+  }
 }

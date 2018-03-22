@@ -45,12 +45,12 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
 
   private Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
-  private int CONNECT_TIMEOUT = 10000;
-  private int READ_TIMEOUT = 10000;
+  private int CONNECT_TIMEOUT;
+  private int READ_TIMEOUT;
   private int RETRIES;
   private int RETRY_DELAY_SEC;
 
-  private String portalUrl;
+  private String PORTAL_URL;
 
   private static class Singleton {
     private static final NetworkManager instance = new NetworkManagerImpl();
@@ -63,7 +63,11 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   @Override
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
-    portalUrl = ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, true);
+    PORTAL_URL = ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, true);
+    CONNECT_TIMEOUT = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.CONNECT_TIMEOUT, true));
+    READ_TIMEOUT = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.READ_TIMEOUT, true));
+    RETRIES = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.RETRIES, true));
+    RETRY_DELAY_SEC = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.RETRY_DELAY_SEC, true));
     LOG.info("{} Init Complete", this.getClass());
     setPrepared();
   }
@@ -107,8 +111,6 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
       }
       requestEntity.setArgs(argsEntity);
     }
-
-    System.out.println(requestEntity.toString());
     return requestEntity;
   }
 
@@ -120,13 +122,15 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     String response = null;
     HttpURLConnection connection = null;
 
+    LOG.debug("request json data : {}", packet.getData().toString());
+
     do {
       try {
         if (retry > 0) {
-          LOG.info("retry to connect server after {}sec, retry:{}", 3, retry);
-          Thread.sleep(3000);
+          LOG.debug("retry to connect server after {}sec, retry:{}", 3, retry);
+          Thread.sleep(RETRY_DELAY_SEC);
         }
-        connection = (HttpURLConnection) new URL(portalUrl + packet.getSid()).openConnection();
+        connection = (HttpURLConnection) new URL(PORTAL_URL + packet.getSid()).openConnection();
 
         if (connection instanceof HttpsURLConnection) {
           SSLContext ctx = SSLContext.getInstance("TLS");
@@ -156,7 +160,6 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
         if (packet.getData() != null) {
           OutputStream outputStream = connection.getOutputStream();
           outputStream.write(packet.getData().toString().getBytes());
-          LOG.info("request json data : {}", packet.getData().toString());
           outputStream.flush();
           outputStream.close();
         }
@@ -164,7 +167,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
         switch (connection.getResponseCode()) {
           case HttpURLConnection.HTTP_OK:
             response = getResponse(connection.getInputStream());
-            LOG.info("response json data : {}", response);
+            LOG.debug("response json data : {}", response);
             break;
           case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:
             LOG.error("response code {}", HttpURLConnection.HTTP_GATEWAY_TIMEOUT);
@@ -185,7 +188,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
         connection.disconnect();
         retry++;
       }
-    } while (retry < 3);
+    } while (retry < RETRIES);
 
     return JSON.fromJson(response, ResponsePacketEntity.class);
   }

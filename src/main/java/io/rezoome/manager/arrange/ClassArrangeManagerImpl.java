@@ -26,7 +26,7 @@ import io.rezoome.manager.AbstractManager;
 @ManagerType(value = "ClassArrange", initPriority = 20)
 public final class ClassArrangeManagerImpl extends AbstractManager implements ClassArrangeManager {
 
-  private static final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
   private static class Singleton {
     private static final ClassArrangeManager instance = new ClassArrangeManagerImpl();

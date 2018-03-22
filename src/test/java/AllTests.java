@@ -60,13 +60,13 @@ public class AllTests extends TestSuite {
     System.out.println("msg : " + msg);
     AMQMessageHandlerImpl.getInstance().handleMessage(msg);
 
-    msg = this.AMQMessageParseTest();
-    System.out.println("msg : " + msg);
-    AMQMessageHandlerImpl.getInstance().handleMessage(msg);
-
-    msg = this.AMQMessageParseTest();
-    System.out.println("msg : " + msg);
-    AMQMessageHandlerImpl.getInstance().handleMessage(msg);
+    // msg = this.AMQMessageParseTest();
+    // System.out.println("msg : " + msg);
+    // AMQMessageHandlerImpl.getInstance().handleMessage(msg);
+    //
+    // msg = this.AMQMessageParseTest();
+    // System.out.println("msg : " + msg);
+    // AMQMessageHandlerImpl.getInstance().handleMessage(msg);
   }
 
   public AMQMessageEntity AMQMessageParseTest() {

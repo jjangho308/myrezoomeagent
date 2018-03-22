@@ -1,5 +1,8 @@
 package io.rezoome.manager.health;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.exception.ServiceException;
@@ -14,6 +17,8 @@ import io.rezoome.manager.provider.ManagerProvider;
 
 @ManagerType(value = "Health")
 public class HealthCheckManagerImpl extends AbstractManager implements HealthCheckManager {
+
+  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
   private String orgCode;
   private int HEALTH_CHECK_INTERVAL;
@@ -35,6 +40,8 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
 
     this.runHealthCheck();
     setPrepared();
+
+    LOG.info("{} Init Complete.", this.getClass());
   }
 
   @Override

@@ -17,7 +17,7 @@ import io.rezoome.manager.provider.ManagerProvider;
 @ManagerType(value = "Auth", initPriority = 40)
 public class AuthManagerImpl extends AbstractManager implements AuthManager {
 
-  private static final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
   private String orgCode;
   private String orgName;

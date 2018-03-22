@@ -27,7 +27,7 @@ import io.rezoome.manager.provider.ManagerProvider;
 @ManagerType("AMQ")
 public class AMQManagerImpl extends AbstractManager implements AMQManager {
 
-  private static final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
   private static class Singleton {
     private static final AMQManager instance = new AMQManagerImpl();

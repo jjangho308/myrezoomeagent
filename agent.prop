@@ -36,3 +36,7 @@ JOB_TEMP_FILE_PATH = ./
 
 [HTTP]
 PORTAL_URL = http://devportalalb-1075047289.ap-northeast-2.elb.amazonaws.com:3000/agent/
+CONNECT_TIMEOUT = 3000
+READ_TIMEOUT = 3000
+RETRIES = 3
+RETRY_DELAY_SEC = 3000
