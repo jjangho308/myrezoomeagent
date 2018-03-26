@@ -1,7 +1,6 @@
 package io.rezoome.manager.job.iorequest;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -33,9 +32,9 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   @Override
   protected JobRsltEntity processInternal(IORequestJobEntity entity) {
 
-    ResponsePacketEntity responseEntity = null;
-
     try {
+      ResponsePacketEntity responseEntity = null;
+
       // database
       List<DBRsltEntity> dbResultEntityList = getDBData(entity);
       LOG.debug("dbResultEntityList {}", dbResultEntityList);
@@ -47,23 +46,16 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
       // http
       RequestPacket packet = new RequestPacket(entity.getSid(), JSON.toJson(requestEntity));
-
-      try {
-        responseEntity = ManagerProvider.network().request(packet);
-      } catch (ServiceException e) {
-
+      responseEntity = ManagerProvider.network().request(packet);
+      if (responseEntity == null) {
+        LOG.error("fail to connect server");
+        throw new ServiceException("fail to connect server 3");
       }
     } catch (Exception e) {
-      // throw error
+      LOG.error("error {}", e);
+      throw new ServiceException(e.getMessage(), e);
     }
-
-    if (HttpURLConnection.HTTP_OK == Integer.parseInt(responseEntity.getCode())) {
-      // throw ok
-      return null;
-    } else {
-      // throw error
-      return null;
-    }
+    return null;
   }
 
   private void convertRequestPacket(IORequestJobEntity entity, List<DBRsltEntity> dbResultEntityList, RequestPacketEntity requestEntity) {
@@ -73,51 +65,47 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     MapperEntity mapperResultEntity;
     Mapper mapper = ManagerProvider.mapper().getMapper();
 
+    rzmResultEntity.setDataEnc("");
+    rzmResultEntity.setKeyEnc("");
+    rzmResultEntity.setDataHash("");
+
     if (dbResultEntityList == null) {
-      rzmResultEntity.setDataEnc("");
-      rzmResultEntity.setKeyEnc("");
-      rzmResultEntity.setDataHash("");
-
-      requestEntity.setArgs(rzmResultEntity);
-      requestEntity.setCmd(entity.getCmd());
       requestEntity.setCode("EMPTY");
-      requestEntity.setMid(entity.getMid());
-
+    } else if (dbResultEntityList.size() > 1) {
+      requestEntity.setCode("REQUIRED KEY");
     } else if (dbResultEntityList.size() == 1) {
       mapperResultEntity = mapper.convert(dbResultEntityList.get(0));
+      // initially generate AES key
+      String aesKey = ManagerProvider.crypto().generateAES();
+      String iv = ManagerProvider.crypto().generateIV();
 
-      String agentKey = "AGENCY PUBLIC KEY - ";
-
-      String keyEnc = ManagerProvider.crypto().encryptRSA(entity.getPkey(), agentKey);
-      String dataEnc = ManagerProvider.crypto().encryptAES(mapperResultEntity);
-      String dataHash = ManagerProvider.crypto().hash(mapperResultEntity);
+      // String keyEnc = ManagerProvider.crypto().encryptRSA(aesKey, entity.getPkey());
+      String keyEnc = "ENCKEY";
+      String dataEnc = ManagerProvider.crypto().encryptAES(mapperResultEntity.toString(), aesKey, iv);
+      String dataHash = ManagerProvider.crypto().hash(mapperResultEntity.toString());
 
       rzmResultEntity.setDataEnc(dataEnc);
       rzmResultEntity.setKeyEnc(keyEnc);
       rzmResultEntity.setDataHash(dataHash);
-
-      requestEntity.setArgs(rzmResultEntity);
-      requestEntity.setCmd(entity.getCmd());
       requestEntity.setCode("OK");
-      requestEntity.setMid(entity.getMid());
-
-    } else if (dbResultEntityList.size() > 1) {
-      rzmResultEntity.setDataEnc("");
-      rzmResultEntity.setKeyEnc("");
-      rzmResultEntity.setDataHash("");
-
-      requestEntity.setArgs(rzmResultEntity);
-      requestEntity.setCmd(entity.getCmd());
-      requestEntity.setCode("REQUIRED KEY");
-      requestEntity.setMid(entity.getMid());
     }
+    requestEntity.setArgs(rzmResultEntity);
+    requestEntity.setCmd(entity.getCmd());
+    requestEntity.setMid(entity.getMid());
   }
 
-  private List<DBRsltEntity> getDBData(IORequestJobEntity entity) throws IOException {
+  private List<DBRsltEntity> getDBData(IORequestJobEntity entity) throws ServiceException {
 
     DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
     DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
-    List<DBRsltEntity> dbResultEntityList = daoMgr.getDao().getRecords(converter.convert(entity));
+    List<DBRsltEntity> dbResultEntityList = null;
+
+    try {
+      dbResultEntityList = daoMgr.getDao().getRecords(converter.convert(entity));
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      throw new ServiceException("database error", e);
+    }
 
     for (DBRsltEntity record : dbResultEntityList) {
       LOG.debug("db record {}", record);

@@ -1,11 +1,23 @@
 package io.rezoome.manager.crypto;
 
-import io.rezoome.entity.RzmRsltEntity;
+import java.util.Map;
+
 import io.rezoome.manager.Manager;
-import io.rezoome.manager.mapper.MapperEntity;
 
 public interface CryptoManager extends Manager {
-  public String hash(MapperEntity entity);
-  public String encryptRSA(String clientKey, String agentKey);
-  public String encryptAES(MapperEntity entity);
+  public String hash(String data);
+
+  public String generateAES();
+
+  public String generateIV();
+
+  public Map<String, String> generateRSA();
+
+  public String encryptRSA(String data, String publicKey);
+
+  public String decryptRSA(String encData, String privateKey);
+
+  public String encryptAES(String data, String aesKey, String iv);
+
+  public String decryptAES(String encData, String aesKey, String iv);
 }

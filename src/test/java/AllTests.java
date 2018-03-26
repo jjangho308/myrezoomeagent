@@ -7,9 +7,12 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -26,6 +29,7 @@ import org.junit.Test;
 import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.exception.ServiceException;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.amq.AMQMessageEntity;
 import io.rezoome.manager.amq.AMQMessageHandlerImpl;
@@ -53,23 +57,20 @@ public class AllTests extends TestSuite {
 
   @Test
   public void amqMessageTest() {
+    // throw new ServiceException("error");
+
     InitialEvent event = InitialEvent.RUNTIME;
     ServiceInitializer.initialize(event);
+    // ManagerProvider.property().initialize(InitialEvent.RUNTIME);
+    // ManagerProvider.clsarrange().initialize(InitialEvent.RUNTIME);
+    // ManagerProvider.pushcommand().initialize(InitialEvent.RUNTIME);
 
     AMQMessageEntity msg = this.AMQMessageParseTest();
-    System.out.println("msg : " + msg);
     AMQMessageHandlerImpl.getInstance().handleMessage(msg);
-
-    // msg = this.AMQMessageParseTest();
-    // System.out.println("msg : " + msg);
-    // AMQMessageHandlerImpl.getInstance().handleMessage(msg);
-    //
-    // msg = this.AMQMessageParseTest();
-    // System.out.println("msg : " + msg);
-    // AMQMessageHandlerImpl.getInstance().handleMessage(msg);
   }
 
   public AMQMessageEntity AMQMessageParseTest() {
+
     AMQMessageEntity entity = null;
     entity = new AMQMessageEntity();
     String msg = "{\r\n" +
@@ -86,10 +87,12 @@ public class AllTests extends TestSuite {
         "  }\r\n" +
         "}";
 
-
-    System.out.println(entity);
-    entity = JSON.fromJson(msg, AMQMessageEntity.class);
-    System.out.println(entity);
+    try {
+      entity = JSON.fromJson(msg, AMQMessageEntity.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    // entity = JSON.fromJson(msg, AMQMessageEntity.class);
     return entity;
   }
 
@@ -114,7 +117,12 @@ public class AllTests extends TestSuite {
     requestEntity.setArgs(argsEntity);
 
     RequestPacket packet = new RequestPacket("/", JSON.toJson(requestEntity));
-    ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
+    try {
+      ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
 
@@ -186,6 +194,109 @@ public class AllTests extends TestSuite {
     }
     reader.close();
     return reader.toString();
+  }
+
+
+  @Test
+  public void throwTest() {
+    try {
+      throwError();
+    } catch (Exception e) {
+      throw new ServiceException(e.getMessage(), e);
+    }
+  }
+
+  @Test
+  public void throwTest2() {
+    try {
+      throwError();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
+  public void throwError() throws Exception {
+    int[] arr = new int[5];
+    try {
+      arr[6] = 1;
+    } catch (Exception e) {
+      throw new ServiceException("parsing error", e);
+    }
+  }
+
+  public void throwError2() throws Exception {
+    int[] arr = new int[5];
+    arr[6] = 1;
+  }
+
+  @Test
+  public void httpsClientTest() {
+    ManagerProvider.network().initialize(InitialEvent.RUNTIME);
+
+    RequestPacketEntity requestEntity = new RequestPacketEntity();
+
+    requestEntity.setCmd("SearchResult");
+    RequestSearchRecordArgsEntity argsEntity = new RequestSearchRecordArgsEntity();
+    argsEntity.setEncryptedData("setEncryptedData");
+    argsEntity.setEncryptedKey("setEncryptedKey");
+    argsEntity.setHashedData("setHashedData");
+
+    requestEntity.setArgs(argsEntity);
+
+    // RequestPacket packet = new RequestPacket("", JSON.toJson(requestEntity));
+    RequestPacket packet = new RequestPacket("", null);
+    try {
+      ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void hashTest() {
+    String hash = "";
+    try {
+      MessageDigest md = MessageDigest.getInstance("SHA-256");
+      md.update("sdfsadfasefasefasefasefasefasef".toString().getBytes());
+      byte byteData[] = md.digest();
+      StringBuffer sb = new StringBuffer();
+      for (int i = 0; i < byteData.length; i++) {
+        sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+      }
+      hash = sb.toString();
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
+
+    System.out.println("hash : " + hash);
+  }
+
+  @Test
+  public void crypto() {
+    ManagerProvider.crypto().initialize(InitialEvent.RUNTIME);
+
+    String data = "test data";
+
+    // AES TEST
+    String aesKey = ManagerProvider.crypto().generateAES();
+    String iv = ManagerProvider.crypto().generateIV();
+    String encData = ManagerProvider.crypto().encryptAES(data, aesKey, iv);
+    System.out.println("encData : " + encData);
+    String decData = ManagerProvider.crypto().decryptAES(encData, aesKey, iv);
+    System.out.println("decData : " + decData);
+
+    // RSA TEST
+    Map<String, String> keys = ManagerProvider.crypto().generateRSA();
+    String publicKey = keys.get("PUBLIC_KEY");
+    String privateKey = keys.get("PRIVATE_KEY");
+    System.out.println("publicKey : " + publicKey);
+    System.out.println("privateKey : " + privateKey);
+    encData = ManagerProvider.crypto().encryptRSA(data, publicKey);
+    System.out.println("encData : " + encData);
+    decData = ManagerProvider.crypto().decryptRSA(encData, privateKey);
+    System.out.println("decData : " + decData);
   }
 }
 
