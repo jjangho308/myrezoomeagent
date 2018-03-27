@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.core.entity.annotation.EntityType;
+import io.rezoome.exception.ServiceException;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.job.entity.JobAction;
 import io.rezoome.manager.job.entity.JobEntity;
@@ -118,22 +119,23 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
       long startTime = System.currentTimeMillis();
       long lRnd = (long) (new SecureRandom().nextDouble() * 10000000000L);
 
-      Callable<String> callable = new JobCallable(job);
+      Callable<Object> callable = new JobCallable(job);
 
       LOG.info("[{}] start[{}] : Job Thread Execution",
           new Object[] { Long.toString(lRnd), startTime });
-      Future<String> future = executor.submit(callable);
+      Future<Object> future = executor.submit(callable);
 
       try {
-        String obj = future.get();
+        Object obj = future.get();
+        LOG.debug("future class type {}", obj.getClass());
         long endTime = System.currentTimeMillis();
         long nTime = endTime - startTime;
 
         LOG.info("[{}] end[{}] : Job Thread Exit {} ms",
             new Object[] { Long.toString(lRnd), endTime, Long.toString(nTime) });
-        LOG.debug(obj);
+        LOG.debug("future {}", obj);
       } catch (Exception e) {
-
+        throw new ServiceException(e.getMessage(), e);
       } finally {
         // executor.shutdown();
       }
@@ -205,7 +207,7 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
     return false;
   }
 
-  class JobCallable implements Callable<String> {
+  class JobCallable implements Callable<Object> {
     private JobEntity job;
 
     public JobCallable(JobEntity job) {
@@ -213,10 +215,14 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
     }
 
     @Override
-    public String call() throws Exception {
+    public Object call() throws Exception {
       // TODO Auto-generated method stub
-      ((JobAction<JobEntity>) JobManagerImpl.this.actionMap.get(job.getClass())).process(job);
-      return "OK";
+      try {
+        ((JobAction<JobEntity>) JobManagerImpl.this.actionMap.get(job.getClass())).process(job);
+      } catch (Exception e) {
+        throw new ServiceException(e.getMessage(), e);
+      }
+      return null;
     }
   }
 }

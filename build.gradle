@@ -1,24 +1,88 @@
-apply plugin: 'java'
-apply plugin:'application'
+apply plugin:'java'
+apply plugin:'java-library-distribution' //for distributions
+apply plugin:'application' // possible to use variable like below
 
-mainClassName = 'agent.main.main'
-version = '1.0'
+
+
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-compileJava.options.encoding= 'UTF-8'
+// default to UTF-8
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+mainClassName = 'io.rezoome.core.runtime.Runtime'
+version = '1.0.0'
+
+task inha(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',  
+        	'Implementation-Version': version
+    }
+    archiveName 'inha.jar'
+    dependsOn configurations.runtime
+	from(sourceSets.main.output) {
+		//include "io/rezoome/manager/**"
+		include "io/rezoome/manager/**/agency/*"
+	}
+}
 
 jar {
     manifest {
-        attributes  'Title': 'My Application', 'Version': version, 'Main-Class': mainClassName
+        attributes 'Manifest-Version' : version	
+        attributes 'Main-Class': mainClassName      
+        //attributes 'Class-Path': configurations.runtime.collect { it.getName() }.join(' ')
+        attributes "Assembly-Date": new java.util.Date().toString()
     }
-    archiveName 'agent.jar'
+    //archiveName project.name + "-" + version + ".jar"
+    baseName project.name
+    
+    // include all sources
     dependsOn configurations.runtime
-    from {
+    from {    	
         configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
     }
+    //exclude "io/rezoome/manager/**"
+    //exclude "io/rezoome/manager/**/agency/*"
+    destinationDir = file("${buildDir}/")
+    //duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
+
+/*
+task applicationClientJar(type: Jar, description: "Creates the Application  Client JAR file.") {
+    dependsOn compileJava
+    manifest {
+        attributes(
+                "Main-Class": platformMainClass,
+                "Implementation-Title": platformDisplayName,
+                "Implementation-Description": platformDescription,
+                "Platform-Version": platformVersion,
+                "Implementation-Version": version,
+                "Assembly-Date": new java.util.Date().toString()
+        )
+    }
+    
+    archiveName = "acme-client-${platformVersion}.jar"
+    destinationDir = file("${buildDir}/libs")
+    from sourceSets.main.output
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+*/
+
+/*
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'io.rezoome.core.runtime.Runtime'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+*/
 
 repositories {
     mavenCentral()
@@ -27,31 +91,80 @@ repositories {
     }
 }
 
-
-def version = [
+def ver = [	
     junit: '4.12',
     slf4j: '1.7.25',
     logback: '1.2.3',
     janino: '2.7.8',
     activemq: '5.15.0',    
     mybatis: '3.1.1',
-    mysql:	'5.1.6'
+    mysql:	'5.1.6',
+    gson: '2.3.1',
+    mysql: '5.1.6',
+    oracle: '12.1.0.1-atlassian-hosted'
 ]
 
-dependencies {    
-    
-    runtime group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.13'
-    testCompile group: 'junit', name: 'junit', version:'4.12'
-    compile "org.apache.activemq:activemq-client:${version.activemq}"
-    compile "org.apache.activemq:activemq-pool:${version.activemq}"
-    compile "org.mybatis:mybatis:${version.mybatis}"
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
-    compile group: 'com.oracle', name: 'ojdbc6', version: '12.1.0.1-atlassian-hosted'    
-    
-    // logback
-    compile 'ch.qos.logback:logback-classic:${version.logback}'
-	compile 'ch.qos.logback:logback-core:${version.logback}'
-	compile 'org.slf4j:slf4j-api:${version.slf4j}'
-	compile 'org.codehaus.janino:janino:${version.janino}'
+dependencies {
+    compile "org.apache.activemq:activemq-client:${ver.activemq}"
+    compile "org.apache.activemq:activemq-pool:${ver.activemq}"
+    compile "org.mybatis:mybatis:${ver.mybatis}"
+    compile "com.google.code.gson:gson:${ver.gson}"
+    compile "mysql:mysql-connector-java:${ver.mysql}"
+    compile "com.oracle:ojdbc6:${ver.oracle}"    
+    compile "ch.qos.logback:logback-classic:${ver.logback}"
+	compile "ch.qos.logback:logback-core:${ver.logback}"
+	compile "org.slf4j:slf4j-api:${ver.slf4j}"
+	compile "org.codehaus.janino:janino:${ver.janino}"	
+	
+	testCompile "junit:junit:${ver.junit}"
 }
+
+/*
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/java']
+		}
+		
+		resources {
+			srcDirs = ['src/resources']
+		}
+	}
+}
+
+task inha(type: Jar) {
+	manifest {
+        attributes(  
+        	'Title': 'INHA Univsity',
+        	'Version': version,
+        	'Main-Class': mainClassName
+    	)
+  	}
+  	archiveName project.name + '_inha.jar'
+  	dependsOn configurations.runtime
+    from { 
+    	configurations.compile.collect {it.isDirectory()? it: zipTree(it)} 
+    }
+    with jar
+}
+
+distributions {
+    main {
+        baseName = 'agent'
+        contents {
+            from { 'src' }
+        }
+    }
+}
+
+
+uploadArchives {
+	repositories {
+		flatDir {
+			dirs 'repos'
+		}
+	}
+}
+
+*/

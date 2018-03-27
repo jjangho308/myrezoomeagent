@@ -12,6 +12,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -29,13 +31,16 @@ import org.junit.Test;
 import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.exception.ServiceException;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.amq.AMQMessageEntity;
 import io.rezoome.manager.amq.AMQMessageHandlerImpl;
 import io.rezoome.manager.network.entity.RequestPacket;
+import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
 import io.rezoome.manager.network.entity.request.RequestSearchRecordArgsEntity;
+import io.rezoome.manager.network.entity.request.RequestSearchRecordsEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 import junit.framework.TestSuite;
@@ -74,17 +79,17 @@ public class AllTests extends TestSuite {
     AMQMessageEntity entity = null;
     entity = new AMQMessageEntity();
     String msg = "{\r\n" +
-        "  cmd : \"Search\",\r\n" +
-        "  mid : \"leifajlsif\",\r\n" +
-        "  token : \"welajslkdjfasdf\",\r\n" +
-        "  args : {\r\n" +
-        "    username : 'ATS',\r\n" +
-        "    birth : '1987-03-18',\r\n" +
-        "    gender : 1,\r\n" +
-        "    phone : '010-6464-4554',\r\n" +
-        "    ci : '123456789abcdeftg',\r\n" +
-        "    email : 'exle@nate.com'\r\n" +
-        "  }\r\n" +
+        " cmd : \"Search\",\r\n" +
+        " mid : \"leifajlsif\",\r\n" +
+        " token : \"welajslkdjfasdf\",\r\n" +
+        " args : {\r\n" +
+        " username : 'ATS',\r\n" +
+        " birth : '1987-03-18',\r\n" +
+        " gender : 1,\r\n" +
+        " phone : '010-6464-4554',\r\n" +
+        " ci : '123456789abcdeftg',\r\n" +
+        " email : 'exle@nate.com'\r\n" +
+        " }\r\n" +
         "}";
 
     try {
@@ -129,9 +134,9 @@ public class AllTests extends TestSuite {
 
   @Test
   public void httpClientTest2() throws IOException {
-    URL url = new URL("http://devportalalb-1075047289.ap-northeast-2.elb.amazonaws.com:3000/agent/");
     // URL url = new
-    // URL("https://www.google.com/accounts/ClientLogin?accountType=GOOGLE&Email=im.pkingkong@gmail.com&Passwd=phu1224!");
+    // URL("http://devportalalb-1075047289.ap-northeast-2.elb.amazonaws.com:3000/agent/");
+    URL url = new URL("https://www.google.com/accounts/ClientLogin?accountType=GOOGLE&Email=im.pkingkong@gmail.com&Passwd=phu1224!");
 
     try {
       HttpURLConnection connection = (HttpURLConnection) url
@@ -184,8 +189,10 @@ public class AllTests extends TestSuite {
     }
   }
 
-  private String getResponse(InputStream inputStream) throws UnsupportedEncodingException, IOException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Constants.PARAM_UTF_8));
+  private String getResponse(InputStream inputStream) throws UnsupportedEncodingException,
+      IOException {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream,
+        Constants.PARAM_UTF_8));
     StringBuffer response = new StringBuffer();
     String inputLine;
 
@@ -297,6 +304,53 @@ public class AllTests extends TestSuite {
     System.out.println("encData : " + encData);
     decData = ManagerProvider.crypto().decryptRSA(encData, privateKey);
     System.out.println("decData : " + decData);
+  }
+
+
+  @Test
+  public void searchRecordJsonTrasnTest() {
+    RequestPacketEntity requestPacket = new RequestPacketEntity();
+    RzmRsltEntity rzmResultEntity = new RzmRsltEntity();
+    rzmResultEntity.setOrgCode("ORG001");
+    rzmResultEntity.setEncKey("");
+    rzmResultEntity.setEncIv("");
+
+    String aesKey = ManagerProvider.crypto().generateAES();
+    String iv = ManagerProvider.crypto().generateIV();
+    String encKey = "encKey";
+    String encIv = "encIv";
+
+    List<RequestArgsEntity> records = new ArrayList<RequestArgsEntity>();
+    RequestSearchRecordsEntity record = null;
+
+    // 1
+    record = new RequestSearchRecordsEntity();
+    String encData = ManagerProvider.crypto().encryptAES("test", aesKey, iv);
+    String hashData = ManagerProvider.crypto().hash("test");
+    record.setEncData(encData);
+    record.setHashData(hashData);
+    record.setStored("Y");
+    records.add(record);
+
+    // 2
+    record = new RequestSearchRecordsEntity();
+    encData = ManagerProvider.crypto().encryptAES("test2", aesKey, iv);
+    hashData = ManagerProvider.crypto().hash("test2");
+    record.setEncData(encData);
+    record.setHashData(hashData);
+    record.setStored("N");
+    records.add(record);
+
+
+    rzmResultEntity.setEncKey(encKey);
+    rzmResultEntity.setEncIv(encIv);
+    rzmResultEntity.setRecords(records);
+    requestPacket.setCode("USER_EXIST_AND_DATA_EXIST");
+    requestPacket.setArgs(rzmResultEntity);
+    requestPacket.setCmd("cmd");
+    requestPacket.setMid("mid");
+
+    System.out.println(JSON.toJson(requestPacket));
   }
 }
 

@@ -41,8 +41,12 @@
 		phone = #{phone} AND
 		email = #{email}
 	</select>
+	
+	<select id="getUserCountByCI" parameterType="db_entity" resultMap="Integer">
+		 SELECT COUNT(*) FROM OPIC_CERT WHERE ENAME = #{username}
+	</select>
 
-	<select id="getRecords" parameterType="db_entity" resultMap="OpicResultEntity">
+	<select id="getCertRecords" parameterType="db_entity" resultMap="OpicResultEntity">
 		 SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE ENAME = #{username}
 	</select>
 </mapper>

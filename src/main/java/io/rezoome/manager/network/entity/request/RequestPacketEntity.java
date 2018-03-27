@@ -22,7 +22,6 @@ public class RequestPacketEntity extends AbstractEntity {
   @SerializedName("code")
   private String code;
 
-
   @SerializedName("args")
   private RequestArgsEntity args;
 

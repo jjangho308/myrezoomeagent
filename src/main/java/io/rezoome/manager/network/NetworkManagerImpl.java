@@ -115,17 +115,18 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   }
 
   @Override
-  public ResponsePacketEntity request(RequestPacket packet) throws ServiceException {
+  public ResponsePacketEntity request(RequestPacket packet) throws Exception {
     // TODO Auto-generated method stub
 
     int retry = 0;
     String response = null;
     HttpURLConnection connection = null;
 
-    LOG.debug("request json data : {}", packet.getData().toString());
+    if (packet.getData() != null)
+      LOG.debug("RequestPacket : {}", packet.getData().toString());
 
-    do {
-      try {
+    try {
+      do {
         if (retry > 0) {
           LOG.debug("retry to connect server after {}sec, retry:{}", 3, retry);
           Thread.sleep(RETRY_DELAY_SEC);
@@ -167,30 +168,29 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
         switch (connection.getResponseCode()) {
           case HttpURLConnection.HTTP_OK:
             response = getResponse(connection.getInputStream());
-            LOG.debug("response json data : {}", response);
-            break;
-          case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:
-            LOG.error("response code {}", HttpURLConnection.HTTP_GATEWAY_TIMEOUT);
-            break;
-          case HttpURLConnection.HTTP_UNAVAILABLE:
-            LOG.error("response code {}", HttpURLConnection.HTTP_UNAVAILABLE);
-            break;
-          case HttpURLConnection.HTTP_UNAUTHORIZED:
-            LOG.error("response code {}", HttpURLConnection.HTTP_UNAUTHORIZED);
-            break;
+            LOG.debug("ResponsePacket : {}", response);
+            connection.disconnect();
+            return JSON.fromJson(response, ResponsePacketEntity.class);
+          // case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:
+          // LOG.error("response code {}", HttpURLConnection.HTTP_GATEWAY_TIMEOUT);
+          // break;
+          // case HttpURLConnection.HTTP_UNAVAILABLE:
+          // LOG.error("response code {}", HttpURLConnection.HTTP_UNAVAILABLE);
+          // break;
+          // case HttpURLConnection.HTTP_UNAUTHORIZED:
+          // LOG.error("response code {}", HttpURLConnection.HTTP_UNAUTHORIZED);
+          // break;
           default:
             LOG.error("Unknown response code {}", connection.getResponseCode());
             break;
         }
-      } catch (Exception e) {
-        throw new ServiceException("Fail to connect server", e);
-      } finally {
         connection.disconnect();
         retry++;
-      }
-    } while (retry < RETRIES);
-
-    return JSON.fromJson(response, ResponsePacketEntity.class);
+      } while (retry < RETRIES);
+    } catch (Exception e) {
+      throw new ServiceException("Fail to connect server", e);
+    }
+    return null;
   }
 
   private String getResponse(InputStream inputStream) throws UnsupportedEncodingException, IOException {

@@ -1,5 +1,7 @@
 package io.rezoome.entity;
 
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
@@ -8,37 +10,48 @@ import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 
 public final class RzmRsltEntity extends AbstractEntity implements RequestArgsEntity {
 
-  @SerializedName("keyEnc")
-  String keyEnc;
+  @SerializedName("orgCode")
+  String orgCode;
 
-  @SerializedName("dataEnc")
-  String dataEnc;
+  @SerializedName("encKey")
+  String encKey;
 
-  @SerializedName("dataHash")
-  String dataHash;
+  @SerializedName("encIv")
+  String encIv;
 
-  public String getKeyEnc() {
-    return keyEnc;
+  @SerializedName("records")
+  List<RequestArgsEntity> records;
+
+  public String getOrgCode() {
+    return orgCode;
   }
 
-  public void setKeyEnc(String keyEnc) {
-    this.keyEnc = keyEnc;
+  public void setOrgCode(String orgCode) {
+    this.orgCode = orgCode;
   }
 
-  public String getDataEnc() {
-    return dataEnc;
+  public String getEncKey() {
+    return encKey;
   }
 
-  public void setDataEnc(String dataEnc) {
-    this.dataEnc = dataEnc;
+  public void setEncKey(String encKey) {
+    this.encKey = encKey;
   }
 
-  public String getDataHash() {
-    return dataHash;
+  public String getEncIv() {
+    return encIv;
   }
 
-  public void setDataHash(String dataHash) {
-    this.dataHash = dataHash;
+  public void setEncIv(String encIv) {
+    this.encIv = encIv;
+  }
+
+  public List<RequestArgsEntity> getRecords() {
+    return records;
+  }
+
+  public void setRecords(List<RequestArgsEntity> records) {
+    this.records = records;
   }
 
   @Override
