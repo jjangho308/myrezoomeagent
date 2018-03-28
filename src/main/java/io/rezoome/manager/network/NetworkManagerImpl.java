@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.rezoome.constants.Constants;
+import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.entity.RzmRsltEntity;
@@ -188,7 +189,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
         retry++;
       } while (retry < RETRIES);
     } catch (Exception e) {
-      throw new ServiceException("Fail to connect server", e);
+      throw new ServiceException(ErrorCodeConstants.ERROR_CODE_FAIL_TO_CONNECT_PORTAL_SERVER, e);
     }
     return null;
   }

@@ -1,7 +1,11 @@
 package io.rezoome.manager.job;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -13,6 +17,7 @@ import java.util.concurrent.ThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.core.entity.annotation.EntityType;
@@ -102,13 +107,8 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 
     if (false) {
       this.executor.execute(new Runnable() {
-        @SuppressWarnings("unchecked")
         @Override
         public void run() {
-          long startTime = System.currentTimeMillis();
-          long lRnd = (long) (new SecureRandom().nextDouble() * 10000000000L);
-          LOG.info("[{}] start[{}] : Job Thread Execution", new Object[] { Long.toString(lRnd),
-              startTime });
           ((JobAction<JobEntity>) JobManagerImpl.this.actionMap.get(job.getClass())).process(job);
         }
       });
@@ -120,20 +120,36 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
       long lRnd = (long) (new SecureRandom().nextDouble() * 10000000000L);
 
       Callable<Object> callable = new JobCallable(job);
-
       LOG.info("[{}] start[{}] : Job Thread Execution",
           new Object[] { Long.toString(lRnd), startTime });
       Future<Object> future = executor.submit(callable);
 
       try {
         Object obj = future.get();
-        LOG.debug("future class type {}", obj.getClass());
         long endTime = System.currentTimeMillis();
         long nTime = endTime - startTime;
-
         LOG.info("[{}] end[{}] : Job Thread Exit {} ms",
             new Object[] { Long.toString(lRnd), endTime, Long.toString(nTime) });
-        LOG.debug("future {}", obj);
+        LOG.debug("JOB Thread result [{}]", obj);
+        switch ((String) obj) {
+          case ErrorCodeConstants.ERROR_CODE_FAIL_TO_CONNECT_PORTAL_SERVER:
+          case ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_CORRECT_RESPONSE_CODE:
+          case ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA:
+            // TODO create error job json file.
+            try {
+              BufferedWriter out = new BufferedWriter(new FileWriter("./logs/" + new Date().getTime() + "_" + Long.toString(lRnd) + "_fail.log"));
+              out.write("Job ID : [" + Long.toString(lRnd) + "]");
+              out.newLine();
+              out.write("Error Code : [" + (String) obj + "]");
+              out.newLine();
+              out.write(job.toString());
+              out.newLine();
+              out.close();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+            break;
+        }
       } catch (Exception e) {
         throw new ServiceException(e.getMessage(), e);
       } finally {
@@ -214,15 +230,20 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
       this.job = job;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Object call() throws Exception {
+    public String call() throws Exception {
       // TODO Auto-generated method stub
+      String JOB_RESULT = "SUCCESS";
+
       try {
         ((JobAction<JobEntity>) JobManagerImpl.this.actionMap.get(job.getClass())).process(job);
       } catch (Exception e) {
-        throw new ServiceException(e.getMessage(), e);
+        JOB_RESULT = e.getMessage();
+        return JOB_RESULT;
       }
-      return null;
+
+      return JOB_RESULT;
     }
   }
 }

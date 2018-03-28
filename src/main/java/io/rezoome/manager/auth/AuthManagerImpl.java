@@ -3,6 +3,7 @@ package io.rezoome.manager.auth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.GlobalEntity;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.lib.json.JSON;
@@ -62,6 +63,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
       ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
 
       // set token
+      GlobalEntity.token = "token";
 
       return true;
     } catch (Exception e) {

@@ -6,8 +6,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.opic.entity.OpicResultEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.database.convert.DBConverter;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
@@ -39,7 +41,6 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
   @Override
   protected JobRsltEntity processInternal(IORequestJobEntity entity) {
-
     try {
       ResponsePacketEntity responseEntity = null;
 
@@ -50,17 +51,15 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       // convert
       RequestPacketEntity requestEntity = new RequestPacketEntity();
       convertRequestPacket(entity, dbResultEntityList, requestEntity);
-      LOG.debug("requestEntity {}", requestEntity.toString());
 
       // http
       RequestPacket packet = new RequestPacket(entity.getSid(), JSON.toJson(requestEntity));
       responseEntity = ManagerProvider.network().request(packet);
+
       if (responseEntity == null) {
-        LOG.error("fail to connect server");
-        throw new ServiceException("fail to connect server 3");
+        throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_CORRECT_RESPONSE_CODE);
       }
     } catch (Exception e) {
-      LOG.error("error {}", e);
       throw new ServiceException(e.getMessage(), e);
     }
     return null;
@@ -121,46 +120,50 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     // 1. 사용자 확인
     // 2. 기관정보 데이터 확인
     try {
-      int userCount = daoMgr.getDao().getUserCountByCI(converter.convert(entity));
-      if (userCount == 1) {
-        dbResultEntityList = daoMgr.getDao().getCertRecords(converter.convert(entity));
-        status = STATUS.USER_EXIST;
-        return dbResultEntityList;
-      } else if (userCount == 0) {
-        status = STATUS.USER_NOT_EXIST;
-        return dbResultEntityList;
-      } else {
-        // ci 로 조회했을 때의 결과가 1이 아닌 경우에는 이름, 생년월일, 성별로 다시 확인
-        dbResultEntityList = daoMgr.getDao().getUserRecordByName(converter.convert(entity));
+      if (true) { // CI 가 있는 경우에만 수행
+        int userCount = daoMgr.getDao().getUserCountByCI(converter.convert(entity));
 
-        if (dbResultEntityList.size() >= 1) {
-          // 해당 결과가 1개 이상인 경우 전화번호로 다시 확인
-          for (DBRsltEntity userEntity : dbResultEntityList) {
-            // 전화번호가 맞으면 해당 정보로 기관 정보 다시 요청
-            if (userEntity.toString() == entity.getPhone()) {
-              dbResultEntityList = daoMgr.getDao().getCertRecords(converter.convert(entity));
-              status = STATUS.USER_EXIST;
-              return dbResultEntityList;
-            }
-          }
-          // 전화번호 조회 결과가 없으면 필수정보 요청
-          status = STATUS.REQUIRED_KEY;
-        } else {
-          // 이름 검색 결과가 없을 때는 가입된 사용자가 없는것으로 판단.
+        if (userCount == 1) {
+          dbResultEntityList = daoMgr.getDao().getCertRecords(converter.convert(entity));
+          status = STATUS.USER_EXIST;
+          return dbResultEntityList;
+        } else if (userCount == 0) {
           status = STATUS.USER_NOT_EXIST;
-          dbResultEntityList = null;
+          return dbResultEntityList;
         }
+      }
+      // 결과가 없는 경우에는 이름, 생년월일, 성별로 다시 확인
+      // 기관에 CI 가 없을 경우에는 바로 이름, 생년월일, 성별 조회부터 시작
+      dbResultEntityList = daoMgr.getDao().getUserRecordByName(converter.convert(entity));
+      if (dbResultEntityList.size() >= 1) {
+        // 해당 결과가 1개 이상인 경우 전화번호로 다시 확인
+        for (DBRsltEntity userEntity : dbResultEntityList) {
+          // 전화번호가 맞으면 해당 정보로 기관 정보 다시 요청
+          OpicResultEntity user = (OpicResultEntity) userEntity;
+          if (entity.getPhone() != null && entity.getPhone().equals(user.getPhone())) {
+            dbResultEntityList = daoMgr.getDao().getCertRecords(converter.convert(entity));
+            status = STATUS.USER_EXIST;
+            return dbResultEntityList;
+          }
+        }
+        // 전화번호 조회 결과가 없으면 필수정보 요청
+        status = STATUS.REQUIRED_KEY;
+      } else {
+        // 이름 검색 결과가 없을 때는 가입된 사용자가 없는것으로 판단.
+        status = STATUS.USER_NOT_EXIST;
+        dbResultEntityList = null;
       }
     } catch (Exception e) {
       // TODO Auto-generated catch block
-      throw new ServiceException("database error", e);
+      throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA, e);
     }
 
     return dbResultEntityList;
   }
 
   private String isStoredHashData(IORequestJobEntity entity, String hashData) {
-    List<String> hashList = new ArrayList<String>(); // entity.getHashList 로 유도
+    // TODO entity.getHashList 로 유도
+    List<String> hashList = new ArrayList<String>(); //
     for (String hash : hashList) {
       if (hash.equals(hashData)) {
         return "Y";

@@ -1,4 +1,4 @@
-package io.rezoome.manager.database.entity.agency;
+package io.rezoome.external.opic.entity;
 
 import io.rezoome.manager.database.entity.DBRsltEntity;
 
@@ -8,6 +8,7 @@ public class OpicResultEntity implements DBRsltEntity {
   private String testDay;
   private String rating;
   private String birth;
+  private String phone;
   private String testId;
   private String testRoom;
   private String testName;
@@ -53,6 +54,14 @@ public class OpicResultEntity implements DBRsltEntity {
     this.birth = birth;
   }
 
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
   public String getTestId() {
     return testId;
   }
@@ -87,9 +96,8 @@ public class OpicResultEntity implements DBRsltEntity {
 
   @Override
   public String toString() {
-    return "OpicResultEntity [name=" + name + ", cname=" + cname + ", testDay=" + testDay + ", rating=" + rating + ", birth=" + birth + ", testId=" + testId + ", testRoom=" + testRoom + ", testName="
-        + testName + ", language=" + language + "]";
+    return "OpicResultEntity [name=" + name + ", cname=" + cname + ", testDay=" + testDay + ", rating=" + rating + ", birth=" + birth + ", phone=" + phone + ", testId=" + testId + ", testRoom="
+        + testRoom + ", testName=" + testName + ", language=" + language + "]";
   }
-
 
 }

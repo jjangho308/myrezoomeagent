@@ -9,6 +9,10 @@ public class ServiceException extends RuntimeException {
   private static final long serialVersionUID = 1234567890123456789L;
   private String errorCode;
 
+  public ServiceException() {
+    super();
+  }
+
   public ServiceException(String errorCode) {
     super(errorCode);
     this.errorCode = String.valueOf(errorCode);

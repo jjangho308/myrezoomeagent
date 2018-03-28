@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper
+  PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+
+<mapper namespace='io.rezoome.manager.database.dao.Dao'> 
+
+	<resultMap id="OpicResultEntity"
+		type="io.rezoome.external.opic.entity.OpicResultEntity">
+		<result property="name" column="ENAME" />
+		<result property="testId" column="TESTID" />
+		<result property="testDay" column="ISSUDATE" />
+		<result property="rating" column="RATING" />
+		<result property="phone" column="PHONE" />
+	</resultMap>	
+
+	<select id="getRecordsByName" parameterType="io.rezoome.manager.database.entity.DBEntity"
+		resultMap="OpicResultEntity">
+		select CNAME, TESTID, CNATION, CLEVEL from TBL_EXAM
+		where CNAME = #{username} AND BIRTH = #{birth} AND gender = #{gender}
+	</select>
+
+	<select id="getRecordsByPhone" parameterType="io.rezoome.manager.database.entity.DBEntity"
+		resultMap="OpicResultEntity">
+		select CNAME, TESTID, CNATION, CLEVEL from TBL_EXAM
+		where phone = #{phone} AND email = #{email}
+	</select>
+
+	<select id="getUserCountByCI" parameterType="io.rezoome.manager.database.entity.DBEntity"
+		resultType="Integer">
+		SELECT COUNT(*) FROM OPIC_CERT WHERE ENAME = #{username}
+	</select>
+	
+	<select id="getUserRecordByName" parameterType="io.rezoome.manager.database.entity.DBEntity"
+		resultMap="OpicResultEntity">
+		SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE ENAME = #{username}
+	</select>
+
+	<select id="getCertRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
+		resultMap="OpicResultEntity">
+		SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE ENAME = #{username}
+	</select>
+</mapper>

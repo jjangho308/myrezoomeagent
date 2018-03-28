@@ -61,43 +61,107 @@ public class AllTests extends TestSuite {
   }
 
   @Test
-  public void amqMessageTest() {
+  public void DBUserExistAndDataExistTest() {
     // throw new ServiceException("error");
 
     InitialEvent event = InitialEvent.RUNTIME;
     ServiceInitializer.initialize(event);
-    // ManagerProvider.property().initialize(InitialEvent.RUNTIME);
-    // ManagerProvider.clsarrange().initialize(InitialEvent.RUNTIME);
-    // ManagerProvider.pushcommand().initialize(InitialEvent.RUNTIME);
 
-    AMQMessageEntity msg = this.AMQMessageParseTest();
+    AMQMessageEntity msg = this.AMQMessageUserExistAndDataExist();
     AMQMessageHandlerImpl.getInstance().handleMessage(msg);
   }
 
-  public AMQMessageEntity AMQMessageParseTest() {
+  @Test
+  public void DBUserNotExistTest() {
+    // throw new ServiceException("error");
 
+    InitialEvent event = InitialEvent.RUNTIME;
+    ServiceInitializer.initialize(event);
+
+    AMQMessageEntity msg = this.AMQMessageUserNotExist();
+    AMQMessageHandlerImpl.getInstance().handleMessage(msg);
+  }
+
+  @Test
+  public void DBRequriedKeyTest() {
+    // throw new ServiceException("error");
+
+    InitialEvent event = InitialEvent.RUNTIME;
+    ServiceInitializer.initialize(event);
+
+    AMQMessageEntity msg = this.AMQMessageRequiredKey();
+    AMQMessageHandlerImpl.getInstance().handleMessage(msg);
+  }
+
+  public AMQMessageEntity AMQMessageUserExistAndDataExist() {
     AMQMessageEntity entity = null;
     entity = new AMQMessageEntity();
     String msg = "{\r\n" +
-        " cmd : \"Search\",\r\n" +
+        " cmd : \"SearchRecord\",\r\n" +
         " mid : \"leifajlsif\",\r\n" +
         " token : \"welajslkdjfasdf\",\r\n" +
         " args : {\r\n" +
-        " username : 'ATS',\r\n" +
+        " username : 'PARKHUNWOOK',\r\n" +
         " birth : '1987-03-18',\r\n" +
         " gender : 1,\r\n" +
-        " phone : '010-6464-4554',\r\n" +
+        " phone : '010-6474-9282',\r\n" +
         " ci : '123456789abcdeftg',\r\n" +
         " email : 'exle@nate.com'\r\n" +
         " }\r\n" +
         "}";
-
     try {
       entity = JSON.fromJson(msg, AMQMessageEntity.class);
     } catch (Exception e) {
       e.printStackTrace();
     }
-    // entity = JSON.fromJson(msg, AMQMessageEntity.class);
+    return entity;
+  }
+
+  public AMQMessageEntity AMQMessageRequiredKey() {
+    AMQMessageEntity entity = null;
+    entity = new AMQMessageEntity();
+    String msg = "{\r\n" +
+        " cmd : \"SearchRecord\",\r\n" +
+        " mid : \"leifajlsif\",\r\n" +
+        " token : \"welajslkdjfasdf\",\r\n" +
+        " args : {\r\n" +
+        " username : 'PARKHUNWOOK',\r\n" +
+        " birth : '1987-03-18',\r\n" +
+        " gender : 1,\r\n" +
+        " phone : '010-6474-9283',\r\n" +
+        " ci : '123456789abcdeftg',\r\n" +
+        " email : 'exle@nate.com'\r\n" +
+        " }\r\n" +
+        "}";
+    try {
+      entity = JSON.fromJson(msg, AMQMessageEntity.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return entity;
+  }
+
+  public AMQMessageEntity AMQMessageUserNotExist() {
+    AMQMessageEntity entity = null;
+    entity = new AMQMessageEntity();
+    String msg = "{\r\n" +
+        " cmd : \"SearchRecord\",\r\n" +
+        " mid : \"leifajlsif\",\r\n" +
+        " token : \"welajslkdjfasdf\",\r\n" +
+        " args : {\r\n" +
+        " username : 'PARK',\r\n" +
+        " birth : '1987-03-18',\r\n" +
+        " gender : 1,\r\n" +
+        " phone : '010-6474-9283',\r\n" +
+        " ci : '123456789abcdeftg',\r\n" +
+        " email : 'exle@nate.com'\r\n" +
+        " }\r\n" +
+        "}";
+    try {
+      entity = JSON.fromJson(msg, AMQMessageEntity.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     return entity;
   }
 

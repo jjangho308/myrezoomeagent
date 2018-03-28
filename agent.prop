@@ -1,6 +1,9 @@
+[EXTERNAL]
+MAPPER_CLASS_NAME = io.rezoome.external.opic.mapper.OpicMapper
+MYBATIS_CONFIG_FILE_PATH = io/rezoome/external/opic/mybatis/mybatis-config.xml
+DAO_CLASS_NAME = io.rezoome.manager.database.dao.Dao
+
 [GENERAL]
-DAO_CLASS_NAME = io.rezoome.manager.database.dao.xml.agency.Dao
-MAPPER_CLASS_NAME = io.rezoome.manager.mapper.agency.OpicMapper
 ORG_CODE = code001
 ORG_NAME = opic
 ORG_PASSCODE = passcode
@@ -27,9 +30,6 @@ AMAZONE_QUEUE_NAME = QUEUE_A
 AMAZONE_SERVER_HOST = ssl://b-cb8c6e8c-f893-4464-aa69-b3501991ef60-1.mq.ap-southeast-2.amazonaws.com:61617
 AMAZONE_USER_NAME = rezoome
 AMAZONE_USER_PASSWORD = sgen2018!!!!
-  
-[Mybatis]
-MYBATIS_CONFIG_FILE_PATH = io/rezoome/manager/database/mybatis/xml/mybatis-config.xml
 
 [Job]
 JOB_TEMP_FILE_PATH = ./

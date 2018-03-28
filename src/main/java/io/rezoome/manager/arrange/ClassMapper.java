@@ -15,14 +15,14 @@ import io.rezoome.manager.pushcommand.entity.search.SearchCommandEntity;
  *
  */
 final class ClassMapper {
-	static void setEntityKeyMap(ClassArrangeManagerImpl arranger) {
+  static void setEntityKeyMap(ClassArrangeManagerImpl arranger) {
 
-		arranger.addEntityKeyMap(PushCommandEntity.class, "Search", SearchCommandEntity.class);
+    arranger.addEntityKeyMap(PushCommandEntity.class, "SearchRecord", SearchCommandEntity.class);
 
-		arranger.addActionMap(PushCommandEntity.class, SearchCommandEntity.class, SearchCommandAction.class);
+    arranger.addActionMap(PushCommandEntity.class, SearchCommandEntity.class, SearchCommandAction.class);
 
-		arranger.addEntityKeyMap(JobEntity.class, "Search", IORequestJobEntity.class);
+    arranger.addEntityKeyMap(JobEntity.class, "SearchRecord", IORequestJobEntity.class);
 
-		arranger.addActionMap(JobEntity.class, IORequestJobEntity.class, IORequestJobAction.class);
-	}
+    arranger.addActionMap(JobEntity.class, IORequestJobEntity.class, IORequestJobAction.class);
+  }
 }

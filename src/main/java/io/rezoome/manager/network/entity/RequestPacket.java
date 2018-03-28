@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.rezoome.constants.GlobalEntity;
 import io.rezoome.core.entity.AbstractEntity;
 import io.rezoome.manager.networkv2.ContentType;
 
@@ -38,6 +39,6 @@ public class RequestPacket extends AbstractEntity {
 
   {
     this.header.put("Content-Type", ContentType.APPLICATION_JSON.getValue());
-    this.header.put("Authorization", "Bearer ");
+    this.header.put("Authorization", "Bearer " + GlobalEntity.token);
   }
 }

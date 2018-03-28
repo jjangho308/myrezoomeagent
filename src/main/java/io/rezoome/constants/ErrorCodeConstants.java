@@ -1,11 +1,8 @@
 package io.rezoome.constants;
 
 public class ErrorCodeConstants {
-
-	public static final String	ERROR_CODE_UNDEFINED			= "ERROR10001";
-	public static final String	ERROR_CODE_DB_QUERY_FAIL		= "ERROR20001";
-	public static final String	ERROR_CODE_INVALID_TOKEN		= "ERROR30001";
-	public static final String	ERROR_CODE_EXPIRED_TOKEN		= "ERROR30002";
-	public static final String	ERROR_CODE_INVALID_SIGNATURE	= "ERROR30003";
-
+  public static final String ERROR_CODE_UNDEFINED = "ERROR001";
+  public static final String ERROR_CODE_FAIL_TO_CONNECT_PORTAL_SERVER = "ERROR002";
+  public static final String ERROR_CODE_UNABLE_TO_GET_DB_DATA = "ERROR003";
+  public static final String ERROR_CODE_UNABLE_TO_GET_CORRECT_RESPONSE_CODE = "ERROR004";
 }

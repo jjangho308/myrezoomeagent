@@ -1,4 +1,4 @@
-package io.rezoome.manager.mapper.agency;
+package io.rezoome.external.opic.mapper;
 
 import io.rezoome.manager.mapper.MapperEntity;
 
