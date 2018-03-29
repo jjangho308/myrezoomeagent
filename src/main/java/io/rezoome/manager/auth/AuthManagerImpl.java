@@ -60,7 +60,8 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   public boolean authentication() {
     try {
       ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
-      // TODO set token
+
+      // TODO AUTH 결과에 따른 처리 ex) 토큰 설정
       GlobalEntity.token = "token";
       return true;
     } catch (Exception e) {

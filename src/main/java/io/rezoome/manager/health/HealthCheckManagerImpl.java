@@ -63,7 +63,10 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
     while (true) {
       try {
         Future<ResponsePacketEntity> future = executor.submit(callable);
-        ResponsePacketEntity response = future.get(10, TimeUnit.SECONDS);
+        ResponsePacketEntity responseEntity = future.get(10, TimeUnit.SECONDS);
+
+        // TODO 헬스체크 결과에 따른 처리
+
         Thread.sleep(HEALTH_CHECK_INTERVAL);
       } catch (Exception e) {
         e.printStackTrace();
