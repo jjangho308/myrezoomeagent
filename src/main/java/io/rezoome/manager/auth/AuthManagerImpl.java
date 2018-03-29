@@ -24,6 +24,8 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   private String orgName;
   private String orgPasscode;
 
+  private RequestPacket packet;
+
   private static class Singleton {
     private static final AuthManager instance = new AuthManagerImpl();
   }
@@ -39,36 +41,30 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
     orgName = ManagerProvider.property().getProperty(PropertyEnum.ORG_NAME, true);
     orgPasscode = ManagerProvider.property().getProperty(PropertyEnum.ORG_PASSCODE, true);
 
-    if (this.authentication()) {
+    packet = new RequestPacket("", JSON.toJson(convertRequestPacketEntity()));
+
+    if (authentication()) {
       LOG.info("{} Init Complete", this.getClass());
       setPrepared();
     } else {
-      System.out.println("retry to auth");
+      LOG.debug("auth fail");
     }
   }
 
   @Override
   public void initializeOnThread(InitialEvent event) {
     // TODO Auto-generated method stub
-
   }
 
   @Override
   public boolean authentication() {
     try {
-      RequestPacketEntity requestEntity = convertRequestPacketEntity();
-
-      RequestPacket packet = new RequestPacket("", JSON.toJson(requestEntity));
-
       ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
-
-      // set token
+      // TODO set token
       GlobalEntity.token = "token";
-
       return true;
     } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("file to connect Portal server");
+      LOG.debug("file to connect Portal server");
       return false;
     }
   }

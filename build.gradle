@@ -2,9 +2,6 @@ apply plugin:'java'
 apply plugin:'java-library-distribution' //for distributions
 apply plugin:'application' // possible to use variable like below
 
-
-
-
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
@@ -14,6 +11,7 @@ targetCompatibility = 1.7
 mainClassName = 'io.rezoome.core.runtime.Runtime'
 version = '1.0.0'
 
+/*
 task inha(type: Jar) {
 	manifest {
         attributes 'Implementation-Title': 'Gradle Jar File Example',  
@@ -23,14 +21,14 @@ task inha(type: Jar) {
     dependsOn configurations.runtime
 	from(sourceSets.main.output) {
 		//include "io/rezoome/manager/**"
-		include "io/rezoome/manager/**/agency/*"
 	}
 }
+*/
 
 jar {
     manifest {
         attributes 'Manifest-Version' : version	
-        attributes 'Main-Class': mainClassName      
+        //attributes 'Main-Class': mainClassName      
         //attributes 'Class-Path': configurations.runtime.collect { it.getName() }.join(' ')
         attributes "Assembly-Date": new java.util.Date().toString()
     }
@@ -42,47 +40,11 @@ jar {
     from {    	
         configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
     }
+    //exclude "io/rezoome/core/runtime/*"
     //exclude "io/rezoome/manager/**"
-    //exclude "io/rezoome/manager/**/agency/*"
-    destinationDir = file("${buildDir}/")
+    //destinationDir = file("${buildDir}/")
     //duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
-
-/*
-task applicationClientJar(type: Jar, description: "Creates the Application  Client JAR file.") {
-    dependsOn compileJava
-    manifest {
-        attributes(
-                "Main-Class": platformMainClass,
-                "Implementation-Title": platformDisplayName,
-                "Implementation-Description": platformDescription,
-                "Platform-Version": platformVersion,
-                "Implementation-Version": version,
-                "Assembly-Date": new java.util.Date().toString()
-        )
-    }
-    
-    archiveName = "acme-client-${platformVersion}.jar"
-    destinationDir = file("${buildDir}/libs")
-    from sourceSets.main.output
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-*/
-
-/*
-//create a single Jar with all dependencies
-task fatJar(type: Jar) {
-	manifest {
-        attributes 'Implementation-Title': 'Gradle Jar File Example',  
-        	'Implementation-Version': version,
-        	'Main-Class': 'io.rezoome.core.runtime.Runtime'
-    }
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
-*/
 
 repositories {
     mavenCentral()
@@ -119,8 +81,8 @@ dependencies {
 	testCompile "junit:junit:${ver.junit}"
 }
 
-/*
 
+/*
 sourceSets {
 	main {
 		java {

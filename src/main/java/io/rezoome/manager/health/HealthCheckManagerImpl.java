@@ -1,5 +1,11 @@
 package io.rezoome.manager.health;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,14 +20,16 @@ import io.rezoome.manager.network.entity.request.RequestPacketEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
+import io.rezoome.thread.AsyncService;
 
 @ManagerType(value = "Health")
 public class HealthCheckManagerImpl extends AbstractManager implements HealthCheckManager {
 
   private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
-  private String orgCode;
   private int HEALTH_CHECK_INTERVAL;
+  private String orgCode;
+  private RequestPacket packet;
 
   private static class Singleton {
     private static final HealthCheckManager instance = new HealthCheckManagerImpl();
@@ -37,10 +45,9 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
 
     orgCode = ManagerProvider.property().getProperty(PropertyEnum.ORG_CODE, true);
     HEALTH_CHECK_INTERVAL = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.HEALTH_CHECK_INTERVAL, true));
-
-    this.runHealthCheck();
+    packet = new RequestPacket("", JSON.toJson(convertRequestPacketEntity()));
     setPrepared();
-
+    healthCheck();
     LOG.info("{} Init Complete.", this.getClass());
   }
 
@@ -49,15 +56,22 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
     // TODO Auto-generated method stub
   }
 
-  private void request() {
-    try {
-      RequestPacketEntity requestEntity = convertRequestPacketEntity();
-      RequestPacket packet = new RequestPacket("", JSON.toJson(requestEntity));
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("fail");
+  private void healthCheck() {
+    ExecutorService executor = Executors.newFixedThreadPool(1);
+    Callable<ResponsePacketEntity> callable = new AsyncService(packet);
+
+    while (true) {
+      try {
+        Future<ResponsePacketEntity> future = executor.submit(callable);
+        ResponsePacketEntity response = future.get(10, TimeUnit.SECONDS);
+        Thread.sleep(HEALTH_CHECK_INTERVAL);
+      } catch (Exception e) {
+        e.printStackTrace();
+        break;
+      }
     }
+
+    executor.shutdown();
   }
 
   private RequestPacketEntity convertRequestPacketEntity() throws ServiceException {
@@ -70,21 +84,4 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
     return requestEntity;
   }
 
-  private void runHealthCheck() {
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        while (true) {
-          try {
-            request();
-            Thread.sleep(HEALTH_CHECK_INTERVAL);
-          } catch (ServiceException e) {
-            e.printStackTrace();
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
-        }
-      }
-    }).start();
-  }
 }
