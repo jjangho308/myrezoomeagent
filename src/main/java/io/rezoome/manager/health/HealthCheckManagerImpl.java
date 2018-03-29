@@ -29,6 +29,7 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
 
   private int HEALTH_CHECK_INTERVAL;
   private String orgCode;
+  private ExecutorService executor;
   private RequestPacket packet;
 
   private static class Singleton {
@@ -57,24 +58,27 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
   }
 
   private void healthCheck() {
-    ExecutorService executor = Executors.newFixedThreadPool(1);
-    Callable<ResponsePacketEntity> callable = new AsyncService(packet);
 
-    while (true) {
-      try {
-        Future<ResponsePacketEntity> future = executor.submit(callable);
-        ResponsePacketEntity responseEntity = future.get(10, TimeUnit.SECONDS);
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        executor = Executors.newFixedThreadPool(1);
+        while (true) {
+          try {
+            Callable<ResponsePacketEntity> callable = new AsyncService(packet);
+            Future<ResponsePacketEntity> future = executor.submit(callable);
+            ResponsePacketEntity responseEntity = future.get(10, TimeUnit.SECONDS);
+            // TODO 헬스체크 결과에 따른 처리
 
-        // TODO 헬스체크 결과에 따른 처리
-
-        Thread.sleep(HEALTH_CHECK_INTERVAL);
-      } catch (Exception e) {
-        e.printStackTrace();
-        break;
+            Thread.sleep(HEALTH_CHECK_INTERVAL);
+          } catch (Exception e) {
+            e.printStackTrace();
+            break;
+          }
+        }
+        executor.shutdown();
       }
-    }
-
-    executor.shutdown();
+    }).start();
   }
 
   private RequestPacketEntity convertRequestPacketEntity() throws ServiceException {
