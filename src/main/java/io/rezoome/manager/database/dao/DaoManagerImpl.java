@@ -49,7 +49,6 @@ public class DaoManagerImpl extends DatabaseManagerImpl implements DaoManager {
       Class<?> daoCls = loader.loadClass(daoClass);
 
       this.dao = sqlsession.getMapper(Dao.class);
-      System.out.println("Create dao - " + super.dbType.toUpperCase());
     } catch (IOException | ClassNotFoundException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
