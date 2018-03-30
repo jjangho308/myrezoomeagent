@@ -6,29 +6,40 @@ import io.rezoome.core.entity.AbstractEntity;
 
 public class RequestSearchRecordsEntity extends AbstractEntity implements RequestArgsEntity {
 
-  @SerializedName("encData")
-  String encData;
+  @SerializedName("data")
+  String data;
 
-  @SerializedName("hashData")
-  String hashData;
+  @SerializedName("hash")
+  String hash;
+
+  @SerializedName("certcode")
+  String certcode;
 
   @SerializedName("stored")
   String stored;
 
-  public String getEncData() {
-    return encData;
+  public String getData() {
+    return data;
   }
 
-  public void setEncData(String encData) {
-    this.encData = encData;
+  public void setData(String data) {
+    this.data = data;
   }
 
-  public String getHashData() {
-    return hashData;
+  public String getHash() {
+    return hash;
   }
 
-  public void setHashData(String hashData) {
-    this.hashData = hashData;
+  public void setHash(String hash) {
+    this.hash = hash;
+  }
+
+  public String getCertcode() {
+    return certcode;
+  }
+
+  public void setCertcode(String certcode) {
+    this.certcode = certcode;
   }
 
   public String getStored() {

@@ -8,17 +8,21 @@ import io.rezoome.manager.mapper.MapperEntity;
 public class OpicMapper implements Mapper {
 
   @Override
-  public MapperEntity convert(DBRsltEntity entity) {
+  public MapperEntity convert(DBRsltEntity entity) throws NullPointerException {
 
     if (entity == null) {
-      return null;
+      throw new NullPointerException();
     }
 
-    MapperEntity mapperEntity = new OpicMapperEntity();
+    // MapperEntity mapperEntity = new OpicMapperEntity();
+    OpicMapperEntity mapperEntity = new OpicMapperEntity();
+    mapperEntity.setName(((OpicResultEntity) entity).getName() == null ? "" : ((OpicResultEntity) entity).getName());
+    mapperEntity.setGrade(((OpicResultEntity) entity).getRating() == null ? "" : ((OpicResultEntity) entity).getRating());
+    mapperEntity.setDate(((OpicResultEntity) entity).getTestDay() == null ? "" : ((OpicResultEntity) entity).getTestDay());
+    mapperEntity.setPhone(((OpicResultEntity) entity).getPhone() == null ? "" : ((OpicResultEntity) entity).getPhone());
+    mapperEntity.setLang(((OpicResultEntity) entity).getLanguage() == null ? "" : ((OpicResultEntity) entity).getLanguage());
+    mapperEntity.setTestid(((OpicResultEntity) entity).getTestId() == null ? "" : ((OpicResultEntity) entity).getTestId());
 
-    mapperEntity.setName(((OpicResultEntity) entity).getName());
-    mapperEntity.setGrade(((OpicResultEntity) entity).getRating());
-    mapperEntity.setDate(((OpicResultEntity) entity).getTestDay());
     return mapperEntity;
   }
 

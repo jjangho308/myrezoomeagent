@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.rezoome.constants.ErrorCodeConstants;
-import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.exception.ServiceException;
 import io.rezoome.external.opic.entity.OpicResultEntity;
 import io.rezoome.lib.json.JSON;
@@ -17,10 +16,10 @@ import io.rezoome.manager.database.entity.DBRsltEntity;
 import io.rezoome.manager.job.JobRsltEntity;
 import io.rezoome.manager.job.entity.AbstractJob;
 import io.rezoome.manager.mapper.Mapper;
-import io.rezoome.manager.mapper.MapperEntity;
 import io.rezoome.manager.network.entity.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
+import io.rezoome.manager.network.entity.request.RequestSearchArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestSearchRecordsEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
@@ -67,11 +66,11 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
   private void convertRequestPacket(IORequestJobEntity entity, List<DBRsltEntity> dbResultEntityList, RequestPacketEntity requestEntity) {
     // TODO Auto-generated method stub
-    RzmRsltEntity rzmResultEntity = new RzmRsltEntity();
+    RequestSearchArgsEntity searchRecordEntity = new RequestSearchArgsEntity();
 
-    rzmResultEntity.setOrgCode("ORG001");
-    rzmResultEntity.setEncKey("");
-    rzmResultEntity.setEncIv("");
+    searchRecordEntity.setOrgCode("ORG001");
+    searchRecordEntity.setKey("");
+    searchRecordEntity.setIv("");
 
     if (status == STATUS.USER_NOT_EXIST) {
       requestEntity.setCode("USER_NOT_EXIST");
@@ -85,28 +84,29 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       String encKey = ManagerProvider.crypto().encryptRSA(aesKey, entity.getPkey());
       String encIv = ManagerProvider.crypto().encryptRSA(iv, entity.getPkey());
 
-      MapperEntity mapperResultEntity;
       Mapper mapper = ManagerProvider.mapper().getMapper();
       List<RequestArgsEntity> records = new ArrayList<RequestArgsEntity>();
       RequestSearchRecordsEntity record = null;
 
+      String dbEntityString = null;
       for (DBRsltEntity dbEntity : dbResultEntityList) {
-        mapperResultEntity = mapper.convert(dbEntity);
+        dbEntityString = JSON.toJson(mapper.convert(dbEntity));
         record = new RequestSearchRecordsEntity();
-        String encData = ManagerProvider.crypto().encryptAES(mapperResultEntity.toString(), aesKey, iv);
-        String hashData = ManagerProvider.crypto().hash(mapperResultEntity.toString());
-        record.setEncData(encData);
-        record.setHashData(hashData);
+        String encData = ManagerProvider.crypto().encryptAES(dbEntityString, aesKey, iv);
+        String hashData = ManagerProvider.crypto().hash(dbEntityString);
+        record.setData(encData);
+        record.setHash(hashData);
+        record.setCertcode("certcode");
         record.setStored(isStoredHashData(entity, hashData));
         records.add(record);
       }
 
-      rzmResultEntity.setEncKey(encKey);
-      rzmResultEntity.setEncIv(encIv);
-      rzmResultEntity.setRecords(records);
+      searchRecordEntity.setKey(encKey);
+      searchRecordEntity.setIv(encIv);
+      searchRecordEntity.setRecords(records);
       requestEntity.setCode("USER_EXIST_AND_DATA_EXIST");
     }
-    requestEntity.setArgs(rzmResultEntity);
+    requestEntity.setArgs(searchRecordEntity);
     requestEntity.setCmd(entity.getCmd());
     requestEntity.setMid(entity.getMid());
   }

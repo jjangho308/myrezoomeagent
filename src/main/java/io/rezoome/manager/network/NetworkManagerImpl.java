@@ -34,9 +34,7 @@ import io.rezoome.exception.ServiceException;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.RequestPacket;
-import io.rezoome.manager.network.entity.request.RequestAuthenticationArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
-import io.rezoome.manager.network.entity.request.RequestSearchRecordArgsEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
@@ -86,33 +84,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
 
   @Override
   public RequestPacketEntity convert(RzmRsltEntity entity, String cmd) {
-    RequestPacketEntity requestEntity = new RequestPacketEntity();
-
-    if ("Registration".equals(cmd)) {
-      requestEntity.setCmd("Registration");
-
-      RequestAuthenticationArgsEntity argsEntity = new RequestAuthenticationArgsEntity();
-      argsEntity.setOrgCode("code001");
-      argsEntity.setOrgPasscode("passcode");
-      argsEntity.setOrgName("orgName");
-      requestEntity.setArgs(argsEntity);
-    } else if ("SearchResult".equals(cmd)) {
-      requestEntity.setCmd("SearchResult");
-      RequestSearchRecordArgsEntity argsEntity = new RequestSearchRecordArgsEntity();
-
-      argsEntity.setOrgCode("code001");
-      if (entity == null) {
-        argsEntity.setEncryptedData(null);
-        argsEntity.setEncryptedKey(null);
-        argsEntity.setHashedData(null);
-      } else {
-        argsEntity.setEncryptedData("setEncryptedData");
-        argsEntity.setEncryptedKey("setEncryptedKey");
-        argsEntity.setHashedData("setHashedData");
-      }
-      requestEntity.setArgs(argsEntity);
-    }
-    return requestEntity;
+    return null;
   }
 
   @Override
