@@ -12,8 +12,8 @@ public class ResponseAuthenticationArgsEntity extends AbstractEntity implements 
   @SerializedName("msg")
   private String msg;
 
-  @SerializedName("queueName")
-  private String queueName;
+  @SerializedName("token")
+  private String token;
 
   public String getCode() {
     return code;
@@ -31,11 +31,11 @@ public class ResponseAuthenticationArgsEntity extends AbstractEntity implements 
     this.msg = msg;
   }
 
-  public String getQueueName() {
-    return queueName;
+  public String getToken() {
+    return token;
   }
 
-  public void setQueueName(String queueName) {
-    this.queueName = queueName;
+  public void setToken(String token) {
+    this.token = token;
   }
 }
