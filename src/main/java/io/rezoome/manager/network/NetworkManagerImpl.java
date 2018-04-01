@@ -39,7 +39,7 @@ import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
-@ManagerType(value = "Network", initPriority = 30)
+@ManagerType(value = Constants.MANAGER_TYPE_NETWORK, initPriority = 30)
 public class NetworkManagerImpl extends AbstractManager implements NetworkManager {
 
   private Logger LOG = LoggerFactory.getLogger("AGENT_LOG");

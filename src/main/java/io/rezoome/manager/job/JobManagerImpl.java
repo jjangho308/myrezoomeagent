@@ -17,6 +17,7 @@ import java.util.concurrent.ThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
@@ -38,7 +39,7 @@ import io.rezoome.thread.WorkerThread;
  * @author TACKSU
  *
  */
-@ManagerType("Job")
+@ManagerType(Constants.MANAGER_TYPE_JOB)
 public final class JobManagerImpl extends AbstractManager implements JobManager {
 
   private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");

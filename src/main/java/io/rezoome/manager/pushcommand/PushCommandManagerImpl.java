@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
@@ -19,7 +20,7 @@ import io.rezoome.manager.pushcommand.entity.PushCommandResult;
  * 
  * @author Saver +
  */
-@ManagerType("PushCommand")
+@ManagerType(Constants.MANAGER_TYPE_PUSHCOMMAND)
 public class PushCommandManagerImpl extends AbstractManager implements PushCommandManager {
 
   private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");

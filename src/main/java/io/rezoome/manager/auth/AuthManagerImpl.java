@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.constants.GlobalEntity;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
@@ -19,7 +20,7 @@ import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
-@ManagerType(value = "Auth", initPriority = 40)
+@ManagerType(value = Constants.COMMAND_AUTH, initPriority = 40)
 public class AuthManagerImpl extends AbstractManager implements AuthManager {
 
   private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
@@ -41,9 +42,9 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   @Override
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
-    orgCode = ManagerProvider.property().getProperty(PropertyEnum.ORG_CODE, true);
-    orgName = ManagerProvider.property().getProperty(PropertyEnum.ORG_NAME, true);
-    orgPasscode = ManagerProvider.property().getProperty(PropertyEnum.ORG_PASSCODE, true);
+    orgCode = ManagerProvider.property().getProperty(PropertyEnum.ORG_CODE);
+    orgName = ManagerProvider.property().getProperty(PropertyEnum.ORG_NAME);
+    orgPasscode = ManagerProvider.property().getProperty(PropertyEnum.ORG_PASSCODE);
 
     packet = new RequestPacket("", JSON.toJson(convertAuthPacketEntity()));
 
@@ -68,7 +69,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
         ResponseAuthenticationArgsEntity args = (ResponseAuthenticationArgsEntity) responseEntity.getResult();
 
         // TODO AUTH 결과에 따른 처리
-        GlobalEntity.token = args.getToken();
+        GlobalEntity.TOKEN = args.getToken();
         if ("N".equals(args.getKeyStored())) {
           // keyProvision
           packet = new RequestPacket("", JSON.toJson(convertKeyProvisionPacketEntity()));
@@ -84,7 +85,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
 
   private RequestPacketEntity convertAuthPacketEntity() {
     RequestPacketEntity requestEntity = new RequestPacketEntity();
-    requestEntity.setCmd("Auth");
+    requestEntity.setCmd(Constants.COMMAND_AUTH);
 
     RequestAuthenticationArgsEntity argsEntity = new RequestAuthenticationArgsEntity();
     argsEntity.setOrgCode(orgCode);
@@ -97,7 +98,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
 
   private RequestPacketEntity convertKeyProvisionPacketEntity() {
     RequestPacketEntity requestEntity = new RequestPacketEntity();
-    requestEntity.setCmd("KeyProvision");
+    requestEntity.setCmd(Constants.COMMAND_KEY_PROVISION);
 
     RequestKeyProvisionArgsEntity argsEntity = new RequestKeyProvisionArgsEntity();
     argsEntity.setOrgCode(orgCode);

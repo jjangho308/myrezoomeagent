@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.exception.ServiceException;
@@ -22,7 +23,7 @@ import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.thread.AsyncService;
 
-@ManagerType(value = "Health")
+@ManagerType(Constants.MANAGER_TYPE_HEALTH)
 public class HealthCheckManagerImpl extends AbstractManager implements HealthCheckManager {
 
   private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
@@ -84,7 +85,7 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
   private RequestPacketEntity convertRequestPacketEntity() throws ServiceException {
     // TODO Auto-generated method stub
     RequestPacketEntity requestEntity = new RequestPacketEntity();
-    requestEntity.setCmd("HealthCheck");
+    requestEntity.setCmd(Constants.COMMAND_HEALTH_CHECK);
     RequestHealthCheckArgsEntity argsEntity = new RequestHealthCheckArgsEntity();
     argsEntity.setOrgCode(orgCode);
     requestEntity.setArgs(argsEntity);

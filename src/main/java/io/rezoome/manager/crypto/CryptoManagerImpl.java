@@ -21,11 +21,12 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
 
-@ManagerType(value = "Crypto")
+@ManagerType(Constants.MANAGER_TYPE_CRYPTO)
 public class CryptoManagerImpl extends AbstractManager implements CryptoManager {
 
   private static class Singleton {

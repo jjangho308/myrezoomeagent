@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
@@ -19,7 +20,7 @@ import io.rezoome.manager.AbstractManager;
  * @author TACKSU
  *
  */
-@ManagerType(value = "Property", initPriority = 10)
+@ManagerType(value = Constants.MANAGER_TYPE_PROPERTY, initPriority = 10)
 public class PropertyManagerImpl extends AbstractManager implements PropertyManager {
 
   private static final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
