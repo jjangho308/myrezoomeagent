@@ -119,7 +119,7 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
       long startTime = System.currentTimeMillis();
       long lRnd = (long) (new SecureRandom().nextDouble() * 10000000000L);
 
-      Callable<Object> callable = new JobCallable(job);
+      Callable<Object> callable = new AsyncJobService(job);
       LOG.info("[{}] start[{}] : Job Thread Execution",
           new Object[] { Long.toString(lRnd), startTime });
       Future<Object> future = executor.submit(callable);
@@ -223,10 +223,10 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
     return false;
   }
 
-  class JobCallable implements Callable<Object> {
+  class AsyncJobService implements Callable<Object> {
     private JobEntity job;
 
-    public JobCallable(JobEntity job) {
+    public AsyncJobService(JobEntity job) {
       this.job = job;
     }
 
