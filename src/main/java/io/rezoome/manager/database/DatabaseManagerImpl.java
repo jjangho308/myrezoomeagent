@@ -3,6 +3,7 @@ package io.rezoome.manager.database;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
@@ -12,7 +13,7 @@ import io.rezoome.manager.database.dao.DaoManagerImpl;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
-@ManagerType("DB")
+@ManagerType(Constants.MANAGER_TYPE_DATABASE)
 public class DatabaseManagerImpl extends AbstractManager implements DatabaseManager {
 
   private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
