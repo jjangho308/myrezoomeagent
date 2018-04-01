@@ -15,6 +15,9 @@ public class ResponseAuthenticationArgsEntity extends AbstractEntity implements 
   @SerializedName("token")
   private String token;
 
+  @SerializedName("keystored")
+  private String keyStored;
+
   public String getCode() {
     return code;
   }
@@ -37,5 +40,13 @@ public class ResponseAuthenticationArgsEntity extends AbstractEntity implements 
 
   public void setToken(String token) {
     this.token = token;
+  }
+
+  public String getKeyStored() {
+    return keyStored;
+  }
+
+  public void setKeyStored(String keyStored) {
+    this.keyStored = keyStored;
   }
 }

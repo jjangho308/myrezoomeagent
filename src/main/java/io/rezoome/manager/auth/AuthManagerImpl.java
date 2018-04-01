@@ -1,5 +1,7 @@
 package io.rezoome.manager.auth;
 
+import java.net.HttpURLConnection;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +12,9 @@ import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestAuthenticationArgsEntity;
+import io.rezoome.manager.network.entity.request.RequestKeyProvisionArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
+import io.rezoome.manager.network.entity.response.ResponseAuthenticationArgsEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
@@ -41,7 +45,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
     orgName = ManagerProvider.property().getProperty(PropertyEnum.ORG_NAME, true);
     orgPasscode = ManagerProvider.property().getProperty(PropertyEnum.ORG_PASSCODE, true);
 
-    packet = new RequestPacket("", JSON.toJson(convertRequestPacketEntity()));
+    packet = new RequestPacket("", JSON.toJson(convertAuthPacketEntity()));
 
     if (authentication()) {
       LOG.info("{} Init Complete", this.getClass());
@@ -60,9 +64,17 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   public boolean authentication() {
     try {
       ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
+      if (String.valueOf(HttpURLConnection.HTTP_OK).equals(responseEntity.getCode())) {
+        ResponseAuthenticationArgsEntity args = (ResponseAuthenticationArgsEntity) responseEntity.getResult();
 
-      // TODO AUTH 결과에 따른 처리 ex) 토큰 설정
-      GlobalEntity.token = "token";
+        // TODO AUTH 결과에 따른 처리
+        GlobalEntity.token = args.getToken();
+        if ("N".equals(args.getKeyStored())) {
+          // keyProvision
+          packet = new RequestPacket("", JSON.toJson(convertKeyProvisionPacketEntity()));
+          responseEntity = ManagerProvider.network().request(packet);
+        }
+      }
       return true;
     } catch (Exception e) {
       LOG.debug("file to connect Portal server");
@@ -70,7 +82,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
     }
   }
 
-  private RequestPacketEntity convertRequestPacketEntity() {
+  private RequestPacketEntity convertAuthPacketEntity() {
     RequestPacketEntity requestEntity = new RequestPacketEntity();
     requestEntity.setCmd("Auth");
 
@@ -78,6 +90,18 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
     argsEntity.setOrgCode(orgCode);
     argsEntity.setOrgPasscode(orgPasscode);
     argsEntity.setOrgName(orgName);
+    requestEntity.setArgs(argsEntity);
+
+    return requestEntity;
+  }
+
+  private RequestPacketEntity convertKeyProvisionPacketEntity() {
+    RequestPacketEntity requestEntity = new RequestPacketEntity();
+    requestEntity.setCmd("KeyProvision");
+
+    RequestKeyProvisionArgsEntity argsEntity = new RequestKeyProvisionArgsEntity();
+    argsEntity.setOrgCode(orgCode);
+    argsEntity.setPubKey("PUBKEY");
     requestEntity.setArgs(argsEntity);
 
     return requestEntity;

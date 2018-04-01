@@ -140,10 +140,12 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
 
         switch (connection.getResponseCode()) {
           case HttpURLConnection.HTTP_OK:
+            ResponsePacketEntity responsePacket = new ResponsePacketEntity();
             response = getResponse(connection.getInputStream());
             LOG.debug("ResponsePacket : {}", response);
             connection.disconnect();
-            return JSON.fromJson(response, ResponsePacketEntity.class);
+            responsePacket = JSON.fromJson(response, ResponsePacketEntity.class);
+            return responsePacket;
           // case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:
           // LOG.error("response code {}", HttpURLConnection.HTTP_GATEWAY_TIMEOUT);
           // break;
