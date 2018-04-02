@@ -2,17 +2,6 @@ package io.rezoome.constants;
 
 public class Constants {
 
-  public static final String SAMPLE = "sample";
-  public static final String CRLF = System.getProperty("line.separator");
-
-  public static final String PARAM_UTF_8 = "UTF-8";
-
-  public static final String PARAM_METHOD_POST = "POST";
-  public static final String PARAM_METHOD_GET = "GET";
-
-  public static final String RESULT_MESSAGE_SUCCESS = "success";
-  public static final String RESULT_MESSAGE_ERROR = "error";
-
   public static final String PARAM_MESSAGE_TOKEN = "token";
   public static final String PARAM_MESSAGE_CODE = "code";
   public static final String PARAM_MESSAGE_ERR = "err";
@@ -43,5 +32,21 @@ public class Constants {
   public static final String COMMAND_KEY_PROVISION = "KeyProvision";
   public static final String COMMAND_HEALTH_CHECK = "HealthCheck";
   public static final String COMMAND_SEARCH_RECORD = "SearchRecord";
+
+  public static final String INITIALIZATION_THREAD = "Initialization-thread";
+
+  public static final String PARAM_UTF_8 = "UTF-8";
+  public static final String PARAM_METHOD_POST = "POST";
+  public static final String PARAM_METHOD_GET = "GET";
+
+  public static final String PARAM_TLS = "TLS";
+
+  public static final String AGENT_LOG = "AGENT_LOG";
+  public static final String ERROR_LOG = "ERROR_LOG";
+
+  public static final String RESULT_CODE_SUCCESS = "";
+  public static final String RESULT_CODE_USER_NOT_EXIST = "";
+  public static final String RESULT_CODE_DATA_IS_EMPTY = "";
+  public static final String RESULT_CODE_NEED_TO_REQUIRE_KEY = "";
 
 }

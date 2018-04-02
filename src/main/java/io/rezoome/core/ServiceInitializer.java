@@ -9,6 +9,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
+import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.Manager;
 import io.rezoome.manager.provider.ManagerProvider;
@@ -22,7 +24,7 @@ import io.rezoome.thread.WorkerThread;
  */
 public final class ServiceInitializer {
 
-  private static final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+  private static final Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
 
   public enum InitialEvent {
     NOT_RUNTIME, RUNTIME
@@ -34,12 +36,12 @@ public final class ServiceInitializer {
 
   private static InitialEvent event;
 
-  private static final String INITIALIZATION_THREAD = "Initialization-thread";
+  private static final String INITIALIZATION_THREAD = Constants.INITIALIZATION_THREAD;
   private static final List<Manager> managers = new ArrayList<>();
 
   private static InitializationPhase phase = InitializationPhase.UNINITLIAZED;
 
-  public static synchronized void initialize(InitialEvent from) {
+  public static synchronized void initialize(InitialEvent from) throws Throwable {
     if (phase != InitializationPhase.UNINITLIAZED) {
       return;
     }
@@ -77,7 +79,7 @@ public final class ServiceInitializer {
       try {
         manager.initialize(event);
       } catch (Throwable t) {
-        t.printStackTrace();
+        throw new Throwable(ErrorCodeConstants.ERROR_CODE_AN_ERROR_OCCURRED_WHILE_INITIALIZING_MANAGERS, t);
       }
     }
 

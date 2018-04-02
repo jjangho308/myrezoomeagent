@@ -42,7 +42,7 @@ import io.rezoome.thread.WorkerThread;
 @ManagerType(Constants.MANAGER_TYPE_JOB)
 public final class JobManagerImpl extends AbstractManager implements JobManager {
 
-  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+  private final Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
 
   private static class Singleton {
     private static final JobManager instance = new JobManagerImpl();

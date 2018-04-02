@@ -3,9 +3,11 @@ package io.rezoome.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
+
 public class ServiceException extends RuntimeException {
 
-  private static final Logger LOG = LoggerFactory.getLogger("ERROR_LOG");
+  private static final Logger LOG = LoggerFactory.getLogger(Constants.ERROR_LOG);
   private static final long serialVersionUID = 1234567890123456789L;
   private String errorCode;
 

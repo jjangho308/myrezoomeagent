@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
 import io.rezoome.external.opic.entity.OpicResultEntity;
@@ -29,7 +30,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
   private enum STATUS {
-    USER_EXIST, USER_NOT_EXIST, REQUIRED_KEY
+    USER_EXIST, USER_NOT_EXIST, REQUIRE_KEY
   }
 
   private STATUS status;
@@ -39,7 +40,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   }
 
   @Override
-  protected JobRsltEntity processInternal(IORequestJobEntity entity) {
+  protected JobRsltEntity processInternal(IORequestJobEntity entity) throws ServiceException {
     try {
       ResponsePacketEntity responseEntity = null;
 
@@ -64,20 +65,20 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     return null;
   }
 
-  private void convertRequestPacket(IORequestJobEntity entity, List<DBRsltEntity> dbResultEntityList, RequestPacketEntity requestEntity) {
+  private void convertRequestPacket(IORequestJobEntity entity, List<DBRsltEntity> dbResultEntityList, RequestPacketEntity requestEntity) throws ServiceException {
     // TODO Auto-generated method stub
     RequestSearchArgsEntity searchRecordEntity = new RequestSearchArgsEntity();
 
-    searchRecordEntity.setOrgCode("ORG001");
+    searchRecordEntity.setOrgCode("orgcode");
     searchRecordEntity.setKey("");
     searchRecordEntity.setIv("");
 
     if (status == STATUS.USER_NOT_EXIST) {
-      requestEntity.setCode("USER_NOT_EXIST");
-    } else if (status == STATUS.REQUIRED_KEY) {
-      requestEntity.setCode("REQUIRED_KEY");
+      requestEntity.setCode(Constants.RESULT_CODE_USER_NOT_EXIST);
+    } else if (status == STATUS.REQUIRE_KEY) {
+      requestEntity.setCode(Constants.RESULT_CODE_NEED_TO_REQUIRE_KEY);
     } else if (dbResultEntityList.size() == 0) {
-      requestEntity.setCode("USER_EXIST_BUT_DATA_EMPTY");
+      requestEntity.setCode(Constants.RESULT_CODE_DATA_IS_EMPTY);
     } else {
       String aesKey = ManagerProvider.crypto().generateAES();
       String iv = ManagerProvider.crypto().generateIV();
@@ -104,7 +105,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       searchRecordEntity.setKey(encKey);
       searchRecordEntity.setIv(encIv);
       searchRecordEntity.setRecords(records);
-      requestEntity.setCode("USER_EXIST_AND_DATA_EXIST");
+      requestEntity.setCode(Constants.RESULT_CODE_SUCCESS);
     }
     requestEntity.setArgs(searchRecordEntity);
     requestEntity.setCmd(entity.getCmd());
@@ -147,7 +148,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
           }
         }
         // 전화번호 조회 결과가 없으면 필수정보 요청
-        status = STATUS.REQUIRED_KEY;
+        status = STATUS.REQUIRE_KEY;
       } else {
         // 이름 검색 결과가 없을 때는 가입된 사용자가 없는것으로 판단.
         status = STATUS.USER_NOT_EXIST;
@@ -161,7 +162,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     return dbResultEntityList;
   }
 
-  private String isStoredHashData(IORequestJobEntity entity, String hashData) {
+  private String isStoredHashData(IORequestJobEntity entity, String hashData) throws ServiceException {
     // TODO entity.getHashList 로 유도
     List<String> hashList = new ArrayList<String>(); //
     for (String hash : hashList) {

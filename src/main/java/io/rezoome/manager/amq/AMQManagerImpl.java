@@ -75,7 +75,6 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
   public synchronized void registerPush(AMQConfigEntity config) {
     // FIXME connection이 맺어져 있는 상태값을 확인하여 맺어져 있으면 skip 하도록 수정.
     try {
-
       connectionFactory = new ActiveMQConnectionFactory(config.getServerHost());
       connectionFactory.setUserName(config.getUserName());
       connectionFactory.setPassword(config.getUserPassword());
@@ -92,7 +91,6 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
   }
 
   @Override

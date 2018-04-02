@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
+import io.rezoome.exception.ServiceException;
 import io.rezoome.manager.AbstractManager;
 
 /**
@@ -23,7 +24,7 @@ import io.rezoome.manager.AbstractManager;
 @ManagerType(value = Constants.MANAGER_TYPE_PROPERTY, initPriority = 10)
 public class PropertyManagerImpl extends AbstractManager implements PropertyManager {
 
-  private static final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+  private static final Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
 
   private static class Singleton {
     private static final PropertyManager instance = new PropertyManagerImpl();
@@ -37,7 +38,7 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
   private Properties properties;
 
   @Override
-  public void initialize(InitialEvent event) {
+  public void initialize(InitialEvent event) throws ServiceException {
     // TODO Auto-generated method stub
     configFile = "./agent.prop";
     try {
@@ -45,10 +46,9 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
       LOG.info("{} Init Complete.", this.getClass());
     } catch (IOException e) {
       // TODO Auto-generated catch block
-      e.printStackTrace();
+      throw new ServiceException("fail to initialize property manager", e);
     }
     setPrepared();
-
   }
 
   @Override
