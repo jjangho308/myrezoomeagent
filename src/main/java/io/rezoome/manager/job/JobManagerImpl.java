@@ -138,6 +138,10 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
           case ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA:
             // TODO create error job json file.
             try {
+              File theDir = new File("./logs");
+               if (!theDir.exists()) {
+                   theDir.mkdir();
+               }
               BufferedWriter out = new BufferedWriter(new FileWriter("./logs/" + new Date().getTime() + "_" + Long.toString(lRnd) + "_fail.log"));
               out.write("Job ID : [" + Long.toString(lRnd) + "]");
               out.newLine();

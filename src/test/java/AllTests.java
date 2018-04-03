@@ -58,22 +58,22 @@ public class AllTests extends TestSuite {
 
   @Before
   public void initialize() {
-    ManagerProvider.property().initialize(InitialEvent.RUNTIME);
+/*    ManagerProvider.property().initialize(InitialEvent.RUNTIME);
     ManagerProvider.clsarrange().initialize(InitialEvent.RUNTIME);
-    ManagerProvider.pushcommand().initialize(InitialEvent.RUNTIME);
+    ManagerProvider.pushcommand().initialize(InitialEvent.RUNTIME);*/
   }
 
   @Test
   public void DBUserExistAndDataExistTest() {
     // throw new ServiceException("error");
 
-   /* InitialEvent event = InitialEvent.RUNTIME;
+    InitialEvent event = InitialEvent.RUNTIME;
     try {
       ServiceInitializer.initialize(event);
     } catch (Throwable e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }*/
+    }
 
     AMQMessageEntity msg = this.AMQMessageUserExistAndDataExist();
     System.out.println(msg.toString());
