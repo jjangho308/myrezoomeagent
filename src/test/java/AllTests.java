@@ -132,7 +132,7 @@ public class AllTests extends TestSuite {
         " pkey : 'pkey',\r\n" +
         " subIDs : ['sub1', 'sub2'],\r\n" +
         " require : ['requireKey1', 'prequireKey2'],\r\n" +
-        " records : ['sub1', 'hash1']\r\n" +
+        " records : [ {subID : 'sub1', hashed : 'hash1'}]\r\n" +
         " }\r\n" +
         "}";
     

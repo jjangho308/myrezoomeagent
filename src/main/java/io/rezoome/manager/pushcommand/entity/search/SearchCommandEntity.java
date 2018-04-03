@@ -55,7 +55,7 @@ public class SearchCommandEntity extends AbstractPushCommandEntity {
   private final List<String>   require      = null;
 	
 	@SerializedName("records")
-	private final List<String>    records      = null;
+	private final List<HashRecordEntity>    records      = null;
 	  
 	  
 	
