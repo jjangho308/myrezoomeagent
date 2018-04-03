@@ -19,9 +19,6 @@ public class AbstractPushCommandEntity extends AbstractEntity implements PushCom
   @SerializedName("sid")
   protected  String      sid   = null;
   
-  @SerializedName("token")
-  protected  String      token = null;
-
   @SerializedName("cmd")
   protected  String      cmd   = null;
 
@@ -33,11 +30,6 @@ public class AbstractPushCommandEntity extends AbstractEntity implements PushCom
   @Override
   public void setSid(String sid) {
     this.sid = sid;
-  }
-
-  @Override
-  public void setToken(String token) {
-    this.token = token;
   }
 
   @Override

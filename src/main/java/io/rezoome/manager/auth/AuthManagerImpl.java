@@ -54,6 +54,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
     } else {
       LOG.debug("auth fail");
     }
+    
   }
 
   @Override

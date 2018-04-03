@@ -5,6 +5,5 @@ import io.rezoome.core.entity.Entity;
 public interface PushCommandEntity extends Entity {
   public void setMid(String mid);
   public void setSid(String sid);
-  public void setToken(String token);
   public void setCmd(String cmd);
 }

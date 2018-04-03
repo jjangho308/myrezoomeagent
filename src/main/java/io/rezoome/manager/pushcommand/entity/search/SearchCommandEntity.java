@@ -14,12 +14,26 @@ import io.rezoome.manager.pushcommand.entity.AbstractPushCommandEntity;
  *
  */
 public class SearchCommandEntity extends AbstractPushCommandEntity {
- 
   
-	@SerializedName("username")
-	private final String	username	= null;
+  @SerializedName("familyNameEN")
+  private final String  familyNameEN  = null;
 
-	@SerializedName("birth")
+  @SerializedName("firstNameEN")
+  private final String  firstNameEN   = null;
+
+  @SerializedName("fullNameEN")
+  private final String  fullNameEN    = null;
+
+  @SerializedName("familyNameKO")
+  private final String  familyNameKO   = null;
+
+  @SerializedName("firstNameKO")
+  private final String  firstNameKO   = null;
+
+  @SerializedName("fullNameKO")
+  private final String  fullNameKO      = null;
+
+  @SerializedName("birth")
 	private final String	birth		= null;
 
 	@SerializedName("gender")

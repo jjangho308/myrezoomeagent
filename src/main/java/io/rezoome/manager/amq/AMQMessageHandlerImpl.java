@@ -50,7 +50,6 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler, MessageListener
       PushCommandEntity pcEntity = msg.getCommand();
       pcEntity.setMid(msg.getMid());
       pcEntity.setSid(msg.getSid());
-      pcEntity.setToken(msg.getToken());
       pcEntity.setCmd(msg.getCmd());
       LOG.debug("PushEntity : {}", pcEntity);
       ManagerProvider.pushcommand().invokeCommand(pcEntity);

@@ -24,10 +24,6 @@ public final class AMQMessageEntity extends AbstractEntity {
     return sid;
   }
 
-  public String getToken() {
-    return token;
-  }
-
   public String getCmd() {
     return cmd;
   }
@@ -43,9 +39,6 @@ public final class AMQMessageEntity extends AbstractEntity {
 	@SerializedName("sid")
   private final String      sid   = null;
 	
-	@SerializedName("token")
-	private final String			token	= null;
-
 	@SerializedName("cmd")
 	private final String			cmd		= null;
 
@@ -62,7 +55,7 @@ public final class AMQMessageEntity extends AbstractEntity {
 
   @Override
   public String toString() {
-    return "AMQMessageEntity [mid=" + mid + ", sid=" + sid + ", token=" + token + ", cmd=" + cmd + ", args=" + args + "]";
+    return "AMQMessageEntity [mid=" + mid + ", sid=" + sid +  ", cmd=" + cmd + ", args=" + args + "]";
   }
 	
 	
