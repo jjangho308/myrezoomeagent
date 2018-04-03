@@ -24,6 +24,7 @@ import io.rezoome.manager.network.entity.request.RequestSearchArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestSearchRecordsEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
+import io.rezoome.manager.pushcommand.entity.search.HashRecordEntity;
 
 public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
@@ -101,7 +102,6 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
         record.setStored(isStoredHashData(entity, hashData));
         records.add(record);
       }
-
       searchRecordEntity.setKey(encKey);
       searchRecordEntity.setIv(encIv);
       searchRecordEntity.setRecords(records);
@@ -133,6 +133,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
           return dbResultEntityList;
         }
       }
+
       // 결과가 없는 경우에는 이름, 생년월일, 성별로 다시 확인
       // 기관에 CI 가 없을 경우에는 바로 이름, 생년월일, 성별 조회부터 시작
       dbResultEntityList = daoMgr.getDao().getUserRecordByName(converter.convert(entity));
@@ -164,9 +165,10 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
   private String isStoredHashData(IORequestJobEntity entity, String hashData) throws ServiceException {
     // TODO entity.getHashList 로 유도
-    List<String> hashList = new ArrayList<String>(); //
-    for (String hash : hashList) {
-      if (hash.equals(hashData)) {
+    List<HashRecordEntity> hashList = new ArrayList<HashRecordEntity>(); //
+    for (HashRecordEntity hashEntity : hashList) {
+      if (hashEntity.getHashed() != null &&
+          hashEntity.getHashed().equals(hashData)) {
         return "Y";
       }
     }
