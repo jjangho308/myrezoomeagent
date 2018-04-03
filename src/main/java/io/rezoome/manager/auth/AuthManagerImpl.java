@@ -9,6 +9,7 @@ import io.rezoome.constants.Constants;
 import io.rezoome.constants.GlobalEntity;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
+import io.rezoome.exception.ServiceException;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.RequestPacket;
@@ -23,7 +24,7 @@ import io.rezoome.manager.provider.ManagerProvider;
 @ManagerType(value = Constants.COMMAND_AUTH, initPriority = 40)
 public class AuthManagerImpl extends AbstractManager implements AuthManager {
 
-  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+  private final Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
 
   private String orgCode;
   private String orgName;
@@ -40,19 +41,24 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   }
 
   @Override
-  public void initialize(InitialEvent event) {
+  public void initialize(InitialEvent event) throws ServiceException {
     // TODO Auto-generated method stub
-    orgCode = ManagerProvider.property().getProperty(PropertyEnum.ORG_CODE);
-    orgName = ManagerProvider.property().getProperty(PropertyEnum.ORG_NAME);
-    orgPasscode = ManagerProvider.property().getProperty(PropertyEnum.ORG_PASSCODE);
 
-    packet = new RequestPacket("", JSON.toJson(convertAuthPacketEntity()));
+    try {
+      orgCode = ManagerProvider.property().getProperty(PropertyEnum.ORG_CODE);
+      orgName = ManagerProvider.property().getProperty(PropertyEnum.ORG_NAME);
+      orgPasscode = ManagerProvider.property().getProperty(PropertyEnum.ORG_PASSCODE);
 
-    if (authentication()) {
-      LOG.info("{} Init Complete", this.getClass());
-      setPrepared();
-    } else {
-      LOG.debug("auth fail");
+      packet = new RequestPacket("", JSON.toJson(convertAuthPacketEntity()));
+
+      if (authentication()) {
+        LOG.info("{} Init Complete", this.getClass());
+        setPrepared();
+      } else {
+        // throw new ServiceException("Fail to auth.");
+      }
+    } catch (Exception e) {
+      // throw new ServiceException("Fail to initialize auth manager.", e);
     }
     
   }
@@ -63,10 +69,11 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   }
 
   @Override
-  public boolean authentication() {
+  public boolean authentication() throws ServiceException {
     try {
       ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
-      if (String.valueOf(HttpURLConnection.HTTP_OK).equals(responseEntity.getCode())) {
+      if (responseEntity != null &&
+          String.valueOf(HttpURLConnection.HTTP_OK).equals(responseEntity.getCode())) {
         ResponseAuthenticationArgsEntity args = (ResponseAuthenticationArgsEntity) responseEntity.getResult();
 
         // TODO AUTH 결과에 따른 처리
@@ -76,11 +83,12 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
           packet = new RequestPacket("", JSON.toJson(convertKeyProvisionPacketEntity()));
           responseEntity = ManagerProvider.network().request(packet);
         }
+        return true;
+      } else {
+        return false;
       }
-      return true;
     } catch (Exception e) {
-      LOG.debug("file to connect Portal server");
-      return false;
+      throw new ServiceException("file to connect Portal server", e);
     }
   }
 
