@@ -74,13 +74,21 @@ public final class JSON {
                       }
                       Class<? extends T> entityCls = mapper.get(codeName); // Class<SearchRecordPushCommandEntity>
 
-                      T memberEntity = context.deserialize(((JsonObject) json).get(instanceKey), entityCls);
+                      if(((JsonObject)json).get(instanceKey) == null){
+                    	  ReflectionUtils.setField(rootEntity, field, null);
+                      }else{
+                    	  T memberEntity = context.deserialize(((JsonObject) json).get(instanceKey), entityCls);
 
-                      ReflectionUtils.setField(rootEntity, field, memberEntity);
+                          ReflectionUtils.setField(rootEntity, field, memberEntity);
+                      }
                       continue;
                     }
 
-                    ReflectionUtils.setField(rootEntity, field, context.deserialize(((JsonObject) json).get(key), field.getType()));
+                    if(((JsonObject) json).get(key) == null){
+                    	ReflectionUtils.setField(rootEntity, field, null);
+                    }else{
+                    	ReflectionUtils.setField(rootEntity, field, context.deserialize(((JsonObject) json).get(key), field.getType()));
+                    }
                   }
                 }
               } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException
