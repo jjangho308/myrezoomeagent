@@ -1,5 +1,8 @@
 package io.rezoome.manager.pushcommand.entity.search;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.manager.pushcommand.entity.AbstractPushCommandEntity;
@@ -45,11 +48,16 @@ public class SearchCommandEntity extends AbstractPushCommandEntity {
 	@SerializedName("email")
 	private final String	email		= null;
 
-	@SerializedName("ci")
-	private final String	ci			= null;
+	@SerializedName("subIDs")
+	private final List<String>	subIDs			= null;
 
-	@SerializedName("pkey")
-  private final String  pkey      = null;
+	@SerializedName("require")
+  private final List<String>   require      = null;
+	
+	@SerializedName("records")
+	private final List<String>    records      = null;
+	  
+	  
 	
 /*  @Override
   public String toString() {

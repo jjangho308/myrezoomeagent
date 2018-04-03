@@ -22,18 +22,19 @@ import io.rezoome.manager.pushcommand.entity.search.SearchCommandEntity;
 final class ClassMapper {
   static void setEntityKeyMap(ClassArrangeManagerImpl arranger) {
 
-    arranger.addEntityKeyMap(PushCommandEntity.class, Constants.COMMAND_SEARCH_RECORD, SearchCommandEntity.class);
+    arranger.addEntityKeyMap(PushCommandEntity.class, "SearchRecord", SearchCommandEntity.class);
 
     arranger.addActionMap(PushCommandEntity.class, SearchCommandEntity.class, SearchCommandAction.class);
 
-    arranger.addEntityKeyMap(JobEntity.class, Constants.COMMAND_SEARCH_RECORD, IORequestJobEntity.class);
+    arranger.addEntityKeyMap(JobEntity.class, "SearchRecord", IORequestJobEntity.class);
 
     arranger.addActionMap(JobEntity.class, IORequestJobEntity.class, IORequestJobAction.class);
 
+        
     // HTTP RESPONSE
-    arranger.addEntityKeyMap(ResponseArgsEntity.class, Constants.COMMAND_AUTH, ResponseAuthenticationArgsEntity.class);
-    arranger.addEntityKeyMap(ResponseArgsEntity.class, Constants.COMMAND_HEALTH_CHECK, ResponseHealthCheckArgsEntity.class);
-    arranger.addEntityKeyMap(ResponseArgsEntity.class, Constants.COMMAND_KEY_PROVISION, ResponseHealthCheckArgsEntity.class);
-    arranger.addEntityKeyMap(ResponseArgsEntity.class, Constants.COMMAND_SEARCH_RECORD, ResponseSearchRecordArgsEntity.class);
+    arranger.addEntityKeyMap(ResponseArgsEntity.class, "Auth", ResponseAuthenticationArgsEntity.class);
+    arranger.addEntityKeyMap(ResponseArgsEntity.class, "HealthCheck", ResponseHealthCheckArgsEntity.class);
+    arranger.addEntityKeyMap(ResponseArgsEntity.class, "KeyProvision", ResponseHealthCheckArgsEntity.class);
+    arranger.addEntityKeyMap(ResponseArgsEntity.class, "SearchRecord", ResponseSearchRecordArgsEntity.class);
   }
 }

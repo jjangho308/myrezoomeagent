@@ -67,19 +67,19 @@ public class AllTests extends TestSuite {
   public void DBUserExistAndDataExistTest() {
     // throw new ServiceException("error");
 
-    InitialEvent event = InitialEvent.RUNTIME;
+   /* InitialEvent event = InitialEvent.RUNTIME;
     try {
       ServiceInitializer.initialize(event);
     } catch (Throwable e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }
+    }*/
 
     AMQMessageEntity msg = this.AMQMessageUserExistAndDataExist();
     System.out.println(msg.toString());
     AMQMessageHandlerImpl.getInstance().handleMessage(msg);
   }
-
+/*
   @Test
   public void DBUserNotExistTest() {
     // throw new ServiceException("error");
@@ -111,25 +111,34 @@ public class AllTests extends TestSuite {
     AMQMessageEntity msg = this.AMQMessageRequiredKey();
     AMQMessageHandlerImpl.getInstance().handleMessage(msg);
   }
-
+*/
   public AMQMessageEntity AMQMessageUserExistAndDataExist() {
     AMQMessageEntity entity = new AMQMessageEntity();
     String msg = "{\r\n" +
         " cmd : \"SearchRecord\",\r\n" +
         " mid : \"leifajlsif\",\r\n" +
-        " token : \"welajslkdjfasdf\",\r\n" +
+        " sid : \"serverID\",\r\n" +
         " args : {\r\n" +
-        " username : 'PARKHUNWOOK',\r\n" +
+        " familyNameEN : \"familyNameEN\",\r\n" +
+        " firstNameEN : \"firstNameEN\",\r\n" +
+        " fullNameEN : \"fullNameEN\",\r\n" +
+        " familyNameKO : \"familyNameKO\",\r\n" +
+        " firstNameKO : \"firstNameKO\",\r\n" +
+        " fullNameKO : \"fullNameKO\",\r\n" +
         " birth : '1987-03-18',\r\n" +
         " gender : 1,\r\n" +
-        " phone : '010-6474-9282',\r\n" +
+        " phone : '010-6474-9283',\r\n" +
         " ci : '123456789abcdeftg',\r\n" +
-        " email : 'exle@nate.com'\r\n" +
+        " pkey : 'pkey',\r\n" +
+        " subIDs : ['sub1', 'sub2'],\r\n" +
+        " require : ['requireKey1', 'prequireKey2'],\r\n" +
+        " records : ['sub1', 'hash1']\r\n" +
         " }\r\n" +
         "}";
+    
     try {
       entity = JSON.fromJson(msg, AMQMessageEntity.class);
-
+      System.out.println("AMQMessageUserExistAndDataExist : ");
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -183,7 +192,7 @@ public class AllTests extends TestSuite {
     }
     return entity;
   }
-
+/*
   @Test
   public void initializeTest() {
     InitialEvent event = InitialEvent.RUNTIME;
@@ -401,25 +410,6 @@ public class AllTests extends TestSuite {
   }
 
   @Test
-  public void fromJsonTest() {
-    try {
-      Gson gson = new GsonBuilder().registerTypeAdapter(Response.class, new InterfaceAdapter<Response>()).create();
-
-      Response response = new ResponseImpl("asdfasdf", "asdfasdf", "asdfasdf");
-      ResponsePacket packet = new ResponsePacket("ee", "eee", "eeeeee", response);
-
-      String serialized = gson.toJson(packet);
-      System.out.println(serialized);
-
-      ResponsePacket packet2 = gson.fromJson(serialized, ResponsePacket.class);
-      System.out.println(packet2.toString());
-      System.out.println(packet2.result.toString());
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
-  @Test
   public void fromJsonTest2() {
     // String jsonString = "{'mid':'mid##555######','cmd':'Auth','code':200, 'result':
     // {'code':'200','msg':'msg','passcode':'asdlfkjasdlkfjasdf'}}";
@@ -561,7 +551,7 @@ public class AllTests extends TestSuite {
     tempProperties.load(in);
     return tempProperties;
   }
-
+*/
 }
 
 

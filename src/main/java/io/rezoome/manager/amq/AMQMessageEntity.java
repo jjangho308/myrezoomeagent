@@ -33,6 +33,8 @@ public final class AMQMessageEntity extends AbstractEntity {
 		JSON.registerDeserializer("cmd", "args", ManagerProvider.clsarrange().getEntityCodeMap(PushCommandEntity.class));
 	}
 
+
+  
 	@SerializedName("mid")
 	private final String			mid		= null;
 
