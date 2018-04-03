@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.core.entity.Action;
@@ -23,7 +24,7 @@ import io.rezoome.manager.AbstractManager;
  * @author TACKSU
  *
  */
-@ManagerType(value = "ClassArrange", initPriority = 20)
+@ManagerType(value = Constants.MANAGER_TYPE_ARRANGE, initPriority = 20)
 public final class ClassArrangeManagerImpl extends AbstractManager implements ClassArrangeManager {
 
   private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");

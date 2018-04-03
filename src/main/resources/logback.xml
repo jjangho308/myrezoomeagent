@@ -17,7 +17,7 @@
 		<!-- <file>${AGENT_HOME}/agent.log</file> -->
 		<file>C:\agent.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>agent.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>C:\agent.%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 
@@ -33,7 +33,7 @@
 		<!-- <file>${AGENT_HOME}/agent.log</file> -->
 		<file>C:\error.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>error.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>C:\error.%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 

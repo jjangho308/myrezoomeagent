@@ -1,6 +1,7 @@
 package io.rezoome.manager;
 
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.exception.ServiceException;
 
 /**
  * Root interface for each manager. <br />
@@ -11,9 +12,9 @@ import io.rezoome.core.ServiceInitializer.InitialEvent;
  */
 public interface Manager {
 
-	void initialize(InitialEvent event);
+  void initialize(InitialEvent event) throws ServiceException;
 
-	void initializeOnThread(InitialEvent event);
+  void initializeOnThread(InitialEvent event);
 
-	boolean isPrepared();
+  boolean isPrepared();
 }

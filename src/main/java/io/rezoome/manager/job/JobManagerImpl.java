@@ -17,6 +17,7 @@ import java.util.concurrent.ThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
@@ -38,10 +39,10 @@ import io.rezoome.thread.WorkerThread;
  * @author TACKSU
  *
  */
-@ManagerType("Job")
+@ManagerType(Constants.MANAGER_TYPE_JOB)
 public final class JobManagerImpl extends AbstractManager implements JobManager {
 
-  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+  private final Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
 
   private static class Singleton {
     private static final JobManager instance = new JobManagerImpl();
@@ -119,7 +120,7 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
       long startTime = System.currentTimeMillis();
       long lRnd = (long) (new SecureRandom().nextDouble() * 10000000000L);
 
-      Callable<Object> callable = new JobCallable(job);
+      Callable<Object> callable = new AsyncJobService(job);
       LOG.info("[{}] start[{}] : Job Thread Execution",
           new Object[] { Long.toString(lRnd), startTime });
       Future<Object> future = executor.submit(callable);
@@ -137,6 +138,10 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
           case ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA:
             // TODO create error job json file.
             try {
+              File theDir = new File("./logs");
+               if (!theDir.exists()) {
+                   theDir.mkdir();
+               }
               BufferedWriter out = new BufferedWriter(new FileWriter("./logs/" + new Date().getTime() + "_" + Long.toString(lRnd) + "_fail.log"));
               out.write("Job ID : [" + Long.toString(lRnd) + "]");
               out.newLine();
@@ -223,10 +228,10 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
     return false;
   }
 
-  class JobCallable implements Callable<Object> {
+  class AsyncJobService implements Callable<Object> {
     private JobEntity job;
 
-    public JobCallable(JobEntity job) {
+    public AsyncJobService(JobEntity job) {
       this.job = job;
     }
 

@@ -39,6 +39,6 @@ public class RequestPacket extends AbstractEntity {
 
   {
     this.header.put("Content-Type", ContentType.APPLICATION_JSON.getValue());
-    this.header.put("Authorization", "Bearer " + GlobalEntity.token);
+    this.header.put("Authorization", "Bearer " + GlobalEntity.TOKEN);
   }
 }

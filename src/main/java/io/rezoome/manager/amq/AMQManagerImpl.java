@@ -11,6 +11,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
@@ -24,7 +25,7 @@ import io.rezoome.manager.provider.ManagerProvider;
  * @author SEONGYEON
  *
  */
-@ManagerType("AMQ")
+@ManagerType(Constants.MANAGER_TYPE_AMQ)
 public class AMQManagerImpl extends AbstractManager implements AMQManager {
 
   private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
@@ -74,7 +75,6 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
   public synchronized void registerPush(AMQConfigEntity config) {
     // FIXME connection이 맺어져 있는 상태값을 확인하여 맺어져 있으면 skip 하도록 수정.
     try {
-
       connectionFactory = new ActiveMQConnectionFactory(config.getServerHost());
       connectionFactory.setUserName(config.getUserName());
       connectionFactory.setPassword(config.getUserPassword());
@@ -91,7 +91,6 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
   }
 
   @Override

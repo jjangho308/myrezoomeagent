@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
 import io.rezoome.external.opic.entity.OpicResultEntity;
@@ -23,13 +24,14 @@ import io.rezoome.manager.network.entity.request.RequestSearchArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestSearchRecordsEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
+import io.rezoome.manager.pushcommand.entity.search.HashRecordEntity;
 
 public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
   private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
 
   private enum STATUS {
-    USER_EXIST, USER_NOT_EXIST, REQUIRED_KEY
+    USER_EXIST, USER_NOT_EXIST, REQUIRE_KEY
   }
 
   private STATUS status;
@@ -39,7 +41,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   }
 
   @Override
-  protected JobRsltEntity processInternal(IORequestJobEntity entity) {
+  protected JobRsltEntity processInternal(IORequestJobEntity entity) throws ServiceException {
     try {
       ResponsePacketEntity responseEntity = null;
 
@@ -64,20 +66,20 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     return null;
   }
 
-  private void convertRequestPacket(IORequestJobEntity entity, List<DBRsltEntity> dbResultEntityList, RequestPacketEntity requestEntity) {
+  private void convertRequestPacket(IORequestJobEntity entity, List<DBRsltEntity> dbResultEntityList, RequestPacketEntity requestEntity) throws ServiceException {
     // TODO Auto-generated method stub
     RequestSearchArgsEntity searchRecordEntity = new RequestSearchArgsEntity();
 
-    searchRecordEntity.setOrgCode("ORG001");
+    searchRecordEntity.setOrgCode("orgcode");
     searchRecordEntity.setKey("");
     searchRecordEntity.setIv("");
 
     if (status == STATUS.USER_NOT_EXIST) {
-      requestEntity.setCode("USER_NOT_EXIST");
-    } else if (status == STATUS.REQUIRED_KEY) {
-      requestEntity.setCode("REQUIRED_KEY");
+      requestEntity.setCode(Constants.RESULT_CODE_USER_NOT_EXIST);
+    } else if (status == STATUS.REQUIRE_KEY) {
+      requestEntity.setCode(Constants.RESULT_CODE_NEED_TO_REQUIRE_KEY);
     } else if (dbResultEntityList.size() == 0) {
-      requestEntity.setCode("USER_EXIST_BUT_DATA_EMPTY");
+      requestEntity.setCode(Constants.RESULT_CODE_DATA_IS_EMPTY);
     } else {
       String aesKey = ManagerProvider.crypto().generateAES();
       String iv = ManagerProvider.crypto().generateIV();
@@ -100,11 +102,10 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
         record.setStored(isStoredHashData(entity, hashData));
         records.add(record);
       }
-
       searchRecordEntity.setKey(encKey);
       searchRecordEntity.setIv(encIv);
       searchRecordEntity.setRecords(records);
-      requestEntity.setCode("USER_EXIST_AND_DATA_EXIST");
+      requestEntity.setCode(Constants.RESULT_CODE_SUCCESS);
     }
     requestEntity.setArgs(searchRecordEntity);
     requestEntity.setCmd(entity.getCmd());
@@ -132,6 +133,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
           return dbResultEntityList;
         }
       }
+
       // 결과가 없는 경우에는 이름, 생년월일, 성별로 다시 확인
       // 기관에 CI 가 없을 경우에는 바로 이름, 생년월일, 성별 조회부터 시작
       dbResultEntityList = daoMgr.getDao().getUserRecordByName(converter.convert(entity));
@@ -147,7 +149,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
           }
         }
         // 전화번호 조회 결과가 없으면 필수정보 요청
-        status = STATUS.REQUIRED_KEY;
+        status = STATUS.REQUIRE_KEY;
       } else {
         // 이름 검색 결과가 없을 때는 가입된 사용자가 없는것으로 판단.
         status = STATUS.USER_NOT_EXIST;
@@ -161,74 +163,15 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     return dbResultEntityList;
   }
 
-  private String isStoredHashData(IORequestJobEntity entity, String hashData) {
+  private String isStoredHashData(IORequestJobEntity entity, String hashData) throws ServiceException {
     // TODO entity.getHashList 로 유도
-    List<String> hashList = new ArrayList<String>(); //
-    for (String hash : hashList) {
-      if (hash.equals(hashData)) {
+    List<HashRecordEntity> hashList = new ArrayList<HashRecordEntity>(); //
+    for (HashRecordEntity hashEntity : hashList) {
+      if (hashEntity.getHashed() != null &&
+          hashEntity.getHashed().equals(hashData)) {
         return "Y";
       }
     }
     return "N";
   }
-
-
-
-  // private void convertRequestPacket(IORequestJobEntity entity, List<DBRsltEntity>
-  // dbResultEntityList, RequestPacketEntity requestEntity) {
-  // // TODO Auto-generated method stub
-  //
-  // RzmRsltEntity rzmResultEntity = new RzmRsltEntity();
-  // MapperEntity mapperResultEntity;
-  // Mapper mapper = ManagerProvider.mapper().getMapper();
-  //
-  // rzmResultEntity.setDataEnc("");
-  // rzmResultEntity.setKeyEnc("");
-  // rzmResultEntity.setDataHash("");
-  //
-  // if (dbResultEntityList == null) {
-  // requestEntity.setCode("EMPTY");
-  // } else if (dbResultEntityList.size() > 1) {
-  // requestEntity.setCode("REQUIRED KEY");
-  // } else if (dbResultEntityList.size() == 1) {
-  // mapperResultEntity = mapper.convert(dbResultEntityList.get(0));
-  // // initially generate AES key
-  // String aesKey = ManagerProvider.crypto().generateAES();
-  // String iv = ManagerProvider.crypto().generateIV();
-  //
-  // // String keyEnc = ManagerProvider.crypto().encryptRSA(aesKey, entity.getPkey());
-  // String keyEnc = "ENCKEY";
-  // String dataEnc = ManagerProvider.crypto().encryptAES(mapperResultEntity.toString(), aesKey,
-  // iv);
-  // String dataHash = ManagerProvider.crypto().hash(mapperResultEntity.toString());
-  //
-  // rzmResultEntity.setDataEnc(dataEnc);
-  // rzmResultEntity.setKeyEnc(keyEnc);
-  // rzmResultEntity.setDataHash(dataHash);
-  // requestEntity.setCode("OK");
-  // }
-  // requestEntity.setArgs(rzmResultEntity);
-  // requestEntity.setCmd(entity.getCmd());
-  // requestEntity.setMid(entity.getMid());
-  // }
-  //
-  // private List<DBRsltEntity> getDBData(IORequestJobEntity entity) throws ServiceException {
-  //
-  // DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
-  // DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
-  // List<DBRsltEntity> dbResultEntityList = null;
-  //
-  // try {
-  // dbResultEntityList = daoMgr.getDao().getRecords(converter.convert(entity));
-  // } catch (IOException e) {
-  // // TODO Auto-generated catch block
-  // throw new ServiceException("database error", e);
-  // }
-  //
-  // for (DBRsltEntity record : dbResultEntityList) {
-  // LOG.debug("db record {}", record);
-  // }
-  //
-  // return dbResultEntityList;
-  // }
 }

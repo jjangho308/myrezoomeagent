@@ -6,13 +6,13 @@ import io.rezoome.core.entity.AbstractEntity;
 
 public class RequestAuthenticationArgsEntity extends AbstractEntity implements RequestArgsEntity {
 
-  @SerializedName("orgCode")
+  @SerializedName("orgcode")
   private String orgCode;
 
-  @SerializedName("orgPasscode")
+  @SerializedName("passcode")
   private String orgPasscode;
 
-  @SerializedName("orgName")
+  @SerializedName("name")
   private String orgName;
 
   public String getOrgCode() {

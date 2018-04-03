@@ -39,10 +39,10 @@ import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
-@ManagerType(value = "Network", initPriority = 30)
+@ManagerType(value = Constants.MANAGER_TYPE_NETWORK, initPriority = 30)
 public class NetworkManagerImpl extends AbstractManager implements NetworkManager {
 
-  private Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+  private Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
 
   private int CONNECT_TIMEOUT;
   private int READ_TIMEOUT;
@@ -62,11 +62,11 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   @Override
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
-    PORTAL_URL = ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, true);
-    CONNECT_TIMEOUT = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.CONNECT_TIMEOUT, true));
-    READ_TIMEOUT = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.READ_TIMEOUT, true));
-    RETRIES = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.RETRIES, true));
-    RETRY_DELAY_SEC = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.RETRY_DELAY_SEC, true));
+    PORTAL_URL = ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL);
+    CONNECT_TIMEOUT = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.CONNECT_TIMEOUT));
+    READ_TIMEOUT = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.READ_TIMEOUT));
+    RETRIES = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.RETRIES));
+    RETRY_DELAY_SEC = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.RETRY_DELAY_SEC));
     LOG.info("{} Init Complete", this.getClass());
     setPrepared();
   }
@@ -88,7 +88,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   }
 
   @Override
-  public ResponsePacketEntity request(RequestPacket packet) throws Exception {
+  public ResponsePacketEntity request(RequestPacket packet) throws ServiceException {
     // TODO Auto-generated method stub
 
     int retry = 0;
@@ -107,7 +107,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
         connection = (HttpURLConnection) new URL(PORTAL_URL + packet.getSid()).openConnection();
 
         if (connection instanceof HttpsURLConnection) {
-          SSLContext ctx = SSLContext.getInstance("TLS");
+          SSLContext ctx = SSLContext.getInstance(Constants.PARAM_TLS);
           ctx.init(new KeyManager[0], new TrustManager[] { new DefaultTrustManager() }, new SecureRandom());
           final SSLSocketFactory sslSocketFactory = ctx.getSocketFactory();
           SSLContext.setDefault(ctx);
@@ -140,10 +140,12 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
 
         switch (connection.getResponseCode()) {
           case HttpURLConnection.HTTP_OK:
+            ResponsePacketEntity responsePacket = new ResponsePacketEntity();
             response = getResponse(connection.getInputStream());
             LOG.debug("ResponsePacket : {}", response);
             connection.disconnect();
-            return JSON.fromJson(response, ResponsePacketEntity.class);
+            responsePacket = JSON.fromJson(response, ResponsePacketEntity.class);
+            return responsePacket;
           // case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:
           // LOG.error("response code {}", HttpURLConnection.HTTP_GATEWAY_TIMEOUT);
           // break;

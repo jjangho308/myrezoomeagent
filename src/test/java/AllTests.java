@@ -1,6 +1,7 @@
 
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,6 +16,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -28,19 +30,22 @@ import javax.net.ssl.X509TrustManager;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
+
 import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
-import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.exception.ServiceException;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.amq.AMQMessageEntity;
 import io.rezoome.manager.amq.AMQMessageHandlerImpl;
-import io.rezoome.manager.network.entity.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
-import io.rezoome.manager.network.entity.request.RequestSearchRecordArgsEntity;
+import io.rezoome.manager.network.entity.request.RequestSearchArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestSearchRecordsEntity;
+import io.rezoome.manager.network.entity.response.ResponseAuthenticationArgsEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 import junit.framework.TestSuite;
@@ -53,9 +58,9 @@ public class AllTests extends TestSuite {
 
   @Before
   public void initialize() {
-    ManagerProvider.property().initialize(InitialEvent.RUNTIME);
+/*    ManagerProvider.property().initialize(InitialEvent.RUNTIME);
     ManagerProvider.clsarrange().initialize(InitialEvent.RUNTIME);
-    ManagerProvider.pushcommand().initialize(InitialEvent.RUNTIME);
+    ManagerProvider.pushcommand().initialize(InitialEvent.RUNTIME);*/
   }
 
   @Test
@@ -63,18 +68,29 @@ public class AllTests extends TestSuite {
     // throw new ServiceException("error");
 
     InitialEvent event = InitialEvent.RUNTIME;
-    ServiceInitializer.initialize(event);
+    try {
+      ServiceInitializer.initialize(event);
+    } catch (Throwable e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 
     AMQMessageEntity msg = this.AMQMessageUserExistAndDataExist();
+    System.out.println(msg.toString());
     AMQMessageHandlerImpl.getInstance().handleMessage(msg);
   }
-
+/*
   @Test
   public void DBUserNotExistTest() {
     // throw new ServiceException("error");
 
     InitialEvent event = InitialEvent.RUNTIME;
-    ServiceInitializer.initialize(event);
+    try {
+      ServiceInitializer.initialize(event);
+    } catch (Throwable e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 
     AMQMessageEntity msg = this.AMQMessageUserNotExist();
     AMQMessageHandlerImpl.getInstance().handleMessage(msg);
@@ -85,30 +101,44 @@ public class AllTests extends TestSuite {
     // throw new ServiceException("error");
 
     InitialEvent event = InitialEvent.RUNTIME;
-    ServiceInitializer.initialize(event);
+    try {
+      ServiceInitializer.initialize(event);
+    } catch (Throwable e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 
     AMQMessageEntity msg = this.AMQMessageRequiredKey();
     AMQMessageHandlerImpl.getInstance().handleMessage(msg);
   }
-
+*/
   public AMQMessageEntity AMQMessageUserExistAndDataExist() {
-    AMQMessageEntity entity = null;
-    entity = new AMQMessageEntity();
+    AMQMessageEntity entity = new AMQMessageEntity();
     String msg = "{\r\n" +
         " cmd : \"SearchRecord\",\r\n" +
         " mid : \"leifajlsif\",\r\n" +
-        " token : \"welajslkdjfasdf\",\r\n" +
+        " sid : \"serverID\",\r\n" +
         " args : {\r\n" +
-        " username : 'PARKHUNWOOK',\r\n" +
+        " familyNameEN : \"familyNameEN\",\r\n" +
+        " firstNameEN : \"firstNameEN\",\r\n" +
+        " fullNameEN : \"fullNameEN\",\r\n" +
+        " familyNameKO : \"familyNameKO\",\r\n" +
+        " firstNameKO : \"firstNameKO\",\r\n" +
+        " fullNameKO : \"fullNameKO\",\r\n" +
         " birth : '1987-03-18',\r\n" +
         " gender : 1,\r\n" +
-        " phone : '010-6474-9282',\r\n" +
+        " phone : '010-6474-9283',\r\n" +
         " ci : '123456789abcdeftg',\r\n" +
-        " email : 'exle@nate.com'\r\n" +
+        " pkey : 'pkey',\r\n" +
+        " subIDs : ['sub1', 'sub2'],\r\n" +
+        " require : ['requireKey1', 'prequireKey2'],\r\n" +
+        " records : [ {subID : 'sub1', hashed : 'hash1'}]\r\n" +
         " }\r\n" +
         "}";
+    
     try {
       entity = JSON.fromJson(msg, AMQMessageEntity.class);
+      System.out.println("AMQMessageUserExistAndDataExist : ");
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -162,31 +192,13 @@ public class AllTests extends TestSuite {
     }
     return entity;
   }
-
+/*
   @Test
   public void initializeTest() {
     InitialEvent event = InitialEvent.RUNTIME;
-    ServiceInitializer.initialize(event);
-  }
-
-  @Test
-  public void httpClientTest() {
-    ManagerProvider.network().initialize(InitialEvent.RUNTIME);
-
-    RequestPacketEntity requestEntity = new RequestPacketEntity();
-
-    requestEntity.setCmd("SearchResult");
-    RequestSearchRecordArgsEntity argsEntity = new RequestSearchRecordArgsEntity();
-    argsEntity.setEncryptedData("setEncryptedData");
-    argsEntity.setEncryptedKey("setEncryptedKey");
-    argsEntity.setHashedData("setHashedData");
-
-    requestEntity.setArgs(argsEntity);
-
-    RequestPacket packet = new RequestPacket("/", JSON.toJson(requestEntity));
     try {
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
-    } catch (Exception e) {
+      ServiceInitializer.initialize(event);
+    } catch (Throwable e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
@@ -271,7 +283,19 @@ public class AllTests extends TestSuite {
     try {
       throwError();
     } catch (Exception e) {
-      throw new ServiceException(e.getMessage(), e);
+      System.out.println("EEEEeee");
+      e.printStackTrace();
+      // throw new ServiceException(e.getMessage(), e);
+    }
+  }
+
+  public void throwError() throws ServiceException {
+    int[] arr = new int[5];
+    try {
+      arr[6] = 1;
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new ServiceException("", e);
     }
   }
 
@@ -285,42 +309,11 @@ public class AllTests extends TestSuite {
     }
   }
 
-  public void throwError() throws Exception {
-    int[] arr = new int[5];
-    try {
-      arr[6] = 1;
-    } catch (Exception e) {
-      throw new ServiceException("parsing error", e);
-    }
-  }
+
 
   public void throwError2() throws Exception {
     int[] arr = new int[5];
     arr[6] = 1;
-  }
-
-  @Test
-  public void httpsClientTest() {
-    ManagerProvider.network().initialize(InitialEvent.RUNTIME);
-
-    RequestPacketEntity requestEntity = new RequestPacketEntity();
-
-    requestEntity.setCmd("SearchResult");
-    RequestSearchRecordArgsEntity argsEntity = new RequestSearchRecordArgsEntity();
-    argsEntity.setEncryptedData("setEncryptedData");
-    argsEntity.setEncryptedKey("setEncryptedKey");
-    argsEntity.setHashedData("setHashedData");
-
-    requestEntity.setArgs(argsEntity);
-
-    // RequestPacket packet = new RequestPacket("", JSON.toJson(requestEntity));
-    RequestPacket packet = new RequestPacket("", null);
-    try {
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
-    } catch (Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
   }
 
   @Test
@@ -343,7 +336,7 @@ public class AllTests extends TestSuite {
   }
 
   @Test
-  public void crypto() {
+  public void cryptoTest() {
     ManagerProvider.crypto().initialize(InitialEvent.RUNTIME);
 
     String data = "test data";
@@ -368,14 +361,13 @@ public class AllTests extends TestSuite {
     System.out.println("decData : " + decData);
   }
 
-
   @Test
   public void searchRecordJsonTrasnTest() {
     RequestPacketEntity requestPacket = new RequestPacketEntity();
-    RzmRsltEntity rzmResultEntity = new RzmRsltEntity();
+    RequestSearchArgsEntity rzmResultEntity = new RequestSearchArgsEntity();
     rzmResultEntity.setOrgCode("ORG001");
-    rzmResultEntity.setEncKey("");
-    rzmResultEntity.setEncIv("");
+    rzmResultEntity.setKey("");
+    rzmResultEntity.setIv("");
 
     String aesKey = ManagerProvider.crypto().generateAES();
     String iv = ManagerProvider.crypto().generateIV();
@@ -389,23 +381,25 @@ public class AllTests extends TestSuite {
     record = new RequestSearchRecordsEntity();
     String encData = ManagerProvider.crypto().encryptAES("test", aesKey, iv);
     String hashData = ManagerProvider.crypto().hash("test");
-    record.setEncData(encData);
-    record.setHashData(hashData);
+    record.setData(encData);
+    record.setHash(hashData);
     record.setStored("Y");
+    record.setCertcode("EN");
     records.add(record);
 
     // 2
     record = new RequestSearchRecordsEntity();
     encData = ManagerProvider.crypto().encryptAES("test2", aesKey, iv);
     hashData = ManagerProvider.crypto().hash("test2");
-    record.setEncData(encData);
-    record.setHashData(hashData);
+    record.setData(encData);
+    record.setHash(hashData);
     record.setStored("N");
+    record.setCertcode("EN");
     records.add(record);
 
 
-    rzmResultEntity.setEncKey(encKey);
-    rzmResultEntity.setEncIv(encIv);
+    rzmResultEntity.setKey(encKey);
+    rzmResultEntity.setIv(encIv);
     rzmResultEntity.setRecords(records);
     requestPacket.setCode("USER_EXIST_AND_DATA_EXIST");
     requestPacket.setArgs(rzmResultEntity);
@@ -414,6 +408,150 @@ public class AllTests extends TestSuite {
 
     System.out.println(JSON.toJson(requestPacket));
   }
+
+  @Test
+  public void fromJsonTest2() {
+    // String jsonString = "{'mid':'mid##555######','cmd':'Auth','code':200, 'result':
+    // {'code':'200','msg':'msg','passcode':'asdlfkjasdlkfjasdf'}}";
+    String jsonAuth = "{'mid':'mid##555######','cmd':'Auth','code':200, 'result': {'code':'200','msg':'msg','token':'asdlfkjasdlkfjasdf'}}";
+    String jsonHealth = "{'mid':'mid##6666######','cmd':'HealthCheck','code':200, 'result': {'code':'200','msg':'msg'}}";
+    String jsonSearch = "{'mid':'mid##5444444######','cmd':'SearchRecord','code':200, 'result': {'code':'200','msg':'msg','token':'asdlfkjasdlkfjasdf'}}";
+
+    try {
+      ResponsePacketEntity packet = new ResponsePacketEntity();
+      packet = JSON.fromJson(jsonAuth, ResponsePacketEntity.class);
+
+      System.out.println(packet);
+      System.out.println(((ResponseAuthenticationArgsEntity) packet.getResult()).getToken());
+
+      packet = new ResponsePacketEntity();
+      packet = JSON.fromJson(jsonHealth, ResponsePacketEntity.class);
+      System.out.println(packet);
+
+      packet = new ResponsePacketEntity();
+      packet = JSON.fromJson(jsonSearch, ResponsePacketEntity.class);
+      System.out.println(packet);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public interface Response {
+
+  }
+
+  public class ResponseImpl2 implements Response {
+    private String orgcode2;
+    private String name2;
+    private String passcode2;
+    private String id2;
+
+    public String getOrgcode2() {
+      return orgcode2;
+    }
+
+    public void setOrgcode2(String orgcode2) {
+      this.orgcode2 = orgcode2;
+    }
+
+    public String getName2() {
+      return name2;
+    }
+
+    public void setName2(String name2) {
+      this.name2 = name2;
+    }
+
+    public String getPasscode2() {
+      return passcode2;
+    }
+
+    public void setPasscode2(String passcode2) {
+      this.passcode2 = passcode2;
+    }
+
+    public String getId2() {
+      return id2;
+    }
+
+    public void setId2(String id2) {
+      this.id2 = id2;
+    }
+
+    @Override
+    public String toString() {
+      return "ResponseImpl2 [orgcode2=" + orgcode2 + ", name2=" + name2 + ", passcode2=" + passcode2 + ", id2=" + id2 + "]";
+    }
+
+  }
+
+  public class ResponseImpl implements Response {
+    private String orgcode;
+    private String name;
+    private String passcode;
+
+    public ResponseImpl(String orgcode, String name, String passcode) {
+      super();
+      this.orgcode = orgcode;
+      this.name = name;
+      this.passcode = passcode;
+    }
+
+    @Override
+    public String toString() {
+      return "ResponseImpl [orgcode=" + orgcode + ", name=" + name + ", passcode=" + passcode + "]";
+    }
+  }
+
+  public class ResponsePacket {
+    private String mid;
+    private String cmd;
+    private String code;
+
+    @SerializedName("result")
+    private Response result;
+
+    public ResponsePacket(String mid, String cmd, String code, Response result) {
+      super();
+      this.mid = mid;
+      this.cmd = cmd;
+      this.code = code;
+      this.result = result;
+    }
+
+    @Override
+    public String toString() {
+      return "ResponsePacket [mid=" + mid + ", cmd=" + cmd + ", code=" + code + ", result=" + result + "]";
+    }
+  }
+
+  @Test
+  public void getPropertiesTest() {
+    String configFile = "./agent.prop";
+    Properties properties;
+    try {
+      properties = readProperties(configFile);
+      // properties.list(System.out);
+
+      for (String key : properties.stringPropertyNames()) {
+        Object value = properties.getProperty(key);
+        if (!"".equals(value)) {
+          System.out.println(key + " : " + value);
+        }
+      }
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
+  private synchronized Properties readProperties(String configFile) throws IOException {
+    Properties tempProperties = new Properties();
+    FileInputStream in = new FileInputStream(configFile);
+    tempProperties.load(in);
+    return tempProperties;
+  }
+*/
 }
 
 

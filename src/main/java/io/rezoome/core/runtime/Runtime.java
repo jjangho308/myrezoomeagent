@@ -9,6 +9,11 @@ public class Runtime {
   }
 
   private static void initailize() {
-    ServiceInitializer.initialize(InitialEvent.RUNTIME);
+    try {
+      ServiceInitializer.initialize(InitialEvent.RUNTIME);
+    } catch (Throwable e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 }
