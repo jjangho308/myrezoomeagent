@@ -1,5 +1,7 @@
 package io.rezoome.manager.pushcommand.entity.search;
 
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 public final class HashRecordEntity {
@@ -8,13 +10,13 @@ public final class HashRecordEntity {
   private final String subID = null;
 
   @SerializedName("hashed")
-  private final String hashed = null;
+  private final List<String> hashed = null;
 
   public String getSubID() {
     return subID;
   }
 
-  public String getHashed() {
+  public List<String> getHashed() {
     return hashed;
   }
 
