@@ -5,21 +5,24 @@ import com.google.gson.annotations.SerializedName;
 import io.rezoome.core.entity.AbstractEntity;
 
 public class DBEntity extends AbstractEntity {
-	@SerializedName("username")
-	private final String	username	= null;
 
-	@SerializedName("birth")
-	private final String	birth		= null;
+  @SerializedName("ci")
+  private final String ci = null;
 
-	@SerializedName("gender")
-	private final String	gender		= null;
+  @SerializedName("username")
+  private final String username = null;
 
-	@SerializedName("phone")
-	private final String	phone		= null;
+  @SerializedName("birth")
+  private final String birth = null;
 
-	@SerializedName("email")
-	private final String	email		= null;
+  @SerializedName("gender")
+  private final String gender = null;
 
-	@SerializedName("ci")
-	private final String	ci			= null;
+  @SerializedName("phone")
+  private final String phone = null;
+
+  @SerializedName("email")
+  private final String email = null;
+
+
 }

@@ -28,8 +28,25 @@ public abstract class AbstractJobEntity extends AbstractEntity implements JobEnt
   @SerializedName("cmd")
   protected final String cmd = null;
 
-  @SerializedName("username")
-  protected final String username = null;
+  // @SerializedName("username")
+  // protected final String username = null;
+  @SerializedName("familyNameEN")
+  protected final String familyNameEN = null;
+
+  @SerializedName("firstNameEN")
+  protected final String firstNameEN = null;
+
+  @SerializedName("fullNameEN")
+  protected final String fullNameEN = null;
+
+  @SerializedName("familyNameKO")
+  protected final String familyNameKO = null;
+
+  @SerializedName("firstNameKO")
+  protected final String firstNameKO = null;
+
+  @SerializedName("fullNameKO")
+  protected final String fullNameKO = null;
 
   @SerializedName("birth")
   protected final String birth = null;
@@ -74,12 +91,36 @@ public abstract class AbstractJobEntity extends AbstractEntity implements JobEnt
     return cmd;
   }
 
-  public String getUsername() {
-    return username;
-  }
+  // public String getUsername() {
+  // return username;
+  // }
 
   public String getBirth() {
     return birth;
+  }
+
+  public String getFamilyNameEN() {
+    return familyNameEN;
+  }
+
+  public String getFirstNameEN() {
+    return firstNameEN;
+  }
+
+  public String getFullNameEN() {
+    return fullNameEN;
+  }
+
+  public String getFamilyNameKO() {
+    return familyNameKO;
+  }
+
+  public String getFirstNameKO() {
+    return firstNameKO;
+  }
+
+  public String getFullNameKO() {
+    return fullNameKO;
   }
 
   public String getGender() {
@@ -114,10 +155,9 @@ public abstract class AbstractJobEntity extends AbstractEntity implements JobEnt
     return records;
   }
 
-  @Override
-  public String toString() {
-    return "AbstractJobEntity [mid=" + mid + ", sid=" + sid + ", token=" + token + ", cmd=" + cmd + ", username=" + username + ", birth=" + birth + ", gender=" + gender + ", phone=" + phone
-        + ", email=" + email + ", ci=" + ci + ", pkey=" + pkey + ", subIds=" + subIds + ", require=" + require + ", records=" + records + "]";
+  public String toJSON() {
+    return "{username:" + fullNameKO + ",birth:" + birth + ",gender:"
+        + gender + ",phone:" + phone + ",email:" + email + ",ci:" + ci + "}";
   }
 
 }
