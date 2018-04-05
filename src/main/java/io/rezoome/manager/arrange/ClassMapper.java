@@ -1,6 +1,5 @@
 package io.rezoome.manager.arrange;
 
-import io.rezoome.constants.Constants;
 import io.rezoome.manager.job.entity.JobEntity;
 import io.rezoome.manager.job.iorequest.IORequestJobAction;
 import io.rezoome.manager.job.iorequest.IORequestJobEntity;
