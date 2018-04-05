@@ -28,7 +28,7 @@ import io.rezoome.manager.pushcommand.entity.search.HashRecordEntity;
 
 public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
-  private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");
+  private final Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
 
   private enum STATUS {
     USER_EXIST, USER_NOT_EXIST, REQUIRE_KEY
@@ -122,6 +122,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     // 2. 기관정보 데이터 확인
     try {
       if (true) { // CI 가 있는 경우에만 수행
+        System.out.println(converter.convert(entity));
         int userCount = daoMgr.getDao().getUserCountByCI(converter.convert(entity));
 
         if (userCount == 1) {
