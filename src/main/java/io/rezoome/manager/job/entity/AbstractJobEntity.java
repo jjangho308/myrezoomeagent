@@ -156,8 +156,9 @@ public abstract class AbstractJobEntity extends AbstractEntity implements JobEnt
   }
 
   public String toJSON() {
-    return "{username:" + fullNameKO + ",birth:" + birth + ",gender:"
-        + gender + ",phone:" + phone + ",email:" + email + ",ci:" + ci + "}";
+    return "{familyNameEN:" + familyNameEN + ", firstNameEN:" + firstNameEN + ", fullNameEN:" + fullNameEN
+        + ", familyNameKO:" + familyNameKO + ", firstNameKO:" + firstNameKO + ", fullNameKO:" + fullNameKO
+        + ", birth:" + birth + ", gender:" + gender + ", phone:" + phone + ", email:" + email + ", ci:" + ci + "}";
   }
 
 }

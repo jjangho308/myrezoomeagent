@@ -71,7 +71,7 @@ public class DBConnectionPoolManager {
     try {
       Class.forName(driverClassName);
       drivers.addElement(driverClassName);
-      LOG.debug("Registred JDBC driver [{}]", driverClassName);
+      LOG.debug("Registered JDBC driver [{}]", driverClassName);
     } catch (Exception e) {
       e.printStackTrace();
     }

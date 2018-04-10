@@ -8,13 +8,11 @@ import io.rezoome.manager.database.entity.DBRsltEntity;
 
 public interface Dao {
 
-  public int getUserCountByCI(DBEntity entity) throws Exception;
-
-  public ArrayList<DBRsltEntity> getUserRecordByName(DBEntity entity) throws IOException;
+  public ArrayList<DBRsltEntity> getUserRecords(DBEntity entity) throws IOException;
 
   public ArrayList<DBRsltEntity> getCertRecords(DBEntity entity) throws IOException;
 
-  public int getRecordsByName(DBEntity entity) throws IOException;
+  public ArrayList<DBRsltEntity> getSungjukRecord(DBEntity entity) throws IOException;
 
-  public int getRecordsByPhone(DBEntity entity) throws IOException;
+  public ArrayList<DBRsltEntity> getJolupRecord(DBEntity entity) throws IOException;
 }

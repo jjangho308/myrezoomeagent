@@ -9,8 +9,23 @@ public class DBEntity extends AbstractEntity {
   @SerializedName("ci")
   private final String ci = null;
 
-  @SerializedName("username")
-  private final String username = null;
+  @SerializedName("familyNameEN")
+  private final String familyNameEN = null;
+
+  @SerializedName("firstNameEN")
+  private final String firstNameEN = null;
+
+  @SerializedName("fullNameEN")
+  private final String fullNameEN = null;
+
+  @SerializedName("familyNameKO")
+  private final String familyNameKO = null;
+
+  @SerializedName("firstNameKO")
+  private final String firstNameKO = null;
+
+  @SerializedName("fullNameKO")
+  private final String fullNameKO = null;
 
   @SerializedName("birth")
   private final String birth = null;
@@ -23,6 +38,61 @@ public class DBEntity extends AbstractEntity {
 
   @SerializedName("email")
   private final String email = null;
+
+  @SerializedName("orgUserId")
+  private String orgUserId = null;
+
+  public String getCi() {
+    return ci;
+  }
+
+  public String getFamilyNameEN() {
+    return familyNameEN;
+  }
+
+  public String getFirstNameEN() {
+    return firstNameEN;
+  }
+
+  public String getFullNameEN() {
+    return fullNameEN;
+  }
+
+  public String getFamilyNameKO() {
+    return familyNameKO;
+  }
+
+  public String getFirstNameKO() {
+    return firstNameKO;
+  }
+
+  public String getFullNameKO() {
+    return fullNameKO;
+  }
+
+  public String getBirth() {
+    return birth;
+  }
+
+  public String getGender() {
+    return gender;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setOrgUserId(String orgUserId) {
+    this.orgUserId = orgUserId;
+  }
+
+  public String getOrgUserId() {
+    return orgUserId;
+  }
 
 
 }

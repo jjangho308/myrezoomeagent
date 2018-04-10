@@ -12,8 +12,8 @@ public class RequestSearchRecordsEntity extends AbstractEntity implements Reques
   @SerializedName("hash")
   String hash;
 
-  @SerializedName("certcode")
-  String certcode;
+  @SerializedName("subid")
+  String subid;
 
   @SerializedName("stored")
   String stored;
@@ -34,12 +34,12 @@ public class RequestSearchRecordsEntity extends AbstractEntity implements Reques
     this.hash = hash;
   }
 
-  public String getCertcode() {
-    return certcode;
+  public String getSubid() {
+    return subid;
   }
 
-  public void setCertcode(String certcode) {
-    this.certcode = certcode;
+  public void setSubid(String subid) {
+    this.subid = subid;
   }
 
   public String getStored() {

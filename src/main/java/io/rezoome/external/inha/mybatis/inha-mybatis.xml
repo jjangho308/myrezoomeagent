@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper
+  PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+
+<mapper namespace='io.rezoome.manager.database.dao.Dao'>
+
+	<resultMap id="InhaUserResultEntity"
+		type="io.rezoome.external.inha.entity.InhaUserResultEntity">
+		<result property="id" column="ID" />
+		<result property="name" column="NAME" />
+		<result property="phone" column="PHONE" />
+		<result property="birth" column="BIRTH" />
+		<result property="email" column="EMAIL" />		
+	</resultMap>
+
+	<resultMap id="InhaResultEntity"
+		type="io.rezoome.external.inha.entity.InhaResultEntity">
+		<result property="id" column="ID" />
+		<result property="name" column="NAME" />
+		<result property="status" column="STATUS" />
+		<result property="startDate" column="START_DATE" />
+		<result property="endDate" column="END_DATE" />
+		<result property="sub" column="SUB" />
+		<result property="grade" column="GRADE" />
+		<result property="professor" column="PROFESSOR" />
+		<result property="entranceDate" column="ENTRANCE_DATE" />
+	</resultMap>
+
+	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
+		resultMap="InhaUserResultEntity">
+		<!-- SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE 
+			CI = #{ci} OR ENAME = #{username} -->
+		SELECT ID, NAME, PHONE, BIRTH, EMAIL FROM INHA_USR
+		WHERE
+		NAME = #{fullNameKO} AND BIRTH = #{birth}
+	</select>
+
+	<select id="getCertRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
+		resultMap="InhaResultEntity">
+		SELECT
+		IU.ID AS ID,
+		IU.NAME AS NAME,
+		IUC.STATUS AS STATUS,
+		IUC.START_DATE AS START_DATE,
+		IUC.END_DATE AS END_DATE,
+		IUG.SUB AS SUB,
+		IUG.GRADE AS GRADE,
+		IUG.PROFESSOR AS PROFESSOR
+		FROM INHA_USR AS IU
+		INNER JOIN INHA_USR_CERT AS IUC ON (IUC.INHA_USR_ID = IU.ID)
+		INNER JOIN INHA_USR_GRADE AS IUG ON (IUG.INHA_USR_ID = IU.ID)
+		WHERE IU.ID = #{orgUserId};
+	</select>
+	
+	<select id="getSungjukRecord" parameterType="io.rezoome.manager.database.entity.DBEntity"
+		resultMap="InhaResultEntity">
+		SELECT
+		IU.ID AS ID,
+		IU.NAME AS NAME,
+		IUG.SUB AS SUB,
+		IUG.GRADE AS GRADE,
+		IUG.PROFESSOR AS PROFESSOR
+		FROM INHA_USR AS IU
+		INNER JOIN INHA_USR_GRADE AS IUG ON (IUG.INHA_USR_ID = IU.ID)
+		WHERE IU.ID = #{orgUserId};
+	</select>
+	
+	<select id="getJolupRecord" parameterType="io.rezoome.manager.database.entity.DBEntity"
+		resultMap="InhaResultEntity">
+		SELECT
+		IU.ID AS ID,
+		IU.NAME AS NAME,
+		IUC.STATUS AS STATUS,
+		IUC.START_DATE AS START_DATE,
+		IUC.END_DATE AS END_DATE
+		FROM INHA_USR AS IU		
+		INNER JOIN INHA_USR_CERT AS IUC ON (IUC.INHA_USR_ID = IU.ID)
+		WHERE IU.ID = #{orgUserId};
+	</select>
+
+</mapper>

@@ -4,7 +4,14 @@
   'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
 
 
-<mapper namespace='io.rezoome.manager.database.dao.Dao'> 
+<mapper namespace='io.rezoome.manager.database.dao.Dao'>
+
+	<resultMap id="OpicUserResultEntity"
+		type="io.rezoome.external.opic.entity.OpicUserResultEntity">
+		<result property="id" column="ID" />
+		<result property="name" column="ENAME" />
+		<result property="ci" column="CI" />
+	</resultMap>
 
 	<resultMap id="OpicResultEntity"
 		type="io.rezoome.external.opic.entity.OpicResultEntity">
@@ -13,32 +20,20 @@
 		<result property="testDay" column="ISSUDATE" />
 		<result property="rating" column="RATING" />
 		<result property="phone" column="PHONE" />
-	</resultMap>	
-
-	<select id="getRecordsByName" parameterType="io.rezoome.manager.database.entity.DBEntity"
-		resultMap="OpicResultEntity">
-		select CNAME, TESTID, CNATION, CLEVEL from TBL_EXAM
-		where CNAME = #{username} AND BIRTH = #{birth} AND gender = #{gender}
-	</select>
-
-	<select id="getRecordsByPhone" parameterType="io.rezoome.manager.database.entity.DBEntity"
-		resultMap="OpicResultEntity">
-		select CNAME, TESTID, CNATION, CLEVEL from TBL_EXAM
-		where phone = #{phone} AND email = #{email}
-	</select>
-
-	<select id="getUserCountByCI" parameterType="io.rezoome.manager.database.entity.DBEntity"
-		resultType="Integer">
-		SELECT COUNT(*) FROM OPIC_CERT WHERE ENAME = #{username}
-	</select>
+	</resultMap>
 	
-	<select id="getUserRecordByName" parameterType="io.rezoome.manager.database.entity.DBEntity"
-		resultMap="OpicResultEntity">
-		SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE ENAME = #{username}
+	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
+		resultMap="OpicUserResultEntity">
+		<!-- SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE 
+			CI = #{ci} OR ENAME = #{username} -->
+		SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE
+		ENAME = #{fullNameKO}
 	</select>
 
 	<select id="getCertRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
 		resultMap="OpicResultEntity">
-		SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE ENAME = #{username}
+		SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT
+		WHERE PHONE = #{phone}
 	</select>
+
 </mapper>

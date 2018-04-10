@@ -3,7 +3,7 @@ package io.rezoome.manager.property;
 public enum PropertyEnum {
 
   // AGENCY DAO
-  DAO_CLASS_NAME,
+  DAO_CLASS_NAME, DAO_MAPPER_CLASS_NAME,
 
   // AGENCY MAPPER
   MAPPER_CLASS_NAME,
