@@ -1,4 +1,4 @@
-package io.rezoome.external.inha.mapper;
+package io.rezoome.external.mk.mapper;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.Map;
 import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
-import io.rezoome.external.inha.entity.InhaUserResultEntity;
+import io.rezoome.external.mk.entity.MkUserResultEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
 import io.rezoome.manager.database.entity.DBEntity;
@@ -16,7 +16,7 @@ import io.rezoome.manager.database.entity.DBRsltEntity;
 import io.rezoome.manager.mapper.DaoMapper;
 import io.rezoome.manager.provider.ManagerProvider;
 
-public class InhaDaoMapper implements DaoMapper {
+public class MkDaoMapper implements DaoMapper {
 
   private DaoManagerImpl daoMgr = null;
 
@@ -24,24 +24,25 @@ public class InhaDaoMapper implements DaoMapper {
     USER_EXIST, USER_NOT_EXIST, REQUIRE_KEY
   }
 
-  public InhaDaoMapper() {
+  public MkDaoMapper() {
     daoMgr = ManagerProvider.database().getDaoManager();
   }
 
   @Override
   public Map<String, Object> getUserData(DBEntity entity) throws ServiceException {
+    // TODO Auto-generated method stub
     Map<String, Object> dbResult = new HashMap<String, Object>();
     try {
       List<DBRsltEntity> dbResultEntityList = daoMgr.getDao().getUserRecords(entity);
       if (dbResultEntityList.size() >= 1) {
         for (DBRsltEntity userEntity : dbResultEntityList) {
-          InhaUserResultEntity user = (InhaUserResultEntity) userEntity;
+          MkUserResultEntity user = (MkUserResultEntity) userEntity;
           // CI 또는 전화번호가 일치 하는 경우에만 사용자로 확정
-          if ((user.getCi() != null && entity.getCi().equals(user.getCi()))
-              || (user.getPhone() != null && entity.getPhone().equals(user.getPhone()))) {
+          if (user.getPhone() != null && entity.getPhone().equals(user.getPhone())) {
 
             // TODO 좀더 이쁜 코드로
-            DBEntity dbEntity = JSON.fromJson("{orgUserId:" + user.getId() + "}", DBEntity.class);
+            DBEntity dbEntity = JSON.fromJson("{orgUserId:" + user.getUserid() + "}", DBEntity.class);
+
             dbResult.put(Constants.PARAM_STATUS, STATUS.USER_EXIST);
             dbResult.put(Constants.PARAM_ENTITY, dbEntity);
             return dbResult;
@@ -86,13 +87,9 @@ public class InhaDaoMapper implements DaoMapper {
     List<DBRsltEntity> dbResultEntityList = null;
     try {
       switch (subId) {
-        case "RCOGC0008":
-          dbResultEntityList = daoMgr.getDao().getJolupRecord(entity);
+        case "RCCNF0001":
+          dbResultEntityList = daoMgr.getDao().getCertRecords(entity);
           break;
-        case "RCOGC0009":
-          dbResultEntityList = daoMgr.getDao().getSungjukRecord(entity);
-          break;
-
         default:
           throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);
       }

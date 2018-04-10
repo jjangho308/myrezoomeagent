@@ -41,13 +41,14 @@ public class InhaMapper implements Mapper {
     InhaMapperEntity mapperEntity = null;
     for (DBRsltEntity dbEntity : dbResultEntityList) {
       mapperEntity = new InhaMapperEntity();
-      mapperEntity.setName(((InhaResultEntity) dbEntity).getName() == null ? "" : ((InhaResultEntity) dbEntity).getName());
+      mapperEntity.setName(((InhaResultEntity) dbEntity).getName() == null ? null : ((InhaResultEntity) dbEntity).getName());
       mapperEntity.setDate(((InhaResultEntity) dbEntity).getStartDate() + " ~ " + ((InhaResultEntity) dbEntity).getEndDate());
-      mapperEntity.setGrade(((InhaResultEntity) dbEntity).getGrade() == null ? "" : ((InhaResultEntity) dbEntity).getGrade());
-      mapperEntity.setId(((InhaResultEntity) dbEntity).getId() == null ? "" : ((InhaResultEntity) dbEntity).getId());
-      mapperEntity.setStatus(((InhaResultEntity) dbEntity).getStatus() == null ? "" : ((InhaResultEntity) dbEntity).getStatus());
-      mapperEntity.setEntranceDate(((InhaResultEntity) dbEntity).getStartDate() == null ? "" : ((InhaResultEntity) dbEntity).getStartDate());
-      mapperEntity.setGraduDate(((InhaResultEntity) dbEntity).getEndDate() == null ? "" : ((InhaResultEntity) dbEntity).getEndDate());
+      mapperEntity.setGrade(((InhaResultEntity) dbEntity).getGrade() == null ? null : ((InhaResultEntity) dbEntity).getGrade());
+      mapperEntity.setId(((InhaResultEntity) dbEntity).getId() == null ? null : ((InhaResultEntity) dbEntity).getId());
+      mapperEntity.setSub(((InhaResultEntity) dbEntity).getSub() == null ? null : ((InhaResultEntity) dbEntity).getSub());
+      mapperEntity.setStatus(((InhaResultEntity) dbEntity).getStatus() == null ? null : ((InhaResultEntity) dbEntity).getStatus());
+      mapperEntity.setEntranceDate(((InhaResultEntity) dbEntity).getStartDate() == null ? null : ((InhaResultEntity) dbEntity).getStartDate());
+      mapperEntity.setGraduDate(((InhaResultEntity) dbEntity).getEndDate() == null ? null : ((InhaResultEntity) dbEntity).getEndDate());
       mapperEntityList.add(mapperEntity);
     }
     return mapperEntityList;

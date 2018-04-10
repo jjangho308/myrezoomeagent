@@ -1,7 +1,8 @@
 [EXTERNAL]
-MAPPER_CLASS_NAME = io.rezoome.external.opic.mapper.OpicMapper
-MYBATIS_CONFIG_FILE_PATH = io/rezoome/external/opic/mybatis/mybatis-config.xml
+MAPPER_CLASS_NAME = io.rezoome.external.mk.mapper.MkMapper
+MYBATIS_CONFIG_FILE_PATH = io/rezoome/external/mk/mybatis/mybatis-config.xml
 DAO_CLASS_NAME = io.rezoome.manager.database.dao.Dao
+DAO_MAPPER_CLASS_NAME = io.rezoome.external.mk.mapper.MkDaoMapper
 
 [GENERAL]
 ORG_CODE = code001
@@ -13,20 +14,20 @@ THREAD_POOL_CAPAVILITY = 10
 HEALTH_CHECK_INTERVAL = 60000
 
 [DB] 
-DBMS_TYPE = oracle
+DBMS_TYPE = mysql
 DBMS_VERSION = 5.7.21
 DB_HOST = localhost
-DB_PORT = 11521
-DB_NAME = REZOOME
-DB_USER_ID = db_admin
-DB_PASSWORD = sgen2018!
+DB_PORT = 25306
+DB_NAME = MK_DB
+DB_USER_ID = rzroot
+DB_PASSWORD = Sgen2018!
 DB_MAX_CONNECTION = 1000
 DB_INIT_CONNECTION = 1
 DB_MAX_WAIT = 5
-CONNECTION_POOL_NAME = opic
+CONNECTION_POOL_NAME = mk
 	  
 [AMQ]
-AMAZONE_QUEUE_NAME = QUEUE_A
+AMAZONE_QUEUE_NAME = INHA
 AMAZONE_SERVER_HOST = ssl://b-cb8c6e8c-f893-4464-aa69-b3501991ef60-1.mq.ap-southeast-2.amazonaws.com:61617
 AMAZONE_USER_NAME = rezoome
 AMAZONE_USER_PASSWORD = sgen2018!!!!
@@ -35,7 +36,7 @@ AMAZONE_USER_PASSWORD = sgen2018!!!!
 JOB_TEMP_FILE_PATH = ./
 
 [HTTP]
-PORTAL_URL = https://rezoome.io:3000/
+PORTAL_URL = https://rezoome.io/
 CONNECT_TIMEOUT = 3000
 READ_TIMEOUT = 3000
 RETRIES = 3

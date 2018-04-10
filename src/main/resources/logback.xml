@@ -15,9 +15,9 @@
 	<appender name="AGENT_APPENDER"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<!-- <file>${AGENT_HOME}/agent.log</file> -->
-		<file>C:\agent.log</file>
+		<file>/log/service/agent.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>C:\agent.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>/log/service/agent.%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 
@@ -31,9 +31,9 @@
 	<appender name="ERROR_APPENDER"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<!-- <file>${AGENT_HOME}/agent.log</file> -->
-		<file>C:\error.log</file>
+		<file>/log/service/error.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>C:\error.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>/log/service/error.%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 
@@ -55,7 +55,7 @@
 	</logger>
 
 	<logger name="java.net" level="DEBUG" />
-	<logger name="org.mybatis" level="DEBUG" />
+	<logger name="org.mybatis" level="INFO" />
 	<logger name="io.rezoome" level="DEBUG" />
 	
 	<root level="DEBUG">	

@@ -53,12 +53,13 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       ResponsePacketEntity responseEntity = null;
 
       // database
-      List<List<DBRsltEntity>> dbResultEntityList = getDBData(entity);
-      LOG.debug("dbResultEntityList {}", dbResultEntityList);
+      // List<List<DBRsltEntity>> dbResultEntityList = getDBData(entity);
+      Map<String, Object> dbResultEntityListMap = getDBData(entity);
+      LOG.debug("dbResultEntityList {}", dbResultEntityListMap);
 
       // convert
       RequestPacketEntity requestEntity = new RequestPacketEntity();
-      convertRequestPacket(entity, dbResultEntityList, requestEntity);
+      convertRequestPacket(entity, dbResultEntityListMap, requestEntity);
 
       // http
       RequestPacket packet = new RequestPacket(entity.getSid(), JSON.toJson(requestEntity));
@@ -73,7 +74,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     return null;
   }
 
-  private void convertRequestPacket(IORequestJobEntity entity, List<List<DBRsltEntity>> dbResultEntityList, RequestPacketEntity requestEntity) throws ServiceException {
+  private void convertRequestPacket(IORequestJobEntity entity, Map<String, Object> dbResultEntityListMap, RequestPacketEntity requestEntity) throws ServiceException {
     // TODO Auto-generated method stub
     try {
       RequestSearchArgsEntity searchRecordEntity = new RequestSearchArgsEntity();
@@ -86,7 +87,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
         requestEntity.setCode(Constants.RESULT_CODE_USER_NOT_EXIST);
       } else if (status.equals(STATUS.REQUIRE_KEY)) {
         requestEntity.setCode(Constants.RESULT_CODE_NEED_TO_REQUIRE_KEY);
-      } else if (dbResultEntityList.size() == 0) {
+      } else if (dbResultEntityListMap.size() == 0) {
         requestEntity.setCode(Constants.RESULT_CODE_DATA_IS_EMPTY);
       } else {
         String aesKey = ManagerProvider.crypto().generateAES();
@@ -100,15 +101,15 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
         // TODO gson -> JSON
         Gson gson = new Gson();
-        for (List<DBRsltEntity> entityList : dbResultEntityList) {
-          String dbEntityString = gson.toJson(mapper.convert(entityList));
+        for (String subId : dbResultEntityListMap.keySet()) {
+          @SuppressWarnings("unchecked")
+          String dbEntityString = gson.toJson(mapper.convert((List<DBRsltEntity>) dbResultEntityListMap.get(subId)));
           record = new RequestSearchRecordsEntity();
-          // String encData = ManagerProvider.crypto().encryptAES(dbEntityString, aesKey, iv);
           String encData = dbEntityString;
           String hashData = ManagerProvider.crypto().hash(dbEntityString);
           record.setData(encData);
           record.setHash(hashData);
-          record.setSubid("subid");
+          record.setSubid(subId);
           record.setStored(isStoredHashData(entity, hashData));
           records.add(record);
         }
@@ -126,7 +127,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     }
   }
 
-  private List<List<DBRsltEntity>> getDBData(IORequestJobEntity entity) throws ServiceException {
+  private Map<String, Object> getDBData(IORequestJobEntity entity) throws ServiceException {
 
     try {
       String daoMapperClass = ManagerProvider.property().getProperty(PropertyEnum.DAO_MAPPER_CLASS_NAME);
@@ -138,12 +139,8 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     }
 
     DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
-    // DaoManagerImpl daoMgr = ManagerProvider.database().getDaoManager();
 
-    // List<DBRsltEntity> dbResultEntityList = null;
-    // List<List<DBRsltEntity>> finalDbResultEntityList = new ArrayList<List<DBRsltEntity>>();
-
-    List<List<DBRsltEntity>> dbResultEntityList = new ArrayList<List<DBRsltEntity>>();
+    Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
     List<String> requires = entity.getRequire();
     List<String> subIds = entity.getSubIds();
     List<HashRecordEntity> records = entity.getRecords();
@@ -156,35 +153,35 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     try {
       // CI, 이름, 생년월일, 성별 등으로 다시 확인
       userResultMap = daoMapper.getUserData(dbEntity);
-      status = STATUS.valueOf(userResultMap.get("status").toString());
-      dbEntity = (DBEntity) userResultMap.get("entity");
+      status = STATUS.valueOf(userResultMap.get(Constants.PARAM_STATUS).toString());
+      dbEntity = (DBEntity) userResultMap.get(Constants.PARAM_ENTITY);
 
       if (status.equals(STATUS.USER_EXIST)) {
         if (subIds != null && records == null) {
           // 시나리오1. first call
-          System.out.println("시나리오1. first call");
-          dbResultEntityList = daoMapper.getCertData(dbEntity, subIds);
+          LOG.debug("시나리오1. first call");
+          dbResultEntityListMap = daoMapper.getCertData(dbEntity, subIds);
         } else if (subIds == null && records != null) {
           // 시나리오2. second call
-          System.out.println("시나리오2. second call");
+          LOG.debug("시나리오2. second call");
           subIds = new ArrayList<String>();
           for (HashRecordEntity record : records) {
             subIds.add(record.getSubID());
           }
-          dbResultEntityList = daoMapper.getCertData(dbEntity, subIds);
+          dbResultEntityListMap = daoMapper.getCertData(dbEntity, subIds);
         } else if (subIds != null && records != null) {
           // 시나리오3. update call
-          System.out.println("시나리오3. update call");
+          LOG.debug("시나리오3. update call");
         }
       } else {
-        dbResultEntityList = null;
+        dbResultEntityListMap = null;
       }
     } catch (Exception e) {
       // TODO Auto-generated catch block
       throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA, e);
     }
 
-    return dbResultEntityList;
+    return dbResultEntityListMap;
   }
 
   private String isStoredHashData(IORequestJobEntity entity, String hashData) throws ServiceException {

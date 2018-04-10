@@ -1,7 +1,6 @@
 package io.rezoome.external.opic.mapper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,9 +62,9 @@ public class OpicDaoMapper implements DaoMapper {
 
 
   @Override
-  public List<List<DBRsltEntity>> getCertData(DBEntity entity, List<String> subIds) throws ServiceException {
+  public Map<String, Object> getCertData(DBEntity entity, List<String> subIds) throws ServiceException {
     // TODO Auto-generated method stub
-    List<List<DBRsltEntity>> finalDbResultEntityList = new ArrayList<List<DBRsltEntity>>();
+    Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
     List<DBRsltEntity> dbResultEntityList = null;
 
     try {
@@ -75,7 +74,7 @@ public class OpicDaoMapper implements DaoMapper {
 
       for (String subId : subIds) {
         dbResultEntityList = convert(entity, subId);
-        finalDbResultEntityList.add(dbResultEntityList);
+        dbResultEntityListMap.put(subId, dbResultEntityList);
       }
 
     } catch (Exception e) {
@@ -83,17 +82,17 @@ public class OpicDaoMapper implements DaoMapper {
       throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA, e);
     }
 
-    return finalDbResultEntityList;
+    return dbResultEntityListMap;
   }
 
   private List<DBRsltEntity> convert(DBEntity entity, String subId) throws ServiceException {
     List<DBRsltEntity> dbResultEntityList = null;
     try {
       switch (subId) {
-        case "en":
+        case "RCLPT0005":
           dbResultEntityList = daoMgr.getDao().getCertRecords(entity);
           break;
-        case "ch":
+        case "RCLPT0006":
           dbResultEntityList = daoMgr.getDao().getCertRecords(entity);
           break;
         default:

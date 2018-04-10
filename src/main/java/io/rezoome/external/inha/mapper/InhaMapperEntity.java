@@ -8,6 +8,7 @@ public class InhaMapperEntity extends MapperEntity {
   private String status;
   private String entranceDate;
   private String graduDate;
+  private String sub;
 
   public String getId() {
     return id;
@@ -40,5 +41,14 @@ public class InhaMapperEntity extends MapperEntity {
   public void setGraduDate(String graduDate) {
     this.graduDate = graduDate;
   }
+
+  public String getSub() {
+    return sub;
+  }
+
+  public void setSub(String sub) {
+    this.sub = sub;
+  }
+
 
 }

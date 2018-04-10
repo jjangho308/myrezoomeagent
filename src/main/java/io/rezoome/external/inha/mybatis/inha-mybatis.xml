@@ -30,11 +30,9 @@
 
 	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
 		resultMap="InhaUserResultEntity">
-		<!-- SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE 
-			CI = #{ci} OR ENAME = #{username} -->
 		SELECT ID, NAME, PHONE, BIRTH, EMAIL FROM INHA_USR
 		WHERE
-		NAME = #{fullNameKO} AND BIRTH = #{birth}
+		NAME = #{fullNameKO} AND BIRTH = #{birth};
 	</select>
 
 	<select id="getCertRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"

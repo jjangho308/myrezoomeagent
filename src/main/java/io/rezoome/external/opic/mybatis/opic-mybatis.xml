@@ -27,7 +27,7 @@
 		<!-- SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE 
 			CI = #{ci} OR ENAME = #{username} -->
 		SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE
-		ENAME = #{fullNameKO}
+		ENAME = #{fullNameEN}
 	</select>
 
 	<select id="getCertRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
