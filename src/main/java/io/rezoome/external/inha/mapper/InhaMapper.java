@@ -11,25 +11,6 @@ import io.rezoome.manager.mapper.MapperEntity;
 public class InhaMapper implements Mapper {
 
   @Override
-  public MapperEntity convert(DBRsltEntity entity) throws NullPointerException {
-    // TODO Auto-generated method stub
-
-    if (entity == null) {
-      throw new NullPointerException();
-    }
-
-    InhaMapperEntity mapperEntity = new InhaMapperEntity();
-    mapperEntity.setName(((InhaResultEntity) entity).getName() == null ? "" : ((InhaResultEntity) entity).getName());
-    mapperEntity.setDate(((InhaResultEntity) entity).getStartDate() + " ~ " + ((InhaResultEntity) entity).getEndDate());
-    mapperEntity.setGrade(((InhaResultEntity) entity).getGrade() == null ? "" : ((InhaResultEntity) entity).getGrade());
-    mapperEntity.setId(((InhaResultEntity) entity).getId() == null ? "" : ((InhaResultEntity) entity).getId());
-    mapperEntity.setStatus(((InhaResultEntity) entity).getStatus() == null ? "" : ((InhaResultEntity) entity).getStatus());
-    mapperEntity.setEntranceDate(((InhaResultEntity) entity).getStartDate() == null ? "" : ((InhaResultEntity) entity).getStartDate());
-    mapperEntity.setGraduDate(((InhaResultEntity) entity).getEndDate() == null ? "" : ((InhaResultEntity) entity).getEndDate());
-    return mapperEntity;
-  }
-
-  @Override
   public List<MapperEntity> convert(List<DBRsltEntity> dbResultEntityList) throws NullPointerException {
     // TODO Auto-generated method stub
 
@@ -38,9 +19,8 @@ public class InhaMapper implements Mapper {
     }
 
     List<MapperEntity> mapperEntityList = new ArrayList<MapperEntity>();
-    InhaMapperEntity mapperEntity = null;
     for (DBRsltEntity dbEntity : dbResultEntityList) {
-      mapperEntity = new InhaMapperEntity();
+      InhaMapperEntity mapperEntity = new InhaMapperEntity();
       mapperEntity.setName(((InhaResultEntity) dbEntity).getName() == null ? null : ((InhaResultEntity) dbEntity).getName());
       mapperEntity.setDate(((InhaResultEntity) dbEntity).getStartDate() + " ~ " + ((InhaResultEntity) dbEntity).getEndDate());
       mapperEntity.setGrade(((InhaResultEntity) dbEntity).getGrade() == null ? null : ((InhaResultEntity) dbEntity).getGrade());

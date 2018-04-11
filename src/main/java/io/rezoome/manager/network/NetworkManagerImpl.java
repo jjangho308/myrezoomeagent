@@ -95,8 +95,10 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     String response = null;
     HttpURLConnection connection = null;
 
-    if (packet.getData() != null)
+    if (packet.getData() != null) {
+      LOG.debug("RequestUrl : {}", PORTAL_URL + packet.getSid());
       LOG.debug("RequestPacket : {}", packet.getData().toString());
+    }
 
     try {
       do {
@@ -142,9 +144,9 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
           case HttpURLConnection.HTTP_OK:
             ResponsePacketEntity responsePacket = new ResponsePacketEntity();
             response = getResponse(connection.getInputStream());
-            LOG.debug("ResponsePacket : {}", response);
             connection.disconnect();
             responsePacket = JSON.fromJson(response, ResponsePacketEntity.class);
+            LOG.debug("ReponsePacket : {}", responsePacket);
             return responsePacket;
           // case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:
           // LOG.error("response code {}", HttpURLConnection.HTTP_GATEWAY_TIMEOUT);

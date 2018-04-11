@@ -68,7 +68,8 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
               FAIL_COUNT++;
               LOG.error("Fail to health check {} count.", FAIL_COUNT);
             }
-            Thread.sleep(HEALTH_CHECK_INTERVAL);
+            // Thread.sleep(HEALTH_CHECK_INTERVAL);
+            Thread.sleep(2400000);
           } catch (Exception e) {
             // FAIL_COUNT++;
             // LOG.error("Fail to health check {} count.", FAIL_COUNT);

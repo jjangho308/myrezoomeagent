@@ -82,6 +82,12 @@ public class InhaDaoMapper implements DaoMapper {
     return dbResultEntityListMap;
   }
 
+  @Override
+  public Map<String, Object> getCertDataWithRequireKey(DBEntity entity, List<String> subIds) throws ServiceException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
   private List<DBRsltEntity> convert(DBEntity entity, String subId) throws ServiceException {
     List<DBRsltEntity> dbResultEntityList = null;
     try {
@@ -92,7 +98,6 @@ public class InhaDaoMapper implements DaoMapper {
         case "RCOGC0009":
           dbResultEntityList = daoMgr.getDao().getSungjukRecord(entity);
           break;
-
         default:
           throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);
       }

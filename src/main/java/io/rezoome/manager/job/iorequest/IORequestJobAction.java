@@ -53,7 +53,6 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       ResponsePacketEntity responseEntity = null;
 
       // database
-      // List<List<DBRsltEntity>> dbResultEntityList = getDBData(entity);
       Map<String, Object> dbResultEntityListMap = getDBData(entity);
       LOG.debug("dbResultEntityList {}", dbResultEntityListMap);
 
@@ -156,22 +155,21 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       status = STATUS.valueOf(userResultMap.get(Constants.PARAM_STATUS).toString());
       dbEntity = (DBEntity) userResultMap.get(Constants.PARAM_ENTITY);
 
+      if (requires != null) {
+        dbEntity = JSON.fromJson("{req_key1:" + requires.get(0) + ", req_key2:" + requires.get(1) != null ? requires.get(1) : "" + "}", DBEntity.class);
+        dbResultEntityListMap = daoMapper.getCertDataWithRequireKey(dbEntity, subIds);
+      }
+
       if (status.equals(STATUS.USER_EXIST)) {
-        if (subIds != null && records == null) {
-          // 시나리오1. first call
-          LOG.debug("시나리오1. first call");
+        // if ((subIds != null && records == null) || (subIds != null && records != null)) {
+        if (subIds != null) {
           dbResultEntityListMap = daoMapper.getCertData(dbEntity, subIds);
         } else if (subIds == null && records != null) {
-          // 시나리오2. second call
-          LOG.debug("시나리오2. second call");
           subIds = new ArrayList<String>();
           for (HashRecordEntity record : records) {
             subIds.add(record.getSubID());
           }
           dbResultEntityListMap = daoMapper.getCertData(dbEntity, subIds);
-        } else if (subIds != null && records != null) {
-          // 시나리오3. update call
-          LOG.debug("시나리오3. update call");
         }
       } else {
         dbResultEntityListMap = null;

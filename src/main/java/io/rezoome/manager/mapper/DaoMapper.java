@@ -11,4 +11,6 @@ public interface DaoMapper {
   Map<String, Object> getUserData(DBEntity entity) throws ServiceException;
 
   Map<String, Object> getCertData(DBEntity entity, List<String> subIds) throws ServiceException;
+
+  Map<String, Object> getCertDataWithRequireKey(DBEntity entity, List<String> subIds) throws ServiceException;
 }
