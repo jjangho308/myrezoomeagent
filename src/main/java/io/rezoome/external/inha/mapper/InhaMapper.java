@@ -1,7 +1,9 @@
 package io.rezoome.external.inha.mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.rezoome.external.inha.entity.InhaResultEntity;
 import io.rezoome.manager.database.entity.DBRsltEntity;
@@ -11,13 +13,34 @@ import io.rezoome.manager.mapper.MapperEntity;
 public class InhaMapper implements Mapper {
 
   @Override
-  public List<MapperEntity> convert(List<DBRsltEntity> dbResultEntityList) throws NullPointerException {
+  public MapperEntity convert(DBRsltEntity dbResultEntity) throws NullPointerException {
+    // TODO Auto-generated method stub
+
+    if (dbResultEntity == null) {
+      throw new NullPointerException();
+    }
+
+    InhaMapperEntity mapperEntity = new InhaMapperEntity();
+    mapperEntity.setName(((InhaResultEntity) dbResultEntity).getName() == null ? null : ((InhaResultEntity) dbResultEntity).getName());
+    mapperEntity.setDate(((InhaResultEntity) dbResultEntity).getStartDate() + " ~ " + ((InhaResultEntity) dbResultEntity).getEndDate());
+    mapperEntity.setGrade(((InhaResultEntity) dbResultEntity).getGrade() == null ? null : ((InhaResultEntity) dbResultEntity).getGrade());
+    mapperEntity.setId(((InhaResultEntity) dbResultEntity).getId() == null ? null : ((InhaResultEntity) dbResultEntity).getId());
+    mapperEntity.setSub(((InhaResultEntity) dbResultEntity).getSub() == null ? null : ((InhaResultEntity) dbResultEntity).getSub());
+    mapperEntity.setStatus(((InhaResultEntity) dbResultEntity).getStatus() == null ? null : ((InhaResultEntity) dbResultEntity).getStatus());
+    mapperEntity.setEntranceDate(((InhaResultEntity) dbResultEntity).getStartDate() == null ? null : ((InhaResultEntity) dbResultEntity).getStartDate());
+    mapperEntity.setGraduDate(((InhaResultEntity) dbResultEntity).getEndDate() == null ? null : ((InhaResultEntity) dbResultEntity).getEndDate());
+    return mapperEntity;
+  }
+
+  @Override
+  public Map<String, Object> convert(List<DBRsltEntity> dbResultEntityList) throws NullPointerException {
     // TODO Auto-generated method stub
 
     if (dbResultEntityList == null) {
       throw new NullPointerException();
     }
 
+    Map<String, Object> mapperEntityMap = new HashMap<String, Object>();
     List<MapperEntity> mapperEntityList = new ArrayList<MapperEntity>();
     for (DBRsltEntity dbEntity : dbResultEntityList) {
       InhaMapperEntity mapperEntity = new InhaMapperEntity();
@@ -31,6 +54,7 @@ public class InhaMapper implements Mapper {
       mapperEntity.setGraduDate(((InhaResultEntity) dbEntity).getEndDate() == null ? null : ((InhaResultEntity) dbEntity).getEndDate());
       mapperEntityList.add(mapperEntity);
     }
-    return mapperEntityList;
+    mapperEntityMap.put("datas", mapperEntityList);
+    return mapperEntityMap;
   }
 }

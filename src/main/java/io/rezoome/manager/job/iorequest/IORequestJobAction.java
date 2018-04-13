@@ -73,6 +73,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     return null;
   }
 
+  @SuppressWarnings("unchecked")
   private void convertRequestPacket(IORequestJobEntity entity, Map<String, Object> dbResultEntityListMap, RequestPacketEntity requestEntity) throws ServiceException {
     // TODO Auto-generated method stub
     try {
@@ -101,8 +102,15 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
         // TODO gson -> JSON
         Gson gson = new Gson();
         for (String subId : dbResultEntityListMap.keySet()) {
-          @SuppressWarnings("unchecked")
-          String dbEntityString = gson.toJson(mapper.convert((List<DBRsltEntity>) dbResultEntityListMap.get(subId)));
+          String dbEntityString = "";
+          if (((List<DBRsltEntity>) dbResultEntityListMap.get(subId)).size() > 1) {
+            List<DBRsltEntity> dbResultEntityList = (List<DBRsltEntity>) dbResultEntityListMap.get(subId);
+            dbEntityString = gson.toJson(mapper.convert(dbResultEntityList));
+          } else {
+            DBRsltEntity dbResultEntity = ((List<DBRsltEntity>) dbResultEntityListMap.get(subId)).get(0);
+            dbEntityString = gson.toJson(mapper.convert(dbResultEntity));
+          }
+
           record = new RequestSearchRecordsEntity();
           String encData = dbEntityString;
           String hashData = ManagerProvider.crypto().hash(dbEntityString);
@@ -156,8 +164,9 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       dbEntity = (DBEntity) userResultMap.get(Constants.PARAM_ENTITY);
 
       if (requires != null) {
-        dbEntity = JSON.fromJson("{req_key1:" + requires.get(0) + ", req_key2:" + requires.get(1) != null ? requires.get(1) : "" + "}", DBEntity.class);
-        dbResultEntityListMap = daoMapper.getCertDataWithRequireKey(dbEntity, subIds);
+        // dbEntity = JSON.fromJson("{req_key1:" + requires.get(0) + ", req_key2:" + requires.get(1)
+        // != null ? requires.get(1) : "" + "}", DBEntity.class);
+        // dbResultEntityListMap = daoMapper.getCertDataWithRequireKey(dbEntity, subIds);
       }
 
       if (status.equals(STATUS.USER_EXIST)) {

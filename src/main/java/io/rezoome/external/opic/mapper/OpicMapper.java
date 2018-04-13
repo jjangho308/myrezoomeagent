@@ -1,7 +1,9 @@
 package io.rezoome.external.opic.mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.rezoome.external.opic.entity.OpicResultEntity;
 import io.rezoome.manager.database.entity.DBRsltEntity;
@@ -11,14 +13,32 @@ import io.rezoome.manager.mapper.MapperEntity;
 public class OpicMapper implements Mapper {
 
   @Override
-  public List<MapperEntity> convert(List<DBRsltEntity> dbResultEntityList) {
+  public MapperEntity convert(DBRsltEntity dbResultEntity) throws NullPointerException {
     // TODO Auto-generated method stub
 
+    if (dbResultEntity == null) {
+      throw new NullPointerException();
+    }
+
+    OpicMapperEntity mapperEntity = new OpicMapperEntity();
+    mapperEntity.setName(((OpicResultEntity) dbResultEntity).getName() == null ? null : ((OpicResultEntity) dbResultEntity).getName());
+    mapperEntity.setDate(((OpicResultEntity) dbResultEntity).getTestDay() == null ? null : ((OpicResultEntity) dbResultEntity).getTestDay());
+    mapperEntity.setGrade(((OpicResultEntity) dbResultEntity).getRating() == null ? null : ((OpicResultEntity) dbResultEntity).getRating());
+    mapperEntity.setTestid(((OpicResultEntity) dbResultEntity).getTestId() == null ? null : ((OpicResultEntity) dbResultEntity).getTestId());
+    mapperEntity.setLang(((OpicResultEntity) dbResultEntity).getLanguage() == null ? null : ((OpicResultEntity) dbResultEntity).getLanguage());
+    mapperEntity.setPhone(((OpicResultEntity) dbResultEntity).getPhone() == null ? null : ((OpicResultEntity) dbResultEntity).getPhone());
+    return mapperEntity;
+  }
+
+  @Override
+  public Map<String, Object> convert(List<DBRsltEntity> dbResultEntityList) throws NullPointerException {
+    // TODO Auto-generated method stub
 
     if (dbResultEntityList == null) {
       throw new NullPointerException();
     }
 
+    Map<String, Object> mapperEntityMap = new HashMap<String, Object>();
     List<MapperEntity> mapperEntityList = new ArrayList<MapperEntity>();
     for (DBRsltEntity dbEntity : dbResultEntityList) {
       OpicMapperEntity mapperEntity = new OpicMapperEntity();
@@ -30,8 +50,8 @@ public class OpicMapper implements Mapper {
       mapperEntity.setPhone(((OpicResultEntity) dbEntity).getPhone() == null ? null : ((OpicResultEntity) dbEntity).getPhone());
       mapperEntityList.add(mapperEntity);
     }
-
-    return mapperEntityList;
+    mapperEntityMap.put("datas", mapperEntityList);
+    return mapperEntityMap;
   }
 
 }

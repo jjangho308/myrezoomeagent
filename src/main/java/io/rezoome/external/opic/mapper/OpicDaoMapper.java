@@ -74,9 +74,14 @@ public class OpicDaoMapper implements DaoMapper {
 
       for (String subId : subIds) {
         dbResultEntityList = convert(entity, subId);
+        // if (dbResultEntityList.size() > 1) {
+        // dbResultEntityListMap.put(subId, new HashMap<String, Object>().put("datas",
+        // dbResultEntityList));
+        // } else {
+        // dbResultEntityListMap.put(subId, dbResultEntityList);
+        // }
         dbResultEntityListMap.put(subId, dbResultEntityList);
       }
-
     } catch (Exception e) {
       // TODO Auto-generated catch block
       throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA, e);

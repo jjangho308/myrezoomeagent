@@ -1,50 +1,24 @@
 apply plugin:'java'
 apply plugin:'java-library-distribution' //for distributions
 apply plugin:'application' // possible to use variable like below
+apply plugin:'com.github.johnrengelman.shadow'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.3'
+    }
+}
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-// default to UTF-8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 mainClassName = 'io.rezoome.core.runtime.Runtime'
-version = '1.0.0'
-
-/*
-task inha(type: Jar) {
-	manifest {
-        attributes 'Implementation-Title': 'Gradle Jar File Example',  
-        	'Implementation-Version': version
-    }
-    archiveName 'inha.jar'
-    dependsOn configurations.runtime
-	from(sourceSets.main.output) {
-		//include "io/rezoome/manager/**"
-	}
-}
-*/
-
-jar {
-    manifest {
-        attributes 'Manifest-Version' : version	
-        //attributes 'Main-Class': mainClassName      
-        //attributes 'Class-Path': configurations.runtime.collect { it.getName() }.join(' ')
-        attributes "Assembly-Date": new java.util.Date().toString()
-    }
-    //archiveName project.name + "-" + version + ".jar"
-    baseName project.name
-    
-    // include all sources
-    dependsOn configurations.runtime
-    from {    	
-        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
-    }
-    //exclude "io/rezoome/core/runtime/*"
-    //exclude "io/rezoome/manager/**"
-    //destinationDir = file("${buildDir}/")
-    //duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
+version = '1.0.1'
 
 repositories {
     mavenCentral()
@@ -77,56 +51,99 @@ dependencies {
 	compile "ch.qos.logback:logback-core:${ver.logback}"
 	compile "org.slf4j:slf4j-api:${ver.slf4j}"
 	compile "org.codehaus.janino:janino:${ver.janino}"	
-	
+	compile "org.danilopianini:gson-extras:0.2.1"
 	testCompile "junit:junit:${ver.junit}"
 }
 
-
-/*
-sourceSets {
-	main {
-		java {
-			srcDirs = ['src/java']
-		}
-		
-		resources {
-			srcDirs = ['src/resources']
-		}
-	}
+jar {
+    finalizedBy shadowJar
+//    manifest {
+//        attributes 'Main-Class': mainClassName
+//    }
+	exclude "io/rezoome/core/runtime/*"
 }
 
-task inha(type: Jar) {
+task testJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+	exclude('META-INF/INDEX.LIST', 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA')
+	//exclude('io/rezoome/core/runtime/*')
+}
+
+task mainJar (type : Jar) {
+    manifest {
+        attributes(
+	        "Implementation-Title": "메인 jar",
+	        "Implementation-Description": "메인 에이전트",
+	        "Implementation-Version": version,
+	        "Assembly-Date": new java.util.Date().toString(),
+	        "Main-Class": mainClassName
+        )
+    }    
+    archiveName = "agent.jar"
+    dependsOn configurations.runtime
+    from {
+        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
+    }
+    //exclude "io/rezoome/core/runtime/*"
+    //exclude "src/main/java/io/rezoome/external/**"
+    //destinationDir = file("${buildDir}/")
+    //duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+task inhaJar (type : Jar) {
 	manifest {
-        attributes(  
-        	'Title': 'INHA Univsity',
-        	'Version': version,
-        	'Main-Class': mainClassName
-    	)
-  	}
-  	archiveName project.name + '_inha.jar'
-  	dependsOn configurations.runtime
-    from { 
-    	configurations.compile.collect {it.isDirectory()? it: zipTree(it)} 
+        attributes(
+	        "Implementation-Title": "Inhwa University",
+	        "Implementation-Description": "인하대학교 에이전트 파일",
+	        "Implementation-Version": version,
+	        "Assembly-Date": new java.util.Date().toString()
+        )
     }
-    with jar
+    archiveName = "inha.jar"
+	from ("src/main/java")
+	include "io/rezoome/external/inha/**"
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-distributions {
-    main {
-        baseName = 'agent'
-        contents {
-            from { 'src' }
-        }
+task mkJar (type : Jar) {
+	manifest {
+        attributes(
+	        "Implementation-Title": "MK",
+	        "Implementation-Description": "매경 에이전트 파일",
+	        "Implementation-Version": version,
+	        "Assembly-Date": new java.util.Date().toString()
+        )
     }
+    archiveName = "mk.jar"
+	from ("src/main/java")
+	include "io/rezoome/external/mk/**"
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-
-uploadArchives {
-	repositories {
-		flatDir {
-			dirs 'repos'
-		}
-	}
+task opicJar (type : Jar) {
+	manifest {
+        attributes(
+	        "Implementation-Title": "Opic",
+	        "Implementation-Description": "오픽 에이전트 파일",
+	        "Implementation-Version": version,
+	        "Assembly-Date": new java.util.Date().toString()
+        )
+    }
+    archiveName = "opic.jar"
+	from ("src/main/java")
+	include "io/rezoome/external/opic/**"
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-*/
+task buildJars {
+	dependsOn 'clean'
+	dependsOn 'inhaJar'
+	dependsOn 'mkJar'
+	dependsOn 'opicJar'
+	//dependsOn 'mainJar'
+	dependsOn 'build'
+	tasks.findByName('inhaJar').mustRunAfter 'clean'
+	tasks.findByName('mkJar').mustRunAfter 'clean'
+	tasks.findByName('opicJar').mustRunAfter 'clean'
+	//tasks.findByName('mainJar').mustRunAfter 'clean'
+	tasks.findByName('build').mustRunAfter 'clean'
+}

@@ -139,10 +139,10 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
             // TODO create error job json file.
             try {
               File theDir = new File("./logs");
-               if (!theDir.exists()) {
-                   theDir.mkdir();
-               }
-              BufferedWriter out = new BufferedWriter(new FileWriter("./logs/" + new Date().getTime() + "_" + Long.toString(lRnd) + "_fail.log"));
+              if (!theDir.exists()) {
+                theDir.mkdir();
+              }
+              BufferedWriter out = new BufferedWriter(new FileWriter("/service/logs/job/" + new Date().getTime() + "_" + Long.toString(lRnd) + "_fail.log"));
               out.write("Job ID : [" + Long.toString(lRnd) + "]");
               out.newLine();
               out.write("Error Code : [" + (String) obj + "]");
