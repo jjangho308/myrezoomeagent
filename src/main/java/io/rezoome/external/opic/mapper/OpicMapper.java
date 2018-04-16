@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.external.opic.entity.OpicResultEntity;
 import io.rezoome.manager.database.entity.DBRsltEntity;
 import io.rezoome.manager.mapper.Mapper;
@@ -50,7 +51,7 @@ public class OpicMapper implements Mapper {
       mapperEntity.setPhone(((OpicResultEntity) dbEntity).getPhone() == null ? null : ((OpicResultEntity) dbEntity).getPhone());
       mapperEntityList.add(mapperEntity);
     }
-    mapperEntityMap.put("datas", mapperEntityList);
+    mapperEntityMap.put(Constants.PARAM_LIST, mapperEntityList);
     return mapperEntityMap;
   }
 

@@ -8,6 +8,7 @@ import java.util.Map;
 import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.opic.entity.OpicSubIdEntity;
 import io.rezoome.external.opic.entity.OpicUserResultEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
@@ -100,10 +101,10 @@ public class OpicDaoMapper implements DaoMapper {
     List<DBRsltEntity> dbResultEntityList = null;
     try {
       switch (subId) {
-        case "RCLPT0005":
+        case OpicSubIdEntity.SUBID_OPIC_RCLPT0005:
           dbResultEntityList = daoMgr.getDao().getCertRecords(entity);
           break;
-        case "RCLPT0006":
+        case OpicSubIdEntity.SUBID_OPIC_RCLPT0006:
           dbResultEntityList = daoMgr.getDao().getCertRecords(entity);
           break;
         default:

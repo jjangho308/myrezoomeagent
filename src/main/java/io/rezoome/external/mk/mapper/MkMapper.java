@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.rezoome.constants.Constants;
 import io.rezoome.external.mk.entity.MkResultEntity;
 import io.rezoome.manager.database.entity.DBRsltEntity;
 import io.rezoome.manager.mapper.Mapper;
@@ -54,7 +55,7 @@ public class MkMapper implements Mapper {
       mapperEntity.setPoint3(((MkResultEntity) dbEntity).getPoint3() == null ? null : ((MkResultEntity) dbEntity).getPoint3());
       mapperEntityList.add(mapperEntity);
     }
-    mapperEntityMap.put("datas", mapperEntityList);
+    mapperEntityMap.put(Constants.PARAM_LIST, mapperEntityList);
     return mapperEntityMap;
   }
 

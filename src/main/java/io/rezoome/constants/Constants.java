@@ -51,5 +51,6 @@ public class Constants {
 
   public static final String PARAM_STATUS = "status";
   public static final String PARAM_ENTITY = "entity";
+  public static final String PARAM_LIST = "list";
 
 }

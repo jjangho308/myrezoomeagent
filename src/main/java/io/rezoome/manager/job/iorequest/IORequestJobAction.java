@@ -117,7 +117,14 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
           record.setData(encData);
           record.setHash(hashData);
           record.setSubid(subId);
-          record.setStored(isStoredHashData(entity, hashData));
+          HashRecordEntity hashRecordEntity = getMatchingHashData(entity, hashData);
+          if (hashRecordEntity != null) {
+            record.setTxid(hashRecordEntity.getTxid());
+            record.setStored("Y");
+          } else {
+            record.setTxid("");
+            record.setStored("N");
+          }
           records.add(record);
         }
 
@@ -191,14 +198,14 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     return dbResultEntityListMap;
   }
 
-  private String isStoredHashData(IORequestJobEntity entity, String hashData) throws ServiceException {
+  private HashRecordEntity getMatchingHashData(IORequestJobEntity entity, String hashData) throws ServiceException {
     // TODO entity.getHashList 로 유도
-    List<HashRecordEntity> hashList = new ArrayList<HashRecordEntity>();
+    List<HashRecordEntity> hashList = entity.getRecords();
     for (HashRecordEntity record : hashList) {
       if (record.getHashed() != null && record.getHashed().equals(hashData)) {
-        return "Y";
+        return record;
       }
     }
-    return "N";
+    return null;
   }
 }

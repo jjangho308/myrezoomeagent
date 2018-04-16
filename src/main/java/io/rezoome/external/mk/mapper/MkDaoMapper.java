@@ -8,6 +8,7 @@ import java.util.Map;
 import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.mk.entity.MkSubIdEntity;
 import io.rezoome.external.mk.entity.MkUserResultEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
@@ -93,7 +94,7 @@ public class MkDaoMapper implements DaoMapper {
     List<DBRsltEntity> dbResultEntityList = null;
     try {
       switch (subId) {
-        case "RCCNF0001":
+        case MkSubIdEntity.SUBID_MK_RCCNF0001:
           dbResultEntityList = daoMgr.getDao().getCertRecords(entity);
           break;
         default:

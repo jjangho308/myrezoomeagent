@@ -1,13 +1,21 @@
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+
+import io.rezoome.core.ServiceInitializer;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
+import io.rezoome.external.inha.mapper.InhaMapperEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.amq.AMQMessageEntity;
 import io.rezoome.manager.amq.AMQMessageHandlerImpl;
-import io.rezoome.manager.provider.ManagerProvider;
 import junit.framework.TestSuite;
 
 public class AllTests extends TestSuite {
@@ -31,10 +39,13 @@ public class AllTests extends TestSuite {
 
     // InitialEvent event = InitialEvent.RUNTIME;
     try {
-      // ServiceInitializer.initialize(event);
-      ManagerProvider.property().initialize(InitialEvent.RUNTIME);
-      ManagerProvider.clsarrange().initialize(InitialEvent.RUNTIME);
-      ManagerProvider.pushcommand().initialize(InitialEvent.RUNTIME);
+      ServiceInitializer.initialize(InitialEvent.RUNTIME);
+      // ManagerProvider.property().initialize(InitialEvent.RUNTIME);
+      // ManagerProvider.clsarrange().initialize(InitialEvent.RUNTIME);
+      // ManagerProvider.pushcommand().initialize(InitialEvent.RUNTIME);
+      // ManagerProvider.database().initialize(InitialEvent.RUNTIME);
+      // ManagerProvider.job().initialize(InitialEvent.RUNTIME);
+      // ManagerProvider.network().initialize(InitialEvent.RUNTIME);
     } catch (Throwable e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -71,18 +82,23 @@ public class AllTests extends TestSuite {
         " args : {\r\n" +
         " familyNameEN : \"familyNameEN\",\r\n" +
         " firstNameEN : \"firstNameEN\",\r\n" +
-        " fullNameEN : \"fullNameEN\",\r\n" +
+        " fullNameEN : \"PARKHUNWOOK\",\r\n" +
         " familyNameKO : \"familyNameKO\",\r\n" +
         " firstNameKO : \"firstNameKO\",\r\n" +
-        " fullNameKO : \"fullNameKO\",\r\n" +
-        " birth : '1987-03-18',\r\n" +
+        " fullNameKO : \"박헌욱\",\r\n" +
+        // " fullNameKO : \"PARKHUNWOOK\",\r\n" +
+        " birth : '19870123',\r\n" +
+        " phone : '01064749282',\r\n" +
+        // " subIDs : ['RCCNF0001'],\r\n" +
+        " subIDs : ['RCOGC0008', 'RCOGC0009'],\r\n" +
         " gender : 1,\r\n" +
-        " phone : '010-6474-9283',\r\n" +
         " ci : '123456789abcdeftg',\r\n" +
         " pkey : 'pkey',\r\n" +
-        " subIDs : ['sub1', 'sub2'],\r\n" +
-        " require : ['requireKey1', 'prequireKey2'],\r\n" +
-        " records : [ {subID : 'sub1', hashed : 'hash1'}]\r\n" +
+        " require : ['12060991'],\r\n" +
+        " records : [{hashed: \"f1b9d789ac9ef7343b03c79d331230d7aa99be4b035c91c056bddd750da7dbfc\", subID:\"RCOGC0009\", txid:\"sdfsdfsdf\"},{hashed: \"dddd\", subID:\"RCOGC0008\", txid:\"234234234234\"}]\r\n"
+        +
+        // " records : [{hashed: \"dddd\", subID:\"RCLPT0005\", txid:\"sdfsdfsdf\"},{hashed:
+        // \"dddd\",subID:\"RCLPT0006\", txid:\"23123123235234234\"}]\r\n" +
         " }\r\n" +
         "}";
 
@@ -400,6 +416,42 @@ public class AllTests extends TestSuite {
   //
   // System.out.println(JSON.toJson(requestPacket));
   // }
+
+  @Test
+  public void tojson() {
+    // List<String> list = new ArrayList<String>();
+    // list.add("기차1");
+    // list.add("기차2");
+    // list.add("기차3");
+    // list.add("기차4");
+
+    List<InhaMapperEntity> list = new ArrayList<InhaMapperEntity>();
+    InhaMapperEntity mapperEntity = new InhaMapperEntity();
+    mapperEntity.setDate("dddddd");;
+    list.add(mapperEntity);
+
+    Gson gson = new Gson();
+    System.out.println(gson.toJson(list));
+  }
+
+  @Test
+  public void toStringJson() {
+
+    List<String> test = new ArrayList<String>();
+    test.add("fffff");
+    test.add("vbvvbbb");
+    // String orgUserId = "sdfasdfasdf";
+    // DBEntity dbEntity = JSON.fromJson("{orgUserId:" + orgUserId + "}", DBEntity.class);
+    // System.out.println("eeeeeeeeeeeeeeeeeeeee " + dbEntity);
+
+    Gson gson = new Gson();
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("test", test);
+
+    String jsonString = gson.toJson(map);
+
+    System.out.println(jsonString);
+  }
 }
 
 

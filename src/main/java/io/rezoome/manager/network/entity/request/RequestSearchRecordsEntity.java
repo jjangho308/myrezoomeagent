@@ -7,16 +7,19 @@ import io.rezoome.core.entity.AbstractEntity;
 public class RequestSearchRecordsEntity extends AbstractEntity implements RequestArgsEntity {
 
   @SerializedName("data")
-  String data;
+  private String data;
 
   @SerializedName("hash")
-  String hash;
+  private String hash;
+
+  @SerializedName("txid")
+  private String txid;
 
   @SerializedName("subid")
-  String subid;
+  private String subid;
 
   @SerializedName("stored")
-  String stored;
+  private String stored;
 
   public String getData() {
     return data;
@@ -32,6 +35,14 @@ public class RequestSearchRecordsEntity extends AbstractEntity implements Reques
 
   public void setHash(String hash) {
     this.hash = hash;
+  }
+
+  public String getTxid() {
+    return txid;
+  }
+
+  public void setTxid(String txid) {
+    this.txid = txid;
   }
 
   public String getSubid() {

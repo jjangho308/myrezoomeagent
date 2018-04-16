@@ -8,6 +8,7 @@ import java.util.Map;
 import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.inha.entity.InhaSubIdEntity;
 import io.rezoome.external.inha.entity.InhaUserResultEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
@@ -92,10 +93,10 @@ public class InhaDaoMapper implements DaoMapper {
     List<DBRsltEntity> dbResultEntityList = null;
     try {
       switch (subId) {
-        case "RCOGC0008":
+        case InhaSubIdEntity.SUBID_INHWA_RCOGC0008:
           dbResultEntityList = daoMgr.getDao().getJolupRecord(entity);
           break;
-        case "RCOGC0009":
+        case InhaSubIdEntity.SUBID_INHWA_RCOGC0009:
           dbResultEntityList = daoMgr.getDao().getSungjukRecord(entity);
           break;
         default:
