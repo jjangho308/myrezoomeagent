@@ -50,6 +50,9 @@ public class SearchCommandEntity extends AbstractPushCommandEntity {
   @SerializedName("ci")
   private final String ci = null;
 
+  @SerializedName("pkey")
+  private final String pkey = null;
+
   @SerializedName("subIDs")
   private final List<String> subIDs = null;
 
