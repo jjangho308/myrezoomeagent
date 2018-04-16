@@ -200,6 +200,11 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
   private HashRecordEntity getMatchingHashData(IORequestJobEntity entity, String hashData) throws ServiceException {
     // TODO entity.getHashList 로 유도
+
+    if (entity.getRecords() == null) {
+      return null;
+    }
+
     List<HashRecordEntity> hashList = entity.getRecords();
     for (HashRecordEntity record : hashList) {
       if (record.getHashed() != null && record.getHashed().equals(hashData)) {
