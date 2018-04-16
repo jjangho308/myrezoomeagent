@@ -25,7 +25,7 @@ import io.rezoome.manager.provider.ManagerProvider;
  * @author SEONGYEON
  *
  */
-@ManagerType(Constants.MANAGER_TYPE_AMQ)
+@ManagerType(value = Constants.MANAGER_TYPE_AMQ, initPriority = 1000)
 public class AMQManagerImpl extends AbstractManager implements AMQManager {
 
   private final Logger LOG = LoggerFactory.getLogger("AGENT_LOG");

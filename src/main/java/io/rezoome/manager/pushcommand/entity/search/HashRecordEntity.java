@@ -9,6 +9,10 @@ public final class HashRecordEntity {
 
   @SerializedName("hashed")
   private final String hashed = null;
+  
+  @SerializedName("txid")
+  private final String txid = null;
+  
 
   public String getSubID() {
     return subID;
@@ -16,6 +20,10 @@ public final class HashRecordEntity {
 
   public String getHashed() {
     return hashed;
+  }
+  
+  public String getTxid() {
+    return txid;
   }
 
 }
