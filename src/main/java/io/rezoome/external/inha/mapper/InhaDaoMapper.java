@@ -93,10 +93,10 @@ public class InhaDaoMapper implements DaoMapper {
     List<DBRsltEntity> dbResultEntityList = null;
     try {
       switch (subId) {
-        case InhaSubIdEntity.SUBID_INHWA_RCOGC0008:
+        case InhaSubIdEntity.SUBID_INHA_RCOGC0008:
           dbResultEntityList = daoMgr.getDao().getJolupRecord(entity);
           break;
-        case InhaSubIdEntity.SUBID_INHWA_RCOGC0009:
+        case InhaSubIdEntity.SUBID_INHA_RCOGC0009:
           dbResultEntityList = daoMgr.getDao().getSungjukRecord(entity);
           break;
         default:
