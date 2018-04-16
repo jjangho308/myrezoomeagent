@@ -9,6 +9,9 @@ import io.rezoome.core.entity.annotation.EntityType;
 
 public class RequestSearchArgsEntity extends AbstractEntity implements RequestArgsEntity {
 
+  @SerializedName("code")
+  String code;
+
   @SerializedName("orgcode")
   String orgCode;
 
@@ -20,6 +23,14 @@ public class RequestSearchArgsEntity extends AbstractEntity implements RequestAr
 
   @SerializedName("records")
   List<RequestArgsEntity> records;
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
 
   public String getOrgCode() {
     return orgCode;

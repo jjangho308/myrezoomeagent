@@ -44,10 +44,11 @@ public class Constants {
   public static final String AGENT_LOG = "AGENT_LOG";
   public static final String ERROR_LOG = "ERROR_LOG";
 
-  public static final String RESULT_CODE_SUCCESS = "SUCCESS";
-  public static final String RESULT_CODE_USER_NOT_EXIST = "USER_NOT_EXIST";
-  public static final String RESULT_CODE_DATA_IS_EMPTY = "DATA_IS_EMPTY";
-  public static final String RESULT_CODE_NEED_TO_REQUIRE_KEY = "NEED_TO_REQUIRE_KEY";
+  public static final String RESULT_CODE_SUCCESS = "0";
+  public static final String RESULT_CODE_ERROR = "1";
+  public static final String RESULT_CODE_USER_NOT_EXIST = "3";
+  public static final String RESULT_CODE_DATA_IS_EMPTY = "4";
+  public static final String RESULT_CODE_NEED_TO_REQUIRE_KEY = "2";
 
   public static final String PARAM_STATUS = "status";
   public static final String PARAM_ENTITY = "entity";

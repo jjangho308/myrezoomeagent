@@ -84,16 +84,18 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
       searchRecordEntity.setIv("");
 
       if (status.equals(STATUS.USER_NOT_EXIST)) {
-        requestEntity.setCode(Constants.RESULT_CODE_USER_NOT_EXIST);
+        searchRecordEntity.setCode(Constants.RESULT_CODE_USER_NOT_EXIST);
       } else if (status.equals(STATUS.REQUIRE_KEY)) {
-        requestEntity.setCode(Constants.RESULT_CODE_NEED_TO_REQUIRE_KEY);
+        searchRecordEntity.setCode(Constants.RESULT_CODE_NEED_TO_REQUIRE_KEY);
       } else if (dbResultEntityListMap.size() == 0) {
-        requestEntity.setCode(Constants.RESULT_CODE_DATA_IS_EMPTY);
+        searchRecordEntity.setCode(Constants.RESULT_CODE_DATA_IS_EMPTY);
       } else {
         String aesKey = ManagerProvider.crypto().generateAES();
         String iv = ManagerProvider.crypto().generateIV();
-        String encKey = ManagerProvider.crypto().encryptRSA(aesKey, entity.getPkey());
-        String encIv = ManagerProvider.crypto().encryptRSA(iv, entity.getPkey());
+        // String encKey = ManagerProvider.crypto().encryptRSA(aesKey, entity.getPkey());
+        // String encIv = ManagerProvider.crypto().encryptRSA(iv, entity.getPkey());
+        String encKey = "ENCRYPTED_AESKEY";
+        String encIv = "ENCRYPTED_IV";
 
         Mapper mapper = ManagerProvider.mapper().getMapper();
         List<RequestArgsEntity> records = new ArrayList<RequestArgsEntity>();
@@ -131,7 +133,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
         searchRecordEntity.setKey(encKey);
         searchRecordEntity.setIv(encIv);
         searchRecordEntity.setRecords(records);
-        requestEntity.setCode(Constants.RESULT_CODE_SUCCESS);
+        searchRecordEntity.setCode(Constants.RESULT_CODE_SUCCESS);
       }
       requestEntity.setArgs(searchRecordEntity);
       requestEntity.setCmd(entity.getCmd());
