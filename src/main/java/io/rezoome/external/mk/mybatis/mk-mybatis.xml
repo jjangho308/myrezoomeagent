@@ -41,7 +41,7 @@
 		resultMap="MkResultEntity">
 		SELECT
 		MU.name, MU.phone, MR.userid, MR.re_grade,
-		MR.re_point0, MR.re_point1, MR.re_point2, MR.re_point3
+		MR.re_point0, MR.re_point1, MR.re_point2, MR.re_point3, MR.re_regdate
 		FROM
 		MK_DB.MK_RESULT AS MR
 		INNER JOIN MK_USR AS MU ON (MR.userid = MU.userid)
