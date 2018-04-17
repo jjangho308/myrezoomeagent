@@ -1,10 +1,13 @@
 package io.rezoome.manager.keyprovision;
 
-import java.security.KeyStore.PrivateKeyEntry;
-import java.security.PublicKey;
+import javax.crypto.SecretKey;
+
+import io.rezoome.manager.Manager;
 
 
-public interface KeyProvisionManager {
-  public PublicKey getPublicKey();
-  public PrivateKeyEntry getPrivateKey();
+public interface KeyProvisionManager extends Manager{
+  
+  public void initKeyStore() throws Exception;
+  
+  
 }

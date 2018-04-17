@@ -40,6 +40,7 @@ def ver = [
     oracle: '12.1.0.1-atlassian-hosted'
 ]
 
+
 dependencies {
     compile "org.apache.activemq:activemq-client:${ver.activemq}"
     compile "org.apache.activemq:activemq-pool:${ver.activemq}"
@@ -52,6 +53,8 @@ dependencies {
 	compile "org.slf4j:slf4j-api:${ver.slf4j}"
 	compile "org.codehaus.janino:janino:${ver.janino}"	
 	compile "org.danilopianini:gson-extras:0.2.1"
+	compile "org.bouncycastle:bcprov-jdk15on:1.54"
+	compile "org.bouncycastle:bcpkix-jdk15on:1.59"
 	testCompile "junit:junit:${ver.junit}"
 }
 
