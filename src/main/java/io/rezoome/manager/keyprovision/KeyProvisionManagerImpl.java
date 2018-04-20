@@ -154,7 +154,6 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
   }
 
   public Entry createCert(KeyPair keyPair, boolean isSaveKeyStore) throws CertificateException, OperatorCreationException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableEntryException, IOException {
-
     Calendar start = Calendar.getInstance();
     Calendar expiry = Calendar.getInstance();
     expiry.add(Calendar.YEAR, 1);

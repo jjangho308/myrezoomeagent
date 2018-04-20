@@ -79,29 +79,29 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
   @Override
   public Map<String, String> generateRSA() {
     // TODO Auto-generated method stub
-    Map<String, String> returnMap = new HashMap<String, String>();
-
-    try {
-      // generate key pair
-      KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-      keyPairGenerator.initialize(2048);
-
-      KeyPair keyPair = keyPairGenerator.genKeyPair();
-      Key publicKey = keyPair.getPublic();
-      Key privateKey = keyPair.getPrivate();
-
-      // base64 encode keys
-      String encodedPublicKey = Base64.getEncoder().encodeToString(publicKey.getEncoded());
-      String encodedPrivateKey = Base64.getEncoder().encodeToString(privateKey.getEncoded());
-
-      returnMap.put("PUBLIC_KEY", encodedPublicKey);
-      returnMap.put("PRIVATE_KEY", encodedPrivateKey);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    return returnMap;
+//    Map<String, String> returnMap = new HashMap<String, String>();
+//
+//    try {
+//      // generate key pair
+//      KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+//      keyPairGenerator.initialize(2048);
+//
+//      KeyPair keyPair = keyPairGenerator.genKeyPair();
+//      Key publicKey = keyPair.getPublic();
+//      Key privateKey = keyPair.getPrivate();
+//
+//      // base64 encode keys
+//      String encodedPublicKey = Base64.getEncoder().encodeToString(publicKey.getEncoded());
+//      String encodedPrivateKey = Base64.getEncoder().encodeToString(privateKey.getEncoded());
+//
+//      returnMap.put("PUBLIC_KEY", encodedPublicKey);
+//      returnMap.put("PRIVATE_KEY", encodedPrivateKey);
+//
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//    }
+//    return returnMap;
+    return null;
   }
 
   @Override
