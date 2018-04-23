@@ -64,6 +64,7 @@ public class InhaDaoMapper implements DaoMapper {
     // TODO Auto-generated method stub
     Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
     List<DBRsltEntity> dbResultEntityList = null;
+    Map<String, Object> dbResultEntityMap = new HashMap<String, Object>();
 
     try {
       if (subIds == null || subIds.size() == 0) {
@@ -72,7 +73,12 @@ public class InhaDaoMapper implements DaoMapper {
 
       for (String subId : subIds) {
         dbResultEntityList = convert(entity, subId);
-        dbResultEntityListMap.put(subId, dbResultEntityList);
+        if (subId.equals(InhaSubIdEntity.SUBID_INHA_RCOGC0009)) {
+          dbResultEntityMap.put("all", dbResultEntityList);
+          dbResultEntityListMap.put(subId, dbResultEntityMap);
+        } else {
+          dbResultEntityListMap.put(subId, dbResultEntityList);
+        }
       }
 
     } catch (Exception e) {

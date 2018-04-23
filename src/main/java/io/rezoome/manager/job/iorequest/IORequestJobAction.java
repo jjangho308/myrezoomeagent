@@ -34,6 +34,7 @@ import io.rezoome.manager.pushcommand.entity.search.HashRecordEntity;
 public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
 
   private final Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
+  private String orgCode;
   private DaoMapper daoMapper;
 
   public enum STATUS {
@@ -49,6 +50,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   @Override
   protected JobRsltEntity processInternal(IORequestJobEntity entity) throws ServiceException {
     try {
+      orgCode = ManagerProvider.property().getProperty(PropertyEnum.ORG_CODE);
 
       ResponsePacketEntity responseEntity = null;
 
@@ -79,7 +81,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
     try {
       RequestSearchArgsEntity searchRecordEntity = new RequestSearchArgsEntity();
 
-      searchRecordEntity.setOrgCode("orgcode");
+      searchRecordEntity.setOrgCode(orgCode);
       searchRecordEntity.setKey("");
       searchRecordEntity.setIv("");
 
@@ -105,29 +107,76 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
         Gson gson = new Gson();
         for (String subId : dbResultEntityListMap.keySet()) {
           String dbEntityString = "";
-          if (((List<DBRsltEntity>) dbResultEntityListMap.get(subId)).size() > 1) {
+          String dbResultClassType = dbResultEntityListMap.get(subId).getClass().toString();
+          if (dbResultClassType.contains("List")) {
             List<DBRsltEntity> dbResultEntityList = (List<DBRsltEntity>) dbResultEntityListMap.get(subId);
+            for (DBRsltEntity dbEntity : dbResultEntityList) {
+              dbEntityString = gson.toJson(mapper.convert(dbEntity));
+              record = new RequestSearchRecordsEntity();
+              String encData = dbEntityString;
+              String hashData = ManagerProvider.crypto().hash(dbEntityString);
+              record.setData(encData);
+              record.setHash(hashData);
+              record.setSubid(subId);
+              HashRecordEntity hashRecordEntity = getMatchingHashData(entity, hashData);
+              if (hashRecordEntity != null) {
+                record.setTxid(hashRecordEntity.getTxid());
+                record.setStored("Y");
+              } else {
+                record.setTxid("");
+                record.setStored("N");
+              }
+              records.add(record);
+            }
+          } else if (dbResultClassType.contains("Map")) {
+            Map<String, Object> dbResultEntityMap = new HashMap<String, Object>();
+            dbResultEntityMap = (Map<String, Object>) dbResultEntityListMap.get(subId);
+            List<DBRsltEntity> dbResultEntityList = (List<DBRsltEntity>) dbResultEntityMap.get("all");
             dbEntityString = gson.toJson(mapper.convert(dbResultEntityList));
-          } else {
-            DBRsltEntity dbResultEntity = ((List<DBRsltEntity>) dbResultEntityListMap.get(subId)).get(0);
-            dbEntityString = gson.toJson(mapper.convert(dbResultEntity));
+            record = new RequestSearchRecordsEntity();
+            String encData = dbEntityString;
+            String hashData = ManagerProvider.crypto().hash(dbEntityString);
+            record.setData(encData);
+            record.setHash(hashData);
+            record.setSubid(subId);
+            HashRecordEntity hashRecordEntity = getMatchingHashData(entity, hashData);
+            if (hashRecordEntity != null) {
+              record.setTxid(hashRecordEntity.getTxid());
+              record.setStored("Y");
+            } else {
+              record.setTxid("");
+              record.setStored("N");
+            }
+            records.add(record);
           }
 
-          record = new RequestSearchRecordsEntity();
-          String encData = dbEntityString;
-          String hashData = ManagerProvider.crypto().hash(dbEntityString);
-          record.setData(encData);
-          record.setHash(hashData);
-          record.setSubid(subId);
-          HashRecordEntity hashRecordEntity = getMatchingHashData(entity, hashData);
-          if (hashRecordEntity != null) {
-            record.setTxid(hashRecordEntity.getTxid());
-            record.setStored("Y");
-          } else {
-            record.setTxid("");
-            record.setStored("N");
-          }
-          records.add(record);
+
+
+          // if (((List<DBRsltEntity>) dbResultEntityListMap.get(subId)).size() > 1) {
+          // List<DBRsltEntity> dbResultEntityList = (List<DBRsltEntity>)
+          // dbResultEntityListMap.get(subId);
+          // dbEntityString = gson.toJson(mapper.convert(dbResultEntityList));
+          // } else {
+          // DBRsltEntity dbResultEntity = ((List<DBRsltEntity>)
+          // dbResultEntityListMap.get(subId)).get(0);
+          // dbEntityString = gson.toJson(mapper.convert(dbResultEntity));
+          // }
+          //
+          // record = new RequestSearchRecordsEntity();
+          // String encData = dbEntityString;
+          // String hashData = ManagerProvider.crypto().hash(dbEntityString);
+          // record.setData(encData);
+          // record.setHash(hashData);
+          // record.setSubid(subId);
+          // HashRecordEntity hashRecordEntity = getMatchingHashData(entity, hashData);
+          // if (hashRecordEntity != null) {
+          // record.setTxid(hashRecordEntity.getTxid());
+          // record.setStored("Y");
+          // } else {
+          // record.setTxid("");
+          // record.setStored("N");
+          // }
+          // records.add(record);
         }
 
         searchRecordEntity.setKey(encKey);
