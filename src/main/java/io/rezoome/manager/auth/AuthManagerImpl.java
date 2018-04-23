@@ -49,6 +49,8 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
       orgName = ManagerProvider.property().getProperty(PropertyEnum.ORG_NAME);
       orgPasscode = ManagerProvider.property().getProperty(PropertyEnum.ORG_PASSCODE);
 
+      
+      
       packet = new RequestPacket("", JSON.toJson(convertAuthPacketEntity()));
 
       if (authentication()) {

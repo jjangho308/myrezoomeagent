@@ -60,6 +60,7 @@ import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.exception.ServiceException;
 import io.rezoome.manager.AbstractManager;
+import io.rezoome.manager.property.PrivateProperties;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
@@ -92,16 +93,22 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
     
     // TODO Auto-generated method stub
     keyStoreLocation = ManagerProvider.property().getProperty(PropertyEnum.KEYSTORE_LOCATION, true);
-    certName = ManagerProvider.property().getProperty(PropertyEnum.CERT_NAME, true);
-    issuerDn = ManagerProvider.property().getProperty(PropertyEnum.ISSUER_DN, true);
-    certPwd = ManagerProvider.property().getProperty(PropertyEnum.CERT_PASSWORD, true);
+    //certName = ManagerProvider.property().getProperty(PropertyEnum.CERT_NAME, true);
+    //issuerDn = ManagerProvider.property().getProperty(PropertyEnum.ISSUER_DN, true);
+    //certPwd = ManagerProvider.property().getProperty(PropertyEnum.CERT_PASSWORD, true);
+    certName = PrivateProperties.CERT_NAME;
+    issuerDn = PrivateProperties.ISSUER_DN;
+    certPwd = PrivateProperties.CERT_PASSWORD;
     
-    try {
-      initKeyStore();     
-    } catch (Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    
+   
+      try {
+        initKeyStore();
+      } catch ( ServiceException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }     
+   
     setPrepared();
     LOG.info("{} Init Complete.", this.getClass());
   }
@@ -113,33 +120,42 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
   }
 
   @Override
-  public void initKeyStore() throws Exception {
-    keyStore = KeyStore.getInstance("JKS");
+  public void initKeyStore() throws ServiceException {
+    try {
+      keyStore = KeyStore.getInstance("JKS");
+   
     
-    if (isKeyStore()) {
-      loadKeyStore(keyStoreLocation);
-    } else {
+      if (isKeyStore()) {
+        loadKeyStore(keyStoreLocation);
+      } else {
+        
+        // Not exist KeyStore
+        createKeyStore(keyStoreLocation);
+      }
       
-      // Not exist KeyStore
-      createKeyStore(keyStoreLocation);
+      Entry keyEntry = null;
+      if(keyStore.getCertificate(certName) != null){
+        keyEntry = getKeyEntry(certName);
+      }else{
+        // Key 생성
+        KeyPair keyPair = genRSAKeyPair();      
+        // 인증서 생성 후 저장
+        keyEntry = createCert(keyPair, true);      
+      }
+    } catch (KeyStoreException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
-    
-    Entry keyEntry = null;
-    if(keyStore.getCertificate(certName) != null){
-      keyEntry = getKeyEntry(certName);
-    }else{
-      // Key 생성
-      KeyPair keyPair = genRSAKeyPair();      
-      // 인증서 생성 후 저장
-      keyEntry = createCert(keyPair, true);      
-    }
-    
   }
 
-
-
-  public KeyPair genRSAKeyPair() throws NoSuchAlgorithmException {
-    KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+  public KeyPair genRSAKeyPair() {
+    KeyPairGenerator keyGen = null;
+    try {
+      keyGen = KeyPairGenerator.getInstance("RSA");
+    } catch (NoSuchAlgorithmException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     keyGen.initialize(2048);
     KeyPair keyPair = keyGen.generateKeyPair();
 
@@ -153,19 +169,32 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
     return keyPair;
   }
 
-  public Entry createCert(KeyPair keyPair, boolean isSaveKeyStore) throws CertificateException, OperatorCreationException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableEntryException, IOException {
-    Calendar start = Calendar.getInstance();
-    Calendar expiry = Calendar.getInstance();
-    expiry.add(Calendar.YEAR, 1);
-    X500Name name = new X500Name(issuerDn);
-    X509v3CertificateBuilder certificateBuilder = new X509v3CertificateBuilder(name, BigInteger.ONE,
-        start.getTime(), expiry.getTime(), name, SubjectPublicKeyInfo.getInstance(keyPair.getPublic().getEncoded()));
-    ContentSigner signer = new JcaContentSignerBuilder("SHA256WithRSA").setProvider(new BouncyCastleProvider()).build(keyPair.getPrivate());
-    X509CertificateHolder holder = certificateBuilder.build(signer);
-    Certificate cert = new JcaX509CertificateConverter().setProvider(new BouncyCastleProvider()).getCertificate(holder);
-
-    if (isSaveKeyStore)
-      saveCertInKeyStore(certName, keyPair.getPrivate(), cert);
+  public Entry createCert(KeyPair keyPair, boolean isSaveKeyStore)  {
+    try {
+      Calendar start = Calendar.getInstance();
+      Calendar expiry = Calendar.getInstance();
+      expiry.add(Calendar.YEAR, 1);
+      X500Name name = new X500Name(issuerDn);
+      X509v3CertificateBuilder certificateBuilder = new X509v3CertificateBuilder(name, BigInteger.ONE,
+          start.getTime(), expiry.getTime(), name, SubjectPublicKeyInfo.getInstance(keyPair.getPublic().getEncoded()));
+      ContentSigner signer;
+     
+        signer = new JcaContentSignerBuilder("SHA256WithRSA").setProvider(new BouncyCastleProvider()).build(keyPair.getPrivate());
+      
+      X509CertificateHolder holder = certificateBuilder.build(signer);
+      Certificate cert = new JcaX509CertificateConverter().setProvider(new BouncyCastleProvider()).getCertificate(holder);
+      
+      if (isSaveKeyStore)
+        saveCertInKeyStore(certName, keyPair.getPrivate(), cert);
+      
+    } catch (OperatorCreationException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (CertificateException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+   
     return getKeyEntry(certName);
   }
   
@@ -201,8 +230,20 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
   
   
 
-  private Entry getKeyEntry(String entryAlias) throws IOException, NoSuchAlgorithmException, UnrecoverableEntryException, KeyStoreException {
-    Entry entry = keyStore.getEntry(entryAlias, new PasswordProtection(certPwd.toCharArray()));
+  private Entry getKeyEntry(String entryAlias)  {
+    Entry entry = null;
+    try {
+      entry = keyStore.getEntry(entryAlias, new PasswordProtection(certPwd.toCharArray()));
+    } catch (NoSuchAlgorithmException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (UnrecoverableEntryException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (KeyStoreException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     return entry;
   }
 
@@ -223,25 +264,66 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
 
 
   
-  private void createKeyStore(String path) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException {
+  private void createKeyStore(String path) {
     File file = new File(path);
-    keyStore.load(null, null);
-    keyStore.store(new FileOutputStream(file), certPwd.toCharArray());    
-  }
-
-
-  private void saveCertInKeyStore(String certAlias, PrivateKey privKey, Certificate cert) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException {
-    Entry entry = new PrivateKeyEntry(privKey, new Certificate[] { cert });
-    keyStore.setEntry(certAlias, entry, new PasswordProtection(certPwd.toCharArray()));
-    keyStore.store(new FileOutputStream(new File(keyStoreLocation)), certPwd.toCharArray());
-    System.out.println(entry);
+    try {
+      keyStore.load(null, null);
+      keyStore.store(new FileOutputStream(file), certPwd.toCharArray());   
+    } catch (NoSuchAlgorithmException | CertificateException | IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (KeyStoreException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     
   }
 
+
+  private void saveCertInKeyStore(String certAlias, PrivateKey privKey, Certificate cert)  {
+    Entry entry = new PrivateKeyEntry(privKey, new Certificate[] { cert });
+    try {
+      keyStore.setEntry(certAlias, entry, new PasswordProtection(certPwd.toCharArray()));
+      keyStore.store(new FileOutputStream(new File(keyStoreLocation)), certPwd.toCharArray());
+      System.out.println(entry);
+    } catch (KeyStoreException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (NoSuchAlgorithmException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (CertificateException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
   
-  private void loadKeyStore(String path) throws NoSuchAlgorithmException, CertificateException, FileNotFoundException, IOException{
-    File file = new File(path);
-    if (isKeyStore()) keyStore.load(new FileInputStream(file), certPwd.toCharArray());
+  private void loadKeyStore(String path) {
+    try {
+      File file = new File(path);
+      if (isKeyStore())
+        keyStore.load(new FileInputStream(file), certPwd.toCharArray());
+    } catch (NoSuchAlgorithmException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (CertificateException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      throw new ServiceException("Not found Key Store file", e);
+    }
   }
 
   private boolean isKeyStore() {

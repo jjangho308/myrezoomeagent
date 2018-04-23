@@ -3,6 +3,7 @@ MAPPER_CLASS_NAME = io.rezoome.external.mk.mapper.MkMapper
 MYBATIS_CONFIG_FILE_PATH = io/rezoome/external/mk/mybatis/mybatis-config.xml
 DAO_CLASS_NAME = io.rezoome.manager.database.dao.Dao
 DAO_MAPPER_CLASS_NAME = io.rezoome.external.mk.mapper.MkDaoMapper
+PROP_CLASS_NAME = io.rezoome.external.opic.property.OpicProperties
 
 [GENERAL]
 ORG_CODE = code001
@@ -41,7 +42,6 @@ CONNECT_TIMEOUT = 3000
 READ_TIMEOUT = 3000
 RETRIES = 3
 RETRY_DELAY_SEC = 3000
-
 
 [AGENT_CERTIFICATION]
 KEYSTORE_LOCATION = ./test-jks.keystore

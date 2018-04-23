@@ -15,6 +15,7 @@ import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.manager.AbstractManager;
+import io.rezoome.manager.property.PrivateProperties;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
@@ -55,8 +56,8 @@ public class AMQManagerImpl extends AbstractManager implements AMQManager {
 
     String serverHost = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_SERVER_HOST, true);
     String queueName = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_QUEUE_NAME, true);
-    String userName = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_USER_NAME, true);
-    String userPassword = ManagerProvider.property().getProperty(PropertyEnum.AMAZONE_USER_PASSWORD, true);
+    String userName = PrivateProperties.AMAZONE_USER_NAME;
+    String userPassword = PrivateProperties.AMAZONE_USER_PASSWORD;
     AMQConfigEntity amqConfig = new AMQConfigEntity(queueName, serverHost, userName, userPassword);
 
     this.registerPush(amqConfig);
