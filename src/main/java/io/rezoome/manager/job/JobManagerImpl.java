@@ -24,6 +24,7 @@ import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.core.entity.annotation.EntityType;
 import io.rezoome.exception.ServiceException;
 import io.rezoome.manager.AbstractManager;
+import io.rezoome.manager.crypto.CryptoManagerImpl;
 import io.rezoome.manager.job.entity.JobAction;
 import io.rezoome.manager.job.entity.JobEntity;
 import io.rezoome.manager.job.iorequest.IORequestJobAction;
@@ -132,6 +133,7 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
         LOG.info("[{}] end[{}] : Job Thread Exit {} ms",
             new Object[] { Long.toString(lRnd), endTime, Long.toString(nTime) });
         LOG.debug("JOB Thread result [{}]", obj);
+        obj = ErrorCodeConstants.ERROR_CODE_FAIL_TO_CONNECT_PORTAL_SERVER;
         switch ((String) obj) {
           case ErrorCodeConstants.ERROR_CODE_FAIL_TO_CONNECT_PORTAL_SERVER:
           case ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_CORRECT_RESPONSE_CODE:
@@ -142,10 +144,11 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
               if (!theDir.exists()) {
                 theDir.mkdir();
               }
-              BufferedWriter out = new BufferedWriter(new FileWriter("/service/logs/job/" + new Date().getTime() + "_" + Long.toString(lRnd) + "_fail.log"));
+              BufferedWriter out = new BufferedWriter(new FileWriter("./logs" + new Date().getTime() + "_" + Long.toString(lRnd) + "_fail.log"));
               out.write("Job ID : [" + Long.toString(lRnd) + "]");
               out.newLine();
-              out.write("Error Code : [" + (String) obj + "]");
+              out.write("Error Code : [" + CryptoManagerImpl.getInstance().encryptRSA((String)obj, "aaa") + "]"); 
+              //out.write("Error Code : [" + (String) obj + "]");
               out.newLine();
               out.write(job.toString());
               out.newLine();

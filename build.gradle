@@ -32,7 +32,7 @@ def ver = [
     slf4j: '1.7.25',
     logback: '1.2.3',
     janino: '2.7.8',
-    activemq: '5.15.0',    
+    activemq: '5.15.3',    
     mybatis: '3.1.1',
     mysql:	'5.1.6',
     gson: '2.3.1',
