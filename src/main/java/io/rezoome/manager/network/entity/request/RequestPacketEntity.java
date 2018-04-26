@@ -12,6 +12,8 @@ import io.rezoome.core.entity.AbstractEntity;
  */
 public class RequestPacketEntity extends AbstractEntity {
 
+  @SerializedName("sid")
+  private String sid;
 
   @SerializedName("mid")
   private String mid;
@@ -22,13 +24,22 @@ public class RequestPacketEntity extends AbstractEntity {
   @SerializedName("args")
   private RequestArgsEntity args;
 
+  
+  public String getSid() {
+    return sid;
+  }
+
+  public void setSid(String sid) {
+    this.sid = sid;
+  }
+  
   public String getMid() {
     return mid;
   }
 
   public void setMid(String mid) {
     this.mid = mid;
-  }
+  }  
 
   public String getCmd() {
     return cmd;
@@ -48,7 +59,7 @@ public class RequestPacketEntity extends AbstractEntity {
 
   @Override
   public String toString() {
-    return "RequestPacketEntity [mid=" + mid + ", cmd=" + cmd + ", args=" + args + "]";
+    return "RequestPacketEntity [sid=" + sid + ", mid=" + mid + ", cmd=" + cmd + ", args=" + args + "]";
   }
 
 }

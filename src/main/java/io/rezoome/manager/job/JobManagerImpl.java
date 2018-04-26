@@ -23,13 +23,17 @@ import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.core.entity.annotation.EntityType;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.ExternalIORequest;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.crypto.CryptoManagerImpl;
+import io.rezoome.manager.database.dao.Dao;
 import io.rezoome.manager.job.entity.JobAction;
 import io.rezoome.manager.job.entity.JobEntity;
 import io.rezoome.manager.job.iorequest.IORequestJobAction;
 import io.rezoome.manager.job.iorequest.IORequestJobEntity;
+import io.rezoome.manager.keyprovision.KeyProvisionManagerImpl;
 import io.rezoome.manager.property.PropertyEnum;
+import io.rezoome.manager.property.PropertyManagerImpl;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.thread.WorkerThread;
 
@@ -68,13 +72,14 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
   }
 
   private final Map<Class<? extends JobEntity>, JobAction<? extends JobEntity>> actionMap;
-
+  private ExternalIORequest agentIORequest;
+  
   @Override
   public void initialize(InitialEvent event) {
     JOB_TEMP_FILE_PATH = ManagerProvider.property().getProperty(PropertyEnum.JOB_TEMP_FILE_PATH, true);
 
-    if (false) {
-      ExecutorService service = null;
+   
+/*      ExecutorService service = null;
       try {
         service =
             Executors.newScheduledThreadPool(Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.THREAD_POOL_CAPAVILITY,
@@ -92,11 +97,31 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
         service = null;
       } finally {
         executor = service;
-      }
-    } else {
+      }*/
+    
       /* Callable & Future model */
       executor = Executors.newFixedThreadPool(Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.THREAD_POOL_CAPAVILITY, false)));
-    }
+      
+      
+      // Init Agency iorequest
+      String agentIORequestClass =  ManagerProvider.property().getProperty(PropertyEnum.IOREQUEST_CLASS_NAME, false);
+      ClassLoader loader = ClassLoader.getSystemClassLoader();
+      try {
+        
+        Class<?> ioRequestCls = loader.loadClass(agentIORequestClass);
+        agentIORequest =  (ExternalIORequest) ioRequestCls.newInstance();
+        
+      } catch (ClassNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (InstantiationException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (IllegalAccessException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    
   }
 
   @Override
@@ -107,14 +132,14 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
   @Override
   public void addJob(final JobEntity job) {
 
-    if (false) {
+   /*
       this.executor.execute(new Runnable() {
         @Override
         public void run() {
           ((JobAction<JobEntity>) JobManagerImpl.this.actionMap.get(job.getClass())).process(job);
         }
-      });
-    } else {
+      });*/
+ 
       /* Callable & Future model */
       // executor = Executors.newFixedThreadPool(1);
 
@@ -133,7 +158,7 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
         LOG.info("[{}] end[{}] : Job Thread Exit {} ms",
             new Object[] { Long.toString(lRnd), endTime, Long.toString(nTime) });
         LOG.debug("JOB Thread result [{}]", obj);
-        obj = ErrorCodeConstants.ERROR_CODE_FAIL_TO_CONNECT_PORTAL_SERVER;
+        obj = ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA;
         switch ((String) obj) {
           case ErrorCodeConstants.ERROR_CODE_FAIL_TO_CONNECT_PORTAL_SERVER:
           case ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_CORRECT_RESPONSE_CODE:
@@ -144,13 +169,15 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
               if (!theDir.exists()) {
                 theDir.mkdir();
               }
-              BufferedWriter out = new BufferedWriter(new FileWriter("./logs" + new Date().getTime() + "_" + Long.toString(lRnd) + "_fail.log"));
+              BufferedWriter out = new BufferedWriter(new FileWriter("./logs/" + new Date().getTime() + "_" + Long.toString(lRnd) + "_fail.log"));
               out.write("Job ID : [" + Long.toString(lRnd) + "]");
-              out.newLine();
-              out.write("Error Code : [" + CryptoManagerImpl.getInstance().encryptRSA((String)obj, "aaa") + "]"); 
-              //out.write("Error Code : [" + (String) obj + "]");
+              out.newLine();              
+               
+              out.write("Error Code : [" + (String) obj + "]");
               out.newLine();
               out.write(job.toString());
+              //String aesTmp = ManagerProvider.crypto().encryptAES(ManagerProvider.key().getPubKeyStr(PropertyManagerImpl.getInstance().getProperty(PropertyEnum.CERT_NAME, true)) ,ManagerProvider.crypto().generateAES(), ManagerProvider.crypto().generateIV());
+              //out.write(aesTmp);              
               out.newLine();
               out.close();
             } catch (IOException e) {
@@ -163,7 +190,7 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
       } finally {
         // executor.shutdown();
       }
-    }
+    
   }
 
   @Override
@@ -253,5 +280,11 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
 
       return JOB_RESULT;
     }
+  }
+
+  @Override
+  public ExternalIORequest getAgentIORequest() {
+    // TODO Auto-generated method stub
+    return agentIORequest;
   }
 }

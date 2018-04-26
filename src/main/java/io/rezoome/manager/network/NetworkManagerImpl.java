@@ -88,7 +88,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   }
 
   @Override
-  public ResponsePacketEntity request(RequestPacket packet) throws ServiceException {
+  public ResponsePacketEntity request(RequestPacket packet){
     // TODO Auto-generated method stub
 
     int retry = 0;

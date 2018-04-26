@@ -225,4 +225,7 @@ task mkJarLib(type: Jar) {
 }
 */
 
-
+task copyRuntimeLibs(type: Copy) {
+    into "libs"
+    from configurations.testRuntime
+}

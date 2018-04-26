@@ -16,6 +16,7 @@ import io.rezoome.external.inha.mapper.InhaMapperEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.amq.AMQMessageEntity;
 import io.rezoome.manager.amq.AMQMessageHandlerImpl;
+import io.rezoome.manager.provider.ManagerProvider;
 import junit.framework.TestSuite;
 
 public class AllTests extends TestSuite {
@@ -344,32 +345,33 @@ public class AllTests extends TestSuite {
   // System.out.println("hash : " + hash);
   // }
   //
-  // @Test
-  // public void crypto() {
-  // ManagerProvider.crypto().initialize(InitialEvent.RUNTIME);
-  //
-  // String data = "test data";
-  //
-  // // AES TEST
-  // String aesKey = ManagerProvider.crypto().generateAES();
-  // String iv = ManagerProvider.crypto().generateIV();
-  // String encData = ManagerProvider.crypto().encryptAES(data, aesKey, iv);
-  // System.out.println("encData : " + encData);
-  // String decData = ManagerProvider.crypto().decryptAES(encData, aesKey, iv);
-  // System.out.println("decData : " + decData);
-  //
-  // // RSA TEST
-  // Map<String, String> keys = ManagerProvider.crypto().generateRSA();
-  // String publicKey = keys.get("PUBLIC_KEY");
-  // String privateKey = keys.get("PRIVATE_KEY");
-  // System.out.println("publicKey : " + publicKey);
-  // System.out.println("privateKey : " + privateKey);
-  // encData = ManagerProvider.crypto().encryptRSA(data, publicKey);
-  // System.out.println("encData : " + encData);
-  // decData = ManagerProvider.crypto().decryptRSA(encData, privateKey);
-  // System.out.println("decData : " + decData);
-  // }
-  //
+//   @Test
+//   public void crypto() {
+//   ManagerProvider.crypto().initialize(InitialEvent.RUNTIME);
+//  
+//   String data = "test data";
+//  
+//   // AES TEST
+////   String aesKey = ManagerProvider.crypto().generateAES();
+////   String iv = ManagerProvider.crypto().generateIV();
+////   String encData = ManagerProvider.crypto().encryptAES(data, aesKey, iv);
+////   System.out.println("encData : " + encData);
+////   String decData = ManagerProvider.crypto().decryptAES(encData, aesKey, iv);
+////   System.out.println("decData : " + decData);
+////  
+//   System.out.println("puasdfasdf");
+//   // RSA TEST
+//   Map<String, String> keys = ManagerProvider.crypto().generateRSA();
+//   String publicKey = keys.get("PUBLIC_KEY");
+//   String privateKey = keys.get("PRIVATE_KEY");
+//   System.out.println("publicKey : " + publicKey);
+//   System.out.println("privateKey : " + privateKey);
+//   String encData = ManagerProvider.crypto().encryptRSA(data, publicKey);
+//   System.out.println("encData : " + encData);
+//   String decData = ManagerProvider.crypto().decryptRSA(encData, privateKey);
+//   System.out.println("decData : " + decData);
+//   }
+  
   //
   // @Test
   // public void searchRecordJsonTrasnTest() {
