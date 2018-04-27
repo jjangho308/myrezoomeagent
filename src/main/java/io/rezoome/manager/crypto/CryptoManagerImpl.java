@@ -1,5 +1,7 @@
 package io.rezoome.manager.crypto;
 
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -10,7 +12,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
+import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,6 +79,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
   }
 
   @Override
+  @Deprecated
   public Map<String, String> generateRSA() {
     // TODO Auto-generated method stub
     Map<String, String> returnMap = new HashMap<String, String>();
@@ -101,7 +104,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       e.printStackTrace();
     }
     return returnMap;
-    //return null;
+    // return null;
   }
 
   @Override
@@ -117,9 +120,8 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       e.printStackTrace();
     }
 
-    generator.init(128, rand);
+    generator.init(256, rand);
     secretKey = generator.generateKey();
-
     return Base64.getEncoder().encodeToString(secretKey.getEncoded());
   }
 
@@ -143,11 +145,28 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
 
     try {
       KeyFactory fac = KeyFactory.getInstance("RSA");
-      Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+      Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
       byte[] pubArr = Base64.getDecoder().decode(publicKey);
-      X509EncodedKeySpec x509Spec = new X509EncodedKeySpec(pubArr);
-      PublicKey pubkey = fac.generatePublic(x509Spec);
 
+      byte[] decodedE = Base64.getUrlDecoder().decode("");
+      byte[] decodedM = Base64.getUrlDecoder().decode(
+          "zuSwchiSRGQZUMSuLgFj8smjQWc7Qi2p0C1reirsEdwtx0mjoGEqAYkLy9FCh4lfWeMLgzh_dKztqw1Tnj0czvMwpwAhVvcWqgBn5gXmoVC8cP4Gtyg8VtVlnfNdv3K0cw7nCZ1sYFIH3tn8K0S0DImVo78V3lctARceE9K46kgIznV3jDfVmHum6ZqBwTMARah3Q2Sf2WYYb4KD5N5z5FLw3Zcmu4Eh0AUElZsZGpDicP8DoBtxIn_BRk2Xl9Lejc-z_2cNBwaoOFqqLk5Kn5UBNGOXF529tstWnS-3DFRdIg4g1_HNixXJm2fjl0KZ20vBHPcKTtr77cKb1X35tw");
+
+
+      ByteBuffer buffer = ByteBuffer.allocate(4);
+      buffer.put(decodedE);
+
+      ByteBuffer buffer2 = ByteBuffer.allocate(257);
+      buffer2.put((byte) 0x00);
+      buffer2.put(decodedM);
+
+      BigInteger numberE = new BigInteger(buffer.array());
+      BigInteger numberM = new BigInteger(buffer2.array());
+
+      RSAPublicKeySpec spec = new RSAPublicKeySpec(numberM, numberE);
+      // X509EncodedKeySpec x509Spec = new X509EncodedKeySpec(pubArr);
+      // PublicKey pubkey = fac.generatePublic(x509Spec);
+      PublicKey pubkey = fac.generatePublic(spec);
       cipher.init(Cipher.ENCRYPT_MODE, pubkey);
       byte[] arrCipherData = cipher.doFinal(data.getBytes());
       encryptedString = Base64.getEncoder().encodeToString(arrCipherData);
@@ -167,7 +186,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       byte[] decodedEncryptionData = Base64.getDecoder().decode(encData);
 
       KeyFactory fac = KeyFactory.getInstance("RSA");
-      Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+      Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
       byte[] priArr = Base64.getDecoder().decode(privateKey);
       PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(priArr);
       PrivateKey priKey = fac.generatePrivate(keySpec);
