@@ -1,17 +1,36 @@
 package io.rezoome.external.mk.entity;
 
-import io.rezoome.manager.database.entity.DBRsltEntity;
+import com.google.gson.annotations.SerializedName;
 
-public class MkResultEntity implements DBRsltEntity {
+import io.rezoome.core.entity.AbstractEntity;
 
+public class MkResponseResultArgsEntity  extends AbstractEntity {
+
+  @SerializedName("name")
   private String name;
+  
+  @SerializedName("phone")
   private String phone;
+  
+  @SerializedName("userid")
   private String userid;
+  
+  @SerializedName("grade")
   private String grade;
+  
+  @SerializedName("point0")
   private String point0;
+  
+  @SerializedName("point1")
   private String point1;
+  
+  @SerializedName("point2")
   private String point2;
+  
+  @SerializedName("point3")
   private String point3;
+  
+  @SerializedName("date")
   private String date;
 
   public String getName() {

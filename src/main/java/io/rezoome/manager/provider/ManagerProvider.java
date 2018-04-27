@@ -28,6 +28,8 @@ import io.rezoome.manager.pushcommand.PushCommandManager;
 import io.rezoome.manager.pushcommand.PushCommandManagerImpl;
 import io.rezoome.manager.status.StatusManager;
 import io.rezoome.manager.status.StatusManagerImpl;
+import io.rezoome.manager.vianetwork.ViaNetworkManager;
+import io.rezoome.manager.vianetwork.ViaNetworkManagerImpl;
 
 /**
  * Manager provider. <br />
@@ -51,7 +53,9 @@ public final class ManagerProvider {
   private static final CryptoManager crypto = CryptoManagerImpl.getInstance();
   private static final HealthCheckManager health = HealthCheckManagerImpl.getInstance();
   private static final KeyProvisionManager key = KeyProvisionManagerImpl.getInstance();
-
+  private static final ViaNetworkManager via = ViaNetworkManagerImpl.getInstance();
+  
+  
   public static JobManager job() {
     return job;
   }
@@ -107,4 +111,9 @@ public final class ManagerProvider {
   public static KeyProvisionManager key() {
     return key;
   }
+  
+  public static ViaNetworkManager via() {
+    return via;
+  }
+  
 }

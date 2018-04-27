@@ -1,4 +1,4 @@
-package io.rezoome.manager.network;
+package io.rezoome.manager.vianetwork;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,74 +29,59 @@ import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
-import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.exception.ServiceException;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
-import io.rezoome.manager.network.entity.request.RequestPacket;
-import io.rezoome.manager.network.entity.request.RequestPacketEntity;
-import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
+import io.rezoome.manager.vianetwork.entity.request.ViaRequestPacketEntity;
+import io.rezoome.manager.vianetwork.entity.response.ViaResponsePacketEntity;
 
-@ManagerType(value = Constants.MANAGER_TYPE_NETWORK, initPriority = 30)
-public class NetworkManagerImpl extends AbstractManager implements NetworkManager {
+
+@ManagerType(value = Constants.MANAGER_TYPE_VIA, initPriority = 30)
+public class ViaNetworkManagerImpl extends AbstractManager implements ViaNetworkManager{
 
   private Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
 
-  private int CONNECT_TIMEOUT;
-  private int READ_TIMEOUT;
-  private int RETRIES;
-  private int RETRY_DELAY_SEC;
-
-  private String PORTAL_URL;
-
   private static class Singleton {
-    private static final NetworkManager instance = new NetworkManagerImpl();
+    private static final ViaNetworkManager instance = new ViaNetworkManagerImpl();
   }
 
-  public static NetworkManager getInstance() {
+  public static ViaNetworkManager getInstance() {
     return Singleton.instance;
   }
-
+    
+  private String VIA_AGENCY_URL;
+  private int VIA_CONNECT_TIMEOUT;
+  private int VIA_READ_TIMEOUT;
+  private int VIA_AGENT_RETRIES;
+  private int VIA_RETRY_DELAY_SEC;
+  
   @Override
-  public void initialize(InitialEvent event) {
+  public void initialize(InitialEvent event) throws ServiceException {
     // TODO Auto-generated method stub
-    PORTAL_URL = ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL);
-    CONNECT_TIMEOUT = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.CONNECT_TIMEOUT));
-    READ_TIMEOUT = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.READ_TIMEOUT));
-    RETRIES = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.RETRIES));
-    RETRY_DELAY_SEC = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.RETRY_DELAY_SEC));
-    LOG.info("{} Init Complete", this.getClass());
-    setPrepared();
+    // TODO Auto-generated method stub
+    VIA_AGENCY_URL = ManagerProvider.property().getProperty(PropertyEnum.VIA_AGENCY_URL);
+    VIA_CONNECT_TIMEOUT = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.VIA_CONNECT_TIMEOUT));
+    VIA_READ_TIMEOUT = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.VIA_READ_TIMEOUT));
+    VIA_AGENT_RETRIES = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.VIA_AGENT_RETRIES));
+    VIA_RETRY_DELAY_SEC = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.VIA_RETRY_DELAY_SEC));
   }
 
   @Override
   public void initializeOnThread(InitialEvent event) {
     // TODO Auto-generated method stub
+    
   }
 
   @Override
-  public boolean isPrepared() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public RequestPacketEntity convert(RzmRsltEntity entity, String cmd) {
-    return null;
-  }
-
-  @Override
-  public ResponsePacketEntity request(RequestPacket packet){
-    // TODO Auto-generated method stub
-
+  public ViaResponsePacketEntity request(ViaRequestPacketEntity packet, ViaResponsePacketEntity agencyResultArgs) {
     int retry = 0;
     String response = null;
     HttpURLConnection connection = null;
 
     if (packet.getData() != null) {
-      LOG.debug("RequestUrl : {}", packet.getUrl());
+      LOG.debug("RequestUrl : {}", VIA_AGENCY_URL);
       LOG.debug("RequestPacket : {}", packet.getData().toString());
     }
 
@@ -104,9 +89,9 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
       do {
         if (retry > 0) {
           LOG.debug("retry to connect server after {}sec, retry:{}", 3, retry);
-          Thread.sleep(RETRY_DELAY_SEC);
+          Thread.sleep(VIA_RETRY_DELAY_SEC);
         }
-        connection = (HttpURLConnection) new URL(packet.getUrl()).openConnection();
+        connection = (HttpURLConnection) new URL(VIA_AGENCY_URL).openConnection();
 
         if (connection instanceof HttpsURLConnection) {
           SSLContext ctx = SSLContext.getInstance(Constants.PARAM_TLS);
@@ -124,8 +109,8 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
         }
 
         connection.setDoOutput(true);
-        connection.setConnectTimeout(CONNECT_TIMEOUT);
-        connection.setReadTimeout(READ_TIMEOUT);
+        connection.setConnectTimeout(VIA_CONNECT_TIMEOUT);
+        connection.setReadTimeout(VIA_READ_TIMEOUT);
 
         for (Entry<String, String> entry : packet.getHeader().entrySet()) {
           connection.setRequestProperty(entry.getKey(), entry.getValue());
@@ -142,11 +127,11 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
 
         switch (connection.getResponseCode()) {
           case HttpURLConnection.HTTP_OK:
-            ResponsePacketEntity responsePacket = new ResponsePacketEntity();
+            ViaResponsePacketEntity responsePacket = agencyResultArgs;
             response = getResponse(connection.getInputStream());
             connection.disconnect();
             System.out.println("mkresponse : " + response);
-            responsePacket = JSON.fromJson(response, ResponsePacketEntity.class);
+            responsePacket = JSON.fromJson(response, responsePacket.getClass());
             LOG.debug("ReponsePacket : {}", responsePacket);
             return responsePacket;
           // case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:
@@ -164,13 +149,13 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
         }
         connection.disconnect();
         retry++;
-      } while (retry < RETRIES);
+      } while (retry < VIA_AGENT_RETRIES);
     } catch (Exception e) {
       throw new ServiceException(ErrorCodeConstants.ERROR_CODE_FAIL_TO_CONNECT_PORTAL_SERVER, e);
     }
     return null;
   }
-
+  
   private String getResponse(InputStream inputStream) throws UnsupportedEncodingException, IOException {
     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Constants.PARAM_UTF_8));
     StringBuffer response = new StringBuffer();
@@ -182,7 +167,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     reader.close();
     return response.toString();
   }
-
+  
   private static class DefaultTrustManager implements X509TrustManager {
     @Override
     public void checkClientTrusted(X509Certificate[] arg0, String arg1)
@@ -198,8 +183,5 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     }
   }
 
-  @Override
-  public String createPortalUrl(String sid) {
-    return this.PORTAL_URL + sid;
-  }
+
 }

@@ -16,7 +16,7 @@
 		<result property="gender" column="gender" />
 	</resultMap>
 
-	<resultMap id="MkResultEntity" type="io.rezoome.external.mk.entity.MkResultEntity">
+	<resultMap id="MkResponseResultArgsEntity" type="io.rezoome.external.mk.entity.MkResponseResultArgsEntity">
 		<result property="name" column="name" />
 		<result property="phone" column="phone" />
 		<result property="userid" column="userid" />

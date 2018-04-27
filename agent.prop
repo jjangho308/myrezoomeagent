@@ -4,7 +4,7 @@ MYBATIS_CONFIG_FILE_PATH = io/rezoome/external/mk/mybatis/mybatis-config.xml
 DAO_CLASS_NAME = io.rezoome.manager.database.dao.Dao
 DAO_MAPPER_CLASS_NAME = io.rezoome.external.mk.mapper.MkDaoMapper
 PROP_CLASS_NAME = io.rezoome.external.mk.property.MkProperties
-IOREQUEST_CLASS_NAME = io.rezoome.external.opic.job.opicJob
+IOREQUEST_CLASS_NAME = io.rezoome.external.mk.iorequest.MkIORequest
 [GENERAL]
 ORG_CODE = code001
 ORG_NAME = opic
@@ -48,3 +48,12 @@ KEYSTORE_LOCATION = ./test-jks.keystore
 CERT_NAME = AGENT_CERT
 ISSUER_DN = C=DE,O=Organiztion
 CERT_PASSWORD = certPassword
+
+[AGENT VIA]
+VIA_AGENCY_URL = http://rezoome.io:8080/result
+VIA_CONNECT_TIMEOUT = 3000
+VIA_READ_TIMEOUT = 3000
+VIA_AGENT_RETRIES = 3
+VIA_RETRY_DELAY_SEC = 3000
+
+

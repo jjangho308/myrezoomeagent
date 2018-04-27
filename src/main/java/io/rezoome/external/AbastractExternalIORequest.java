@@ -13,6 +13,8 @@ import com.google.gson.Gson;
 import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.mk.entity.MkRequestPacketEntity;
+import io.rezoome.external.mk.entity.RequiredAgencyData;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.database.convert.DBConverter;
 import io.rezoome.manager.database.entity.DBEntity;
@@ -20,8 +22,8 @@ import io.rezoome.manager.database.entity.DBRsltEntity;
 import io.rezoome.manager.job.iorequest.IORequestJobEntity;
 import io.rezoome.manager.mapper.DaoMapper;
 import io.rezoome.manager.mapper.Mapper;
-import io.rezoome.manager.network.entity.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestArgsEntity;
+import io.rezoome.manager.network.entity.request.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
 import io.rezoome.manager.network.entity.request.RequestSearchArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestSearchRecordsEntity;
@@ -29,6 +31,7 @@ import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.search.HashRecordEntity;
+import io.rezoome.manager.vianetwork.entity.response.ViaResponsePacketEntity;
 
 public abstract class AbastractExternalIORequest implements ExternalIORequest{
 
@@ -46,24 +49,36 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
    * @param entity
    * @throws ServiceException
    */
-  protected void getViaData(IORequestJobEntity entity) throws ServiceException {
-    RequestPacketEntity requestEntity = new RequestPacketEntity();
+  protected void getViaData(IORequestJobEntity entity, ViaResponsePacketEntity agenctArgsResult) {
+    try{
+
+      
+    RequiredAgencyData ent = new RequiredAgencyData();
+    ent.setCi("test");
     
-    requestEntity.setSid(entity.getSid());
-    //requestEntity.setArgs(searchRecordEntity);
-    requestEntity.setCmd(entity.getCmd());
-    requestEntity.setMid(entity.getMid());
-    
-    
-    // http
-    RequestPacket packet = new RequestPacket(entity.getSid(), JSON.toJson(requestEntity));
-    ResponsePacketEntity responseEntity = null;
-    responseEntity = ManagerProvider.network().request(packet);
+    //ent.setCi(entity.getCi());    
 
     
     
+   
     
+    String mkUrl = ManagerProvider.property().getProperty(PropertyEnum.AGENCY_URL, false); 
     
+    System.out.println("[SEND URL] - " + mkUrl);
+    
+    // send to MK server
+    MkRequestPacketEntity packet = new MkRequestPacketEntity(JSON.toJson(ent));
+    ViaResponsePacketEntity responseEntity = null;
+    responseEntity = ManagerProvider.via().request(packet, agenctArgsResult);
+    
+    // send to Rezoome Portal
+    String portalUrl = ManagerProvider.network().createPortalUrl(entity.getSid());
+    RequestPacket toPortalPacket = new RequestPacket(portalUrl , JSON.toJson(responseEntity));
+    ResponsePacketEntity fromPotalResp = null;
+    fromPotalResp = ManagerProvider.network().request(toPortalPacket);
+    }catch(Exception e){
+      throw new ServiceException("getViaData Error " , e);
+    }
   }
   
   protected void getDirectDbData(IORequestJobEntity entity) throws ServiceException {
