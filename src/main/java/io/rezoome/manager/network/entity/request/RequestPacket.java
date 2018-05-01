@@ -1,4 +1,4 @@
-package io.rezoome.manager.network.entity;
+package io.rezoome.manager.network.entity.request;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,12 +12,12 @@ import io.rezoome.manager.networkv2.ContentType;
 
 public class RequestPacket extends AbstractEntity {
   private final Map<String, String> header = new HashMap<>();
-  private final String sid;
+  private final String url;
   private final String data;
   private final List<File> fileList = new ArrayList<>();
 
-  public RequestPacket(String sid, String data) {
-    this.sid = sid;
+  public RequestPacket(String url, String data) {
+    this.url = url;
     this.data = data;
   }
 
@@ -25,8 +25,8 @@ public class RequestPacket extends AbstractEntity {
     return header;
   }
 
-  public String getSid() {
-    return sid;
+  public String getUrl() {
+    return url;
   }
 
   public String getData() {

@@ -13,6 +13,7 @@ import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.AbstractAgentProperties;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.provider.ManagerProvider;
@@ -57,7 +58,9 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
     agentPropCls = loader.loadClass(agentPropClass);
     AbstractAgentProperties aap = (AbstractAgentProperties) agentPropCls.newInstance();
     Field [] fList = aap.getClass().getFields();
+    System.out.println(fList);
     for(Field f : fList ){
+      
       properties.setProperty(f.getName(), (String) f.get(aap));
     }
     

@@ -18,10 +18,10 @@ public class ResponsePacketEntity extends AbstractEntity {
   static {
     JSON.registerDeserializer("cmd", "result", ManagerProvider.clsarrange().getEntityCodeMap(ResponseArgsEntity.class));
   }
-
-  @SerializedName("mid")
-  private String mid;
-
+//
+//  @SerializedName("mid")
+//  private String mid;
+//
   @SerializedName("cmd")
   private String cmd;
 
@@ -31,14 +31,14 @@ public class ResponsePacketEntity extends AbstractEntity {
   @SerializedName("result")
   private ResponseArgsEntity result;
 
-  public String getMid() {
-    return mid;
-  }
-
-  public void setMid(String mid) {
-    this.mid = mid;
-  }
-
+//  public String getMid() {
+//    return mid;
+//  }
+//
+//  public void setMid(String mid) {
+//    this.mid = mid;
+//  }
+//
   public String getCmd() {
     return cmd;
   }
@@ -67,8 +67,13 @@ public class ResponsePacketEntity extends AbstractEntity {
     super();
   }
 
+//  @Override
+//  public String toString() {
+//    return "ResponsePacketEntity [mid=" + mid + ", cmd=" + cmd + ", code=" + code + ", result=" + result + "]";
+//  }
+  
   @Override
   public String toString() {
-    return "ResponsePacketEntity [mid=" + mid + ", cmd=" + cmd + ", code=" + code + ", result=" + result + "]";
+    return "ResponsePacketEntity [ cmd=" + cmd + ", code=" + code + ", result=" + result + "]";
   }
 }

@@ -30,10 +30,13 @@ final class ClassMapper {
     arranger.addActionMap(JobEntity.class, IORequestJobEntity.class, IORequestJobAction.class);
 
         
-    // HTTP RESPONSE
+    // REZOOME INTERNAL HTTP RESPONSE
     arranger.addEntityKeyMap(ResponseArgsEntity.class, "Auth", ResponseAuthenticationArgsEntity.class);
     arranger.addEntityKeyMap(ResponseArgsEntity.class, "HealthCheck", ResponseHealthCheckArgsEntity.class);
     arranger.addEntityKeyMap(ResponseArgsEntity.class, "KeyProvision", ResponseHealthCheckArgsEntity.class);
     arranger.addEntityKeyMap(ResponseArgsEntity.class, "SearchRecord", ResponseSearchRecordArgsEntity.class);
+    
+    
+      
   }
 }

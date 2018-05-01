@@ -27,6 +27,7 @@ public class Constants {
   public static final String MANAGER_TYPE_PROVIDER = "Provider";
   public static final String MANAGER_TYPE_PUSHCOMMAND = "PushCommand";
   public static final String MANAGER_TYPE_STATUS = "Status";
+  public static final String MANAGER_TYPE_VIA = "Via";
 
   public static final String COMMAND_AUTH = "Auth";
   public static final String COMMAND_KEY_PROVISION = "KeyProvision";
