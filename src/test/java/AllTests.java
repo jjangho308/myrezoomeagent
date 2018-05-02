@@ -39,8 +39,10 @@ import io.rezoome.core.ServiceInitializer;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.external.inha.mapper.InhaMapperEntity;
 import io.rezoome.lib.json.JSON;
+import io.rezoome.manager.amq.AMQMessageCryptoEntity;
 import io.rezoome.manager.amq.AMQMessageEntity;
 import io.rezoome.manager.amq.AMQMessageHandlerImpl;
+import io.rezoome.manager.property.PrivateProperties;
 import io.rezoome.manager.provider.ManagerProvider;
 import junit.framework.TestSuite;
 
@@ -210,6 +212,34 @@ public class AllTests extends TestSuite {
     }
   }
 
+  @Test
+  public void crypto2() {
+
+    try {
+      ManagerProvider.property().initialize(InitialEvent.RUNTIME);
+      ManagerProvider.key().initialize(InitialEvent.RUNTIME);
+
+      String privateKey = ManagerProvider.key().getPrivKeyStr(PrivateProperties.CERT_NAME);
+      String publicKey = ManagerProvider.key().getPubKeyStr(PrivateProperties.CERT_NAME);
+
+      System.out.println("privateKey : " + privateKey);
+      System.out.println("publicKey : " + publicKey);
+
+      String data = "test data";
+
+      ManagerProvider.crypto().initialize(InitialEvent.RUNTIME);
+
+      String encryptData = ManagerProvider.crypto().encryptRSA(data, publicKey);
+      System.out.println("encryptData : " + encryptData);
+
+      String decryptData = ManagerProvider.crypto().decryptRSA(encryptData, privateKey);
+      System.out.println("decryptData : " + decryptData);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   // @Test
   // public void rsaPublicKey() {
   // String msg =
@@ -365,6 +395,63 @@ public class AllTests extends TestSuite {
   // e.printStackTrace();
   // }
   // }
+
+  @Test
+  public void amqFullMsgDecryptTest() {
+
+    ManagerProvider.property().initialize(InitialEvent.RUNTIME);
+    ManagerProvider.key().initialize(InitialEvent.RUNTIME);
+
+    String msg = "{\r\n" + " cmd : \"SearchRecord\",\r\n" + " mid : \"leifajlsif\",\r\n" + " sid : \"serverID\",\r\n" + " args : {\r\n"
+        + " familyNameEN : \"familyNameEN\",\r\n" + " firstNameEN : \"firstNameEN\",\r\n" + " fullNameEN : \"PARKHUNWOOK\",\r\n"
+        + " familyNameKO : \"familyNameKO\",\r\n" + " firstNameKO : \"firstNameKO\",\r\n" + " fullNameKO : \"박헌욱\",\r\n" +
+        " birth : '19870123',\r\n" + " phone : '01064749282',\r\n" +
+        " subIDs : ['RCOGC0008', 'RCOGC0009'],\r\n" + " gender : 1,\r\n" + " ci : '123456789abcdeftg',\r\n" + " pkey : 'pkey',\r\n"
+        + " require : ['12060991'],\r\n"
+        + " records : [{hashed: \"f1b9d789ac9ef7343b03c79d331230d7aa99be4b035c91c056bddd750da7dbfc\", subID:\"RCOGC0009\", txid:\"sdfsdfsdf\"},{hashed: \"dddd\", subID:\"RCOGC0008\", txid:\"234234234234\"}]\r\n"
+        +
+        " }\r\n" + "}";
+
+    String aesKey = ManagerProvider.crypto().generateAES();
+    String iv = ManagerProvider.crypto().generateIV();
+
+    String encryptData = ManagerProvider.crypto().encryptAES(msg, aesKey, iv);
+
+    String amqFullMessage = "{\r\n" + " key : \"" + aesKey + "\",\r\n" + " iv : \"" + iv + "\",\r\n"
+        + " msg : \"" + encryptData + "\"\r\n}";
+
+    System.out.println("amqFullMessage : " + amqFullMessage);
+    System.out.println("amqFullMessage length : " + amqFullMessage.length());
+
+    String privateKey = ManagerProvider.key().getPrivKeyStr(PrivateProperties.CERT_NAME);
+    String publicKey = ManagerProvider.key().getPubKeyStr(PrivateProperties.CERT_NAME);
+
+    String encryptedAMQFullMessage = ManagerProvider.crypto().encryptRSA(amqFullMessage, publicKey);
+    System.out.println("encrypted AMQ Full message : " + encryptedAMQFullMessage);
+
+    String decrytedAMQFullMessage = ManagerProvider.crypto().decryptRSA(encryptedAMQFullMessage, privateKey);
+    System.out.println("decrypted AMQ Full message : " + decrytedAMQFullMessage);
+
+    AMQMessageCryptoEntity amqCryptoEntity = new AMQMessageCryptoEntity();
+    amqCryptoEntity = JSON.fromJson(amqFullMessage, AMQMessageCryptoEntity.class);
+
+    System.out.println(amqCryptoEntity.toString());
+
+    // AMQ User basic message AES Decrypt
+    String clientKey = amqCryptoEntity.getKey();
+    String clientIv = amqCryptoEntity.getIv();
+    String amqMessage = amqCryptoEntity.getMsg();
+    amqMessage = ManagerProvider.crypto().decryptAES(amqMessage, clientKey, clientIv);
+
+    System.out.println("decrypted amqMessage : " + amqMessage);
+
+
+    AMQMessageEntity amqEntity = new AMQMessageEntity();
+    amqEntity = JSON.fromJson(amqMessage, AMQMessageEntity.class);
+
+    System.out.println(amqEntity.toString());
+
+  }
 
   @Test
   public void DBUserExistAndDataExistTest() {

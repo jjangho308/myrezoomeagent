@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.rezoome.lib.json.JSON;
+import io.rezoome.manager.property.PrivateProperties;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 
@@ -30,9 +31,23 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler, MessageListener
     try {
       TextMessage consumerTextMessage = (TextMessage) message;
       LOG.debug("AMQMessage : {}", consumerTextMessage.getText());
-      // AMQMessageEntity amqEntity = null;//
+
+      // AMQ Full message RSA Decrypt
+      String privateKey = ManagerProvider.key().getPrivKeyStr(PrivateProperties.CERT_NAME);
+      String decryptMessage = ManagerProvider.crypto().decryptRSA(consumerTextMessage.getText(), privateKey);
+
+      AMQMessageCryptoEntity amqCryptoEntity = new AMQMessageCryptoEntity();
+      amqCryptoEntity = JSON.fromJson(decryptMessage, AMQMessageCryptoEntity.class);
+
+      // AMQ User basic message AES Decrypt
+      String clientKey = amqCryptoEntity.getKey();
+      String clientIv = amqCryptoEntity.getIv();
+      String amqMessage = amqCryptoEntity.getMsg();
+      amqMessage = ManagerProvider.crypto().decryptAES(amqMessage, clientKey, clientIv);
+
       AMQMessageEntity amqEntity = new AMQMessageEntity();
-      amqEntity = JSON.fromJson(consumerTextMessage.getText(), AMQMessageEntity.class);
+      amqEntity = JSON.fromJson(amqMessage, AMQMessageEntity.class);
+      // amqEntity = JSON.fromJson(consumerTextMessage.getText(), AMQMessageEntity.class);
       AMQMessageHandlerImpl.getInstance().handleMessage(amqEntity);
     } catch (NullPointerException ne) {
       // TODO Auto-generated catch block
