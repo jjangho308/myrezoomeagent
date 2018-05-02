@@ -11,8 +11,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -142,38 +146,45 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
   public String encryptRSA(String data, String publicKey) {
     // TODO Auto-generated method stub
     String encryptedString = "";
-
     try {
       KeyFactory fac = KeyFactory.getInstance("RSA");
       Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
       byte[] pubArr = Base64.getDecoder().decode(publicKey);
-
-      byte[] decodedE = Base64.getUrlDecoder().decode("");
-      byte[] decodedM = Base64.getUrlDecoder().decode(
-          "zuSwchiSRGQZUMSuLgFj8smjQWc7Qi2p0C1reirsEdwtx0mjoGEqAYkLy9FCh4lfWeMLgzh_dKztqw1Tnj0czvMwpwAhVvcWqgBn5gXmoVC8cP4Gtyg8VtVlnfNdv3K0cw7nCZ1sYFIH3tn8K0S0DImVo78V3lctARceE9K46kgIznV3jDfVmHum6ZqBwTMARah3Q2Sf2WYYb4KD5N5z5FLw3Zcmu4Eh0AUElZsZGpDicP8DoBtxIn_BRk2Xl9Lejc-z_2cNBwaoOFqqLk5Kn5UBNGOXF529tstWnS-3DFRdIg4g1_HNixXJm2fjl0KZ20vBHPcKTtr77cKb1X35tw");
-
-
-      ByteBuffer buffer = ByteBuffer.allocate(4);
-      buffer.put(decodedE);
-
-      ByteBuffer buffer2 = ByteBuffer.allocate(257);
-      buffer2.put((byte) 0x00);
-      buffer2.put(decodedM);
-
-      BigInteger numberE = new BigInteger(buffer.array());
-      BigInteger numberM = new BigInteger(buffer2.array());
-
-      RSAPublicKeySpec spec = new RSAPublicKeySpec(numberM, numberE);
-      // X509EncodedKeySpec x509Spec = new X509EncodedKeySpec(pubArr);
-      // PublicKey pubkey = fac.generatePublic(x509Spec);
-      PublicKey pubkey = fac.generatePublic(spec);
+      X509EncodedKeySpec x509Spec = new X509EncodedKeySpec(pubArr);
+      PublicKey pubkey = fac.generatePublic(x509Spec);
       cipher.init(Cipher.ENCRYPT_MODE, pubkey);
       byte[] arrCipherData = cipher.doFinal(data.getBytes());
       encryptedString = Base64.getEncoder().encodeToString(arrCipherData);
     } catch (Exception e) {
       e.printStackTrace();
     }
+    return encryptedString;
+  }
 
+  @Override
+  public String encryptRSA(String data, String N, String E) {
+    // TODO Auto-generated method stub
+    String encryptedString = "";
+    try {
+      String encodeE = E;
+      String encodeN = N;
+      BigInteger bigE = new BigInteger(Base64.getUrlDecoder().decode(encodeE));
+      byte[] decodedN = Base64.getUrlDecoder().decode(encodeN.getBytes());
+      ByteBuffer buffer = ByteBuffer.allocate(decodedN.length + 1);
+      buffer.put((byte) 0x00).put(decodedN);
+      BigInteger bigN = new BigInteger(buffer.array());
+
+      // Convert e, n to Client PublicKey
+      RSAPublicKeySpec publicSpec = new RSAPublicKeySpec(bigN, bigE);
+      KeyFactory factory = KeyFactory.getInstance("RSA");
+      RSAPublicKey clientPublic = (RSAPublicKey) factory.generatePublic(publicSpec);
+      Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+      cipher.init(Cipher.ENCRYPT_MODE, clientPublic);
+      byte[] arrCipherData = cipher.doFinal(data.getBytes());
+      encryptedString = Base64.getEncoder().encodeToString(arrCipherData);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     return encryptedString;
   }
 
@@ -198,6 +209,40 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       e.printStackTrace();
     }
 
+    return decryptedString;
+  }
+
+  @Override
+  public String decryptRSA(String encData, String N, String D) {
+    // TODO Auto-generated method stub
+    String decryptedString = "";
+    try {
+      byte[] decodedEncryptionData = Base64.getDecoder().decode(encData);
+
+      String encodeN = N;
+      String encodedD = D;
+      byte[] decodedN = Base64.getUrlDecoder().decode(encodeN.getBytes());
+      byte[] decodedD = Base64.getUrlDecoder().decode(encodedD);
+
+      ByteBuffer buffer = ByteBuffer.allocate(decodedN.length + 1);
+      buffer.put((byte) 0x00).put(decodedN);
+      BigInteger bigN = new BigInteger(buffer.array());
+
+      buffer = ByteBuffer.allocate(decodedD.length + 1);
+      buffer.clear();
+      buffer.put((byte) 0x00).put(decodedD);
+      BigInteger privateExponent = new BigInteger(buffer.array());
+
+      RSAPrivateKeySpec privateSpec = new RSAPrivateKeySpec(bigN, privateExponent);
+      KeyFactory factory = KeyFactory.getInstance("RSA");
+      RSAPrivateKey clientPrivate = (RSAPrivateKey) factory.generatePrivate(privateSpec);
+      Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+      cipher.init(Cipher.DECRYPT_MODE, clientPrivate);
+      byte[] arrCipherData = cipher.doFinal(decodedEncryptionData);
+      decryptedString = new String(arrCipherData);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     return decryptedString;
   }
 
