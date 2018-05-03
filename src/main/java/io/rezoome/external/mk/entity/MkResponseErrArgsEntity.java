@@ -3,8 +3,9 @@ package io.rezoome.external.mk.entity;
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
+import io.rezoome.external.entity.AgencyErrEntity;
 
-public class MkResponseErrArgsEntity extends AbstractEntity{
+public class MkResponseErrArgsEntity extends AgencyErrEntity{
   
   @SerializedName("code")
   String code;

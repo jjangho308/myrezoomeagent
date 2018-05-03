@@ -6,22 +6,23 @@ import java.util.List;
 import java.util.Map;
 
 import io.rezoome.constants.Constants;
+import io.rezoome.external.entity.AgencyUserEntity;
 import io.rezoome.external.mk.entity.MkResponseResultArgsEntity;
-import io.rezoome.manager.database.entity.DBRsltEntity;
 import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.mapper.MapperEntity;
 
 public class MkMapper implements Mapper {
 
   @Override
-  public MapperEntity convert(DBRsltEntity dbResultEntity) throws NullPointerException {
+  public MapperEntity convert(Object dbResultEntity) throws NullPointerException {
     // TODO Auto-generated method stub
 
     if (dbResultEntity == null) {
       throw new NullPointerException();
     }
 
-    MkMapperEntity mapperEntity = new MkMapperEntity();
+    
+    MkMapperEntity mapperEntity = new MkMapperEntity();    
     mapperEntity.setName(((MkResponseResultArgsEntity) dbResultEntity).getName() == null ? null : ((MkResponseResultArgsEntity) dbResultEntity).getName());
     mapperEntity.setDate(((MkResponseResultArgsEntity) dbResultEntity).getDate() == null ? null : ((MkResponseResultArgsEntity) dbResultEntity).getDate());
     mapperEntity.setGrade(((MkResponseResultArgsEntity) dbResultEntity).getGrade() == null ? null : ((MkResponseResultArgsEntity) dbResultEntity).getGrade());
@@ -34,7 +35,7 @@ public class MkMapper implements Mapper {
   }
 
   @Override
-  public Map<String, Object> convert(List<DBRsltEntity> dbResultEntityList) throws NullPointerException {
+  public Map<String, Object> convert(List<Object> dbResultEntityList) throws NullPointerException {
     // TODO Auto-generated method stub
 
     if (dbResultEntityList == null) {
@@ -43,7 +44,7 @@ public class MkMapper implements Mapper {
 
     Map<String, Object> mapperEntityMap = new HashMap<String, Object>();
     List<MapperEntity> mapperEntityList = new ArrayList<MapperEntity>();
-    for (DBRsltEntity dbEntity : dbResultEntityList) {
+    for (Object dbEntity : dbResultEntityList) {
       MkMapperEntity mapperEntity = new MkMapperEntity();
       mapperEntity.setName(((MkResponseResultArgsEntity) dbEntity).getName() == null ? null : ((MkResponseResultArgsEntity) dbEntity).getName());
       mapperEntity.setDate(((MkResponseResultArgsEntity) dbEntity).getDate() == null ? null : ((MkResponseResultArgsEntity) dbEntity).getDate());

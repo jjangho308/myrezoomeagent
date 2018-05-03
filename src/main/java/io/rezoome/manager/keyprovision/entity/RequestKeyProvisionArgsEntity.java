@@ -1,8 +1,9 @@
-package io.rezoome.manager.network.entity.request;
+package io.rezoome.manager.keyprovision.entity;
 
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
+import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 
 public class RequestKeyProvisionArgsEntity extends AbstractEntity implements RequestArgsEntity {
 

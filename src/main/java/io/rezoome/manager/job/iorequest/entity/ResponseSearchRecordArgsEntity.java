@@ -1,6 +1,7 @@
-package io.rezoome.manager.network.entity.response;
+package io.rezoome.manager.job.iorequest.entity;
 
 import io.rezoome.core.entity.AbstractEntity;
+import io.rezoome.manager.network.entity.response.ResponseArgsEntity;
 
 public class ResponseSearchRecordArgsEntity extends AbstractEntity implements ResponseArgsEntity {
 

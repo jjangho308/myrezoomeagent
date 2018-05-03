@@ -1,8 +1,8 @@
 package io.rezoome.external.mk.entity;
 
-import io.rezoome.manager.database.entity.DBRsltEntity;
+import io.rezoome.external.entity.AgencyKeyEntity;
 
-public class MkUserResultEntity implements DBRsltEntity {
+public class MkUserResultEntity extends AgencyKeyEntity {
 
   private String userid;
   private String name;
@@ -10,8 +10,11 @@ public class MkUserResultEntity implements DBRsltEntity {
   private String phone;
   private String email;
   private String gender;
-
-
+  
+  public MkUserResultEntity(){
+    super.key = userid;
+  }
+  
   public String getUserid() {
     return userid;
   }

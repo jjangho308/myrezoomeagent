@@ -77,9 +77,37 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
     }
     return hash;
   }
+  
 
+  @Override  
+  public KeyPair genRSAKeyPair() {
+    KeyPairGenerator keyGen = null;
+    try {
+      keyGen = KeyPairGenerator.getInstance("RSA");
+    } catch (NoSuchAlgorithmException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    keyGen.initialize(2048);
+    KeyPair keyPair = keyGen.generateKeyPair();
+
+    System.out.println("-----BEGIN PRIVATE KEY-----");
+    System.out.println(Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded()));
+    System.out.println("-----END PRIVATE KEY-----");
+    System.out.println("-----BEGIN PUBLIC KEY-----");
+    System.out.println(Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded()));
+    System.out.println("-----END PUBLIC KEY-----");
+    
+    return keyPair;
+  }
+  
   @Override
-  @Deprecated
+  public String encodeBase64(byte [] bArr){
+    
+    return Base64.getEncoder().encodeToString(bArr);
+  }
+  
+/*
   public Map<String, String> generateRSA() {
     // TODO Auto-generated method stub
     Map<String, String> returnMap = new HashMap<String, String>();
@@ -87,25 +115,27 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
     try {
       // generate key pair
       KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-      keyPairGenerator.initialize(2048);
+      SecureRandom sRan = new SecureRandom();
+      keyPairGenerator.initialize(2048, sRan);
 
       KeyPair keyPair = keyPairGenerator.genKeyPair();
       Key publicKey = keyPair.getPublic();
       Key privateKey = keyPair.getPrivate();
-
+      
       // base64 encode keys
       String encodedPublicKey = Base64.getEncoder().encodeToString(publicKey.getEncoded());
       String encodedPrivateKey = Base64.getEncoder().encodeToString(privateKey.getEncoded());
 
       returnMap.put("PUBLIC_KEY", encodedPublicKey);
       returnMap.put("PRIVATE_KEY", encodedPrivateKey);
-
     } catch (Exception e) {
       e.printStackTrace();
     }
     return returnMap;
     // return null;
-  }
+  }*/
+  
+  
 
   @Override
   public String generateAES() {
@@ -149,7 +179,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       byte[] pubArr = Base64.getDecoder().decode(publicKey);
 
       byte[] decodedE = Base64.getUrlDecoder().decode("");
-      byte[] decodedM = Base64.getUrlDecoder().decode(
+      byte[] decodedN = Base64.getUrlDecoder().decode(
           "zuSwchiSRGQZUMSuLgFj8smjQWc7Qi2p0C1reirsEdwtx0mjoGEqAYkLy9FCh4lfWeMLgzh_dKztqw1Tnj0czvMwpwAhVvcWqgBn5gXmoVC8cP4Gtyg8VtVlnfNdv3K0cw7nCZ1sYFIH3tn8K0S0DImVo78V3lctARceE9K46kgIznV3jDfVmHum6ZqBwTMARah3Q2Sf2WYYb4KD5N5z5FLw3Zcmu4Eh0AUElZsZGpDicP8DoBtxIn_BRk2Xl9Lejc-z_2cNBwaoOFqqLk5Kn5UBNGOXF529tstWnS-3DFRdIg4g1_HNixXJm2fjl0KZ20vBHPcKTtr77cKb1X35tw");
 
 
@@ -158,12 +188,12 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
 
       ByteBuffer buffer2 = ByteBuffer.allocate(257);
       buffer2.put((byte) 0x00);
-      buffer2.put(decodedM);
+      buffer2.put(decodedN);
 
       BigInteger numberE = new BigInteger(buffer.array());
-      BigInteger numberM = new BigInteger(buffer2.array());
+      BigInteger numberN = new BigInteger(buffer2.array());
 
-      RSAPublicKeySpec spec = new RSAPublicKeySpec(numberM, numberE);
+      RSAPublicKeySpec spec = new RSAPublicKeySpec(numberN, numberE);
       // X509EncodedKeySpec x509Spec = new X509EncodedKeySpec(pubArr);
       // PublicKey pubkey = fac.generatePublic(x509Spec);
       PublicKey pubkey = fac.generatePublic(spec);

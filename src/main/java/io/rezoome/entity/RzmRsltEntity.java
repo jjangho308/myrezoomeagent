@@ -8,7 +8,7 @@ import io.rezoome.core.entity.AbstractEntity;
 import io.rezoome.core.entity.annotation.EntityType;
 import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 
-public final class RzmRsltEntity extends AbstractEntity implements RequestArgsEntity {
+public final class RzmRsltEntity extends AbstractEntity {
 
   @SerializedName("orgCode")
   String orgCode;

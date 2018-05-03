@@ -13,24 +13,28 @@ import com.google.gson.Gson;
 import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.entity.AgencyKeyEntity;
+import io.rezoome.external.entity.AgencyResultEntity;
+import io.rezoome.external.entity.AgencyUserEntity;
 import io.rezoome.external.mk.entity.MkRequestPacketEntity;
-import io.rezoome.external.mk.entity.RequiredAgencyData;
+import io.rezoome.external.mk.entity.MkResponsePacketEntity;
 import io.rezoome.lib.json.JSON;
+import io.rezoome.lib.json.Jsonable;
 import io.rezoome.manager.database.convert.DBConverter;
-import io.rezoome.manager.database.entity.DBEntity;
-import io.rezoome.manager.database.entity.DBRsltEntity;
+import io.rezoome.manager.database.entity.UserEntity;
 import io.rezoome.manager.job.iorequest.IORequestJobEntity;
+import io.rezoome.manager.job.iorequest.entity.RequestSearchArgsEntity;
+import io.rezoome.manager.job.iorequest.entity.RequestSearchRecordsEntity;
 import io.rezoome.manager.mapper.DaoMapper;
 import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
-import io.rezoome.manager.network.entity.request.RequestSearchArgsEntity;
-import io.rezoome.manager.network.entity.request.RequestSearchRecordsEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.search.HashRecordEntity;
+import io.rezoome.manager.vianetwork.entity.request.ViaRequestPacketEntity;
 import io.rezoome.manager.vianetwork.entity.response.ViaResponsePacketEntity;
 
 public abstract class AbastractExternalIORequest implements ExternalIORequest{
@@ -49,58 +53,54 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
    * @param entity
    * @throws ServiceException
    */
-  protected void getViaData(IORequestJobEntity entity, ViaResponsePacketEntity agenctArgsResult) {
-    try{
-
+    
+  protected void getViaData(IORequestJobEntity entity, AgencyKeyEntity user,  AgencyResultEntity resEntity){
+    try{ 
+      List<String> subIds = checkCommand(entity);
+      ManagerProvider.mapper().getDaoMapper().getCertData(user, resEntity, subIds);
+      Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
       
-    RequiredAgencyData ent = new RequiredAgencyData();
-    ent.setCi("test");
+      // convert
+      RequestPacketEntity requestEntity = new RequestPacketEntity();
+      convertRequestPacket(entity, dbResultEntityListMap, requestEntity);
+      
+      // http
+      RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL , false) + entity.getSid(), JSON.toJson(requestEntity));
+      ResponsePacketEntity responseEntity = null;
+      responseEntity = ManagerProvider.network().request(packet);
+  
+      if (responseEntity == null) {
+        throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_CORRECT_RESPONSE_CODE);
+      }
     
-    //ent.setCi(entity.getCi());    
-
-    
-    
-   
-    
-    String mkUrl = ManagerProvider.property().getProperty(PropertyEnum.AGENCY_URL, false); 
-    
-    System.out.println("[SEND URL] - " + mkUrl);
-    
-    // send to MK server
-    MkRequestPacketEntity packet = new MkRequestPacketEntity(JSON.toJson(ent));
-    ViaResponsePacketEntity responseEntity = null;
-    responseEntity = ManagerProvider.via().request(packet, agenctArgsResult);
-    
-    // send to Rezoome Portal
-    String portalUrl = ManagerProvider.network().createPortalUrl(entity.getSid());
-    RequestPacket toPortalPacket = new RequestPacket(portalUrl , JSON.toJson(responseEntity));
-    ResponsePacketEntity fromPotalResp = null;
-    fromPotalResp = ManagerProvider.network().request(toPortalPacket);
-    }catch(Exception e){
-      throw new ServiceException("getViaData Error " , e);
-    }
+  } catch (Exception e) {
+    // TODO Auto-generated catch block
+    throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA, e);
+  }
   }
   
-  protected void getDirectDbData(IORequestJobEntity entity) throws ServiceException {
+  
+  protected void getDirectDbData(IORequestJobEntity entity,  AgencyResultEntity resEntity) throws ServiceException {
     
-    daoMapper = (DaoMapper) ManagerProvider.database().getDaoManager().getDao();
+    daoMapper = (DaoMapper) ManagerProvider.mapper().getDaoMapper();
     DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
 
     Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
     List<String> requires = entity.getRequire();
-    List<String> subIds = entity.getSubIds();
     List<HashRecordEntity> records = entity.getRecords();
+    List<String> subIds;
 
-    DBEntity dbEntity = converter.convert(entity);
+
+    UserEntity dbEntity = converter.convert(entity);
     Map<String, Object> userResultMap = new HashMap<String, Object>();
-
+    AgencyKeyEntity agencyKeyEntity;
     // 1. 사용자 확인
     // 2. 기관정보 데이터 확인
     try {
       // CI, 이름, 생년월일, 성별 등으로 다시 확인
       userResultMap = daoMapper.getUserData(dbEntity);
       status = STATUS.valueOf(userResultMap.get(Constants.PARAM_STATUS).toString());
-      dbEntity = (DBEntity) userResultMap.get(Constants.PARAM_ENTITY);
+      agencyKeyEntity = (AgencyKeyEntity) userResultMap.get(Constants.PARAM_ENTITY);
 
       if (requires != null) {
         // dbEntity = JSON.fromJson("{req_key1:" + requires.get(0) + ", req_key2:" + requires.get(1)
@@ -108,17 +108,18 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
         // dbResultEntityListMap = daoMapper.getCertDataWithRequireKey(dbEntity, subIds);
       }
 
-      if (status.equals(STATUS.USER_EXIST)) {
-        // if ((subIds != null && records == null) || (subIds != null && records != null)) {
-        if (subIds != null) {
-          dbResultEntityListMap = daoMapper.getCertData(dbEntity, subIds);
-        } else if (subIds == null && records != null) {
-          subIds = new ArrayList<String>();
-          for (HashRecordEntity record : records) {
-            subIds.add(record.getSubID());
-          }
-          dbResultEntityListMap = daoMapper.getCertData(dbEntity, subIds);
-        }
+      subIds = checkCommand(entity);
+      if (status.equals(STATUS.USER_EXIST)) {        
+//        if (subIds != null) {
+//          dbResultEntityListMap = daoMapper.getCertData(agencyKeyEntity,resEntity, subIds);
+//        } else if (subIds == null && records != null) {
+//          subIds = new ArrayList<String>();
+//          for (HashRecordEntity record : records) {
+//            subIds.add(record.getSubID());
+//          }
+//          dbResultEntityListMap = daoMapper.getCertData(agencyKeyEntity,resEntity, subIds);
+//        }
+        dbResultEntityListMap = daoMapper.getCertData(agencyKeyEntity,resEntity, subIds);
       } else {
         dbResultEntityListMap = null;
       }
@@ -127,8 +128,8 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
       RequestPacketEntity requestEntity = new RequestPacketEntity();
       convertRequestPacket(entity, dbResultEntityListMap, requestEntity);
       
-   // http
-      RequestPacket packet = new RequestPacket(entity.getSid(), JSON.toJson(requestEntity));
+      // http
+      RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL , false) + entity.getSid(), JSON.toJson(requestEntity));
       ResponsePacketEntity responseEntity = null;
       responseEntity = ManagerProvider.network().request(packet);
 
@@ -142,6 +143,26 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
     }
 
   }  
+  
+  private List<String> checkCommand(IORequestJobEntity entity){
+    List<String> subIds = entity.getSubIds();
+    List<HashRecordEntity> records = entity.getRecords();
+
+    
+    if (subIds != null) {
+      return subIds;
+    } else if (subIds == null && records != null) {
+      subIds = new ArrayList<String>();
+      for (HashRecordEntity record : records) {
+        subIds.add(record.getSubID());
+      }
+      return subIds;
+    }
+    
+    return subIds;
+    
+  }
+  
   
   @SuppressWarnings("unchecked")
   private void convertRequestPacket(IORequestJobEntity entity, Map<String, Object> dbResultEntityListMap, RequestPacketEntity requestEntity) throws ServiceException {
@@ -177,9 +198,9 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
           String dbEntityString = "";
           String dbResultClassType = dbResultEntityListMap.get(subId).getClass().toString();
           if (dbResultClassType.contains("List")) {
-            List<DBRsltEntity> dbResultEntityList = (List<DBRsltEntity>) dbResultEntityListMap.get(subId);
-            for (DBRsltEntity dbEntity : dbResultEntityList) {
-              dbEntityString = gson.toJson(mapper.convert(dbEntity));
+            List<Object> dbResultEntityList = (List<Object>) dbResultEntityListMap.get(subId);
+            for (Object resultEntity : dbResultEntityList) {
+              dbEntityString = gson.toJson(mapper.convert(resultEntity));
               record = new RequestSearchRecordsEntity();
               String encData = dbEntityString;
               String hashData = ManagerProvider.crypto().hash(dbEntityString);
@@ -199,7 +220,7 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
           } else if (dbResultClassType.contains("Map")) {
             Map<String, Object> dbResultEntityMap = new HashMap<String, Object>();
             dbResultEntityMap = (Map<String, Object>) dbResultEntityListMap.get(subId);
-            List<DBRsltEntity> dbResultEntityList = (List<DBRsltEntity>) dbResultEntityMap.get("all");
+            List<AgencyUserEntity> dbResultEntityList = (List<AgencyUserEntity>) dbResultEntityMap.get("all");
             dbEntityString = gson.toJson(mapper.convert(dbResultEntityList));
             record = new RequestSearchRecordsEntity();
             String encData = dbEntityString;

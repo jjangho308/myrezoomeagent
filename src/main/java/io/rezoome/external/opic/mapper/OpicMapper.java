@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import io.rezoome.constants.Constants;
+import io.rezoome.external.entity.AgencyUserEntity;
 import io.rezoome.external.opic.entity.OpicResultEntity;
-import io.rezoome.manager.database.entity.DBRsltEntity;
 import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.mapper.MapperEntity;
 
 public class OpicMapper implements Mapper {
 
   @Override
-  public MapperEntity convert(DBRsltEntity dbResultEntity) throws NullPointerException {
+  public MapperEntity convert(Object dbResultEntity) throws NullPointerException {
     // TODO Auto-generated method stub
 
     if (dbResultEntity == null) {
@@ -32,7 +32,7 @@ public class OpicMapper implements Mapper {
   }
 
   @Override
-  public Map<String, Object> convert(List<DBRsltEntity> dbResultEntityList) throws NullPointerException {
+  public Map<String, Object> convert(List<Object> dbResultEntityList) throws NullPointerException {
     // TODO Auto-generated method stub
 
     if (dbResultEntityList == null) {
@@ -41,7 +41,7 @@ public class OpicMapper implements Mapper {
 
     Map<String, Object> mapperEntityMap = new HashMap<String, Object>();
     List<MapperEntity> mapperEntityList = new ArrayList<MapperEntity>();
-    for (DBRsltEntity dbEntity : dbResultEntityList) {
+    for (Object dbEntity : dbResultEntityList) {
       OpicMapperEntity mapperEntity = new OpicMapperEntity();
       mapperEntity.setName(((OpicResultEntity) dbEntity).getName() == null ? null : ((OpicResultEntity) dbEntity).getName());
       mapperEntity.setDate(((OpicResultEntity) dbEntity).getTestDay() == null ? null : ((OpicResultEntity) dbEntity).getTestDay());

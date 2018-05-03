@@ -138,7 +138,7 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
         keyEntry = getKeyEntry(certName);
       }else{
         // Key 생성
-        KeyPair keyPair = genRSAKeyPair();      
+        KeyPair keyPair = ManagerProvider.crypto().genRSAKeyPair();      
         // 인증서 생성 후 저장
         keyEntry = createCert(keyPair, true);      
       }
@@ -148,26 +148,7 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
     }
   }
 
-  public KeyPair genRSAKeyPair() {
-    KeyPairGenerator keyGen = null;
-    try {
-      keyGen = KeyPairGenerator.getInstance("RSA");
-    } catch (NoSuchAlgorithmException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    keyGen.initialize(2048);
-    KeyPair keyPair = keyGen.generateKeyPair();
-
-    System.out.println("-----BEGIN PRIVATE KEY-----");
-    System.out.println(Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded()));
-    System.out.println("-----END PRIVATE KEY-----");
-    System.out.println("-----BEGIN PUBLIC KEY-----");
-    System.out.println(Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded()));
-    System.out.println("-----END PUBLIC KEY-----");
-    
-    return keyPair;
-  }
+  
 
   @Override
   public Entry createCert(KeyPair keyPair, boolean isSaveKeyStore)  {

@@ -11,6 +11,7 @@ import java.net.URL;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.net.ssl.HostnameVerifier;
@@ -30,6 +31,7 @@ import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.entity.AgencyResultEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.property.PropertyEnum;
@@ -75,7 +77,7 @@ public class ViaNetworkManagerImpl extends AbstractManager implements ViaNetwork
   }
 
   @Override
-  public ViaResponsePacketEntity request(ViaRequestPacketEntity packet, ViaResponsePacketEntity agencyResultArgs) {
+  public List<AgencyResultEntity> request(ViaRequestPacketEntity packet, AgencyResultEntity agencyResultArgs) {
     int retry = 0;
     String response = null;
     HttpURLConnection connection = null;
@@ -127,13 +129,16 @@ public class ViaNetworkManagerImpl extends AbstractManager implements ViaNetwork
 
         switch (connection.getResponseCode()) {
           case HttpURLConnection.HTTP_OK:
-            ViaResponsePacketEntity responsePacket = agencyResultArgs;
+            AgencyResultEntity result = agencyResultArgs;
+            List<AgencyResultEntity> results;
             response = getResponse(connection.getInputStream());
             connection.disconnect();
             System.out.println("mkresponse : " + response);
-            responsePacket = JSON.fromJson(response, responsePacket.getClass());
-            LOG.debug("ReponsePacket : {}", responsePacket);
-            return responsePacket;
+            results = (List<AgencyResultEntity>) JSON.fromJson(response, result.getClass());
+            LOG.debug("ReponsePacket : {}", result);
+           
+            
+            return results;
           // case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:
           // LOG.error("response code {}", HttpURLConnection.HTTP_GATEWAY_TIMEOUT);
           // break;

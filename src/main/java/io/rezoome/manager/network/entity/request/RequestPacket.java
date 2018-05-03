@@ -8,9 +8,10 @@ import java.util.Map;
 
 import io.rezoome.constants.GlobalEntity;
 import io.rezoome.core.entity.AbstractEntity;
+import io.rezoome.manager.network.entity.NetworkPacket;
 import io.rezoome.manager.networkv2.ContentType;
 
-public class RequestPacket extends AbstractEntity {
+public class RequestPacket extends AbstractEntity implements NetworkPacket{
   private final Map<String, String> header = new HashMap<>();
   private final String url;
   private final String data;

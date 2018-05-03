@@ -7,13 +7,8 @@
 <mapper namespace='io.rezoome.manager.database.dao.Dao'>
 
 	<resultMap id="MkUserResultEntity"
-		type="io.rezoome.external.mk.entity.MkUserResultEntity">
-		<result property="userid" column="userid" />
-		<result property="email" column="email" />
-		<result property="name" column="name" />
-		<result property="birth" column="birth" />
-		<result property="phone" column="phone" />
-		<result property="gender" column="gender" />
+		type="io.rezoome.external.entity.AgencyKeyEntity">
+		<result property="key" column="userid" />
 	</resultMap>
 
 	<resultMap id="MkResponseResultArgsEntity" type="io.rezoome.external.mk.entity.MkResponseResultArgsEntity">
@@ -28,24 +23,24 @@
 		<result property="date" column="re_regdate" />
 	</resultMap>
 
-	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
+	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.UserEntity"
 		resultMap="MkUserResultEntity">
-		SELECT userid, email, name, birth, phone, gender
+		SELECT userid
 		FROM MK_USR
 		WHERE
 		name =
 		#{fullNameKO} AND birth = #{birth}
 	</select>
 
-	<select id="getCertRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
-		resultMap="MkResultEntity">
+	<select id="getCertRecords" parameterType="io.rezoome.external.entity.AgencyKeyEntity"
+		resultMap="MkResponseResultArgsEntity">
 		SELECT
 		MU.name, MU.phone, MR.userid, MR.re_grade,
 		MR.re_point0, MR.re_point1, MR.re_point2, MR.re_point3, MR.re_regdate
 		FROM
 		MK_DB.MK_RESULT AS MR
 		INNER JOIN MK_USR AS MU ON (MR.userid = MU.userid)
-		WHERE MR.userid = #{orgUserId};
+		WHERE MR.userid = #{key};
 	</select>
 
 </mapper>

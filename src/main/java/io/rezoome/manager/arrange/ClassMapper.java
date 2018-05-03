@@ -1,12 +1,12 @@
 package io.rezoome.manager.arrange;
 
+import io.rezoome.manager.auth.entity.ResponseAuthenticationArgsEntity;
+import io.rezoome.manager.health.entity.ResponseHealthCheckArgsEntity;
 import io.rezoome.manager.job.entity.JobEntity;
 import io.rezoome.manager.job.iorequest.IORequestJobAction;
 import io.rezoome.manager.job.iorequest.IORequestJobEntity;
+import io.rezoome.manager.job.iorequest.entity.ResponseSearchRecordArgsEntity;
 import io.rezoome.manager.network.entity.response.ResponseArgsEntity;
-import io.rezoome.manager.network.entity.response.ResponseAuthenticationArgsEntity;
-import io.rezoome.manager.network.entity.response.ResponseHealthCheckArgsEntity;
-import io.rezoome.manager.network.entity.response.ResponseSearchRecordArgsEntity;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 import io.rezoome.manager.pushcommand.entity.search.SearchCommandAction;
 import io.rezoome.manager.pushcommand.entity.search.SearchCommandEntity;

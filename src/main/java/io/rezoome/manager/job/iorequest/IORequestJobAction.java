@@ -14,7 +14,7 @@ public class IORequestJobAction extends AbstractJob<IORequestJobEntity> {
   @Override
   protected void processInternal(IORequestJobEntity entity) throws ServiceException {
     try {
-      ManagerProvider.job().getAgentIORequest().getData(entity);
+      ManagerProvider.job().getAgentIORequest().iorequest(entity);
     } catch (Exception e) {
       throw new ServiceException(e.getMessage(), e);
     }

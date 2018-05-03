@@ -10,7 +10,7 @@ import io.rezoome.core.entity.AbstractEntity;
  * @since 1.0.0
  *
  */
-public class RequestPacketEntity extends AbstractEntity {
+public class RequestPacketEntity extends AbstractEntity{
 
   @SerializedName("sid")
   private String sid;

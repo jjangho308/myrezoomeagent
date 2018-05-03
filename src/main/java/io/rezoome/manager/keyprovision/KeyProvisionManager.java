@@ -11,8 +11,7 @@ import io.rezoome.manager.Manager;
 public interface KeyProvisionManager extends Manager{
   
   public void initKeyStore() throws Exception;
-  public Entry createCert(KeyPair keyPair, boolean isSaveKeyStore);
-  
+  public Entry createCert(KeyPair keyPair, boolean isSaveKeyStore);  
   public String getPubKeyStr(String certAlias);
   public String getPrivKeyStr(String certAlias);
   

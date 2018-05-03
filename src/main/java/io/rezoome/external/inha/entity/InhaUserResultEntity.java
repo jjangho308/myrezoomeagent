@@ -1,8 +1,8 @@
 package io.rezoome.external.inha.entity;
 
-import io.rezoome.manager.database.entity.DBRsltEntity;
+import io.rezoome.external.entity.AgencyUserEntity;
 
-public class InhaUserResultEntity implements DBRsltEntity {
+public class InhaUserResultEntity implements AgencyUserEntity {
 
   private String id;
   private String ci;

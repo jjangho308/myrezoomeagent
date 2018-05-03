@@ -1,8 +1,9 @@
-package io.rezoome.manager.network.entity.request;
+package io.rezoome.manager.health.entity;
 
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
+import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 
 public class RequestHealthCheckArgsEntity extends AbstractEntity implements RequestArgsEntity {
 

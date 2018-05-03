@@ -3,8 +3,9 @@ package io.rezoome.manager.database.entity;
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
+import io.rezoome.external.entity.AgencyUserEntity;
 
-public class DBEntity extends AbstractEntity {
+public class UserEntity extends AbstractEntity implements AgencyUserEntity{
 
   @SerializedName("ci")
   private final String ci = null;
@@ -38,9 +39,6 @@ public class DBEntity extends AbstractEntity {
 
   @SerializedName("email")
   private final String email = null;
-
-  @SerializedName("orgUserId")
-  private String orgUserId = null;
 
   public String getCi() {
     return ci;
@@ -84,14 +82,6 @@ public class DBEntity extends AbstractEntity {
 
   public String getEmail() {
     return email;
-  }
-
-  public void setOrgUserId(String orgUserId) {
-    this.orgUserId = orgUserId;
-  }
-
-  public String getOrgUserId() {
-    return orgUserId;
   }
 
 

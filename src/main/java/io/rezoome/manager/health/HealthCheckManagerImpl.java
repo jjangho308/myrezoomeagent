@@ -11,7 +11,7 @@ import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.exception.ServiceException;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
-import io.rezoome.manager.network.entity.request.RequestHealthCheckArgsEntity;
+import io.rezoome.manager.health.entity.RequestHealthCheckArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacketEntity;

@@ -7,7 +7,7 @@ PROP_CLASS_NAME = io.rezoome.external.mk.property.MkProperties
 IOREQUEST_CLASS_NAME = io.rezoome.external.mk.iorequest.MkIORequest
 [GENERAL]
 ORG_CODE = code001
-ORG_NAME = opic
+ORG_NAME = mk
 ORG_PASSCODE = passcode
   
 [THREAD]
@@ -28,7 +28,7 @@ DB_MAX_WAIT = 5
 CONNECTION_POOL_NAME = mk
 	  
 [AMQ]
-AMAZONE_QUEUE_NAME = INHA
+AMAZONE_QUEUE_NAME = MK
 AMAZONE_SERVER_HOST = ssl://b-cb8c6e8c-f893-4464-aa69-b3501991ef60-1.mq.ap-southeast-2.amazonaws.com:61617
 AMAZONE_USER_NAME = rezoome
 AMAZONE_USER_PASSWORD = sgen2018!!!!
@@ -37,7 +37,7 @@ AMAZONE_USER_PASSWORD = sgen2018!!!!
 JOB_TEMP_FILE_PATH = ./
 
 [HTTP]
-PORTAL_URL = https://rezoome.io/
+PORTAL_URL = https://rezoome.io/agent/
 CONNECT_TIMEOUT = 3000
 READ_TIMEOUT = 3000
 RETRIES = 3

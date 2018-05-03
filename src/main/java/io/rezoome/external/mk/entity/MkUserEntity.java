@@ -1,8 +1,9 @@
 package io.rezoome.external.mk.entity;
 
-import io.rezoome.core.entity.AbstractEntity;
+import io.rezoome.external.entity.AgencyKeyEntity;
 
-public class RequiredAgencyData extends AbstractEntity {
+public class MkUserEntity extends AgencyKeyEntity  {
+  
   String ci;
 
   public String getCi() {
@@ -11,6 +12,6 @@ public class RequiredAgencyData extends AbstractEntity {
 
   public void setCi(String ci) {
     this.ci = ci;
-  }
+  } 
   
 }

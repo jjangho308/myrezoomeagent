@@ -1,8 +1,8 @@
 package io.rezoome.external.opic.entity;
 
-import io.rezoome.manager.database.entity.DBRsltEntity;
+import io.rezoome.external.entity.AgencyUserEntity;
 
-public class OpicUserResultEntity implements DBRsltEntity {
+public class OpicUserResultEntity implements AgencyUserEntity {
 
   private String id;
   private String name;

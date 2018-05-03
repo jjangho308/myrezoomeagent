@@ -1,17 +1,38 @@
 package io.rezoome.external.opic.entity;
 
-import io.rezoome.manager.database.entity.DBRsltEntity;
+import com.google.gson.annotations.SerializedName;
 
-public class OpicResultEntity implements DBRsltEntity {
+import io.rezoome.external.entity.AgencyResultEntity;
+
+public class OpicResultEntity extends AgencyResultEntity {
+  @SerializedName("name")
   private String name;
+  
+  @SerializedName("cname")
   private String cname;
+  
+  @SerializedName("testDay")
   private String testDay;
+  
+  @SerializedName("rating")
   private String rating;
+  
+  @SerializedName("birth")
   private String birth;
+  
+  @SerializedName("phone")
   private String phone;
+  
+  @SerializedName("testId")
   private String testId;
+  
+  @SerializedName("testRoom")
   private String testRoom;
+  
+  @SerializedName("testName")
   private String testName;
+  
+  @SerializedName("language")
   private String language;
 
   public String getName() {

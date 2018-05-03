@@ -19,12 +19,14 @@ public class MapperManagerImpl extends AbstractManager implements MapperManager 
   }
 
   Mapper mapper;
-
+  DaoMapper daoMapper;
+  
   @Override
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
     try {
       createMapper();
+      createDaoMapper();
     } catch (InstantiationException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -66,6 +68,37 @@ public class MapperManagerImpl extends AbstractManager implements MapperManager 
     // TODO Auto-generated method stub
     if (mapper != null)
       return this.mapper;
+    else
+      return null;
+  }
+
+  @Override
+  public void createDaoMapper() {
+    try {   
+      String mapperClass = ManagerProvider.property().getProperty(PropertyEnum.DAO_MAPPER_CLASS_NAME, true);
+      // "io.rezoome.agent.db.dao.inha.InhaUnivDao.class"
+      ClassLoader loader = ClassLoader.getSystemClassLoader();
+      Class<?> mapperCls;
+     
+        mapperCls = loader.loadClass(mapperClass);
+     
+      this.daoMapper = (DaoMapper) mapperCls.newInstance();
+    }catch (ClassNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (InstantiationException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public DaoMapper getDaoMapper() {
+    if (daoMapper != null)
+      return this.daoMapper;
     else
       return null;
   }

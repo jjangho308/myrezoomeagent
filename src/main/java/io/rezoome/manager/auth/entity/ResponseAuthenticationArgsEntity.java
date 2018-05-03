@@ -1,8 +1,9 @@
-package io.rezoome.manager.network.entity.response;
+package io.rezoome.manager.auth.entity;
 
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
+import io.rezoome.manager.network.entity.response.ResponseArgsEntity;
 
 public class ResponseAuthenticationArgsEntity extends AbstractEntity implements ResponseArgsEntity {
 
