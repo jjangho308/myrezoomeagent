@@ -8,8 +8,12 @@ import java.nio.ByteBuffer;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
@@ -32,6 +36,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,7 +56,7 @@ import junit.framework.TestSuite;
 public class AllTests extends TestSuite {
 
 	static {
-
+		Security.addProvider(new BouncyCastleProvider());
 	}
 
 	@Before
@@ -177,11 +182,29 @@ public class AllTests extends TestSuite {
 	}
 
 	@Test
+	public void generateRSAKeyPair() {
+		KeyPairGenerator kpg;
+		try {
+			kpg = KeyPairGenerator.getInstance("RSA");
+			kpg.initialize(2048, new SecureRandom());
+			KeyPair keyPair = kpg.generateKeyPair();
+
+			System.out.println("Public : " + Base64.getEncoder().encodeToString(keyPair.getPublic().getEncoded()));
+
+			System.out.println("Private : " + Base64.getEncoder().encodeToString(keyPair.getPrivate().getEncoded()));
+
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Test
 	public void encryptTest() {
 		try {
 			String aesKey = "giemncc3LqXT+o8MWucPqkGQPCmsBliHCwCOlxoHY6k=";
 			byte[] parsedKey = Base64.getDecoder().decode(aesKey);
-			String encodedPublic = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkQNKGV6/rAS1RpU1HNjzUeAsKHpFqVGEwga9eMI6Q7mXOox5dod1OOcutb1XoW18MCqqpFJZqsLtVMFjBEvlwiz6+CVq/Ij5DE19wOOzQknM5Ct4JFeCQqgQ3bNW/YMi7g1iORMx68aUpUaotqdggq+r3PCVrsrrb1DyUUknJWabElWLAI26Xez8fKQa8ltyR8yi1W7urUzV3kKAVp3Y3vn/h6W+nPVJjsfWdhemJUWFBI5DBgsrNitiGk0Nk195WSjH1OUImVnmslJdecAf8wBtm8XOzzGVOIlyRZjKMoDiLH/eNSqB4kU9NJ76t8XjcOSkxaBfsIS8t3ni1twEWQIDAQAB";
+			String encodedPublic = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh+t28y1H3534QQYhIz2BZZ0YfGHopH3SDdtb9WkRHXA51ZYvo7O6b1Me00EEH4s6zK8G466Sn4i7R74kahxuTBkJK33zvsTfKke4iOhEu88sZOOKKhe7hGVKWKRRXQEsqYBE5/9iPRSx+eKOQIlfkUwiIpOLnVjilH8RlyCR4DYumf1LB/6GE5CoudfAQaMTujO5lznj/lWXxPTsRs5tv7ii32DqR91ueksMt23HlpTRHh8X1SoftvdwBNF263EgwIR+5rTQ38Nmkh+CqcqJuYAjLaGKuvNfXH+uUX+A3HsbKL8qfDTdWZKY0HLOHhs5dth73wF9uDauytiUNP1tMQIDAQAB";
 			X509EncodedKeySpec xSpec = new X509EncodedKeySpec(Base64.getDecoder().decode(encodedPublic));
 			RSAPublicKey publicKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(xSpec);
 
@@ -215,8 +238,8 @@ public class AllTests extends TestSuite {
 
 	@Test
 	public void decryptTest() {
-		String key = "W7GieUZZUz7eydD6+N8WwlYzIIepnkvU6OSncT/Z4vftnSE/obR8qzKvSCE0JonJodoGZ8SL+oWW3wrr77TgqQOInciRDgWiCDg1xysRS0d9ygPghPRWcJVCAri3sodefM4XuZzfVz6IIgG7vOv9dB4pwSMkiuoMbcoSRfzmU0x0SEQwcsy4swW035YTGN1hapdxLTFfWBTAXO3C6uRSx5pZX+wzDktj8UW3pSbESzqPopN9fjBNDTfE3tUQEGalepGglUjqmosAQNJSFENLUyw7sjHaK4e0SKbV9rj7Qfr8M1jdFsWDRJFw5oZPGnrWNmHae7IR0l6w+NNLDiSFhg==";
-		String encodedPrivate = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCPCBXYvg0FjMnZQx4RTZyBJYuwsVvxJSxWAVYw2TIUdSkixwxUTwwS++iZ9bd0hK6PkkS0B9SkJoQRKgMuGMry63vGMbeuSICfZREsnOECLUJzMuZVU35ZkVLZYP72ElyEczrkM05Zu9kwl0P/IM+f7USnywoEj+58Vheid2Sl90FKbUmBpEDSWoA7HoXFpZ+lVKEuRDICqG12F2g3uL7uOtH8+Nkv7PSZ90xF9vIB3f2vcuP2QBEOZxYKzSYCrHB4KD14BaFpf9LQD+TF6kbfbSg6rH2Fvnj2scuNpBJ4ZEO/NHkzvKP+aw30UQtmIgkNiUzgUKmzUyAlHXswpuX5AgMBAAECggEAOEHU3fA6jPFIPyUwAVxGb2GGJRRNdnbJjnZuIT58fSFr8Zra1ZpVxG3CmjPUWYcKZbwBO9JMp9fiYCHnKE1mHc/TWiwZ8/neZVNKQwLdWY7VsRvXDr6NVstbC9cj0UN9kjcEdddcPN0u2vbULtgH8f5P37NzmEHIaq0uFJ/jPYd9HFRNH3MN9JfJd6OkGiaeZ5RMDD6kRp40KbF7Dv40vRE0PT3q47vT6OsWqA1wKjexhaX94UuQWGZFC/Zj/M/gtXGEqIFdegznZIbrkWxLLUsMyyrdwtgSe9+1BZX18+oVxNgMQULLNsPVTMVR1H7QhnLoNIyVoBiUcPgQjgp/JQKBgQDy0B5uDsmXba5GHpKXoZ03J+O/CMQ1tMuZv6Bh/a8pHaGFUXRxY/2vRVSCnEVwIsni0+MmotoYlGqDs7/plptnZFseSP+5hyG47H3JV9ohyVrsGtlfQmlbv5EOENtS974t0SeVi6I6qWEMyQ3yaAx6q0Ex/R2utGbIAPS6wV0HewKBgQCWzK8yVJdzzB6+nv5clEobvRqQXdLY8i6Dr+TY9HnKxqNliJtlKxRjRCPUbVHi4lPWPRoY/8McOEFDIqZO5HScnTLyX46pEwmKld/ysC1liOUixHg/SZ7kCAB24fb7pd78RJ0Z6JElUR2g1DzTMmp6lAX+3d48Ea508lQi8UyUGwKBgBV4Z6htsE+uiCF1JJs51DADW/URbmAdW3993U2s4+cr0pN6T2STZeQwqjdeYBl5Sga/m69X6RcRUJXSuB6MjbNHwXLdG5epJkc2yiyakxQ3vM1x1lTBB5XwS4BF507fzzY371se3Lp5Lba2tIAByVCzgfFMo2pGU2xOAVXeMT6vAoGACN0G/yJRtJCuze1ybeaZZH/867dYCUBS05KnFMlpzy1VtUYOPCgIDr2WjYnPYlKDMvhsbEO8KBB2ZYfH1qM+52Wl9PEA5Zck3GxquUz5nhopvZ1mo/Gj0StXO6WUar4ZGSK/SSKORW87GpTe7lrsP0AsCgroYQd5BY6ou1ULdzkCgYBM+XE+beamQWR78I8PKyTFRB4eqj7NGABANGywqC31CKf960FfopSA292AthALd7GQ5yMvfmIsheffVgCWTlAmpdXMHsMf20JrKwn9driXAbW4hHCGN9CDiO4Bwq2Vsbz68sigX7ReLlrnrj6Pl4w49jlpTDEwZ/wsmgXdXJTf+w==";
+		String key = "Lnp8fOsqwW1pR3GBxcM/0UQJlJp4x8ZE3cVGAKEKa678GPNt/BrMoi5xUplVTYoX0LsPQjF465ubaZsbksrlllF5l3ao9noj8FODzEgtdWuCSFAI9xcdZQi7gU7arDAOhMgd7DgKy7iNETuUlI0Ft9qnwX6dFEp2LQbeoodezb819y97TslhoMCbVCPfPIPG/myco8H/CKrQ46goF1JYb/lrejYpr9UQYsR1JKYY4RsOjr/jyRp765NefjnEGS3ug0SJxC0npfFj7MoRkoLmUDnGjSsZDgn1TJHVm2bOfQZOMzgfXQgep1LwzL/Cj/wuWQkPS1bS6sjHT1KnJu4NVw==";
+		String encodedPrivate = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCH63bzLUffnfhBBiEjPYFlnRh8YeikfdIN21v1aREdcDnVli+js7pvUx7TQQQfizrMrwbjrpKfiLtHviRqHG5MGQkrffO+xN8qR7iI6ES7zyxk44oqF7uEZUpYpFFdASypgETn/2I9FLH54o5AiV+RTCIik4udWOKUfxGXIJHgNi6Z/UsH/oYTkKi518BBoxO6M7mXOeP+VZfE9OxGzm2/uKLfYOpH3W56Swy3bceWlNEeHxfVKh+293AE0XbrcSDAhH7mtNDfw2aSH4Kpyom5gCMtoYq6819cf65Rf4Dcexsovyp8NN1ZkpjQcs4eGzl22HvfAX24Nq7K2JQ0/W0xAgMBAAECggEAVkpYJ0S9F6vLu0Rv71aR+vgEXpsuPpgermtwc1pz4jOolAAYWJ63IwwrSsVBH+Gdv+ryvcPMFHqTI5YEulU4dRmD59e70oZchBQqhMipMm7x6U9IHTcZ9pDz5VjUyu3+89GabYuGS+8CmvmJhFFymeUy2q6/eXK/zrTpbv/ffO8btPw6u+ZmGP1+VDYuYvX1eVyv0xb1w9R1VLKHvLJMrs+2c/HWHZUtLtd/ub6STmnupxa5bVcJQ6r/XnXQVil3FAw7Unt/LHT4bBXN6K32wBUQFyT63npjnT9TeXcnYEQGa3BU4M/wKPVgW4gDFnSWbuXwr5JA3BoSht1pcdvGAQKBgQDH7GxVPb5mL2/KVvZFr7ARjsic+Hc7aeCh7ffOIfZ9XulUYg1FOQrQdO4s7VZrPAI6cpX4fDNXK6bKDl+bD/0uILX+Td9pP/kG1ZDlyMOt06INfHswaCOlUefRxx2lKjYMRnB3xwaObZa18N3l4mQfUtUIZblyaeUi6ryOeVLhoQKBgQCuCzsbA4Ug3GJv7sx4K23SckkV6jtqGwYMey76OoNz0FbgQgYvyGIwOuZ9mF/tO++xRlHPyP3Ureq1UswdmzgDAYrJ0sgqgjNlpJWXEu1HcuKLYbXfipQ0MHCEFsqsG6JZV6x+6AXPh0vI4NjMs+TZVIOH0WVtZePvtIX4zeoBkQKBgQCjv0Nj9fRy4bugcOW5YhLF7rrlxqRx52BzgOOM1Eh9mzVlRgI0hmoTHxLNfX9gyX/Ru3SWV7P9W+V6bZdk/A2UsHof1kx8ekdPj7DkZDHRuBttDF4h4coAaDuFmJ7xXsdx+me30y3Njnj4gFZfKbRz63ZNMHRZ/94LYVQbJcf6wQKBgF5n7yanESaTBL5MnRKuFAMsROKjTJkwkWZhx0iqRrWilA1PIwX2PvSEbpQ//AC2Gz1gtG3uS2l68S5r/BYvJQHUa1Ewia0tNO30icQJ2zV/Zs1OMhZQmDV69P1hU4xp7PVjbkjkWIqKjBwpgs/+4KrWggZBGjBuLWbP2D/uiflRAoGBAL9FQUHvwT+WARnKam1qnwXyf3aSZIrtMB+1wS9XAQms6E95Ai08ox6fIIlhD1gPRwxqMlMFwex4TaJ+F5xmNV9lv2U6N0AXv+OwzOaY45WNYGq6Hsjy1QSJlwiRotjiieV0X5aYCQ642j3j/LMAIo+v0uyw5gnXn6+tNk4Hkb+9";
 		PKCS8EncodedKeySpec privateSpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(encodedPrivate));
 		KeyFactory factory;
 		try {
