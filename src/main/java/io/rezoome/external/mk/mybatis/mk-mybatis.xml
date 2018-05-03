@@ -7,7 +7,7 @@
 <mapper namespace='io.rezoome.manager.database.dao.Dao'>
 
 	<resultMap id="MkUserResultEntity"
-		type="io.rezoome.external.entity.AgencyKeyEntity">
+		type="io.rezoome.external.common.entity.AgencyKeyEntity">
 		<result property="key" column="userid" />
 	</resultMap>
 
@@ -32,7 +32,7 @@
 		#{fullNameKO} AND birth = #{birth}
 	</select>
 
-	<select id="getCertRecords" parameterType="io.rezoome.external.entity.AgencyKeyEntity"
+	<select id="getCertRecords" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="MkResponseResultArgsEntity">
 		SELECT
 		MU.name, MU.phone, MR.userid, MR.re_grade,

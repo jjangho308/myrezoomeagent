@@ -7,12 +7,8 @@
 <mapper namespace='io.rezoome.manager.database.dao.Dao'>
 
 	<resultMap id="InhaUserResultEntity"
-		type="io.rezoome.external.inha.entity.InhaUserResultEntity">
-		<result property="id" column="ID" />
-		<result property="name" column="NAME" />
-		<result property="phone" column="PHONE" />
-		<result property="birth" column="BIRTH" />
-		<result property="email" column="EMAIL" />		
+		type="io.rezoome.external.common.entity.AgencyKeyEntity">
+		<result property="key" column="ID" />
 	</resultMap>
 
 	<resultMap id="InhaResultEntity"
@@ -30,7 +26,7 @@
 
 	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
 		resultMap="InhaUserResultEntity">
-		SELECT ID, NAME, PHONE, BIRTH, EMAIL FROM INHA_USR
+		SELECT ID FROM INHA_USR
 		WHERE
 		NAME = #{fullNameKO} AND BIRTH = #{birth};
 	</select>
@@ -62,7 +58,7 @@
 		IUG.PROFESSOR AS PROFESSOR
 		FROM INHA_USR AS IU
 		INNER JOIN INHA_USR_GRADE AS IUG ON (IUG.INHA_USR_ID = IU.ID)
-		WHERE IU.ID = #{orgUserId};
+		WHERE IU.ID = #{key};
 	</select>
 	
 	<select id="getJolupRecord" parameterType="io.rezoome.manager.database.entity.DBEntity"
@@ -75,7 +71,7 @@
 		IUC.END_DATE AS END_DATE
 		FROM INHA_USR AS IU		
 		INNER JOIN INHA_USR_CERT AS IUC ON (IUC.INHA_USR_ID = IU.ID)
-		WHERE IU.ID = #{orgUserId};
+		WHERE IU.ID = #{key};
 	</select>
 
 </mapper>

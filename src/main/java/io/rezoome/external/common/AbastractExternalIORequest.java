@@ -42,9 +42,9 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
   protected final Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
 
   private enum STATUS {
-    USER_EXIST, USER_NOT_EXIST, REQUIRE_KEY
+    USER_EXIST, USER_NOT_EXIST, REQUIRE_KEY, NOT_RESPONSE
   }
-  private STATUS status;
+  private STATUS status = STATUS.NOT_RESPONSE;
   
   private DaoMapper daoMapper;
   
