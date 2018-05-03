@@ -1,19 +1,14 @@
 
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -46,8 +41,11 @@ import io.rezoome.core.ServiceInitializer;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.external.inha.mapper.InhaMapperEntity;
 import io.rezoome.lib.json.JSON;
+import io.rezoome.manager.amq.AMQMessageCryptoEntity;
 import io.rezoome.manager.amq.AMQMessageEntity;
 import io.rezoome.manager.amq.AMQMessageHandlerImpl;
+import io.rezoome.manager.property.PrivateProperties;
+import io.rezoome.manager.provider.ManagerProvider;
 import junit.framework.TestSuite;
 
 public class AllTests extends TestSuite {
@@ -258,6 +256,67 @@ public class AllTests extends TestSuite {
 
 	}
 
+	@Test
+	public void encryptForClient2() {
+		String plainText = "이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.asdf123";
+		try {
+			// Generate Client Public key.
+			String clientE = "AQAB";
+			String clientN = "d41zfuC7n8loCB4Vzhk_l-eUkJwg2gouUUBPpdHecZ2Ih_FdsYOSUOd7V15ks9puo-ZTPjSMe-crvMQE6dHaky1EUd3Kk3X8MG1qvtI7IQSGLucZXWaRWURbyHI-tZtpa6z9QOgGfcfd18ILxUfq976SWbq1csmQxoRsCKDCPg9rImQ7ZunzDPQP64DcmEIxNWVWkH8BiRQqmsGaFvzzLIttpqJ9cSwlFv0ns1EGTmcCmSTw6pa7q19C0f7Zs5oOhUsKj1ElytoJoZLRsObwc_GAuHPLWRsfyPoWsREfia3Z39Odde7RXfdBri8xzauCKA9S7EVq5k3Y1gVUqbzT7Q";
+
+			String aesKey = ManagerProvider.crypto().generateAES();
+			String iv = ManagerProvider.crypto().generateIV();
+
+			System.out.println("encoded aesKey : " + aesKey);
+			System.out.println("encoded iv : " + iv);
+
+			String encryptKey = ManagerProvider.crypto().encryptRSA(aesKey, clientN, clientE);
+			System.out.println("encrypt aeskey : " + encryptKey);
+
+			String encryptData = ManagerProvider.crypto().encryptAES(plainText, aesKey, iv);
+			System.out.println("encrypt data : " + encryptData);
+
+			String encodedD = "aXT7FkaC-tYc0FxJe73F3OdIo681Q2CLrtx95ZWVFL-TeectcLLQ1FD8-fqn9gaOZkF72HleGsW2TRLUCrU0i3L4uwZb9Wu0A7vg12Z3Bg8JlkIAm-Un_YhRNiWgr23htjuoQiLp5vXw-KuQ2nswB02xpzkNaa3n6VVSPuIftcGLEml4SYN8PnsMxqYOzadO-tz-iRnOD8MUoGmUgyyxT9xD9ejjP5ItVbKgLGKqCZmMpVOUkOqHBF3oadKccfBCrcIoN5qlKA-uZW3Gd6G8az8zy8tvJu-1yRCA0GhjaKYD5DCFLF5OpWZcNbL55R4PByxsZBgl776Yj7jcegpfQQ";
+			String decryptKey = ManagerProvider.crypto().decryptRSA(encryptKey, clientN, encodedD);
+			System.out.println("decrypt aeskey : " + decryptKey);
+
+			String decryptData = ManagerProvider.crypto().decryptAES(encryptData, decryptKey, iv);
+			System.out.println("decrypt data : " + decryptData);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void crypto2() {
+
+		try {
+			ManagerProvider.property().initialize(InitialEvent.RUNTIME);
+			ManagerProvider.key().initialize(InitialEvent.RUNTIME);
+
+			String privateKey = ManagerProvider.key().getPrivKeyStr(PrivateProperties.CERT_NAME);
+			String publicKey = ManagerProvider.key().getPubKeyStr(PrivateProperties.CERT_NAME);
+
+			System.out.println("privateKey : " + privateKey);
+			System.out.println("publicKey : " + publicKey);
+
+			String data = "test data";
+
+			ManagerProvider.crypto().initialize(InitialEvent.RUNTIME);
+
+			String encryptData = ManagerProvider.crypto().encryptRSA(data, publicKey);
+			System.out.println("encryptData : " + encryptData);
+
+			String decryptData = ManagerProvider.crypto().decryptRSA(encryptData, privateKey);
+			System.out.println("decryptData : " + decryptData);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	// @Test
 	// public void rsaPublicKey() {
 	// String msg =
@@ -413,6 +472,59 @@ public class AllTests extends TestSuite {
 	// e.printStackTrace();
 	// }
 	// }
+
+	@Test
+	public void amqFullMsgDecryptTest() {
+
+		ManagerProvider.property().initialize(InitialEvent.RUNTIME);
+		ManagerProvider.key().initialize(InitialEvent.RUNTIME);
+
+		String msg = "{\r\n" + " cmd : \"SearchRecord\",\r\n" + " mid : \"leifajlsif\",\r\n" + " sid : \"serverID\",\r\n" + " args : {\r\n"
+				+ " familyNameEN : \"familyNameEN\",\r\n" + " firstNameEN : \"firstNameEN\",\r\n" + " fullNameEN : \"PARKHUNWOOK\",\r\n"
+				+ " familyNameKO : \"familyNameKO\",\r\n" + " firstNameKO : \"firstNameKO\",\r\n" + " fullNameKO : \"박헌욱\",\r\n" + " birth : '19870123',\r\n"
+				+ " phone : '01064749282',\r\n" + " subIDs : ['RCOGC0008', 'RCOGC0009'],\r\n" + " gender : 1,\r\n" + " ci : '123456789abcdeftg',\r\n"
+				+ " pkey : 'pkey',\r\n" + " require : ['12060991'],\r\n"
+				+ " records : [{hashed: \"f1b9d789ac9ef7343b03c79d331230d7aa99be4b035c91c056bddd750da7dbfc\", subID:\"RCOGC0009\", txid:\"sdfsdfsdf\"},{hashed: \"dddd\", subID:\"RCOGC0008\", txid:\"234234234234\"}]\r\n"
+				+ " }\r\n" + "}";
+
+		String aesKey = ManagerProvider.crypto().generateAES();
+		String iv = ManagerProvider.crypto().generateIV();
+
+		String encryptData = ManagerProvider.crypto().encryptAES(msg, aesKey, iv);
+
+		String amqFullMessage = "{\r\n" + " key : \"" + aesKey + "\",\r\n" + " iv : \"" + iv + "\",\r\n" + " msg : \"" + encryptData + "\"\r\n}";
+
+		System.out.println("amqFullMessage : " + amqFullMessage);
+		System.out.println("amqFullMessage length : " + amqFullMessage.length());
+
+		String privateKey = ManagerProvider.key().getPrivKeyStr(PrivateProperties.CERT_NAME);
+		String publicKey = ManagerProvider.key().getPubKeyStr(PrivateProperties.CERT_NAME);
+
+		String encryptedAMQFullMessage = ManagerProvider.crypto().encryptRSA(amqFullMessage, publicKey);
+		System.out.println("encrypted AMQ Full message : " + encryptedAMQFullMessage);
+
+		String decrytedAMQFullMessage = ManagerProvider.crypto().decryptRSA(encryptedAMQFullMessage, privateKey);
+		System.out.println("decrypted AMQ Full message : " + decrytedAMQFullMessage);
+
+		AMQMessageCryptoEntity amqCryptoEntity = new AMQMessageCryptoEntity();
+		amqCryptoEntity = JSON.fromJson(amqFullMessage, AMQMessageCryptoEntity.class);
+
+		System.out.println(amqCryptoEntity.toString());
+
+		// AMQ User basic message AES Decrypt
+		String clientKey = amqCryptoEntity.getKey();
+		String clientIv = amqCryptoEntity.getIv();
+		String amqMessage = amqCryptoEntity.getMsg();
+		amqMessage = ManagerProvider.crypto().decryptAES(amqMessage, clientKey, clientIv);
+
+		System.out.println("decrypted amqMessage : " + amqMessage);
+
+		AMQMessageEntity amqEntity = new AMQMessageEntity();
+		amqEntity = JSON.fromJson(amqMessage, AMQMessageEntity.class);
+
+		System.out.println(amqEntity.toString());
+
+	}
 
 	@Test
 	public void DBUserExistAndDataExistTest() {
@@ -706,34 +818,31 @@ public class AllTests extends TestSuite {
 	// System.out.println("hash : " + hash);
 	// }
 	//
-	// @Test
-	// public void crypto() {
-	// ManagerProvider.crypto().initialize(InitialEvent.RUNTIME);
-	//
-	// String data = "test data";
-	//
-	// // AES TEST
-	//// String aesKey = ManagerProvider.crypto().generateAES();
-	//// String iv = ManagerProvider.crypto().generateIV();
-	//// String encData = ManagerProvider.crypto().encryptAES(data, aesKey, iv);
-	//// System.out.println("encData : " + encData);
-	//// String decData = ManagerProvider.crypto().decryptAES(encData, aesKey,
-	// iv);
-	//// System.out.println("decData : " + decData);
-	////
-	// System.out.println("puasdfasdf");
-	// // RSA TEST
-	// Map<String, String> keys = ManagerProvider.crypto().generateRSA();
-	// String publicKey = keys.get("PUBLIC_KEY");
-	// String privateKey = keys.get("PRIVATE_KEY");
-	// System.out.println("publicKey : " + publicKey);
-	// System.out.println("privateKey : " + privateKey);
-	// String encData = ManagerProvider.crypto().encryptRSA(data, publicKey);
-	// System.out.println("encData : " + encData);
-	// String decData = ManagerProvider.crypto().decryptRSA(encData,
-	// privateKey);
-	// System.out.println("decData : " + decData);
-	// }
+	@Test
+	public void crypto() {
+		ManagerProvider.crypto().initialize(InitialEvent.RUNTIME);
+
+		String data = "test data";
+
+		// AES TEST
+		String aesKey = ManagerProvider.crypto().generateAES();
+		String iv = ManagerProvider.crypto().generateIV();
+		String encData = ManagerProvider.crypto().encryptAES(data, aesKey, iv);
+		System.out.println("encData : " + encData);
+		String decData = ManagerProvider.crypto().decryptAES(encData, aesKey, iv);
+		System.out.println("decData : " + decData);
+
+		// RSA TEST
+		Map<String, String> keys = ManagerProvider.crypto().generateRSA();
+		String publicKey = keys.get("PUBLIC_KEY");
+		String privateKey = keys.get("PRIVATE_KEY");
+		System.out.println("publicKey : " + publicKey);
+		System.out.println("privateKey : " + privateKey);
+		encData = ManagerProvider.crypto().encryptRSA(data, publicKey);
+		System.out.println("encData : " + encData);
+		decData = ManagerProvider.crypto().decryptRSA(encData, privateKey);
+		System.out.println("decData : " + decData);
+	}
 
 	//
 	// @Test
