@@ -18,8 +18,10 @@ import java.security.SecureRandom;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -65,7 +67,7 @@ public class AllTests extends TestSuite {
 
 	@Test
 	public void encryptForClient() {
-		String plainText = "이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.이런 현상이 심화되면 올해 한국 경제의 3% 성장 달성도 힘겨울 수밖에 없다. 무엇보다 우리 제조업이 구조적 위기에 직면하고 있다. 제조업은 좋은 일자리의 원천이고 성장을 떠받치는 근간이다. 제조업의 체질 개선과 구조개혁, 규제철폐로 기업의 혁신을 촉진할 수 있는 산업정책의 근본적인 재정립이 시급하다. 그런 정책이 안보인다.asdf123";
+		String plainText = "Hello World!";
 		try {
 			// Generate Client Public key.
 			String clientE = "AQAB";
@@ -100,7 +102,7 @@ public class AllTests extends TestSuite {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			byte[] buf = new byte[32];
 			int length = 0;
-			while((length = bis.read(buf)) > 0){
+			while ((length = bis.read(buf)) > 0) {
 				bos.write(aseCipher.update(buf, 0, length));
 			}
 			bos.write(aseCipher.doFinal());
@@ -112,13 +114,8 @@ public class AllTests extends TestSuite {
 			Cipher rsaCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
 			rsaCipher.init(Cipher.ENCRYPT_MODE, clientPublic);
 			rsaCipher.update(Base64.getEncoder().encodeToString(aesKey.getEncoded()).getBytes());
-//			rsaCipher.update("0123456789abcdef".getBytes());
+			// rsaCipher.update("0123456789abcdef".getBytes());
 			byte[] encryptedKey = rsaCipher.doFinal();
-
-			System.out.println("AES Key : " + Base64.getEncoder().encodeToString(aesKey.getEncoded()));
-			System.out.println("var key = '" + Base64.getEncoder().encodeToString(encryptedKey) + "\';");
-			System.out.println("var iv = '" + Base64.getEncoder().encodeToString(iv) + "\';");
-			System.out.println("var records = '" + Base64.getEncoder().encodeToString(encryptedData) + "\';");
 
 			// Java Decrypt
 			String encodedD = "aXT7FkaC-tYc0FxJe73F3OdIo681Q2CLrtx95ZWVFL-TeectcLLQ1FD8-fqn9gaOZkF72HleGsW2TRLUCrU0i3L4uwZb9Wu0A7vg12Z3Bg8JlkIAm-Un_YhRNiWgr23htjuoQiLp5vXw-KuQ2nswB02xpzkNaa3n6VVSPuIftcGLEml4SYN8PnsMxqYOzadO-tz-iRnOD8MUoGmUgyyxT9xD9ejjP5ItVbKgLGKqCZmMpVOUkOqHBF3oadKccfBCrcIoN5qlKA-uZW3Gd6G8az8zy8tvJu-1yRCA0GhjaKYD5DCFLF5OpWZcNbL55R4PByxsZBgl776Yj7jcegpfQQ";
@@ -129,6 +126,13 @@ public class AllTests extends TestSuite {
 			RSAPrivateKeySpec privateSpec = new RSAPrivateKeySpec(bigN, privateExponent);
 			factory = KeyFactory.getInstance("RSA");
 			RSAPrivateKey clientPrivate = (RSAPrivateKey) factory.generatePrivate(privateSpec);
+
+			System.out.println("var publicKey  = '" + Base64.getEncoder().encodeToString(clientPublic.getEncoded()) + "';");
+			System.out.println("var privateKey = '" + Base64.getEncoder().encodeToString(clientPrivate.getEncoded()) + "';");
+			System.out.println("var aesKey = '" + Base64.getUrlEncoder().encodeToString(aesKey.getEncoded()) + "';");
+			System.out.println("var key = '" + Base64.getUrlEncoder().encodeToString(encryptedKey) + "\';");
+			System.out.println("var iv = '" + Base64.getUrlEncoder().encodeToString(iv) + "\';");
+			System.out.println("var records = '" + Base64.getUrlEncoder().encodeToString(encryptedData) + "\';");
 
 			// Decrypt Key
 			rsaCipher.init(Cipher.DECRYPT_MODE, clientPrivate);
@@ -172,6 +176,86 @@ public class AllTests extends TestSuite {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Test
+	public void encryptTest() {
+		try {
+			String aesKey = "giemncc3LqXT+o8MWucPqkGQPCmsBliHCwCOlxoHY6k=";
+			byte[] parsedKey = Base64.getDecoder().decode(aesKey);
+			String encodedPublic = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkQNKGV6/rAS1RpU1HNjzUeAsKHpFqVGEwga9eMI6Q7mXOox5dod1OOcutb1XoW18MCqqpFJZqsLtVMFjBEvlwiz6+CVq/Ij5DE19wOOzQknM5Ct4JFeCQqgQ3bNW/YMi7g1iORMx68aUpUaotqdggq+r3PCVrsrrb1DyUUknJWabElWLAI26Xez8fKQa8ltyR8yi1W7urUzV3kKAVp3Y3vn/h6W+nPVJjsfWdhemJUWFBI5DBgsrNitiGk0Nk195WSjH1OUImVnmslJdecAf8wBtm8XOzzGVOIlyRZjKMoDiLH/eNSqB4kU9NJ76t8XjcOSkxaBfsIS8t3ni1twEWQIDAQAB";
+			X509EncodedKeySpec xSpec = new X509EncodedKeySpec(Base64.getDecoder().decode(encodedPublic));
+			RSAPublicKey publicKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(xSpec);
+
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+			cipher.init(Cipher.ENCRYPT_MODE, publicKey, new SecureRandom());
+			bos.write(cipher.doFinal(parsedKey));
+
+			System.out.println(Base64.getEncoder().encodeToString(bos.toByteArray()));
+		} catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Test
+	public void decryptTest() {
+		String key = "W7GieUZZUz7eydD6+N8WwlYzIIepnkvU6OSncT/Z4vftnSE/obR8qzKvSCE0JonJodoGZ8SL+oWW3wrr77TgqQOInciRDgWiCDg1xysRS0d9ygPghPRWcJVCAri3sodefM4XuZzfVz6IIgG7vOv9dB4pwSMkiuoMbcoSRfzmU0x0SEQwcsy4swW035YTGN1hapdxLTFfWBTAXO3C6uRSx5pZX+wzDktj8UW3pSbESzqPopN9fjBNDTfE3tUQEGalepGglUjqmosAQNJSFENLUyw7sjHaK4e0SKbV9rj7Qfr8M1jdFsWDRJFw5oZPGnrWNmHae7IR0l6w+NNLDiSFhg==";
+		String encodedPrivate = "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCPCBXYvg0FjMnZQx4RTZyBJYuwsVvxJSxWAVYw2TIUdSkixwxUTwwS++iZ9bd0hK6PkkS0B9SkJoQRKgMuGMry63vGMbeuSICfZREsnOECLUJzMuZVU35ZkVLZYP72ElyEczrkM05Zu9kwl0P/IM+f7USnywoEj+58Vheid2Sl90FKbUmBpEDSWoA7HoXFpZ+lVKEuRDICqG12F2g3uL7uOtH8+Nkv7PSZ90xF9vIB3f2vcuP2QBEOZxYKzSYCrHB4KD14BaFpf9LQD+TF6kbfbSg6rH2Fvnj2scuNpBJ4ZEO/NHkzvKP+aw30UQtmIgkNiUzgUKmzUyAlHXswpuX5AgMBAAECggEAOEHU3fA6jPFIPyUwAVxGb2GGJRRNdnbJjnZuIT58fSFr8Zra1ZpVxG3CmjPUWYcKZbwBO9JMp9fiYCHnKE1mHc/TWiwZ8/neZVNKQwLdWY7VsRvXDr6NVstbC9cj0UN9kjcEdddcPN0u2vbULtgH8f5P37NzmEHIaq0uFJ/jPYd9HFRNH3MN9JfJd6OkGiaeZ5RMDD6kRp40KbF7Dv40vRE0PT3q47vT6OsWqA1wKjexhaX94UuQWGZFC/Zj/M/gtXGEqIFdegznZIbrkWxLLUsMyyrdwtgSe9+1BZX18+oVxNgMQULLNsPVTMVR1H7QhnLoNIyVoBiUcPgQjgp/JQKBgQDy0B5uDsmXba5GHpKXoZ03J+O/CMQ1tMuZv6Bh/a8pHaGFUXRxY/2vRVSCnEVwIsni0+MmotoYlGqDs7/plptnZFseSP+5hyG47H3JV9ohyVrsGtlfQmlbv5EOENtS974t0SeVi6I6qWEMyQ3yaAx6q0Ex/R2utGbIAPS6wV0HewKBgQCWzK8yVJdzzB6+nv5clEobvRqQXdLY8i6Dr+TY9HnKxqNliJtlKxRjRCPUbVHi4lPWPRoY/8McOEFDIqZO5HScnTLyX46pEwmKld/ysC1liOUixHg/SZ7kCAB24fb7pd78RJ0Z6JElUR2g1DzTMmp6lAX+3d48Ea508lQi8UyUGwKBgBV4Z6htsE+uiCF1JJs51DADW/URbmAdW3993U2s4+cr0pN6T2STZeQwqjdeYBl5Sga/m69X6RcRUJXSuB6MjbNHwXLdG5epJkc2yiyakxQ3vM1x1lTBB5XwS4BF507fzzY371se3Lp5Lba2tIAByVCzgfFMo2pGU2xOAVXeMT6vAoGACN0G/yJRtJCuze1ybeaZZH/867dYCUBS05KnFMlpzy1VtUYOPCgIDr2WjYnPYlKDMvhsbEO8KBB2ZYfH1qM+52Wl9PEA5Zck3GxquUz5nhopvZ1mo/Gj0StXO6WUar4ZGSK/SSKORW87GpTe7lrsP0AsCgroYQd5BY6ou1ULdzkCgYBM+XE+beamQWR78I8PKyTFRB4eqj7NGABANGywqC31CKf960FfopSA292AthALd7GQ5yMvfmIsheffVgCWTlAmpdXMHsMf20JrKwn9driXAbW4hHCGN9CDiO4Bwq2Vsbz68sigX7ReLlrnrj6Pl4w49jlpTDEwZ/wsmgXdXJTf+w==";
+		PKCS8EncodedKeySpec privateSpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(encodedPrivate));
+		KeyFactory factory;
+		try {
+			factory = KeyFactory.getInstance("RSA");
+			RSAPrivateKey privateKey = (RSAPrivateKey) factory.generatePrivate(privateSpec);
+			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+			cipher.init(Cipher.DECRYPT_MODE, privateKey);
+
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			// bos.write(cipher.update(Base64.getDecoder().decode(key)));
+			bos.write(cipher.doFinal(Base64.getDecoder().decode(key)));
+			byte[] decrypted = bos.toByteArray();
+
+			System.out.println(Base64.getEncoder().encodeToString(decrypted));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	// @Test
