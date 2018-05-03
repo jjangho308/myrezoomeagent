@@ -1,4 +1,4 @@
-package io.rezoome.external;
+package io.rezoome.external.common;
 
 
 import io.rezoome.manager.job.iorequest.IORequestJobEntity;

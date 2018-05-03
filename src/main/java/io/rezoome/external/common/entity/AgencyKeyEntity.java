@@ -1,4 +1,4 @@
-package io.rezoome.external.entity;
+package io.rezoome.external.common.entity;
 
 import com.google.gson.annotations.SerializedName;
 

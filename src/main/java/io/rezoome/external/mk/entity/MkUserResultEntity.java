@@ -1,6 +1,6 @@
 package io.rezoome.external.mk.entity;
 
-import io.rezoome.external.entity.AgencyKeyEntity;
+import io.rezoome.external.common.entity.AgencyKeyEntity;
 
 public class MkUserResultEntity extends AgencyKeyEntity {
 

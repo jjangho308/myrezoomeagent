@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
-import io.rezoome.external.entity.AgencyKeyEntity;
-import io.rezoome.external.entity.AgencyResultEntity;
-import io.rezoome.external.mapper.AbstractExternalMapper;
+import io.rezoome.external.common.entity.AgencyKeyEntity;
+import io.rezoome.external.common.entity.AgencyResultEntity;
+import io.rezoome.external.common.mapper.AbstractExternalMapper;
 import io.rezoome.external.opic.entity.OpicSubIdEntity;
 
 public class OpicDaoMapper extends AbstractExternalMapper {

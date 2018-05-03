@@ -2,7 +2,7 @@ package io.rezoome.external.opic.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import io.rezoome.external.entity.AgencyResultEntity;
+import io.rezoome.external.common.entity.AgencyResultEntity;
 
 public class OpicResultEntity extends AgencyResultEntity {
   @SerializedName("name")

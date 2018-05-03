@@ -1,6 +1,6 @@
 package io.rezoome.external.opic.property;
 
-import io.rezoome.external.AbstractAgentProperties;
+import io.rezoome.external.common.AbstractAgentProperties;
 
 public class OpicProperties extends AbstractAgentProperties {
   private static String ORG_CODE = "code001";

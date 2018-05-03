@@ -1,8 +1,8 @@
 package io.rezoome.external.mk.iorequest;
 
 
-import io.rezoome.external.AbastractExternalIORequest;
-import io.rezoome.external.entity.AgencyKeyEntity;
+import io.rezoome.external.common.AbastractExternalIORequest;
+import io.rezoome.external.common.entity.AgencyKeyEntity;
 import io.rezoome.external.mk.entity.MkUserEntity;
 import io.rezoome.external.mk.entity.MkUserResultEntity;
 import io.rezoome.external.mk.entity.MkResponseErrArgsEntity;

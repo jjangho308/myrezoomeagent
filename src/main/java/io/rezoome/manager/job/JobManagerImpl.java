@@ -23,7 +23,7 @@ import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.core.entity.annotation.EntityType;
 import io.rezoome.exception.ServiceException;
-import io.rezoome.external.ExternalIORequest;
+import io.rezoome.external.common.ExternalIORequest;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.crypto.CryptoManagerImpl;
 import io.rezoome.manager.database.dao.Dao;

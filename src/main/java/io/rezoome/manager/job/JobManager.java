@@ -1,6 +1,6 @@
 package io.rezoome.manager.job;
 
-import io.rezoome.external.ExternalIORequest;
+import io.rezoome.external.common.ExternalIORequest;
 import io.rezoome.manager.Manager;
 import io.rezoome.manager.job.entity.JobEntity;
 

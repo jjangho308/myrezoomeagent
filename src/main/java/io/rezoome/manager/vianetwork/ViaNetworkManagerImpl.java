@@ -31,7 +31,7 @@ import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.exception.ServiceException;
-import io.rezoome.external.entity.AgencyResultEntity;
+import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.property.PropertyEnum;

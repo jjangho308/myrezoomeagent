@@ -1,6 +1,6 @@
 package io.rezoome.external.mk.property;
 
-import io.rezoome.external.AbstractAgentProperties;
+import io.rezoome.external.common.AbstractAgentProperties;
 
 public class MkProperties extends AbstractAgentProperties {
   private static String ORG_CODE = "code001";

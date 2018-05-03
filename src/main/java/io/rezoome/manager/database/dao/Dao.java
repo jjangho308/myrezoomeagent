@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import io.rezoome.external.entity.AgencyKeyEntity;
-import io.rezoome.external.entity.AgencyResultEntity;
-import io.rezoome.external.entity.AgencyUserEntity;
+import io.rezoome.external.common.entity.AgencyKeyEntity;
+import io.rezoome.external.common.entity.AgencyResultEntity;
+import io.rezoome.external.common.entity.AgencyUserEntity;
 import io.rezoome.manager.database.entity.UserEntity;
 
 public interface Dao {

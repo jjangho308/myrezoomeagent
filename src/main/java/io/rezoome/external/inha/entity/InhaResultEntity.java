@@ -1,6 +1,6 @@
 package io.rezoome.external.inha.entity;
 
-import io.rezoome.external.entity.AgencyResultEntity;
+import io.rezoome.external.common.entity.AgencyResultEntity;
 
 public class InhaResultEntity extends AgencyResultEntity {
 

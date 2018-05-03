@@ -3,7 +3,7 @@ package io.rezoome.manager.database.entity;
 import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
-import io.rezoome.external.entity.AgencyUserEntity;
+import io.rezoome.external.common.entity.AgencyUserEntity;
 
 public class UserEntity extends AbstractEntity implements AgencyUserEntity{
 

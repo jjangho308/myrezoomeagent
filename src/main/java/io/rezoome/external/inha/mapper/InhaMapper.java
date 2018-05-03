@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.rezoome.constants.Constants;
-import io.rezoome.external.entity.AgencyUserEntity;
+import io.rezoome.external.common.entity.AgencyUserEntity;
 import io.rezoome.external.inha.entity.InhaResultEntity;
 import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.mapper.MapperEntity;

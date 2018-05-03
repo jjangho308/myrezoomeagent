@@ -1,6 +1,6 @@
 package io.rezoome.external.opic.entity;
 
-import io.rezoome.external.entity.AgencyUserEntity;
+import io.rezoome.external.common.entity.AgencyUserEntity;
 
 public class OpicUserResultEntity implements AgencyUserEntity {
 

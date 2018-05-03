@@ -8,9 +8,9 @@ import java.util.Map;
 
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
-import io.rezoome.external.entity.AgencyKeyEntity;
-import io.rezoome.external.entity.AgencyResultEntity;
-import io.rezoome.external.mapper.AbstractExternalMapper;
+import io.rezoome.external.common.entity.AgencyKeyEntity;
+import io.rezoome.external.common.entity.AgencyResultEntity;
+import io.rezoome.external.common.mapper.AbstractExternalMapper;
 import io.rezoome.external.mk.entity.MkSubIdEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.lib.json.Jsonable;

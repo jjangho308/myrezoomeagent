@@ -1,4 +1,4 @@
-package io.rezoome.external.mapper;
+package io.rezoome.external.common.mapper;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,8 +8,8 @@ import java.util.Map;
 import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
-import io.rezoome.external.entity.AgencyKeyEntity;
-import io.rezoome.external.entity.AgencyResultEntity;
+import io.rezoome.external.common.entity.AgencyKeyEntity;
+import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
 import io.rezoome.manager.database.entity.UserEntity;
 import io.rezoome.manager.mapper.DaoMapper;

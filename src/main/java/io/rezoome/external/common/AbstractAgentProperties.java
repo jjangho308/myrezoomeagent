@@ -1,4 +1,4 @@
-package io.rezoome.external;
+package io.rezoome.external.common;
 
 public abstract class AbstractAgentProperties {
   public final String ORG_CODE;

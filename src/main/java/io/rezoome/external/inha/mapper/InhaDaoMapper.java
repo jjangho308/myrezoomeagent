@@ -5,10 +5,10 @@ import java.util.List;
 
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
-import io.rezoome.external.entity.AgencyKeyEntity;
-import io.rezoome.external.entity.AgencyResultEntity;
+import io.rezoome.external.common.entity.AgencyKeyEntity;
+import io.rezoome.external.common.entity.AgencyResultEntity;
+import io.rezoome.external.common.mapper.AbstractExternalMapper;
 import io.rezoome.external.inha.entity.InhaSubIdEntity;
-import io.rezoome.external.mapper.AbstractExternalMapper;
 
 public class InhaDaoMapper extends AbstractExternalMapper {
 

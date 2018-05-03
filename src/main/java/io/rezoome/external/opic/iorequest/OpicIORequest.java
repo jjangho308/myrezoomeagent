@@ -1,7 +1,7 @@
 package io.rezoome.external.opic.iorequest;
 
-import io.rezoome.external.AbastractExternalIORequest;
-import io.rezoome.external.entity.AgencyResultEntity;
+import io.rezoome.external.common.AbastractExternalIORequest;
+import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.external.opic.entity.OpicResultEntity;
 import io.rezoome.manager.job.iorequest.IORequestJobEntity;
 

@@ -1,4 +1,4 @@
-package io.rezoome.external.entity;
+package io.rezoome.external.common.entity;
 
 import io.rezoome.core.entity.AbstractEntity;
 

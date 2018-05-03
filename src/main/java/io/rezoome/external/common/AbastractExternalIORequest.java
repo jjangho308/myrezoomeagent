@@ -1,4 +1,4 @@
-package io.rezoome.external;
+package io.rezoome.external.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,9 +13,9 @@ import com.google.gson.Gson;
 import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
-import io.rezoome.external.entity.AgencyKeyEntity;
-import io.rezoome.external.entity.AgencyResultEntity;
-import io.rezoome.external.entity.AgencyUserEntity;
+import io.rezoome.external.common.entity.AgencyKeyEntity;
+import io.rezoome.external.common.entity.AgencyResultEntity;
+import io.rezoome.external.common.entity.AgencyUserEntity;
 import io.rezoome.external.mk.entity.MkRequestPacketEntity;
 import io.rezoome.external.mk.entity.MkResponsePacketEntity;
 import io.rezoome.lib.json.JSON;
