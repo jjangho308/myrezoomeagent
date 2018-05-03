@@ -32,17 +32,17 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler, MessageListener
       TextMessage consumerTextMessage = (TextMessage) message;
       LOG.debug("AMQMessage : {}", consumerTextMessage.getText());
 
-      // AMQ Full message RSA Decrypt
+      // AMQ key field RSA Decrypt
       String privateKey = ManagerProvider.key().getPrivKeyStr(PrivateProperties.CERT_NAME);
-      String decryptMessage = ManagerProvider.crypto().decryptRSA(consumerTextMessage.getText(), privateKey);
 
       AMQMessageCryptoEntity amqCryptoEntity = new AMQMessageCryptoEntity();
-      amqCryptoEntity = JSON.fromJson(decryptMessage, AMQMessageCryptoEntity.class);
+      amqCryptoEntity = JSON.fromJson(consumerTextMessage.getText(), AMQMessageCryptoEntity.class);
 
       // AMQ User basic message AES Decrypt
       String clientKey = amqCryptoEntity.getKey();
       String clientIv = amqCryptoEntity.getIv();
       String amqMessage = amqCryptoEntity.getMsg();
+      clientKey = ManagerProvider.crypto().decryptRSA(clientKey, privateKey);
       amqMessage = ManagerProvider.crypto().decryptAES(amqMessage, clientKey, clientIv);
 
       AMQMessageEntity amqEntity = new AMQMessageEntity();
