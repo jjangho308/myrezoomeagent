@@ -31,6 +31,7 @@ import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.common.entity.AgencyErrEntity;
 import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
@@ -77,7 +78,7 @@ public class ViaNetworkManagerImpl extends AbstractManager implements ViaNetwork
   }
 
   @Override
-  public List<AgencyResultEntity> request(ViaRequestPacketEntity packet, AgencyResultEntity agencyResultArgs) {
+  public List<AgencyResultEntity> request(ViaRequestPacketEntity packet, ViaResponsePacketEntity agencyRes,   AgencyResultEntity aResult, AgencyErrEntity agencyErr) {
     int retry = 0;
     String response = null;
     HttpURLConnection connection = null;
@@ -129,12 +130,20 @@ public class ViaNetworkManagerImpl extends AbstractManager implements ViaNetwork
 
         switch (connection.getResponseCode()) {
           case HttpURLConnection.HTTP_OK:
-            AgencyResultEntity result = agencyResultArgs;
-            List<AgencyResultEntity> results;
+            ViaResponsePacketEntity aRes = agencyRes;
+            AgencyResultEntity result = aResult; 
+            AgencyErrEntity err = agencyErr;
+            
+            
+            List<AgencyResultEntity> results = null;;
             response = getResponse(connection.getInputStream());
             connection.disconnect();
             System.out.println("mkresponse : " + response);
-            results = (List<AgencyResultEntity>) JSON.fromJson(response, result.getClass());
+            
+            aRes = JSON.fromJson(response, aRes.getClass());
+            results = (List<AgencyResultEntity>) aRes.getResult();
+            
+            //results = (List<AgencyResultEntity>) JSON.fromJson(response, agencyRes.getClass());
             LOG.debug("ReponsePacket : {}", result);
            
             

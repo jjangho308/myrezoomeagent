@@ -6,7 +6,6 @@ import io.rezoome.external.common.entity.AgencyKeyEntity;
 import io.rezoome.external.mk.entity.MkUserEntity;
 import io.rezoome.external.mk.entity.MkUserResultEntity;
 import io.rezoome.external.mk.entity.MkResponseErrArgsEntity;
-import io.rezoome.external.mk.entity.MkResponsePacketEntity;
 import io.rezoome.external.mk.entity.MkResponseResultArgsEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.database.entity.UserEntity;
@@ -27,19 +26,19 @@ public class MkIORequest extends AbastractExternalIORequest {
     //user.key = entity.getCi();
     user.key = "test";
     
-    MkResponsePacketEntity aResponse = new MkResponsePacketEntity();
+    ViaResponsePacketEntity aResponse = new ViaResponsePacketEntity();
     MkResponseResultArgsEntity aResult = new MkResponseResultArgsEntity();
-    MkResponseErrArgsEntity aErrror = new MkResponseErrArgsEntity();
+    MkResponseErrArgsEntity aError = new MkResponseErrArgsEntity();
     
     
-    //getViaData(entity, user, aResult);    
+    getViaData(entity, user, aResponse, aResult, aError);    
     
     
     
     
     // DB 직접 접근
     // get via data or get db data
-     getDirectDbData(entity , aResult);
+    //getDirectDbData(entity , aResult);
     
     
     

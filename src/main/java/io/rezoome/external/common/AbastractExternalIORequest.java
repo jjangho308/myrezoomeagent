@@ -13,12 +13,12 @@ import com.google.gson.Gson;
 import io.rezoome.constants.Constants;
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.common.entity.AgencyErrEntity;
 import io.rezoome.external.common.entity.AgencyKeyEntity;
 import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.external.common.entity.AgencyUserEntity;
 import io.rezoome.external.common.mapper.DaoMapper;
 import io.rezoome.external.mk.entity.MkRequestPacketEntity;
-import io.rezoome.external.mk.entity.MkResponsePacketEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.lib.json.Jsonable;
 import io.rezoome.manager.database.convert.DBConverter;
@@ -54,10 +54,10 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
    * @throws ServiceException
    */
     
-  protected void getViaData(IORequestJobEntity entity, AgencyKeyEntity user,  AgencyResultEntity resEntity){
+  protected void getViaData(IORequestJobEntity entity, AgencyKeyEntity user, ViaResponsePacketEntity agencyRes,   AgencyResultEntity aResult, AgencyErrEntity agencyErr){
     try{ 
       List<String> subIds = checkCommand(entity);
-      ManagerProvider.mapper().getDaoMapper().getCertData(user, resEntity, subIds);
+      ManagerProvider.mapper().getDaoMapper().getCertDataVia(user, agencyRes, aResult, agencyErr, subIds);
       Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
       
       // convert
@@ -119,7 +119,7 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
 //          }
 //          dbResultEntityListMap = daoMapper.getCertData(agencyKeyEntity,resEntity, subIds);
 //        }
-        dbResultEntityListMap = daoMapper.getCertData(agencyKeyEntity,resEntity, subIds);
+        dbResultEntityListMap = daoMapper.getCertDataDB(agencyKeyEntity,resEntity, subIds);
       } else {
         dbResultEntityListMap = null;
       }
