@@ -2,7 +2,6 @@ package io.rezoome.manager.crypto;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
-import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -18,8 +17,6 @@ import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -90,7 +87,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       // generate key pair
       KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
       keyPairGenerator.initialize(2048, new SecureRandom());
-      keyPair = keyPairGenerator.genKeyPair();  
+      keyPair = keyPairGenerator.genKeyPair();
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -184,7 +181,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       byte[] decodedEncryptionData = Base64.getDecoder().decode(encData);
 
       KeyFactory fac = KeyFactory.getInstance("RSA");
-      Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
+      Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
       byte[] priArr = Base64.getDecoder().decode(privateKey);
       PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(priArr);
       PrivateKey priKey = fac.generatePrivate(keySpec);

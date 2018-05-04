@@ -66,6 +66,12 @@ public abstract class AbstractJobEntity extends AbstractEntity implements JobEnt
   @SerializedName("pkey")
   private final String pkey = null;
 
+  @SerializedName("n")
+  private final String n = null;
+
+  @SerializedName("e")
+  private final String e = null;
+
   @SerializedName("subIDs")
   private final List<String> subIds = null;
 
@@ -141,6 +147,14 @@ public abstract class AbstractJobEntity extends AbstractEntity implements JobEnt
 
   public String getPkey() {
     return pkey;
+  }
+
+  public String getN() {
+    return n;
+  }
+
+  public String getE() {
+    return e;
   }
 
   public List<String> getSubIds() {

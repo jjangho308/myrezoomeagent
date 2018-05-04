@@ -18,9 +18,7 @@ import io.rezoome.external.common.entity.AgencyKeyEntity;
 import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.external.common.entity.AgencyUserEntity;
 import io.rezoome.external.common.mapper.DaoMapper;
-import io.rezoome.external.mk.entity.MkRequestPacketEntity;
 import io.rezoome.lib.json.JSON;
-import io.rezoome.lib.json.Jsonable;
 import io.rezoome.manager.database.convert.DBConverter;
 import io.rezoome.manager.database.entity.UserEntity;
 import io.rezoome.manager.job.iorequest.IORequestJobEntity;
@@ -34,55 +32,55 @@ import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.search.HashRecordEntity;
-import io.rezoome.manager.vianetwork.entity.request.ViaRequestPacketEntity;
 import io.rezoome.manager.vianetwork.entity.response.ViaResponsePacketEntity;
 
-public abstract class AbastractExternalIORequest implements ExternalIORequest{
+public abstract class AbastractExternalIORequest implements ExternalIORequest {
 
   protected final Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
 
   private enum STATUS {
     USER_EXIST, USER_NOT_EXIST, REQUIRE_KEY, NOT_RESPONSE
   }
+
   private STATUS status = STATUS.NOT_RESPONSE;
-  
+
   private DaoMapper daoMapper;
-  
+
   /**
    * @author YOO
    * @param entity
    * @throws ServiceException
    */
-    
-  protected void getViaData(IORequestJobEntity entity, AgencyKeyEntity user, ViaResponsePacketEntity agencyRes,   AgencyResultEntity aResult, AgencyErrEntity agencyErr){
-    try{ 
+
+  protected void getViaData(IORequestJobEntity entity, AgencyKeyEntity user, ViaResponsePacketEntity agencyRes, AgencyResultEntity aResult, AgencyErrEntity agencyErr) {
+    try {
       List<String> subIds = checkCommand(entity);
       ManagerProvider.mapper().getDaoMapper().getCertDataVia(user, agencyRes, aResult, agencyErr, subIds);
       Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
-      
+
       // convert
       RequestPacketEntity requestEntity = new RequestPacketEntity();
       convertRequestPacket(entity, dbResultEntityListMap, requestEntity);
-      
+
       // http
-      RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL , false) + entity.getSid(), JSON.toJson(requestEntity));
+      RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + entity.getSid(), JSON.toJson(requestEntity));
       ResponsePacketEntity responseEntity = null;
       responseEntity = ManagerProvider.network().request(packet);
-  
+
       if (responseEntity == null) {
         throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_CORRECT_RESPONSE_CODE);
       }
-    
-  } catch (Exception e) {
-    // TODO Auto-generated catch block
-    throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DATA, e);
+
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DATA, e);
+    }
   }
-  }
-  
-  
-  protected void getDirectDbData(IORequestJobEntity entity,  AgencyResultEntity resEntity) throws ServiceException {
-    
-    daoMapper = (DaoMapper) ManagerProvider.mapper().getDaoMapper();
+
+
+  protected void getDirectDbData(IORequestJobEntity entity, AgencyResultEntity resEntity) throws ServiceException {
+
+    daoMapper = ManagerProvider.mapper().getDaoMapper();
     DBConverter converter = ManagerProvider.database().getConvertManager().getConverter();
 
     Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
@@ -109,46 +107,46 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
       }
 
       subIds = checkCommand(entity);
-      if (status.equals(STATUS.USER_EXIST)) {        
-//        if (subIds != null) {
-//          dbResultEntityListMap = daoMapper.getCertData(agencyKeyEntity,resEntity, subIds);
-//        } else if (subIds == null && records != null) {
-//          subIds = new ArrayList<String>();
-//          for (HashRecordEntity record : records) {
-//            subIds.add(record.getSubID());
-//          }
-//          dbResultEntityListMap = daoMapper.getCertData(agencyKeyEntity,resEntity, subIds);
-//        }
-        dbResultEntityListMap = daoMapper.getCertDataDB(agencyKeyEntity,resEntity, subIds);
+      if (status.equals(STATUS.USER_EXIST)) {
+        // if (subIds != null) {
+        // dbResultEntityListMap = daoMapper.getCertData(agencyKeyEntity,resEntity, subIds);
+        // } else if (subIds == null && records != null) {
+        // subIds = new ArrayList<String>();
+        // for (HashRecordEntity record : records) {
+        // subIds.add(record.getSubID());
+        // }
+        // dbResultEntityListMap = daoMapper.getCertData(agencyKeyEntity,resEntity, subIds);
+        // }
+        dbResultEntityListMap = daoMapper.getCertDataDB(agencyKeyEntity, resEntity, subIds);
       } else {
         dbResultEntityListMap = null;
       }
-      
+
       // convert
       RequestPacketEntity requestEntity = new RequestPacketEntity();
       convertRequestPacket(entity, dbResultEntityListMap, requestEntity);
-      
+
       // http
-      RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL , false) + entity.getSid(), JSON.toJson(requestEntity));
+      RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + entity.getSid(), JSON.toJson(requestEntity));
       ResponsePacketEntity responseEntity = null;
       responseEntity = ManagerProvider.network().request(packet);
 
       if (responseEntity == null) {
         throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_CORRECT_RESPONSE_CODE);
       }
-      
+
     } catch (Exception e) {
       // TODO Auto-generated catch block
       throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DATA, e);
     }
 
-  }  
-  
-  private List<String> checkCommand(IORequestJobEntity entity){
+  }
+
+  private List<String> checkCommand(IORequestJobEntity entity) {
     List<String> subIds = entity.getSubIds();
     List<HashRecordEntity> records = entity.getRecords();
 
-    
+
     if (subIds != null) {
       return subIds;
     } else if (subIds == null && records != null) {
@@ -158,12 +156,12 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
       }
       return subIds;
     }
-    
+
     return subIds;
-    
+
   }
-  
-  
+
+
   @SuppressWarnings("unchecked")
   private void convertRequestPacket(IORequestJobEntity entity, Map<String, Object> dbResultEntityListMap, RequestPacketEntity requestEntity) throws ServiceException {
     // TODO Auto-generated method stub
@@ -181,12 +179,17 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
       } else if (dbResultEntityListMap.size() == 0) {
         searchRecordEntity.setCode(Constants.RESULT_CODE_DATA_IS_EMPTY);
       } else {
+        String clientE = entity.getE();
+        String clientN = entity.getN();
+
         String aesKey = ManagerProvider.crypto().generateAES();
         String iv = ManagerProvider.crypto().generateIV();
-        // String encKey = ManagerProvider.crypto().encryptRSA(aesKey, entity.getPkey());
-        // String encIv = ManagerProvider.crypto().encryptRSA(iv, entity.getPkey());
-        String encKey = "ENCRYPTED_AESKEY";
-        String encIv = "ENCRYPTED_IV";
+
+        System.out.println("encoded aesKey : " + aesKey);
+        System.out.println("encoded iv : " + iv);
+
+        String encryptAesKey = ManagerProvider.crypto().encryptRSA(aesKey, clientN, clientE);
+        System.out.println("encrypt aeskey : " + encryptAesKey);
 
         Mapper mapper = ManagerProvider.mapper().getMapper();
         List<RequestArgsEntity> records = new ArrayList<RequestArgsEntity>();
@@ -202,7 +205,7 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
             for (Object resultEntity : dbResultEntityList) {
               dbEntityString = gson.toJson(mapper.convert(resultEntity));
               record = new RequestSearchRecordsEntity();
-              String encData = dbEntityString;
+              String encData = ManagerProvider.crypto().encryptAES(dbEntityString, aesKey, iv);
               String hashData = ManagerProvider.crypto().hash(dbEntityString);
               record.setData(encData);
               record.setHash(hashData);
@@ -223,7 +226,7 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
             List<AgencyUserEntity> dbResultEntityList = (List<AgencyUserEntity>) dbResultEntityMap.get("all");
             dbEntityString = gson.toJson(mapper.convert(dbResultEntityList));
             record = new RequestSearchRecordsEntity();
-            String encData = dbEntityString;
+            String encData = ManagerProvider.crypto().encryptAES(dbEntityString, aesKey, iv);
             String hashData = ManagerProvider.crypto().hash(dbEntityString);
             record.setData(encData);
             record.setHash(hashData);
@@ -238,38 +241,10 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
             }
             records.add(record);
           }
-
-
-
-          // if (((List<DBRsltEntity>) dbResultEntityListMap.get(subId)).size() > 1) {
-          // List<DBRsltEntity> dbResultEntityList = (List<DBRsltEntity>)
-          // dbResultEntityListMap.get(subId);
-          // dbEntityString = gson.toJson(mapper.convert(dbResultEntityList));
-          // } else {
-          // DBRsltEntity dbResultEntity = ((List<DBRsltEntity>)
-          // dbResultEntityListMap.get(subId)).get(0);
-          // dbEntityString = gson.toJson(mapper.convert(dbResultEntity));
-          // }
-          //
-          // record = new RequestSearchRecordsEntity();
-          // String encData = dbEntityString;
-          // String hashData = ManagerProvider.crypto().hash(dbEntityString);
-          // record.setData(encData);
-          // record.setHash(hashData);
-          // record.setSubid(subId);
-          // HashRecordEntity hashRecordEntity = getMatchingHashData(entity, hashData);
-          // if (hashRecordEntity != null) {
-          // record.setTxid(hashRecordEntity.getTxid());
-          // record.setStored("Y");
-          // } else {
-          // record.setTxid("");
-          // record.setStored("N");
-          // }
-          // records.add(record);
         }
 
-        searchRecordEntity.setKey(encKey);
-        searchRecordEntity.setIv(encIv);
+        searchRecordEntity.setKey(encryptAesKey);
+        searchRecordEntity.setIv(iv);
         searchRecordEntity.setRecords(records);
         searchRecordEntity.setCode(Constants.RESULT_CODE_SUCCESS);
       }
@@ -281,7 +256,7 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
       throw new ServiceException(ErrorCodeConstants.ERROR_CODE_FAIL_TO_CONVERT_DATA, e);
     }
   }
-  
+
   private HashRecordEntity getMatchingHashData(IORequestJobEntity entity, String hashData) throws ServiceException {
     // TODO entity.getHashList 로 유도
 
