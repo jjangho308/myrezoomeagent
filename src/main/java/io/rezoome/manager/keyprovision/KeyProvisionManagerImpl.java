@@ -138,7 +138,7 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
         keyEntry = getKeyEntry(certName);
       }else{
         // Key 생성
-        KeyPair keyPair = ManagerProvider.crypto().genRSAKeyPair();      
+        KeyPair keyPair = ManagerProvider.crypto().generateRSA();      
         // 인증서 생성 후 저장
         keyEntry = createCert(keyPair, true);      
       }
