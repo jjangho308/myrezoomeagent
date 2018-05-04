@@ -1,4 +1,4 @@
-package io.rezoome.manager.mapper;
+package io.rezoome.external.common.mapper;
 
 import java.util.List;
 import java.util.Map;

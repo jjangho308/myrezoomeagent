@@ -3,6 +3,7 @@ package io.rezoome.manager.mapper;
 import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
+import io.rezoome.external.common.mapper.DaoMapper;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;

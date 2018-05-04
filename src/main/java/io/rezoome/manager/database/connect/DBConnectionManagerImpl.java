@@ -32,8 +32,9 @@ public class DBConnectionManagerImpl extends DatabaseManagerImpl implements DBCo
       super.connecter = new OracleConnecter();
     } else if ("MYSQL".equals(super.dbType.toUpperCase())) {
       super.connecter = new MysqlConnecter();
+    } else if("MSSQL".equals(super.dbType.toUpperCase())) {
+      super.connecter = new MssqlConnecter();
     }
-
     LOG.debug("{} created connector.", super.dbType.toUpperCase());
   }
 

@@ -12,7 +12,6 @@ import io.rezoome.external.common.entity.AgencyKeyEntity;
 import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.manager.database.dao.DaoManagerImpl;
 import io.rezoome.manager.database.entity.UserEntity;
-import io.rezoome.manager.mapper.DaoMapper;
 import io.rezoome.manager.provider.ManagerProvider;
 
 public abstract class AbstractExternalMapper implements DaoMapper{
