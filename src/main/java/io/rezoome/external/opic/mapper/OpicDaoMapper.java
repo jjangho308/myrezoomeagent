@@ -26,7 +26,7 @@ public class OpicDaoMapper extends AbstractExternalMapper {
           throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);
       }
     } catch (IOException e) {
-      throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA, e);
+      throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DATA, e);
     }
     return dbResultEntityList;
   }

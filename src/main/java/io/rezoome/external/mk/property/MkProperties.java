@@ -1,10 +1,10 @@
 package io.rezoome.external.mk.property;
 
-import io.rezoome.external.common.AbstractAgentProperties;
+import io.rezoome.external.common.prop.AbstractAgentProperties;
 
 public class MkProperties extends AbstractAgentProperties {
   private static String ORG_CODE = "code001";
-  private static String ORG_NAME = "opic";
+  private static String ORG_NAME = "mk";
   private static String ORG_PASSCODE = "passcode";
   
   private static String DB_USER_ID = "rzroot";

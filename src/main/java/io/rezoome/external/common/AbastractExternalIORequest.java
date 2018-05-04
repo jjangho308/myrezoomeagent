@@ -75,7 +75,7 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
     
   } catch (Exception e) {
     // TODO Auto-generated catch block
-    throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA, e);
+    throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DATA, e);
   }
   }
   
@@ -139,7 +139,7 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest{
       
     } catch (Exception e) {
       // TODO Auto-generated catch block
-      throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA, e);
+      throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DATA, e);
     }
 
   }  

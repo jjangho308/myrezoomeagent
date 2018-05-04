@@ -48,7 +48,7 @@ public abstract class AbstractExternalMapper implements DaoMapper{
       }
     } catch (IOException e) {
       // TODO Auto-generated catch block
-      throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA, e);
+      throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DATA, e);
     }
     return dbResult;
   }
@@ -72,7 +72,7 @@ public abstract class AbstractExternalMapper implements DaoMapper{
 
     } catch (Exception e) {
       // TODO Auto-generated catch block
-      throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA, e);
+      throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DATA, e);
     }
 
     return dbResultEntityListMap;

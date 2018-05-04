@@ -55,6 +55,7 @@ dependencies {
 		compile "org.danilopianini:gson-extras:0.2.1"
 		compile "org.bouncycastle:bcprov-jdk15on:1.54"
 		compile "org.bouncycastle:bcpkix-jdk15on:1.59"
+		compile 'com.microsoft.sqlserver:mssql-jdbc:6.1.0.jre7'
 		testCompile "junit:junit:${ver.junit}"
 	
 }
