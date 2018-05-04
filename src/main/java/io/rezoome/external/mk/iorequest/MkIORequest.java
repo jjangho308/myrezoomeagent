@@ -25,13 +25,13 @@ public class MkIORequest extends AbastractExternalIORequest {
     MkResponseErrArgsEntity aError = new MkResponseErrArgsEntity();
 
 
-    // getViaData(entity, user, aResponse, aResult, aError);
+    getViaData(entity, user, aResponse, aResult, aError);
 
 
 
     // DB 직접 접근
     // get via data or get db data
-    getDirectDbData(entity, aResult);
+    //getDirectDbData(entity, aResult);
 
 
 
