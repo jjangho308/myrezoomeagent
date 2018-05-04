@@ -41,15 +41,15 @@ public class MkDaoMapper extends AbstractExternalMapper {
 
     List<AgencyResultEntity> dbResultEntityList = null;
     
-    System.out.println("MK GetViaData");
-    ViaRequestPacketEntity req = new ViaRequestPacketEntity("http://rezoome.io:8080/result", JSON.toJson((Jsonable) entity));
-    
     //ViaResponsePacketEntity res = new MkResponsePacketEntity();
-    dbResultEntityList = ManagerProvider.via().request(req, resEntity);
+    
     
     try {
       switch (subId) {
         case MkSubIdEntity.SUBID_MK_RCCNF0001:
+
+          //ViaRequestPacketEntity req = new ViaRequestPacketEntity("http://rezoome.io:8080/result", JSON.toJson((Jsonable) entity));
+          //dbResultEntityList = ManagerProvider.via().request(req, resEntity);
           dbResultEntityList = daoMgr.getDao().getCertRecords(entity);
           break;
         default:
