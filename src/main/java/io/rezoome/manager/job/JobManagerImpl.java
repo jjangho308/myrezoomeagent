@@ -158,11 +158,11 @@ public final class JobManagerImpl extends AbstractManager implements JobManager 
         LOG.info("[{}] end[{}] : Job Thread Exit {} ms",
             new Object[] { Long.toString(lRnd), endTime, Long.toString(nTime) });
         LOG.debug("JOB Thread result [{}]", obj);
-        obj = ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA;
+        obj = ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DATA;
         switch ((String) obj) {
           case ErrorCodeConstants.ERROR_CODE_FAIL_TO_CONNECT_PORTAL_SERVER:
           case ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_CORRECT_RESPONSE_CODE:
-          case ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DB_DATA:
+          case ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DATA:
             // TODO create error job json file.
             try {
               File theDir = new File("./logs");
