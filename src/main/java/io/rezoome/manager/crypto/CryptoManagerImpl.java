@@ -263,6 +263,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
     try {
       Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
       c.init(Cipher.DECRYPT_MODE, secureKey, new IvParameterSpec(ivData));
+      System.out.println("Cipher Provider Name : " + c.getProvider().getName());
 
       byte[] byteStr = Base64.getDecoder().decode(encData);
       decyptString = new String(c.doFinal(byteStr), "UTF-8");
