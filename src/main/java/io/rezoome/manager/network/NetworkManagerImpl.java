@@ -35,11 +35,11 @@ import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.request.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
-import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacket;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
-@ManagerType(value = Constants.MANAGER_TYPE_NETWORK, initPriority = 30)
+@ManagerType(value = Constants.MANAGER_TYPE_NETWORK, initPriority = 10)
 public class NetworkManagerImpl extends AbstractManager implements NetworkManager {
 
   private Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
@@ -88,7 +88,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   }
 
   @Override
-  public ResponsePacketEntity request(RequestPacket packet){
+  public ResponsePacket request(RequestPacket packet){
     // TODO Auto-generated method stub
 
     int retry = 0;
@@ -142,11 +142,12 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
 
         switch (connection.getResponseCode()) {
           case HttpURLConnection.HTTP_OK:
-            ResponsePacketEntity responsePacket = new ResponsePacketEntity();
+            ResponsePacket responsePacket = new ResponsePacket();
             response = getResponse(connection.getInputStream());
             connection.disconnect();
-            System.out.println("mkresponse : " + response);
-            responsePacket = JSON.fromJson(response, ResponsePacketEntity.class);
+            System.out.println("response : " + response);
+            //responsePacket.setResult(result);
+            responsePacket = JSON.fromJson(response, ResponsePacket.class);
             LOG.debug("ReponsePacket : {}", responsePacket);
             return responsePacket;
           // case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:

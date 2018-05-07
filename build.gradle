@@ -70,21 +70,21 @@ sourceSets {
 	    	main {
 	        	java {            
 	            	srcDir "src/main/java"      
-				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && ! e.path.contains('io/rezoome/external/opic') }
+				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && !e.path.contains('io/rezoome/external/opic') || !e.path.contains('io/rezoome/external/common') }
 				}
 	    	}
 	    }
 	    mk {
 	    	main {
 	        	java {         
-				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && ! e.path.contains('io/rezoome/external/mk') }
+				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && ! e.path.contains('io/rezoome/external/mk') || !e.path.contains('io/rezoome/external/common') }
 				}
 	    	}
 	    }
 	    inha {
 	    	main {
 	        	java {             
-				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && ! e.path.contains('io/rezoome/external/inha') }
+				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && ! e.path.contains('io/rezoome/external/inha') || !e.path.contains('io/rezoome/external/common') }
 				}
 	    	}
 	    }

@@ -17,16 +17,16 @@ import io.rezoome.manager.auth.entity.ResponseAuthenticationArgsEntity;
 import io.rezoome.manager.keyprovision.entity.RequestKeyProvisionArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
-import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacket;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
-@ManagerType(value = Constants.COMMAND_AUTH, initPriority = 40)
+@ManagerType(value = Constants.COMMAND_AUTH, initPriority = 15)
 public class AuthManagerImpl extends AbstractManager implements AuthManager {
 
   private final Logger LOG = LoggerFactory.getLogger(Constants.AGENT_LOG);
 
-  private String orgCode;
+  private String orgId;
   private String orgName;
   private String orgPasscode;
 
@@ -45,13 +45,13 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
     // TODO Auto-generated method stub
 
     try {
-      orgCode = ManagerProvider.property().getProperty(PropertyEnum.ORG_CODE);
+      orgId = ManagerProvider.property().getProperty(PropertyEnum.ORG_ID);
       orgName = ManagerProvider.property().getProperty(PropertyEnum.ORG_NAME);
       orgPasscode = ManagerProvider.property().getProperty(PropertyEnum.ORG_PASSCODE);
 
       
       
-      packet = new RequestPacket("", JSON.toJson(convertAuthPacketEntity()));
+      packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false), JSON.toJson(convertAuthPacketEntity()));
 
       if (authentication()) {
         LOG.info("{} Init Complete", this.getClass());
@@ -73,16 +73,15 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
   @Override
   public boolean authentication() throws ServiceException {
     try {
-      ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
-      if (responseEntity != null &&
-          String.valueOf(HttpURLConnection.HTTP_OK).equals(responseEntity.getCode())) {
+      ResponsePacket responseEntity = ManagerProvider.network().request(packet);
+      if (responseEntity != null ) {
         ResponseAuthenticationArgsEntity args = (ResponseAuthenticationArgsEntity) responseEntity.getResult();
 
         // TODO AUTH 결과에 따른 처리
         GlobalEntity.TOKEN = args.getToken();
         if ("N".equals(args.getKeyStored())) {
           // keyProvision
-          packet = new RequestPacket("", JSON.toJson(convertKeyProvisionPacketEntity()));
+          packet = new RequestPacket("", JSON.toJson(convertAuthPacketEntity()));
           responseEntity = ManagerProvider.network().request(packet);
         }
         return true;
@@ -99,7 +98,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
     requestEntity.setCmd(Constants.COMMAND_AUTH);
 
     RequestAuthenticationArgsEntity argsEntity = new RequestAuthenticationArgsEntity();
-    argsEntity.setOrgCode(orgCode);
+    argsEntity.setOrgId(orgId);
     argsEntity.setOrgPasscode(orgPasscode);
     argsEntity.setOrgName(orgName);
     requestEntity.setArgs(argsEntity);
@@ -107,16 +106,5 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
     return requestEntity;
   }
 
-  private RequestPacketEntity convertKeyProvisionPacketEntity() {
-    RequestPacketEntity requestEntity = new RequestPacketEntity();
-    requestEntity.setCmd(Constants.COMMAND_KEY_PROVISION);
-
-    RequestKeyProvisionArgsEntity argsEntity = new RequestKeyProvisionArgsEntity();
-    argsEntity.setOrgCode(orgCode);
-    argsEntity.setPubKey("PUBKEY");
-    requestEntity.setArgs(argsEntity);
-
-    return requestEntity;
-  }
 
 }

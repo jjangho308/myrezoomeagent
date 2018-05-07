@@ -7,18 +7,18 @@ import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 
 public class RequestKeyProvisionArgsEntity extends AbstractEntity implements RequestArgsEntity {
 
-  @SerializedName("orgcode")
-  private String orgCode;
+  @SerializedName("orgId")
+  private String orgId;
 
   @SerializedName("pubkey")
   private String pubKey;
 
-  public void setOrgCode(String orgCode) {
-    this.orgCode = orgCode;
+  public String getOrgId() {
+    return orgId;
   }
 
-  public String getOrgCode() {
-    return orgCode;
+  public void setOrgId(String orgId) {
+    this.orgId = orgId;
   }
 
   public String getPubKey() {
@@ -28,5 +28,6 @@ public class RequestKeyProvisionArgsEntity extends AbstractEntity implements Req
   public void setPubKey(String pubKey) {
     this.pubKey = pubKey;
   }
+
 
 }

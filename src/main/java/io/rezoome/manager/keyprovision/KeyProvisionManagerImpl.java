@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -56,23 +57,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.rezoome.constants.Constants;
+import io.rezoome.constants.GlobalEntity;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.core.annotation.ManagerType;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.AbstractManager;
+import io.rezoome.manager.keyprovision.entity.RequestKeyProvisionArgsEntity;
+import io.rezoome.manager.keyprovision.entity.ResponseKeyProvisiionArgsEntity;
+import io.rezoome.manager.network.entity.request.RequestPacket;
+import io.rezoome.manager.network.entity.request.RequestPacketEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacket;
 import io.rezoome.manager.property.PrivateProperties;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
 
-@ManagerType(value = Constants.MANAGER_TYPE_KEYPROVISION, initPriority = 10)
+@ManagerType(value = Constants.MANAGER_TYPE_KEYPROVISION, initPriority = 20)
 public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvisionManager {
 
   private static String keyStoreLocation;
   private static String certName;
   private static String issuerDn;
   private static String certPwd;
-  
+  private static String orgId;
   
   private KeyStore keyStore = null;
 
@@ -93,6 +101,8 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
     
     // TODO Auto-generated method stub
     keyStoreLocation = ManagerProvider.property().getProperty(PropertyEnum.KEYSTORE_LOCATION, true);
+    orgId = ManagerProvider.property().getProperty(PropertyEnum.ORG_ID);
+
     //certName = ManagerProvider.property().getProperty(PropertyEnum.CERT_NAME, true);
     //issuerDn = ManagerProvider.property().getProperty(PropertyEnum.ISSUER_DN, true);
     //certPwd = ManagerProvider.property().getProperty(PropertyEnum.CERT_PASSWORD, true);
@@ -108,7 +118,18 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
         // TODO Auto-generated catch block
         e.printStackTrace();
       }     
-   
+    
+    RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false), JSON.toJson(convertKeyProvisionedPacketEntity()));
+    ResponsePacket responseEntity = ManagerProvider.network().request(packet);
+    
+    if (responseEntity != null) {
+      LOG.info("Key Provisioned Response {} ", responseEntity);
+      
+    } else {
+      LOG.info("Key Provisioned Response is null or ERROR ");
+    }
+    
+    
     setPrepared();
     LOG.info("{} Init Complete.", this.getClass());
   }
@@ -322,4 +343,17 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
   }
 
 
+  private RequestPacketEntity convertKeyProvisionedPacketEntity() {
+    RequestPacketEntity requestEntity = new RequestPacketEntity();
+    requestEntity.setCmd(Constants.MANAGER_TYPE_KEYPROVISION);
+
+    RequestKeyProvisionArgsEntity argsEntity = new RequestKeyProvisionArgsEntity();
+    argsEntity.setOrgId(orgId);
+    argsEntity.setPubKey(this.getPubKeyStr(certName));
+    requestEntity.setArgs(argsEntity);
+
+    return requestEntity;
+  }
+  
+  
 }

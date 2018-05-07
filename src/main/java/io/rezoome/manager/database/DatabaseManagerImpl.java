@@ -38,6 +38,11 @@ public class DatabaseManagerImpl extends AbstractManager implements DatabaseMana
   @Override
   public void initialize(InitialEvent event) {
 
+    if(ManagerProvider.property().getProperty(PropertyEnum.GET_DATA_METHOD, false).equals("WAS")){
+      LOG.info("{} not init. because GET_DATA_TPYE is not DATABASE or MIXED", this.getClass());
+      return;
+    }
+      
     // TODO Auto-generated method stub
     dbType = ManagerProvider.property().getProperty(PropertyEnum.DBMS_TYPE, true);
     dbVersion = ManagerProvider.property().getProperty(PropertyEnum.DBMS_VERSION, true);

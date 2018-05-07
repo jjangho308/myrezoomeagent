@@ -7,8 +7,8 @@ import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 
 public class RequestAuthenticationArgsEntity extends AbstractEntity implements RequestArgsEntity {
 
-  @SerializedName("orgcode")
-  private String orgCode;
+  @SerializedName("orgId")
+  private String orgId;
 
   @SerializedName("passcode")
   private String orgPasscode;
@@ -16,12 +16,14 @@ public class RequestAuthenticationArgsEntity extends AbstractEntity implements R
   @SerializedName("name")
   private String orgName;
 
-  public String getOrgCode() {
-    return orgCode;
+  
+
+  public String getOrgId() {
+    return orgId;
   }
 
-  public void setOrgCode(String orgCode) {
-    this.orgCode = orgCode;
+  public void setOrgId(String orgId) {
+    this.orgId = orgId;
   }
 
   public String getOrgPasscode() {

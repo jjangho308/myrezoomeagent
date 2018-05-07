@@ -5,10 +5,12 @@ DAO_CLASS_NAME = io.rezoome.manager.database.dao.Dao
 DAO_MAPPER_CLASS_NAME = io.rezoome.external.mk.mapper.MkDaoMapper
 PROP_CLASS_NAME = io.rezoome.external.mk.property.MkProperties
 IOREQUEST_CLASS_NAME = io.rezoome.external.mk.iorequest.MkIORequest
+
 [GENERAL]
 ORG_CODE = code001
 ORG_NAME = mk
 ORG_PASSCODE = passcode
+GET_DATA_METHOD = WAS
   
 [THREAD]
 THREAD_POOL_CAPAVILITY = 10
@@ -37,7 +39,7 @@ AMAZONE_USER_PASSWORD = sgen2018!!!!
 JOB_TEMP_FILE_PATH = ./
 
 [HTTP]
-PORTAL_URL = https://rezoome.io/agent/
+PORTAL_URL = https://rezoome.io/agent
 CONNECT_TIMEOUT = 3000
 READ_TIMEOUT = 3000
 RETRIES = 3

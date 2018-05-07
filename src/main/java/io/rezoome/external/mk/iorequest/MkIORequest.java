@@ -17,10 +17,9 @@ import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.job.iorequest.IORequestJobEntity;
 import io.rezoome.manager.network.entity.request.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
-import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacket;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
-import io.rezoome.manager.vianetwork.entity.response.ViaResponsePacketEntity;
 
 public class MkIORequest extends AbastractExternalIORequest {
 
@@ -48,9 +47,9 @@ public class MkIORequest extends AbastractExternalIORequest {
     RequestPacketEntity requestEntity = new RequestPacketEntity();
     super.convertRequestPacket(entity, results, requestEntity);
     
-    RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + entity.getSid(), JSON.toJson(requestEntity));
+    RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + "/" + entity.getSid(), JSON.toJson(requestEntity));
 
-    ResponsePacketEntity responseEntity = null;
+    ResponsePacket responseEntity = null;
     responseEntity = ManagerProvider.network().request(packet);
     
     

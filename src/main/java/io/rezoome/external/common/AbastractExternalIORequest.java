@@ -28,7 +28,7 @@ import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.network.entity.request.RequestArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
-import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacket;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.search.HashRecordEntity;
@@ -130,8 +130,8 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest {
       convertRequestPacket(entity, dbResultEntityListMap, requestEntity);
 
       // http
-      RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + entity.getSid(), JSON.toJson(requestEntity));
-      ResponsePacketEntity responseEntity = null;
+      RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + "/" + entity.getSid(), JSON.toJson(requestEntity));
+      ResponsePacket responseEntity = null;
       responseEntity = ManagerProvider.network().request(packet);
 
       if (responseEntity == null) {
@@ -171,7 +171,7 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest {
     try {
       RequestSearchArgsEntity searchRecordEntity = new RequestSearchArgsEntity();
 
-      searchRecordEntity.setOrgCode(ManagerProvider.property().getProperty(PropertyEnum.ORG_CODE, false));
+      searchRecordEntity.setOrgCode(ManagerProvider.property().getProperty(PropertyEnum.ORG_ID, false));
       searchRecordEntity.setKey("");
       searchRecordEntity.setIv("");
 

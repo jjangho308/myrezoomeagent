@@ -49,7 +49,7 @@ public class DaoManagerImpl extends DatabaseManagerImpl implements DaoManager {
       Class<?> daoCls = loader.loadClass(daoClass);
 
       this.dao = sqlsession.getMapper(Dao.class);
-    } catch (IOException | ClassNotFoundException e) {
+    } catch (IOException | ClassNotFoundException | NullPointerException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
