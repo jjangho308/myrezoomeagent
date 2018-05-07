@@ -14,7 +14,7 @@ import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.health.entity.RequestHealthCheckArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
-import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacket;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
@@ -25,7 +25,7 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
 
   private int FAIL_COUNT;
   private int HEALTH_CHECK_INTERVAL;
-  private String orgCode;
+  private String orgId;
 
   private static class Singleton {
     private static final HealthCheckManager instance = new HealthCheckManagerImpl();
@@ -39,7 +39,7 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
   public void initialize(InitialEvent event) {
     // TODO Auto-generated method stub
     FAIL_COUNT = 0;
-    orgCode = ManagerProvider.property().getProperty(PropertyEnum.ORG_CODE, true);
+    orgId = ManagerProvider.property().getProperty(PropertyEnum.ORG_ID, true);
     HEALTH_CHECK_INTERVAL = Integer.parseInt(ManagerProvider.property().getProperty(PropertyEnum.HEALTH_CHECK_INTERVAL, true));
     setPrepared();
     healthCheck();
@@ -55,14 +55,13 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
     new Thread(new Runnable() {
       @Override
       public void run() {
-        RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + "healthAgency", JSON.toJson(convertRequestPacketEntity()));
+        RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false), JSON.toJson(convertRequestPacketEntity()));
 
         while (true) {
           try {
-            ResponsePacketEntity responseEntity = ManagerProvider.network().request(packet);
+            ResponsePacket responseEntity = ManagerProvider.network().request(packet);
             // TODO 헬스체크 결과에 따른 처리
-            if (responseEntity != null &&
-                String.valueOf(HttpURLConnection.HTTP_OK).equals(responseEntity.getCode())) {
+            if (responseEntity != null) {
               FAIL_COUNT = 0;
             } else {
               FAIL_COUNT++;
@@ -86,7 +85,7 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
     RequestPacketEntity requestEntity = new RequestPacketEntity();
     requestEntity.setCmd(Constants.COMMAND_HEALTH_CHECK);
     RequestHealthCheckArgsEntity argsEntity = new RequestHealthCheckArgsEntity();
-    argsEntity.setOrgCode(orgCode);
+    argsEntity.setOrgId(orgId);
     requestEntity.setArgs(argsEntity);
     return requestEntity;
   }

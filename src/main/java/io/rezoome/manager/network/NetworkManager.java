@@ -4,7 +4,7 @@ import io.rezoome.entity.RzmRsltEntity;
 import io.rezoome.manager.Manager;
 import io.rezoome.manager.network.entity.request.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
-import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacket;
 
 /**
  * Network manager. <br />
@@ -15,7 +15,7 @@ import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
  */
 public interface NetworkManager extends Manager {
 
-  public ResponsePacketEntity request(RequestPacket obj);
+  public ResponsePacket request(RequestPacket obj);
   public RequestPacketEntity convert(RzmRsltEntity entity, String cmd);
   public String createPortalUrl(String sid);
   

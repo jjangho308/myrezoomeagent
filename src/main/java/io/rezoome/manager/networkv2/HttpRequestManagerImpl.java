@@ -13,7 +13,7 @@ import javax.net.ssl.HttpsURLConnection;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.manager.AbstractManager;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
-import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
+import io.rezoome.manager.network.entity.response.ResponsePacket;
 
 /**
  * Implementation of {@link HttpRequestManager}. <br />
@@ -46,7 +46,7 @@ public class HttpRequestManagerImpl extends AbstractManager implements HttpReque
   }
 
   @Override
-  public ResponsePacketEntity sendRequest(RequestPacket packet) {
+  public ResponsePacket sendRequest(RequestPacket packet) {
     HttpURLConnection connection;
     try {
       connection = (HttpURLConnection) this.agentChannenUrl.openConnection();

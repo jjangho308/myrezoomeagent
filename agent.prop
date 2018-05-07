@@ -39,7 +39,7 @@ AMAZONE_USER_PASSWORD = sgen2018!!!!
 JOB_TEMP_FILE_PATH = ./
 
 [HTTP]
-PORTAL_URL = https://rezoome.io/agent/
+PORTAL_URL = https://rezoome.io/agent
 CONNECT_TIMEOUT = 3000
 READ_TIMEOUT = 3000
 RETRIES = 3
