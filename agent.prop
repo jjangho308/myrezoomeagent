@@ -9,6 +9,7 @@ IOREQUEST_CLASS_NAME = io.rezoome.external.mk.iorequest.MkIORequest
 ORG_CODE = code001
 ORG_NAME = mk
 ORG_PASSCODE = passcode
+GET_DATA_METHOD = WAS
   
 [THREAD]
 THREAD_POOL_CAPAVILITY = 10

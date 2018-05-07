@@ -51,7 +51,7 @@ public class AuthManagerImpl extends AbstractManager implements AuthManager {
 
       
       
-      packet = new RequestPacket("", JSON.toJson(convertAuthPacketEntity()));
+      packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + "authAgency", JSON.toJson(convertAuthPacketEntity()));
 
       if (authentication()) {
         LOG.info("{} Init Complete", this.getClass());

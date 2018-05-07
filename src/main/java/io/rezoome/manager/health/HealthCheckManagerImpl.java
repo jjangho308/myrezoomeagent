@@ -55,7 +55,7 @@ public class HealthCheckManagerImpl extends AbstractManager implements HealthChe
     new Thread(new Runnable() {
       @Override
       public void run() {
-        RequestPacket packet = new RequestPacket("", JSON.toJson(convertRequestPacketEntity()));
+        RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + "healthAgency", JSON.toJson(convertRequestPacketEntity()));
 
         while (true) {
           try {

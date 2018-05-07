@@ -121,7 +121,7 @@ public class DBConnectionPool {
         con = DriverManager.getConnection(URL, user, password);
       }
       LOG.debug("{} created a new connection in pool", name);
-    } catch (SQLException e) {
+    } catch (Exception e) {
       StringBuffer sb = new StringBuffer();
       sb.append("Can't create a new connection for ");
       sb.append(URL);
@@ -131,7 +131,7 @@ public class DBConnectionPool {
       sb.append(password);
       e.printStackTrace();
       return null;
-    }
+    } 
 
     return con;
   }

@@ -20,7 +20,6 @@ import io.rezoome.manager.network.entity.request.RequestPacketEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacketEntity;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
-import io.rezoome.manager.vianetwork.entity.response.ViaResponsePacketEntity;
 
 public class MkIORequest extends AbastractExternalIORequest {
 

@@ -146,7 +146,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
             response = getResponse(connection.getInputStream());
             connection.disconnect();
             System.out.println("mkresponse : " + response);
-            responsePacket = JSON.fromJson(response, ResponsePacketEntity.class);
+            //responsePacket = JSON.fromJson(response, ResponsePacketEntity.class);
             LOG.debug("ReponsePacket : {}", responsePacket);
             return responsePacket;
           // case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:
