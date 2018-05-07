@@ -35,9 +35,9 @@ public class InhaDaoMapper extends AbstractExternalMapper {
   }
 
 
+
   @Override
-  public List<AgencyResultEntity> getViaDataOfSubID(AgencyKeyEntity entity, ViaResponsePacketEntity agencyRes, AgencyResultEntity aResult, AgencyErrEntity agencyErr, String subId)
-      throws ServiceException {
+  public String getViaDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException {
     // TODO Auto-generated method stub
     return null;
   }

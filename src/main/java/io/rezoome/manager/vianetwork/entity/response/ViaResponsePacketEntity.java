@@ -11,28 +11,6 @@ import io.rezoome.manager.network.entity.NetworkPacket;
 
 public class ViaResponsePacketEntity  extends AbstractEntity implements NetworkPacket{
   
-  @SerializedName("err")
-  AgencyErrEntity err;
-  
-  @SerializedName("result")
-  List<AgencyResultEntity> result;
-
-  public AgencyErrEntity getErr() {
-    return err;
-  }
-
-  public void setErr(AgencyErrEntity err) {
-    this.err = err;
-  }
-
-  public List<AgencyResultEntity> getResult() {
-    return result;
-  }
-
-  public void setResult(List<AgencyResultEntity> result) {
-    this.result = result;
-  }
-  
   
   
 }

@@ -36,17 +36,15 @@ public class MkDaoMapper extends AbstractExternalMapper {
   // }
 
   @Override
-  public List<AgencyResultEntity> getViaDataOfSubID(AgencyKeyEntity entity, ViaResponsePacketEntity agencyRes, AgencyResultEntity aResult, AgencyErrEntity agencyErr, String subId)
-      throws ServiceException {
+  public String getViaDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException {
 
-    List<AgencyResultEntity> dbResultEntityList = null;
+    String dbResultEntityList = null;
 
     try {
       switch (subId) {
         case MkSubIdEntity.SUBID_MK_RCCNF0001:
-
-          ViaRequestPacketEntity req = new ViaRequestPacketEntity("http://rezoome.io:8080/result", JSON.toJson(entity));
-          dbResultEntityList = ManagerProvider.via().request(req, agencyRes, aResult, agencyErr);
+          ViaRequestPacketEntity req = new ViaRequestPacketEntity("http://rezoome.io:8080/result", JSON.toJson(entity));          
+          dbResultEntityList = ManagerProvider.via().request(req);
           break;
         default:
           throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);

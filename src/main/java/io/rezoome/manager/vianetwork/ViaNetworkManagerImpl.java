@@ -78,7 +78,8 @@ public class ViaNetworkManagerImpl extends AbstractManager implements ViaNetwork
   }
 
   @Override
-  public List<AgencyResultEntity> request(ViaRequestPacketEntity packet, ViaResponsePacketEntity agencyRes,   AgencyResultEntity aResult, AgencyErrEntity agencyErr) {
+  //public List<AgencyResultEntity> request(ViaRequestPacketEntity packet, ViaResponsePacketEntity agencyRes,   AgencyResultEntity aResult, AgencyErrEntity agencyErr) {
+  public String request(ViaRequestPacketEntity packet) {
     int retry = 0;
     String response = null;
     HttpURLConnection connection = null;
@@ -130,24 +131,22 @@ public class ViaNetworkManagerImpl extends AbstractManager implements ViaNetwork
 
         switch (connection.getResponseCode()) {
           case HttpURLConnection.HTTP_OK:
-            ViaResponsePacketEntity aRes = agencyRes;
-            AgencyResultEntity result = aResult; 
-            AgencyErrEntity err = agencyErr;
-            
-            
-            List<AgencyResultEntity> results = null;;
+//            ViaResponsePacketEntity aRes = agencyRes;
+//            AgencyResultEntity result = aResult; 
+//            AgencyErrEntity err = agencyErr;
+//            
+//            
+//            List<AgencyResultEntity> results = null;;
+//            response = getResponse(connection.getInputStream());
+//            connection.disconnect();
+//            System.out.println("mkresponse : " + response);
+//            
+//            aRes = JSON.fromJson(response, aRes.getClass());
+//            results = (List<AgencyResultEntity>) aRes.getResult();
+//            LOG.debug("ReponsePacket : {}", result);
+//            return results;
             response = getResponse(connection.getInputStream());
-            connection.disconnect();
-            System.out.println("mkresponse : " + response);
-            
-            aRes = JSON.fromJson(response, aRes.getClass());
-            results = (List<AgencyResultEntity>) aRes.getResult();
-            
-            //results = (List<AgencyResultEntity>) JSON.fromJson(response, agencyRes.getClass());
-            LOG.debug("ReponsePacket : {}", result);
-           
-            
-            return results;
+            return response;
           // case HttpURLConnection.HTTP_GATEWAY_TIMEOUT:
           // LOG.error("response code {}", HttpURLConnection.HTTP_GATEWAY_TIMEOUT);
           // break;

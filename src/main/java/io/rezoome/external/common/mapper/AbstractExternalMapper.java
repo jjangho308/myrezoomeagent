@@ -80,19 +80,18 @@ public abstract class AbstractExternalMapper implements DaoMapper{
   }
   
   @Override
-  public Map<String, Object> getCertDataVia(AgencyKeyEntity entity , ViaResponsePacketEntity agencyRes,   AgencyResultEntity aResult, AgencyErrEntity agencyErr, List<String> subIds) throws ServiceException{
-    Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
-    List<AgencyResultEntity> dbResultEntityList = null;
-
+//  public Map<String, Object> getCertDataVia(AgencyKeyEntity entity , ViaResponsePacketEntity agencyRes,   AgencyResultEntity aResult, AgencyErrEntity agencyErr, List<String> subIds) throws ServiceException{
+    public Map<String, String> getCertDataVia(AgencyKeyEntity entity ,List<String> subIds) throws ServiceException{
+    //Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
+    Map<String, String> resultData = new HashMap<String, String>();
     
     try {
       if (subIds == null || subIds.size() == 0) {
         throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNDEFINED);
       }
 
-      for (String subId : subIds) {
-        dbResultEntityList = getViaDataOfSubID(entity, agencyRes,aResult ,agencyErr, subId);
-        dbResultEntityListMap.put(subId, dbResultEntityList);
+      for (String subId : subIds) {        
+        resultData.put(subId, getViaDataOfSubID(entity, subId));        
       }
 
     } catch (Exception e) {
@@ -100,7 +99,7 @@ public abstract class AbstractExternalMapper implements DaoMapper{
       throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_DATA, e);
     }
 
-    return dbResultEntityListMap;
+    return resultData;
     
   }
   

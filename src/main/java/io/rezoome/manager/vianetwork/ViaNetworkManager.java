@@ -9,5 +9,6 @@ import io.rezoome.manager.vianetwork.entity.request.ViaRequestPacketEntity;
 import io.rezoome.manager.vianetwork.entity.response.ViaResponsePacketEntity;
 
 public interface ViaNetworkManager extends Manager{
-  public List<AgencyResultEntity> request(ViaRequestPacketEntity packet, ViaResponsePacketEntity agencyRes,   AgencyResultEntity aResult, AgencyErrEntity agencyErr);
+  //public List<AgencyResultEntity> request(ViaRequestPacketEntity packet, ViaResponsePacketEntity agencyRes,   AgencyResultEntity aResult, AgencyErrEntity agencyErr);
+  public String request(ViaRequestPacketEntity packet);
 }

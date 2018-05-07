@@ -52,24 +52,27 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest {
    * @throws ServiceException
    */
 
-  protected void getViaData(IORequestJobEntity entity, AgencyKeyEntity user, ViaResponsePacketEntity agencyRes, AgencyResultEntity aResult, AgencyErrEntity agencyErr) {
+  protected Map<String, String> getViaData(IORequestJobEntity entity, AgencyKeyEntity user) {
     try {
       List<String> subIds = checkCommand(entity);
-      ManagerProvider.mapper().getDaoMapper().getCertDataVia(user, agencyRes, aResult, agencyErr, subIds);
-      Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
-
-      // convert
-      RequestPacketEntity requestEntity = new RequestPacketEntity();
-      convertRequestPacket(entity, dbResultEntityListMap, requestEntity);
-
-      // http
-      RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + entity.getSid(), JSON.toJson(requestEntity));
-      ResponsePacketEntity responseEntity = null;
-      responseEntity = ManagerProvider.network().request(packet);
-
-      if (responseEntity == null) {
-        throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_CORRECT_RESPONSE_CODE);
-      }
+      return ManagerProvider.mapper().getDaoMapper().getCertDataVia(user, subIds);
+      
+//      
+//      
+//      Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
+//
+//      // convert
+//      RequestPacketEntity requestEntity = new RequestPacketEntity();
+//      convertRequestPacket(entity, dbResultEntityListMap, requestEntity);
+//
+//      // http
+//      RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + entity.getSid(), JSON.toJson(requestEntity));
+//      ResponsePacketEntity responseEntity = null;
+//      responseEntity = ManagerProvider.network().request(packet);
+//
+//      if (responseEntity == null) {
+//        throw new ServiceException(ErrorCodeConstants.ERROR_CODE_UNABLE_TO_GET_CORRECT_RESPONSE_CODE);
+//      }
 
     } catch (Exception e) {
       // TODO Auto-generated catch block
@@ -142,7 +145,7 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest {
 
   }
 
-  private List<String> checkCommand(IORequestJobEntity entity) {
+  protected List<String> checkCommand(IORequestJobEntity entity) {
     List<String> subIds = entity.getSubIds();
     List<HashRecordEntity> records = entity.getRecords();
 
@@ -163,7 +166,7 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest {
 
 
   @SuppressWarnings("unchecked")
-  private void convertRequestPacket(IORequestJobEntity entity, Map<String, Object> dbResultEntityListMap, RequestPacketEntity requestEntity) throws ServiceException {
+  protected void convertRequestPacket(IORequestJobEntity entity, Map<String, Object> dbResultEntityListMap, RequestPacketEntity requestEntity) throws ServiceException {
     // TODO Auto-generated method stub
     try {
       RequestSearchArgsEntity searchRecordEntity = new RequestSearchArgsEntity();
