@@ -7,10 +7,8 @@
 <mapper namespace='io.rezoome.manager.database.dao.Dao'>
 
 	<resultMap id="OpicUserResultEntity"
-		type="io.rezoome.external.opic.entity.OpicUserResultEntity">
-		<result property="id" column="ID" />
-		<result property="name" column="ENAME" />
-		<result property="ci" column="CI" />
+		type="io.rezoome.external.common.entity.AgencyKeyEntity">
+		<result property="key" column="PHONE" />
 	</resultMap>
 
 	<resultMap id="OpicResultEntity"
@@ -22,7 +20,7 @@
 		<result property="phone" column="PHONE" />
 	</resultMap>
 	
-	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
+	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.UserEntity"
 		resultMap="OpicUserResultEntity">
 		<!-- SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE 
 			CI = #{ci} OR ENAME = #{username} -->
@@ -30,10 +28,10 @@
 		ENAME = #{fullNameEN}
 	</select>
 
-	<select id="getCertRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
+	<select id="getCertRecords" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="OpicResultEntity">
 		SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT
-		WHERE PHONE = #{phone}
+		WHERE PHONE = #{key}
 	</select>
 
 </mapper>

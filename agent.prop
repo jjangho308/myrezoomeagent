@@ -5,6 +5,7 @@ DAO_CLASS_NAME = io.rezoome.manager.database.dao.Dao
 DAO_MAPPER_CLASS_NAME = io.rezoome.external.mk.mapper.MkDaoMapper
 PROP_CLASS_NAME = io.rezoome.external.mk.property.MkProperties
 IOREQUEST_CLASS_NAME = io.rezoome.external.mk.iorequest.MkIORequest
+
 [GENERAL]
 ORG_CODE = code001
 ORG_NAME = mk
