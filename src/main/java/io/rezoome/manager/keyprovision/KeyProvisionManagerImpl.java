@@ -123,8 +123,8 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
     ResponsePacket responseEntity = ManagerProvider.network().request(packet);
     
     
-    System.out.println("PUBLIC KEY : " + getPubKeyStr(certName) );
-    System.out.println("PRIVATE KEY : " + getPrivKeyStr(certName) );
+//    System.out.println("PUBLIC KEY : " + getPubKeyStr(certName) );
+//    System.out.println("PRIVATE KEY : " + getPrivKeyStr(certName) );
     
     if (responseEntity != null) {
       LOG.info("Key Provisioned Response {} ", responseEntity);
