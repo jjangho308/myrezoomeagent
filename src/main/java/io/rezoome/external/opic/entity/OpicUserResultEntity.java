@@ -1,8 +1,9 @@
 package io.rezoome.external.opic.entity;
 
+import io.rezoome.external.common.entity.AgencyKeyEntity;
 import io.rezoome.external.common.entity.AgencyUserEntity;
 
-public class OpicUserResultEntity implements AgencyUserEntity {
+public class OpicUserResultEntity extends AgencyKeyEntity {
 
   private String id;
   private String name;
@@ -14,7 +15,7 @@ public class OpicUserResultEntity implements AgencyUserEntity {
   }
 
   public void setId(String id) {
-    this.id = id;
+    super.key = id;
   }
 
   public String getName() {

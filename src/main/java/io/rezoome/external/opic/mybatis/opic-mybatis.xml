@@ -12,7 +12,7 @@
 	</resultMap>
 
 	<resultMap id="OpicResultEntity"
-		type="io.rezoome.external.opic.entity.OpicResultEntity">
+		type="io.rezoome.external.opic.entity.OpicResponseResultArgsEntity">
 		<result property="name" column="ENAME" />
 		<result property="testId" column="TESTID" />
 		<result property="testDay" column="ISSUDATE" />

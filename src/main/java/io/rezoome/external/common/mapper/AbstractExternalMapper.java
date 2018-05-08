@@ -33,6 +33,10 @@ public abstract class AbstractExternalMapper implements DaoMapper{
     Map<String, Object> dbResult = new HashMap<String, Object>();
     try {
       List<AgencyKeyEntity> dbResultEntityList = daoMgr.getDao().getUserRecords(entity);
+      for(AgencyKeyEntity key : dbResultEntityList){
+        System.out.println("getUserData : " + key);
+      }
+      
       if (dbResultEntityList.size() == 1) {
        
             // TODO 좀더 이쁜 코드로

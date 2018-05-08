@@ -12,7 +12,7 @@
 	</resultMap>
 
 	<resultMap id="InhaResultEntity"
-		type="io.rezoome.external.inha.entity.InhaResultEntity">
+		type="io.rezoome.external.inha.entity.InhaResponseResultArgsEntity">
 		<result property="id" column="ID" />
 		<result property="name" column="NAME" />
 		<result property="status" column="STATUS" />
@@ -24,14 +24,14 @@
 		<result property="entranceDate" column="ENTRANCE_DATE" />
 	</resultMap>
 
-	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
+	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.UserEntity"
 		resultMap="InhaUserResultEntity">
 		SELECT ID FROM INHA_USR
 		WHERE
 		NAME = #{fullNameKO} AND BIRTH = #{birth};
 	</select>
 
-	<select id="getCertRecords" parameterType="io.rezoome.manager.database.entity.DBEntity"
+	<select id="getCertRecords" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="InhaResultEntity">
 		SELECT
 		IU.ID AS ID,
@@ -48,7 +48,7 @@
 		WHERE IU.ID = #{orgUserId};
 	</select>
 	
-	<select id="getSungjukRecord" parameterType="io.rezoome.manager.database.entity.DBEntity"
+	<select id="getSungjukRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="InhaResultEntity">
 		SELECT
 		IU.ID AS ID,
@@ -61,7 +61,7 @@
 		WHERE IU.ID = #{key};
 	</select>
 	
-	<select id="getJolupRecord" parameterType="io.rezoome.manager.database.entity.DBEntity"
+	<select id="getJolupRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="InhaResultEntity">
 		SELECT
 		IU.ID AS ID,

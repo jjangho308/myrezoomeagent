@@ -7,7 +7,7 @@ import java.util.Map;
 
 import io.rezoome.constants.Constants;
 import io.rezoome.external.common.entity.AgencyUserEntity;
-import io.rezoome.external.opic.entity.OpicResultEntity;
+import io.rezoome.external.opic.entity.OpicResponseResultArgsEntity;
 import io.rezoome.manager.mapper.Mapper;
 import io.rezoome.manager.mapper.MapperEntity;
 
@@ -22,12 +22,12 @@ public class OpicMapper implements Mapper {
     }
 
     OpicMapperEntity mapperEntity = new OpicMapperEntity();
-    mapperEntity.setName(((OpicResultEntity) dbResultEntity).getName() == null ? null : ((OpicResultEntity) dbResultEntity).getName());
-    mapperEntity.setDate(((OpicResultEntity) dbResultEntity).getTestDay() == null ? null : ((OpicResultEntity) dbResultEntity).getTestDay());
-    mapperEntity.setGrade(((OpicResultEntity) dbResultEntity).getRating() == null ? null : ((OpicResultEntity) dbResultEntity).getRating());
-    mapperEntity.setTestid(((OpicResultEntity) dbResultEntity).getTestId() == null ? null : ((OpicResultEntity) dbResultEntity).getTestId());
-    mapperEntity.setLang(((OpicResultEntity) dbResultEntity).getLanguage() == null ? null : ((OpicResultEntity) dbResultEntity).getLanguage());
-    mapperEntity.setPhone(((OpicResultEntity) dbResultEntity).getPhone() == null ? null : ((OpicResultEntity) dbResultEntity).getPhone());
+    mapperEntity.setName(((OpicResponseResultArgsEntity) dbResultEntity).getName() == null ? null : ((OpicResponseResultArgsEntity) dbResultEntity).getName());
+    mapperEntity.setDate(((OpicResponseResultArgsEntity) dbResultEntity).getTestDay() == null ? null : ((OpicResponseResultArgsEntity) dbResultEntity).getTestDay());
+    mapperEntity.setGrade(((OpicResponseResultArgsEntity) dbResultEntity).getRating() == null ? null : ((OpicResponseResultArgsEntity) dbResultEntity).getRating());
+    mapperEntity.setTestid(((OpicResponseResultArgsEntity) dbResultEntity).getTestId() == null ? null : ((OpicResponseResultArgsEntity) dbResultEntity).getTestId());
+    mapperEntity.setLang(((OpicResponseResultArgsEntity) dbResultEntity).getLanguage() == null ? null : ((OpicResponseResultArgsEntity) dbResultEntity).getLanguage());
+    mapperEntity.setPhone(((OpicResponseResultArgsEntity) dbResultEntity).getPhone() == null ? null : ((OpicResponseResultArgsEntity) dbResultEntity).getPhone());
     return mapperEntity;
   }
 
@@ -43,12 +43,12 @@ public class OpicMapper implements Mapper {
     List<MapperEntity> mapperEntityList = new ArrayList<MapperEntity>();
     for (Object dbEntity : dbResultEntityList) {
       OpicMapperEntity mapperEntity = new OpicMapperEntity();
-      mapperEntity.setName(((OpicResultEntity) dbEntity).getName() == null ? null : ((OpicResultEntity) dbEntity).getName());
-      mapperEntity.setDate(((OpicResultEntity) dbEntity).getTestDay() == null ? null : ((OpicResultEntity) dbEntity).getTestDay());
-      mapperEntity.setGrade(((OpicResultEntity) dbEntity).getRating() == null ? null : ((OpicResultEntity) dbEntity).getRating());
-      mapperEntity.setTestid(((OpicResultEntity) dbEntity).getTestId() == null ? null : ((OpicResultEntity) dbEntity).getTestId());
-      mapperEntity.setLang(((OpicResultEntity) dbEntity).getLanguage() == null ? null : ((OpicResultEntity) dbEntity).getLanguage());
-      mapperEntity.setPhone(((OpicResultEntity) dbEntity).getPhone() == null ? null : ((OpicResultEntity) dbEntity).getPhone());
+      mapperEntity.setName(((OpicResponseResultArgsEntity) dbEntity).getName() == null ? null : ((OpicResponseResultArgsEntity) dbEntity).getName());
+      mapperEntity.setDate(((OpicResponseResultArgsEntity) dbEntity).getTestDay() == null ? null : ((OpicResponseResultArgsEntity) dbEntity).getTestDay());
+      mapperEntity.setGrade(((OpicResponseResultArgsEntity) dbEntity).getRating() == null ? null : ((OpicResponseResultArgsEntity) dbEntity).getRating());
+      mapperEntity.setTestid(((OpicResponseResultArgsEntity) dbEntity).getTestId() == null ? null : ((OpicResponseResultArgsEntity) dbEntity).getTestId());
+      mapperEntity.setLang(((OpicResponseResultArgsEntity) dbEntity).getLanguage() == null ? null : ((OpicResponseResultArgsEntity) dbEntity).getLanguage());
+      mapperEntity.setPhone(((OpicResponseResultArgsEntity) dbEntity).getPhone() == null ? null : ((OpicResponseResultArgsEntity) dbEntity).getPhone());
       mapperEntityList.add(mapperEntity);
     }
     mapperEntityMap.put(Constants.PARAM_LIST, mapperEntityList);

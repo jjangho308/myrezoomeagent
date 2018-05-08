@@ -7,9 +7,6 @@ PROP_CLASS_NAME = io.rezoome.external.mk.property.MkProperties
 IOREQUEST_CLASS_NAME = io.rezoome.external.mk.iorequest.MkIORequest
 
 [GENERAL]
-ORG_CODE = code001
-ORG_NAME = mk
-ORG_PASSCODE = passcode
 GET_DATA_METHOD = WAS
   
 [THREAD]
@@ -47,9 +44,6 @@ RETRY_DELAY_SEC = 3000
 
 [AGENT_CERTIFICATION]
 KEYSTORE_LOCATION = ./test-jks.keystore
-CERT_NAME = AGENT_CERT
-ISSUER_DN = C=DE,O=Organiztion
-CERT_PASSWORD = certPassword
 
 [AGENT VIA]
 VIA_AGENCY_URL = http://rezoome.io:8080/result

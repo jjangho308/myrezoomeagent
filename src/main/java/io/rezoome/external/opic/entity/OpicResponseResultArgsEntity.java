@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.external.common.entity.AgencyResultEntity;
 
-public class OpicResultEntity extends AgencyResultEntity {
+public class OpicResponseResultArgsEntity extends AgencyResultEntity {
   @SerializedName("name")
   private String name;
   
