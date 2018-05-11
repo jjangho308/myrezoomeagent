@@ -12,7 +12,7 @@ import java.util.Map;
 public class Environment {
 
 	static {
-
+	  
 	}
 
 	// Hide constructor. <br />

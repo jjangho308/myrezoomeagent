@@ -40,8 +40,8 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
 
   private String configFile;
   private Properties properties;
-  
-  
+
+
   @Override
   public void initialize(InitialEvent event) throws ServiceException {
     // TODO Auto-generated method stub
@@ -49,22 +49,42 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
     try {
       properties = this.readProperties();
       LOG.info("{} Init Complete.", this.getClass());
-    
-    
-    String agentPropClass = ManagerProvider.property().getProperty(PropertyEnum.PROP_CLASS_NAME, true);
-    // "io.rezoome.agent.db.dao.inha.InhaUnivDao.class"
-    ClassLoader loader = ClassLoader.getSystemClassLoader();
-    Class<?> agentPropCls;
-    agentPropCls = loader.loadClass(agentPropClass);
-    AbstractAgentProperties aap = (AbstractAgentProperties) agentPropCls.newInstance();
-    Field [] fList = aap.getClass().getFields();
-    System.out.println(fList);
-    for(Field f : fList ){
+
+
+      String agentPropClass = ManagerProvider.property().getProperty(PropertyEnum.PROP_CLASS_NAME, true);
+      // "io.rezoome.agent.db.dao.inha.InhaUnivDao.class"
+      ClassLoader loader = ClassLoader.getSystemClassLoader();
+      Class<?> agentPropCls;
+      agentPropCls = loader.loadClass(agentPropClass);
+      AbstractAgentProperties aap = (AbstractAgentProperties) agentPropCls.newInstance();
+      Field[] fList = aap.getClass().getFields();
+      System.out.println(fList);
+      for (Field f : fList) {
+
+        properties.setProperty(f.getName(), (String) f.get(aap));
+      }
+
+
+      // SystemValue
+
+
       
-      properties.setProperty(f.getName(), (String) f.get(aap));
-    }
-    
-    } catch (IOException e) {      
+       //java -jar agent.jar -DenvTarget=STG
+       
+       String envTarget = System.getProperty("envTarget");
+       if(envTarget.equals("DEV")){
+         properties.setProperty(PropertyEnum.PORTAL_URL.toString(), properties.getProperty(PropertyEnum.PORTAL_URL_DEV.toString()));
+       }else if(envTarget.equals("STG")){
+         properties.setProperty(PropertyEnum.PORTAL_URL.toString(), properties.getProperty(PropertyEnum.PORTAL_URL_STG.toString()));
+       }else if(envTarget.equals("PRD")){
+         properties.setProperty(PropertyEnum.PORTAL_URL.toString(), properties.getProperty(PropertyEnum.PORTAL_URL_PRD.toString()));
+       }else{
+         
+       }
+       
+
+
+    } catch (IOException e) {
       throw new ServiceException("fail to initialize property manager, Not found agent.prop file.", e);
     } catch (ClassNotFoundException e) {
       throw new ServiceException("fail to initialize property manager, Can not load Agent Properties Class. Check a properties in agent.prop file., ", e);
@@ -73,7 +93,7 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
     } catch (IllegalAccessException e) {
       throw new ServiceException("fail to initialize property manager.", e);
     }
-    
+
     setPrepared();
   }
 
