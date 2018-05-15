@@ -8,19 +8,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.Map.Entry;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +76,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
   }
 
   @Override
-  public ResponsePacket request(RequestPacket packet){
+  public ResponsePacket request(RequestPacket packet) {
     // TODO Auto-generated method stub
 
     int retry = 0;
@@ -108,20 +96,21 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
         }
         connection = (HttpURLConnection) new URL(packet.getUrl()).openConnection();
 
-        if (connection instanceof HttpsURLConnection) {
-          SSLContext ctx = SSLContext.getInstance(Constants.PARAM_TLS);
-          ctx.init(new KeyManager[0], new TrustManager[] { new DefaultTrustManager() }, new SecureRandom());
-          final SSLSocketFactory sslSocketFactory = ctx.getSocketFactory();
-          SSLContext.setDefault(ctx);
-          HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
-          httpsConnection.setHostnameVerifier(new HostnameVerifier() {
-            @Override
-            public boolean verify(String arg0, SSLSession arg1) {
-              return true;
-            }
-          });
-          httpsConnection.setSSLSocketFactory(sslSocketFactory);
-        }
+        // if (connection instanceof HttpsURLConnection) {
+        // SSLContext ctx = SSLContext.getInstance(Constants.PARAM_TLS);
+        // ctx.init(new KeyManager[0], new TrustManager[] { new DefaultTrustManager() }, new
+        // SecureRandom());
+        // final SSLSocketFactory sslSocketFactory = ctx.getSocketFactory();
+        // SSLContext.setDefault(ctx);
+        // HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
+        // httpsConnection.setHostnameVerifier(new HostnameVerifier() {
+        // @Override
+        // public boolean verify(String arg0, SSLSession arg1) {
+        // return true;
+        // }
+        // });
+        // httpsConnection.setSSLSocketFactory(sslSocketFactory);
+        // }
 
         connection.setDoOutput(true);
         connection.setConnectTimeout(CONNECT_TIMEOUT);
@@ -146,7 +135,7 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
             response = getResponse(connection.getInputStream());
             connection.disconnect();
             System.out.println("response : " + response);
-            //responsePacket.setResult(result);
+            // responsePacket.setResult(result);
             responsePacket = JSON.fromJson(response, ResponsePacket.class);
             LOG.debug("ReponsePacket : {}", responsePacket);
             return responsePacket;
@@ -184,20 +173,20 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     return response.toString();
   }
 
-  private static class DefaultTrustManager implements X509TrustManager {
-    @Override
-    public void checkClientTrusted(X509Certificate[] arg0, String arg1)
-        throws CertificateException {}
-
-    @Override
-    public void checkServerTrusted(X509Certificate[] arg0, String arg1)
-        throws CertificateException {}
-
-    @Override
-    public X509Certificate[] getAcceptedIssuers() {
-      return null;
-    }
-  }
+  // private static class DefaultTrustManager implements X509TrustManager {
+  // @Override
+  // public void checkClientTrusted(X509Certificate[] arg0, String arg1)
+  // throws CertificateException {}
+  //
+  // @Override
+  // public void checkServerTrusted(X509Certificate[] arg0, String arg1)
+  // throws CertificateException {}
+  //
+  // @Override
+  // public X509Certificate[] getAcceptedIssuers() {
+  // return null;
+  // }
+  // }
 
   @Override
   public String createPortalUrl(String sid) {
