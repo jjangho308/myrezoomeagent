@@ -112,7 +112,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
 
     generator.init(256, rand);
     secretKey = generator.generateKey();
-    return new Base64(true).encodeBase64String(secretKey.getEncoded());
+    return new Base64(false).encodeBase64String(secretKey.getEncoded());
   }
 
   @Override
@@ -125,7 +125,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
     IvParameterSpec ivParams = new IvParameterSpec(iv);
 
     @SuppressWarnings("static-access")
-    String randomIVbase64 = new Base64(true).encodeBase64String(ivParams.getIV());
+    String randomIVbase64 = new Base64(false).encodeBase64String(ivParams.getIV());
     return randomIVbase64;
   }
 
@@ -137,12 +137,12 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
     try {
       KeyFactory fac = KeyFactory.getInstance("RSA");
       Cipher cipher = Cipher.getInstance("RSA/ECB/NoPadding");
-      byte[] pubArr = new Base64(true).decode(publicKey);
+      byte[] pubArr = new Base64(false).decode(publicKey);
       X509EncodedKeySpec x509Spec = new X509EncodedKeySpec(pubArr);
       PublicKey pubkey = fac.generatePublic(x509Spec);
       cipher.init(Cipher.ENCRYPT_MODE, pubkey);
       byte[] arrCipherData = cipher.doFinal(data.getBytes());
-      encryptedString = new Base64(true).encodeBase64String(arrCipherData);
+      encryptedString = new Base64(false).encodeBase64String(arrCipherData);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -158,7 +158,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       String encodeE = E;
       String encodeN = N;
       BigInteger bigE = new BigInteger(new Base64(true).decode(encodeE));
-      byte[] decodedN = new Base64(false).decode(encodeN.getBytes());
+      byte[] decodedN = new Base64(true).decode(encodeN.getBytes());
       ByteBuffer buffer = ByteBuffer.allocate(decodedN.length + 1);
       buffer.put((byte) 0x00).put(decodedN);
       BigInteger bigN = new BigInteger(buffer.array());
@@ -170,7 +170,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
       cipher.init(Cipher.ENCRYPT_MODE, clientPublic);
       byte[] arrCipherData = cipher.doFinal(data.getBytes());
-      encryptedString = new Base64(true).encodeBase64String(arrCipherData);
+      encryptedString = new Base64(false).encodeBase64String(arrCipherData);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -187,7 +187,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
 
       KeyFactory fac = KeyFactory.getInstance("RSA");
       Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-      byte[] priArr = new Base64(true).decode(privateKey);
+      byte[] priArr = new Base64(false).decode(privateKey);
       PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(priArr);
       PrivateKey priKey = fac.generatePrivate(keySpec);
 
@@ -206,12 +206,12 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
     // TODO Auto-generated method stub
     String decryptedString = "";
     try {
-      byte[] decodedEncryptionData = new Base64(true).decode(encData);
+      byte[] decodedEncryptionData = new Base64(false).decode(encData);
 
       String encodedN = N;
       String encodedD = D;
-      byte[] decodedN = new Base64(false).decode(encodedN.getBytes());
-      byte[] decodedD = new Base64(false).decode(encodedD);
+      byte[] decodedN = new Base64(true).decode(encodedN.getBytes());
+      byte[] decodedD = new Base64(true).decode(encodedD);
 
       ByteBuffer buffer = ByteBuffer.allocate(decodedN.length + 1);
       buffer.put((byte) 0x00).put(decodedN);
@@ -239,8 +239,8 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
   @Override
   public String encryptAES(String data, String aesKey, String iv) {
     // TODO Auto-generated method stub
-    byte[] keyData = new Base64(true).decode(aesKey);
-    byte[] ivData = new Base64(true).decode(iv);
+    byte[] keyData = new Base64(false).decode(aesKey);
+    byte[] ivData = new Base64(false).decode(iv);
 
     SecretKey secureKey = new SecretKeySpec(keyData, "AES");
     String encData = null;
@@ -249,7 +249,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
       c.init(Cipher.ENCRYPT_MODE, secureKey, new IvParameterSpec(ivData));
       byte[] encrypted = c.doFinal(data.getBytes("UTF-8"));
-      encData = new Base64(true).encodeBase64String(encrypted);
+      encData = new Base64(false).encodeBase64String(encrypted);
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
@@ -260,8 +260,8 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
   @Override
   public String decryptAES(String encData, String aesKey, String iv) {
     // TODO Auto-generated method stub
-    byte[] keyData = new Base64(true).decode(aesKey);
-    byte[] ivData = new Base64(true).decode(iv);
+    byte[] keyData = new Base64(false).decode(aesKey);
+    byte[] ivData = new Base64(false).decode(iv);
 
     SecretKey secureKey = new SecretKeySpec(keyData, "AES");
     String decyptString = null;
@@ -270,7 +270,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
       c.init(Cipher.DECRYPT_MODE, secureKey, new IvParameterSpec(ivData));
 
-      byte[] byteStr = new Base64(true).decode(encData);
+      byte[] byteStr = new Base64(false).decode(encData);
       decyptString = new String(c.doFinal(byteStr), "UTF-8");
     } catch (Exception e) {
       e.printStackTrace();
