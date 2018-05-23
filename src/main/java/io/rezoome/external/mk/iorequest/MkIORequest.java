@@ -2,11 +2,8 @@ package io.rezoome.external.mk.iorequest;
 
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import io.rezoome.constants.ErrorCodeConstants;
-import io.rezoome.exception.ServiceException;
 import io.rezoome.external.common.AbastractExternalIORequest;
 import io.rezoome.external.common.entity.AgencyKeyEntity;
 import io.rezoome.external.mk.entity.MkResponseEntity;
@@ -29,34 +26,33 @@ public class MkIORequest extends AbastractExternalIORequest {
 
     // Via 데이터
     AgencyKeyEntity user = new MkUserEntity();
-    // user.key = entity.getCi();
-    user.key = "test";
+    user.key = entity.getCi();
 
     MkResponseEntity aResponse = new MkResponseEntity();
     MkResponseResultArgsEntity aResult = new MkResponseResultArgsEntity();
     MkResponseErrArgsEntity aError = new MkResponseErrArgsEntity();
 
 
-    Map<String, String> resultStr =  getViaData(entity, user);
+    Map<String, String> resultStr = getViaData(entity, user);
     Map<String, Object> results = new HashMap<String, Object>();
-    
-    for( String subId : resultStr.keySet()){      
+
+    for (String subId : resultStr.keySet()) {
       results.put(subId, JSON.fromJson(resultStr.get(subId), aResponse).getResult());
     }
-    
+
     RequestPacketEntity requestEntity = new RequestPacketEntity();
     super.convertRequestPacket(entity, results, requestEntity);
-    
+
     RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false) + "/" + entity.getSid(), JSON.toJson(requestEntity));
 
     ResponsePacket responseEntity = null;
     responseEntity = ManagerProvider.network().request(packet);
-    
-    
-    
+
+
+
     // DB 직접 접근
     // get via data or get db data
-   //getDirectDbData(entity, aResult);
+    // getDirectDbData(entity, aResult);
 
 
 

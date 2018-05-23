@@ -83,11 +83,6 @@ public class NetworkManagerImpl extends AbstractManager implements NetworkManage
     String response = null;
     HttpURLConnection connection = null;
 
-    if (packet.getData() != null) {
-      LOG.debug("RequestUrl : {}", packet.getUrl());
-      LOG.debug("RequestPacket : {}", packet.getData().toString());
-    }
-
     try {
       do {
         if (retry > 0) {
