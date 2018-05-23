@@ -24,7 +24,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.net.URLCodec;
 
 import io.rezoome.constants.Constants;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
@@ -97,6 +96,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
     return keyPair;
   }
 
+  @SuppressWarnings("static-access")
   @Override
   public String generateAES() {
     // TODO Auto-generated method stub
@@ -112,7 +112,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
 
     generator.init(256, rand);
     secretKey = generator.generateKey();
-    return Base64.encodeBase64String(secretKey.getEncoded());
+    return new Base64(true).encodeBase64String(secretKey.getEncoded());
   }
 
   @Override
@@ -124,10 +124,12 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
 
     IvParameterSpec ivParams = new IvParameterSpec(iv);
 
-    String randomIVbase64 = Base64.encodeBase64String(ivParams.getIV());
+    @SuppressWarnings("static-access")
+    String randomIVbase64 = new Base64(true).encodeBase64String(ivParams.getIV());
     return randomIVbase64;
   }
 
+  @SuppressWarnings("static-access")
   @Override
   public String encryptRSA(String data, String publicKey) {
     // TODO Auto-generated method stub
@@ -140,13 +142,14 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       PublicKey pubkey = fac.generatePublic(x509Spec);
       cipher.init(Cipher.ENCRYPT_MODE, pubkey);
       byte[] arrCipherData = cipher.doFinal(data.getBytes());
-      encryptedString = Base64.encodeBase64String(arrCipherData);
+      encryptedString = new Base64(true).encodeBase64String(arrCipherData);
     } catch (Exception e) {
       e.printStackTrace();
     }
     return encryptedString;
   }
 
+  @SuppressWarnings("static-access")
   @Override
   public String encryptRSA(String data, String N, String E) {
     // TODO Auto-generated method stub
@@ -155,9 +158,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       String encodeE = E;
       String encodeN = N;
       BigInteger bigE = new BigInteger(Base64.decodeBase64(encodeE));
-      // byte[] decodedN = Base64.getUrlDecoder().decode(encodeN.getBytes());
-      URLCodec urlCodec = new URLCodec();
-      byte[] decodedN = urlCodec.decode(encodeN.getBytes());
+      byte[] decodedN = new Base64(false).decode(encodeN.getBytes());
       ByteBuffer buffer = ByteBuffer.allocate(decodedN.length + 1);
       buffer.put((byte) 0x00).put(decodedN);
       BigInteger bigN = new BigInteger(buffer.array());
@@ -169,7 +170,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
       cipher.init(Cipher.ENCRYPT_MODE, clientPublic);
       byte[] arrCipherData = cipher.doFinal(data.getBytes());
-      encryptedString = Base64.encodeBase64String(arrCipherData);
+      encryptedString = new Base64(true).encodeBase64String(arrCipherData);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -209,9 +210,8 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
 
       String encodedN = N;
       String encodedD = D;
-      URLCodec urlCodec = new URLCodec();
-      byte[] decodedN = urlCodec.decode(encodedN.getBytes());
-      byte[] decodedD = urlCodec.decode(encodedD.getBytes());
+      byte[] decodedN = new Base64(false).decode(encodedN.getBytes());
+      byte[] decodedD = new Base64(false).decode(encodedD);
 
       ByteBuffer buffer = ByteBuffer.allocate(decodedN.length + 1);
       buffer.put((byte) 0x00).put(decodedN);
@@ -235,6 +235,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
     return decryptedString;
   }
 
+  @SuppressWarnings("static-access")
   @Override
   public String encryptAES(String data, String aesKey, String iv) {
     // TODO Auto-generated method stub
@@ -248,7 +249,7 @@ public class CryptoManagerImpl extends AbstractManager implements CryptoManager 
       Cipher c = Cipher.getInstance("AES/CBC/PKCS5Padding");
       c.init(Cipher.ENCRYPT_MODE, secureKey, new IvParameterSpec(ivData));
       byte[] encrypted = c.doFinal(data.getBytes("UTF-8"));
-      encData = Base64.encodeBase64String(encrypted);
+      encData = new Base64(true).encodeBase64String(encrypted);
     } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
