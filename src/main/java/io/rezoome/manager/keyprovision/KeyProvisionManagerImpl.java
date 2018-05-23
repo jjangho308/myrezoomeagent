@@ -47,6 +47,7 @@ import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
 
+
 @ManagerType(value = Constants.MANAGER_TYPE_KEYPROVISION, initPriority = 20)
 public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvisionManager {
 
@@ -197,7 +198,7 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
     try {
       if (isKeyStore())
         try {
-          return new Base64(true).encodeToString(keyStore.getKey(certAlias, certPwd.toCharArray()).getEncoded());
+          return java.util.Base64.getEncoder().encodeToString(keyStore.getKey(certAlias, certPwd.toCharArray()).getEncoded());
         } catch (UnrecoverableKeyException | NoSuchAlgorithmException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
