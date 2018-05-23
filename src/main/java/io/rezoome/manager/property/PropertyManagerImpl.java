@@ -50,7 +50,6 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
       properties = this.readProperties();
       LOG.info("{} Init Complete.", this.getClass());
 
-
       String agentPropClass = ManagerProvider.property().getProperty(PropertyEnum.PROP_CLASS_NAME, true);
       // "io.rezoome.agent.db.dao.inha.InhaUnivDao.class"
       ClassLoader loader = ClassLoader.getSystemClassLoader();

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.rezoome.lib.json.JSON;
-import io.rezoome.manager.property.PrivateProperties;
+import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.pushcommand.entity.PushCommandEntity;
 
@@ -33,7 +33,7 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler, MessageListener
       LOG.debug("AMQMessage : {}", consumerTextMessage.getText());
 
       // AMQ key field RSA Decrypt
-      String privateKey = ManagerProvider.key().getPrivKeyStr(PrivateProperties.CERT_NAME);
+      String privateKey = ManagerProvider.property().getProperty(PropertyEnum.CERT_NAME);
 
       AMQMessageCryptoEntity amqCryptoEntity = new AMQMessageCryptoEntity();
       amqCryptoEntity = JSON.fromJson(consumerTextMessage.getText(), AMQMessageCryptoEntity.class);

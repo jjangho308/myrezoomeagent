@@ -45,6 +45,12 @@ RETRY_DELAY_SEC = 3000
 
 [KEYSTORE]
 KEYSTORE_LOCATION = ./inha.keystore
+CERT_NAME  = "AGENT_CERT";
+ISSUER_DN = "C=DE,O=Organiztion";
+CERT_PASSWORD  = "SgenRezoomeAgentCertPwd2018!@#$";
+  
+    
+
 
 [AGENT VIA]
 #VIA_AGENCY_URL = http://rezoome.io:8080/result

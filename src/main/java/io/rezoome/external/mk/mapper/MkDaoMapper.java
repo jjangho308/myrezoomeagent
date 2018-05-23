@@ -57,9 +57,10 @@ public class MkDaoMapper extends AbstractExternalMapper {
   }
 
   @Override
-  public Map<String, String> getDbDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException {
+  public AgencyResultEntity getDbDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException {
     // TODO Auto-generated method stub
     return null;
   }
+
 
 }

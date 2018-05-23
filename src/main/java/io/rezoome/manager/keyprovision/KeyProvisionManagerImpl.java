@@ -38,7 +38,6 @@ import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
 import org.bouncycastle.asn1.x509.BasicConstraints;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
-import org.bouncycastle.asn1.x509.X509Extensions;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
@@ -68,7 +67,6 @@ import io.rezoome.manager.keyprovision.entity.ResponseKeyProvisiionArgsEntity;
 import io.rezoome.manager.network.entity.request.RequestPacket;
 import io.rezoome.manager.network.entity.request.RequestPacketEntity;
 import io.rezoome.manager.network.entity.response.ResponsePacket;
-import io.rezoome.manager.property.PrivateProperties;
 import io.rezoome.manager.property.PropertyEnum;
 import io.rezoome.manager.provider.ManagerProvider;
 
@@ -106,10 +104,10 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
     //certName = ManagerProvider.property().getProperty(PropertyEnum.CERT_NAME, true);
     //issuerDn = ManagerProvider.property().getProperty(PropertyEnum.ISSUER_DN, true);
     //certPwd = ManagerProvider.property().getProperty(PropertyEnum.CERT_PASSWORD, true);
-    certName = PrivateProperties.CERT_NAME;
-    issuerDn = PrivateProperties.ISSUER_DN;
-    certPwd = PrivateProperties.CERT_PASSWORD;
-    
+    certName = ManagerProvider.property().getProperty(PropertyEnum.CERT_NAME);
+    issuerDn = ManagerProvider.property().getProperty(PropertyEnum.ISSUER_DN);
+    certPwd = ManagerProvider.property().getProperty(PropertyEnum.CERT_PASSWORD);
+   
     
    
       try {
