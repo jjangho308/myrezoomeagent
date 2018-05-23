@@ -239,41 +239,24 @@ public class AllTests extends TestSuite {
 
 	@Test
 	public void decryptTest() {
-		String key = "AN5kUcmyjAeBSE29qu1UXsGNm/muQRjkVRGZbt6iUa/wJ2sxhrqjDIWGKd71oUlUBTRXSIQMvNFBoBhcOl41mZ1nm8dVaTaQEfd7NGiXt9wk4qsOlMSDjD9q4N4bqOaTxPtksOGaPRbV8xGA1hje5uQY6JLUT22W1Cv+IU3YdLQONrf9gClGVO+oM+V8ZnqSmxy8Kb+uU2e9YGUELV1N5cg7L9V2VcrqQXD2qAijwqZ4Pqtl1zJx74HBJx8BHPORNcsFXSglkY63ZMx+nJJu93zYsWVksxkopW+uoyBQydJlAtp6eltYTq0yIHekwNbfRDZ7+CH8CDHD4uc1rkhX2Q==";
-		String encodedPrivate = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCLvL7RZ+SojSIW4jR3SOtQuUJTl/V8vmw4bH98t4G3v1hMjgsuCVpIBedW0qWonMp2HpMabf6O6UICD2ivvZygHVwgucFHW93fVFzLY8jUGzRTm10/i+LwILlUMQNCBhrtRF8+Vdwctp9xw5dHuWZApelLbUJzobxg5u3neb4VbIk74M5JpIGJiqU/agcwvsHuAVtiM58wkKbwAfA0QGncRzBrt07DAUerGGfcYcV62hmAQ5VXv+ZTqiDt1bVwoGBIg/ClhVTqhQekNMQkNRe5jmUffMhaaZAkL/aJosCq+3FF1HDLGb4d/c8mdDbfAEV0W2vbfz3rAxG93rTSkwSzAgMBAAECggEAO/PxErs2ebKDy7mltQAOJgY2FNN/udOhbtvuHr5E42cvJTlURp4wo/IUfUXHWX5bxy37Az3qF7qwXV3rFmuNxYyTOF86M7mQif8SCRl40rgRTUW9TkRgS5JesWaN9UfVSbMqAf6of5FC+3Zlc5px6o7Ed14bQq1Du3eY3tV23o2XV9/igPr0oy7ZFxKSDTaZ8eQCCov95ys9lN+3V9U0bAnZe6Kxm6eXoIE52hc3h6spHLaSphk0TOFqlxpEjPYQ6AcdIfFTI6fBm6x/x0X8rJpi35JwAAeBGIuTRnggRkcvM7heOKbhhC4c3Tv8kQ2sDG8ddxuB8Dnk21/0K3tvQQKBgQD9RQw8Q9vUuzHkt2/BU0r9WwEu1Mf3K8gjc5PYY7JC1cgpUuajQxQxK1KkkoCgnaq6xwP1BPYwF+Ju9P5FjqVoMIgxjGEMbK1PJEPjoNncB5fNRr7G6XWFqVRCBb8yAmXFODYDaNamb23/l7dcimBLGDvp+wogI+5ZUTqbjlTicQKBgQCNPmFlKn+DzFSGbVKhfp0qHwc0DKogkdsicwplm4aX6OLMj0ygFFrSXDiH4QEWBAAS/l9oH9cu0AWcTHMJMO3JelRzNjehJGRa9yd0TJqn0JAZfrSBIvNWuG9Tspmx46Qr0T3m62JDxjyfZpjtqLY4JFagd0FgBjsvpSwpCmojYwKBgQC7uTIYeTO3ugiBPnXXFaW/pHR8Abs1uX3eyQwMl9jJMSvrdUb+O/n7d+EJmo08f6DMUDbepY7Ult9+3piZdeGkGFTaZPKKAwNyZa7sSY0xSW9697TwOpqhN6D8TsYoix5j0AY5ALwZIP6nNAz0ypwVDSFbjHc0220PRuXp5tWEAQKBgBrcJQtnFI7M2boiqhcaC+tJsUX9rpC5DBI2DGEcPXFAEXlTOwAqPsdIUFvOtzUnl5gFFcGoZHR7jMWXaDz0OBQbllm+kr+rOwZtf+xG8RY+vFiM1ujD68CvHESvbzj8EGlgxkPWuX4oAblSenyfm997UZn8c8s+BB1gbNB1MY//AoGAathf+A1iWrU87cX338yghRL+HiyEoo5INUegrvah3t/RqkeYCOHL0RLOKFmBeRP3VQ+PfBYOXRPhA38JqtoeQ8187FldnFXFMaJgurKOc1cPxN1Oa4anrte58RzXekfkxEQZL2c8lXMRYi2/YWypBz8JKzO/8VYOvMyfa9bkzng=";
-		PKCS8EncodedKeySpec privateSpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(encodedPrivate));
-		KeyFactory factory;
+	  
+	  System.out.println("ㅅㅂ");
+	  ManagerProvider.property().initialize(InitialEvent.RUNTIME);
+	  ManagerProvider.key().initialize(InitialEvent.RUNTIME);
+		
+	  String key = "VJt9Kp3PmJnk/H5AL4skKvFruCtLKLUQ531Kacq6Hwec+Nr5FvgJaxj341JJN1FGEToWjx/AwmH/pOZM781dtIwKcTckuHGwWeZiPkKgpvb6c1oimftW09cDAk1QghuI5sSByMXHO7SxbECoHrwvHz88uGEp6vlkpb4clqtRoPv2ywu7n14rnabfvYcXxlTtsUQ/mfTQSbyg321UllgWwr+hhFM2kyMuO2OeA7iRYjooY58dDci3KVbOTQ43RWMhrZm9xhbovtoL9jZ93cX40lMOI1mFjfxQOG2gmiJJrC45q8WnA8LF6UuqVHEIOIQiP8sb1xEUiyKyr+YyaSiURg==";		   
 		try {
-			factory = KeyFactory.getInstance("RSA");
-			RSAPrivateKey privateKey = (RSAPrivateKey) factory.generatePrivate(privateSpec);
-			Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-			cipher.init(Cipher.DECRYPT_MODE, privateKey);
-
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			// bos.write(cipher.update(Base64.getDecoder().decode(key)));
-			bos.write(cipher.doFinal(Base64.getDecoder().decode(key)));
-			byte[] decrypted = bos.toByteArray();
-
-			System.out.println(Base64.getEncoder().encodeToString(decrypted));
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalBlockSizeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (BadPaddingException e) {
+		  String pKey = ManagerProvider.key().getPubKeyStr(PrivateProperties.CERT_NAME);
+		  String privateKey = ManagerProvider.key().getPrivKeyStr(PrivateProperties.CERT_NAME);
+		  System.out.println("pKey : " + pKey);
+		  System.out.println("privateKey : " + privateKey);
+      AMQMessageCryptoEntity amqCryptoEntity = new AMQMessageCryptoEntity();
+      key = ManagerProvider.crypto().decryptRSA(key, privateKey);
+      
+      
+			System.out.println(key);
+		
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

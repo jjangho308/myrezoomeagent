@@ -1,4 +1,4 @@
-package io.rezoome.external.inha.entity;
+package io.rezoome.external.kmu.entity;
 
 import java.util.List;
 
@@ -6,9 +6,12 @@ import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.external.common.entity.university.InfoEntity;
+import io.rezoome.external.common.entity.university.RegisterEntity;
+import io.rezoome.external.common.entity.university.ScoreEntity;
+import io.rezoome.external.common.entity.university.ScoreStatisticEntity;
 
-public class InhaResponseResultArgsEntity extends AgencyResultEntity {
-
+public class KmuResponseResultArgsEntity extends AgencyResultEntity {
+  
   @SerializedName("univInfo")
   public InfoEntity univInfo;
   
@@ -23,10 +26,6 @@ public class InhaResponseResultArgsEntity extends AgencyResultEntity {
 
   public InfoEntity getUnivInfo() {
     return univInfo;
-  }
-
-  public void setUnivInfo(InfoEntity univInfo) {
-    this.univInfo = univInfo;
   }
 
   public List<AgencyResultEntity> getRegistList() {
@@ -51,6 +50,10 @@ public class InhaResponseResultArgsEntity extends AgencyResultEntity {
 
   public void setScoreStatisticList(List<AgencyResultEntity> scoreStatisticList) {
     this.scoreStatisticList = scoreStatisticList;
+  }
+
+  public void setUnivInfo(InfoEntity univInfo) {
+    this.univInfo = univInfo;
   }
 
   

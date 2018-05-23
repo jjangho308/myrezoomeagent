@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import io.rezoome.core.entity.AbstractEntity;
 import io.rezoome.lib.json.JSON;
+import io.rezoome.manager.network.entity.NetworkPacket;
 import io.rezoome.manager.provider.ManagerProvider;
 
 /**
@@ -13,7 +14,7 @@ import io.rezoome.manager.provider.ManagerProvider;
  * @author TACKSU
  *
  */
-public class ResponsePacket extends AbstractEntity {
+public class ResponsePacket extends AbstractEntity implements NetworkPacket{
 
   static {
     JSON.registerDeserializer("cmd", "result", ManagerProvider.clsarrange().getEntityCodeMap(ResponseArgsEntity.class));

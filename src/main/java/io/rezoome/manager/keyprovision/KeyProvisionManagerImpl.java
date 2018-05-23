@@ -121,19 +121,19 @@ public class KeyProvisionManagerImpl extends AbstractManager implements KeyProvi
     
     RequestPacket packet = new RequestPacket(ManagerProvider.property().getProperty(PropertyEnum.PORTAL_URL, false), JSON.toJson(convertKeyProvisionedPacketEntity()));
     ResponsePacket responseEntity = ManagerProvider.network().request(packet);
-    
-    
-//    System.out.println("PUBLIC KEY : " + getPubKeyStr(certName) );
-//    System.out.println("PRIVATE KEY : " + getPrivKeyStr(certName) );
-    
-    if (responseEntity != null) {
+     if (responseEntity != null) {
       LOG.info("Key Provisioned Response {} ", responseEntity);
       
     } else {
       LOG.info("Key Provisioned Response is null or ERROR ");
     }
     
-    
+     
+     
+//   System.out.println("PUBLIC KEY : " + getPubKeyStr(certName) );
+//   System.out.println("PRIVATE KEY : " + getPrivKeyStr(certName) );
+   
+ 
     setPrepared();
     LOG.info("{} Init Complete.", this.getClass());
   }

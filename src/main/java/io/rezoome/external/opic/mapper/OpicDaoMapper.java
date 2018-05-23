@@ -14,7 +14,7 @@ import io.rezoome.manager.vianetwork.entity.response.ViaResponsePacketEntity;
 public class OpicDaoMapper extends AbstractExternalMapper {
 
   @Override
-  public List<AgencyResultEntity> getDbDataOfSubID(AgencyKeyEntity entity, AgencyResultEntity resEntity,String subId) throws ServiceException {
+  public List<AgencyResultEntity> getDbDataOfSubID(AgencyKeyEntity entity,String subId) throws ServiceException {
    List<AgencyResultEntity> dbResultEntityList = null;
     try {
       switch (subId) {

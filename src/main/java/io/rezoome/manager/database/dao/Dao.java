@@ -13,6 +13,7 @@ public interface Dao {
 
   public ArrayList<AgencyKeyEntity> getUserRecords(UserEntity entity) throws IOException;
   public ArrayList<AgencyResultEntity> getCertRecords(AgencyKeyEntity entity) throws IOException;
-  public ArrayList<AgencyResultEntity> getSungjukRecord(AgencyKeyEntity entity) throws IOException;
+  public ArrayList<AgencyResultEntity> getScoreRecord(AgencyKeyEntity entity) throws IOException;
+  public ArrayList<AgencyResultEntity> getScoreStatisticRecord(AgencyKeyEntity entity) throws IOException;
   public ArrayList<AgencyResultEntity> getJolupRecord(AgencyKeyEntity entity) throws IOException;
 }

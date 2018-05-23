@@ -1,4 +1,4 @@
-package io.rezoome.external.inha.mapper;
+package io.rezoome.external.kmu.mapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,29 +9,36 @@ import io.rezoome.external.common.entity.AgencyKeyEntity;
 import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.external.common.entity.university.InfoEntity;
 import io.rezoome.external.common.mapper.AbstractExternalMapper;
-import io.rezoome.external.inha.entity.InhaSubIdEntity;
 import io.rezoome.external.kmu.entity.KmuResponseResultArgsEntity;
+import io.rezoome.external.kmu.property.KmuSubIDs;
 
-public class InhaDaoMapper extends AbstractExternalMapper {
+public class KmuDaoMapper extends AbstractExternalMapper{
 
   @Override
   public AgencyResultEntity getDbDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException {
     KmuResponseResultArgsEntity ar = new KmuResponseResultArgsEntity(); 
-    InfoEntity info = new InfoEntity();
-    info.setUniv_name("인하대학교");
-    info.setCert_main_agent("교무처장");
-    info.setMsg1("위 사실을 증명합니다.");
-    
     try {
       switch (subId) {
-        case InhaSubIdEntity.SUBID_INHA_RCOGC0008:
-          ar.setUnivInfo(info);
+        case KmuSubIDs.SUBID_KMU_RCOGC0010:
+          
+          InfoEntity info1 = new InfoEntity();
+          info1.setUniv_name("계명대학교");
+          info1.setCert_main_agent("교무처장");
+          info1.setMsg1("위 사실을 증명합니다.");
+          
+          ar.setUnivInfo(info1);
+          
+          
           List<AgencyResultEntity> registerRecords = daoMgr.getDao().getJolupRecord(entity);
           ar.setRegistList(registerRecords);
           break;
-        case InhaSubIdEntity.SUBID_INHA_RCOGC0009:
-                  
-          ar.setUnivInfo(info);
+        case KmuSubIDs.SUBID_KMU_RCOGC0011:
+          InfoEntity info2 = new InfoEntity();
+          info2.setUniv_name("계명대학교");
+          info2.setCert_main_agent("교무처장");
+          info2.setMsg1("위 사실을 증명합니다.");
+          
+          ar.setUnivInfo(info2);
           List<AgencyResultEntity> scoreRecords = daoMgr.getDao().getJolupRecord(entity);
           scoreRecords = daoMgr.getDao().getScoreRecord(entity);
           
@@ -51,14 +58,7 @@ public class InhaDaoMapper extends AbstractExternalMapper {
     //System.out.println("RESULT : " + ar);
     //return result;
     return ar;
-    
-    
-    
-    
-    
   }
-
-
 
   @Override
   public String getViaDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException {
@@ -66,4 +66,9 @@ public class InhaDaoMapper extends AbstractExternalMapper {
     return null;
   }
 
+  
+  
+  
 }
+
+

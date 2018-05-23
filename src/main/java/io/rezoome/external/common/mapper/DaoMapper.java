@@ -13,10 +13,10 @@ import io.rezoome.manager.vianetwork.entity.response.ViaResponsePacketEntity;
 public interface DaoMapper {
 
   Map<String, Object> getUserData(UserEntity entity) throws ServiceException;
-  Map<String, Object> getCertDataDB(AgencyKeyEntity entity, AgencyResultEntity resEntity, List<String> subIds) throws ServiceException;
+  Map<String, Object> getCertDataDB(AgencyKeyEntity entity,  List<String> subIds) throws ServiceException;
   //Map<String, Object> getCertDataVia(AgencyKeyEntity entity, ViaResponsePacketEntity agencyRes,   AgencyResultEntity aResult, AgencyErrEntity agencyErr, List<String> subIds) throws ServiceException;
   Map<String, Object> getCertDataWithRequireKey(UserEntity entity, List<String> subIds) throws ServiceException;
-  List<AgencyResultEntity> getDbDataOfSubID(AgencyKeyEntity entity,  AgencyResultEntity resEntity, String subId) throws ServiceException;
+  AgencyResultEntity getDbDataOfSubID(AgencyKeyEntity entity,  String subId) throws ServiceException;
   //List<AgencyResultEntity> getViaDataOfSubID(AgencyKeyEntity entity,  ViaResponsePacketEntity agencyRes,   AgencyResultEntity aResult, AgencyErrEntity agencyErr , String subId) throws ServiceException;
   String getViaDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException;
   Map<String, String> getCertDataVia(AgencyKeyEntity entity, List<String> subIds) throws ServiceException;

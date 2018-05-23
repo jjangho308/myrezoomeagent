@@ -15,6 +15,7 @@ import io.rezoome.manager.database.dao.DaoManagerImpl;
 import io.rezoome.manager.database.entity.UserEntity;
 import io.rezoome.manager.provider.ManagerProvider;
 import io.rezoome.manager.vianetwork.entity.response.ViaResponsePacketEntity;
+import net.minidev.json.JSONObject;
 
 public abstract class AbstractExternalMapper implements DaoMapper{
   protected DaoManagerImpl daoMgr = null;
@@ -57,10 +58,10 @@ public abstract class AbstractExternalMapper implements DaoMapper{
   }
 
   @Override
-  public Map<String, Object> getCertDataDB(AgencyKeyEntity entity, AgencyResultEntity resEntity, List<String> subIds) throws ServiceException {
+  public Map<String, Object> getCertDataDB(AgencyKeyEntity entity, List<String> subIds) throws ServiceException {
     // TODO Auto-generated method stub
     Map<String, Object> dbResultEntityListMap = new HashMap<String, Object>();
-    List<AgencyResultEntity> dbResultEntityList = null;
+    AgencyResultEntity resultData;
 
     
     try {
@@ -69,8 +70,8 @@ public abstract class AbstractExternalMapper implements DaoMapper{
       }
 
       for (String subId : subIds) {
-        dbResultEntityList = getDbDataOfSubID(entity, resEntity, subId);
-        dbResultEntityListMap.put(subId, dbResultEntityList);
+        resultData = getDbDataOfSubID(entity, subId);        
+        dbResultEntityListMap.put(subId, resultData);
       }
 
     } catch (Exception e) {

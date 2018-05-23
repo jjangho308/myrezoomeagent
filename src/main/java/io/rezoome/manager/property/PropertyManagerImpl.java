@@ -70,17 +70,17 @@ public class PropertyManagerImpl extends AbstractManager implements PropertyMana
 
       
        //java -jar agent.jar -DenvTarget=STG
-       
+       /*
        String envTarget = System.getProperty("envTarget");
-       if(envTarget.equals("DEV")){
+       if("DEV".equals(envTarget)){
          properties.setProperty(PropertyEnum.PORTAL_URL.toString(), properties.getProperty(PropertyEnum.PORTAL_URL_DEV.toString()));
-       }else if(envTarget.equals("STG")){
+       }else if("STG".equals(envTarget)){
          properties.setProperty(PropertyEnum.PORTAL_URL.toString(), properties.getProperty(PropertyEnum.PORTAL_URL_STG.toString()));
-       }else if(envTarget.equals("PRD")){
+       }else if("PRD".equals(envTarget)){
          properties.setProperty(PropertyEnum.PORTAL_URL.toString(), properties.getProperty(PropertyEnum.PORTAL_URL_PRD.toString()));
        }else{
          
-       }
+       }*/
        
 
 

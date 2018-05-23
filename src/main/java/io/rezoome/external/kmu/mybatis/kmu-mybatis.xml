@@ -6,21 +6,18 @@
 
 <mapper namespace='io.rezoome.manager.database.dao.Dao'>
 
-
 	<resultMap id="UserResultEntity"
 		type="io.rezoome.external.common.entity.AgencyKeyEntity">
 		<result property="key" column="ID" />
 	</resultMap>
 
 	<resultMap id="RegisterEntity"
-		type="io.rezoome.external.inha.cert.entity.RegisterEntity">
+		type="io.rezoome.external.common.entity.university.RegisterEntity">
 		<result property="std_no" column="ID" />
 		<result property="name" column="name" />
 		<result property="birth" column="birth" />
 		<result property="univ_cource" column="univ_cource" />
 		<result property="univ_affiliation" column="univ_affiliation" />
-		<result property="major_first" column="major_first" />
-		<result property="major_second" column="major_second" />
 		<result property="univ_group" column="univ_group" />
 		<result property="course" column="course" />
 		<result property="admission_date" column="admission_date" />
@@ -30,7 +27,7 @@
 	</resultMap>
 	
 	<resultMap id="ScoreEntity"
-		type="io.rezoome.external.inha.cert.entity.ScoreEntity">
+		type="io.rezoome.external.common.entity.university.ScoreEntity">
 		<result property="year" column="year" />
 		<result property="semester" column="semester" />
 		<result property="lecture_no" column="lecture_no" />
@@ -42,13 +39,13 @@
 	</resultMap>
 	
 	<resultMap id="ScoreStatisticEntity"
-		type="io.rezoome.external.inha.cert.entity.ScoreStatisticEntity">
-<!-- 		<result property="year" column="year" />
+		type="io.rezoome.external.common.entity.university.ScoreStatisticEntity">
+		<result property="year" column="year" />
 		<result property="semester" column="semester" />
 		<result property="department" column="department" />
 		<result property="completion_std_class" column="completion_std_class" />
 		<result property="score_enrolled" column="score_enrolled" />
-		<result property="scored_acquired" column="scored_acquired" /> -->
+		<result property="scored_acquired" column="scored_acquired" />
 		<result property="average_score" column="average_score" />
 		<result property="ranking" column="ranking" />
 		<result property="people_count" column="people_count" />
@@ -58,54 +55,37 @@
 
 	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.UserEntity"
 		resultMap="UserResultEntity">
-		SELECT USR.student_id as ID
+		SELECT USR.std_no as ID
 		FROM
-		(SELECT student_id as student_id, name_kr as name_kr, left(ssn, 6) as birth, phone as phone, IF(sex=1, "M", "F") as sex FROM student) USR
+		(SELECT A.std_no as std_no, A.name_kor as name_kor, left(A.resident_no, 6) as birth, B.address as address, B.cellphone_no as phone, B.email as email , IF(A.sex=0, "M", "F") as sex FROM register_info A INNER JOIN personal_info B ON A.std_no = B.std_no) USR
 		WHERE
-		USR.birth = #{birth} AND USR.sex = #{gender} AND USR.phone = #{phone} ;
-		<!--AND USR.name_kr = #{fullNameKO}  -->
+		USR.name_kor = #{fullNameKO} AND USR.birth = #{birth}  AND USR.phone = #{phone};
 	</select>
 
 	<select id="getJolupRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="RegisterEntity">
 		
-	
-		SELECT student_id as id,
-		 name_kr as name, 
-		 birth as birth, 
-		 college as univ_affiliation,  
-		 department as univ_group, 
-		 degree_name as course, 
-		 major_first as major_first, 
-		 major_second as major_second, 
-		 startdate as admission_date, 
-		 enddate as change_date		  
-		FROM student 
-		WHERE student_id = #{key};
-		
-		
+		select A.std_no as id, A.name_kor as name, left(A.resident_no, 6) as birth, A.univ_course as univ_course, A.univ_affiliation as univ_affiliation,  A.univ_group as univ_group, A.course as course, B.admission_date as admission_date, A.change_date as change_date, A.status as status 
+		FROM  register_info A inner join admission_info B 
+		on A.std_no = B.std_no 
+		where A.std_no = #{key};
 	</select>
 	
 	<select id="getScoreRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="ScoreEntity">
-		
-		SELECT s.year as year,
-			 s.semester as semester,
-			 s.course_id as lecture_no,
-			 c.course_name as lecture_name, 
-			 c.grade as score_result,
-			 s.score as grade_result
-			 FROM sugang s NATURAL JOIN course c WHERE student_id = #{key};	
+		select year, semester,  lecture_no, lecture_name, score_result, grade_result, grade_division
+		FROM  lecture_grade_info
+		where std_no = #{key};		
 		
 	</select> 
 	
 	<select id="getScoreStatisticRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="ScoreStatisticEntity">
-
+		select year, semester,  department, completion_std_class, score_enrolled, scored_acquired, average_score,ranking,people_count
+		FROM  semester_grade_info
+		where std_no = #{key};		
 		
-		SELECT standing as ranking, contemporaries as people_count, gradecertificated FROM student WHERE student_id = #{key};
-		
-	</select>
+	</select> 
 	
 
 </mapper>

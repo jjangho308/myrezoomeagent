@@ -10,8 +10,8 @@ public class OpicIORequest extends AbastractExternalIORequest{
   @Override
   public void iorequest(IORequestJobEntity entity) {
     
-    AgencyResultEntity aResult = new OpicResponseResultArgsEntity();
-    getDirectDbData(entity, aResult);
+   
+    getDirectDbData(entity);
   
   }
 

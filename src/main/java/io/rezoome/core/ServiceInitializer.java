@@ -3,6 +3,7 @@ package io.rezoome.core;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -60,7 +61,8 @@ public final class ServiceInitializer {
           managers.add((Manager) manager.get(null));
 
           // @ManagerType의 initPriority를 기준으로 정렬. 숫자가 낮을 수록 먼저 초기화 됨
-          managers.sort(new Comparator<Manager>() {
+          Collections.sort(managers, new Comparator<Manager>() { 
+          //managers.sort(new Comparator<Manager>() {
 
             @Override
             public int compare(Manager o1, Manager o2) {

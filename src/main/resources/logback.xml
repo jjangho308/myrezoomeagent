@@ -15,7 +15,7 @@
 	<appender name="AGENT_APPENDER"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<!-- <file>${AGENT_HOME}/agent.log</file> -->
-		<file>/log/service/agent.log</file>
+		<file>./log/</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>/log/service/agent.%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>30</maxHistory>

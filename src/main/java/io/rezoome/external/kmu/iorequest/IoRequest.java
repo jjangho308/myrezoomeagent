@@ -1,18 +1,14 @@
-package io.rezoome.external.inha.iorequest;
+package io.rezoome.external.kmu.iorequest;
 
 import io.rezoome.external.common.AbastractExternalIORequest;
-import io.rezoome.external.mk.entity.MkResponseResultArgsEntity;
 import io.rezoome.manager.job.iorequest.IORequestJobEntity;
 
-public class InhaIORequest extends AbastractExternalIORequest{
+public class IoRequest extends AbastractExternalIORequest {
 
   @Override
   public void iorequest(IORequestJobEntity entity) {
     // TODO Auto-generated method stub
-    
-    
-    
-    getDirectDbData(entity);
+    super.getDirectDbData(entity);    
   }
 
 }
