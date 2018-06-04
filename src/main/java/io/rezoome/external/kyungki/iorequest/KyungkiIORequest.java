@@ -1,4 +1,4 @@
-package io.rezoome.external.kyunggi.iorequest;
+package io.rezoome.external.kyungki.iorequest;
 
 import io.rezoome.external.common.AbastractExternalIORequest;
 import io.rezoome.external.mk.entity.MkResponseResultArgsEntity;

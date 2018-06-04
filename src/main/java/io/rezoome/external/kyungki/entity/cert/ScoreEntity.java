@@ -1,4 +1,4 @@
-package io.rezoome.external.kyunggi.entity.cert;
+package io.rezoome.external.kyungki.entity.cert;
 
 import com.google.gson.annotations.SerializedName;
 

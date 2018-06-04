@@ -1,4 +1,4 @@
-package io.rezoome.external.kyunggi.property;
+package io.rezoome.external.kyungki.property;
 
 import io.rezoome.external.common.prop.AbstractAgentProperties;
 

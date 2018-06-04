@@ -1,4 +1,4 @@
-package io.rezoome.external.kyunggi.entity;
+package io.rezoome.external.kyungki.entity;
 
 import java.util.List;
 

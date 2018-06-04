@@ -1,4 +1,4 @@
-package io.rezoome.external.kyunggi.mapper;
+package io.rezoome.external.kyungki.mapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,7 +10,7 @@ import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.external.common.entity.university.InfoEntity;
 import io.rezoome.external.common.mapper.AbstractExternalMapper;
 import io.rezoome.external.kmu.entity.KmuResponseResultArgsEntity;
-import io.rezoome.external.kyunggi.entity.SubIdEntity;
+import io.rezoome.external.kyungki.entity.SubIdEntity;
 
 public class KyungkiDaoMapper extends AbstractExternalMapper {
 
