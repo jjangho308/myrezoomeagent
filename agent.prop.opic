@@ -7,7 +7,7 @@ PROP_CLASS_NAME = io.rezoome.external.opic.property.OpicProperties
 IOREQUEST_CLASS_NAME = io.rezoome.external.opic.iorequest.OpicIORequest
 
 [GENERAL]
-GET_DATA_METHOD = DATABASE
+GET_DATA_METHOD = WAS
 
 [THREAD]
 THREAD_POOL_CAPAVILITY = 10
@@ -45,10 +45,12 @@ RETRY_DELAY_SEC = 3000
 
 [KEYSTORE]
 KEYSTORE_LOCATION = ./opic.keystore
+CERT_NAME  = AGENT_CERT
+ISSUER_DN = C=DE,O=Organiztion
+CERT_PASSWORD  = SgenRezoomeAgentCertPwd2018!@#$
 
 [AGENT VIA]
-#VIA_AGENCY_URL = http://rezoome.io:8080/result
-VIA_AGENCY_URL =
+VIA_AGENCY_URL = http://10.20.11.11:8080/result
 VIA_CONNECT_TIMEOUT = 3000
 VIA_READ_TIMEOUT = 3000
 VIA_AGENT_RETRIES = 3

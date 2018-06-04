@@ -44,6 +44,7 @@ import com.google.gson.Gson;
 import io.rezoome.core.ServiceInitializer;
 import io.rezoome.core.ServiceInitializer.InitialEvent;
 import io.rezoome.external.inha.mapper.InhaMapperEntity;
+import io.rezoome.external.opic.entity.OpicResponseResultArgsEntity;
 import io.rezoome.lib.json.JSON;
 import io.rezoome.manager.amq.AMQMessageCryptoEntity;
 import io.rezoome.manager.amq.AMQMessageEntity;
@@ -65,6 +66,7 @@ public class AllTests extends TestSuite {
      * ManagerProvider.pushcommand().initialize(InitialEvent.RUNTIME);
      */
   }
+
 
   @Test
   public void encryptForClient() {

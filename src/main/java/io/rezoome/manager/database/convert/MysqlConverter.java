@@ -9,7 +9,10 @@ public class MysqlConverter extends DBConvertManagerImpl implements DBConverter 
   @Override
   public UserEntity convert(AbstractJobEntity job) {
     // TODO Auto-generated method stub
-    UserEntity entity = JSON.fromJson(job.toJSON(), UserEntity.class);
+   
+    
+    System.out.println("JOB : " + job.toString());
+    UserEntity entity = JSON.fromJson(job.toString(), UserEntity.class);
     return entity;
   }
 }

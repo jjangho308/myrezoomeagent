@@ -33,8 +33,8 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler, MessageListener
       LOG.debug("AMQMessage : {}", consumerTextMessage.getText());
 
       // AMQ key field RSA Decrypt
-      String privateKey = ManagerProvider.property().getProperty(PropertyEnum.CERT_NAME);
-
+      String privateKey = ManagerProvider.key().getPrivKeyStr(ManagerProvider.property().getProperty(PropertyEnum.CERT_NAME));
+      //System.out.println("PRIVATEKEY : " + privateKey);
       AMQMessageCryptoEntity amqCryptoEntity = new AMQMessageCryptoEntity();
       amqCryptoEntity = JSON.fromJson(consumerTextMessage.getText(), AMQMessageCryptoEntity.class);
 
@@ -44,7 +44,9 @@ public class AMQMessageHandlerImpl implements AMQMessageHandler, MessageListener
       String amqMessage = amqCryptoEntity.getMsg();
       clientKey = ManagerProvider.crypto().decryptRSA(clientKey, privateKey);
       amqMessage = ManagerProvider.crypto().decryptAES(amqMessage, clientKey, clientIv);
-
+      
+      //amqMessage = amqMessage.replaceAll("\u003d", "=");
+     
       AMQMessageEntity amqEntity = new AMQMessageEntity();
       amqEntity = JSON.fromJson(amqMessage, AMQMessageEntity.class);
       // amqEntity = JSON.fromJson(consumerTextMessage.getText(), AMQMessageEntity.class);

@@ -14,6 +14,18 @@ import io.rezoome.manager.mapper.MapperEntity;
 public class OpicMapper implements Mapper {
 
   @Override
+  public MapperEntity convert(Object dbResultEntity) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Map<String, Object> convert(List<Object> dbResultEntityList) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+/*
+  @Override
   public MapperEntity convert(Object dbResultEntity) throws NullPointerException {
     // TODO Auto-generated method stub
 
@@ -54,5 +66,5 @@ public class OpicMapper implements Mapper {
     mapperEntityMap.put(Constants.PARAM_LIST, mapperEntityList);
     return mapperEntityMap;
   }
-
+*/
 }

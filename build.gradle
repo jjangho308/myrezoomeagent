@@ -35,7 +35,7 @@ def ver = [
     activemq: '5.15.3',    
     mybatis: '3.1.1',
     mysql:	'5.1.6',
-    gson: '2.3.1',
+    gson: '2.8.2',
     mysql: '5.1.6',
     oracle: '12.1.0.1-atlassian-hosted'
 ]

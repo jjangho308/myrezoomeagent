@@ -131,7 +131,7 @@ public final class JSON {
   }
 
   public static <T extends Jsonable> T fromJson(String jsonString, Class<T> cls) {
-    T entity = builder.create().fromJson(jsonString, cls);
+    T entity = builder.disableHtmlEscaping().create().fromJson(jsonString, cls);
     return entity;
   }
 
@@ -162,8 +162,8 @@ public final class JSON {
    * @return
    */
   public static String toJson(Jsonable jsonable) {
-    // return builder.create().toJson(jsonable);
-    return builder.setPrettyPrinting().create().toJson(jsonable);
+    return builder.create().toJson(jsonable);
+    //return builder.setPrettyPrinting().create().toJson(jsonable);
   }
 
   /**

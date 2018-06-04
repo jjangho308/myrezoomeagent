@@ -13,7 +13,7 @@
 	</resultMap>
 
 	<resultMap id="RegisterEntity"
-		type="io.rezoome.external.inha.cert.entity.RegisterEntity">
+		type="io.rezoome.external.inha.entity.cert.RegisterEntity">
 		<result property="std_no" column="ID" />
 		<result property="name" column="name" />
 		<result property="birth" column="birth" />
@@ -30,7 +30,7 @@
 	</resultMap>
 	
 	<resultMap id="ScoreEntity"
-		type="io.rezoome.external.inha.cert.entity.ScoreEntity">
+		type="io.rezoome.external.inha.entity.cert.ScoreEntity">
 		<result property="year" column="year" />
 		<result property="semester" column="semester" />
 		<result property="lecture_no" column="lecture_no" />
@@ -42,7 +42,7 @@
 	</resultMap>
 	
 	<resultMap id="ScoreStatisticEntity"
-		type="io.rezoome.external.inha.cert.entity.ScoreStatisticEntity">
+		type="io.rezoome.external.inha.entity.cert.ScoreStatisticEntity">
 <!-- 		<result property="year" column="year" />
 		<result property="semester" column="semester" />
 		<result property="department" column="department" />

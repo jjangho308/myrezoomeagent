@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper
+  PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+
+<mapper namespace='io.rezoome.manager.database.dao.Dao'>
+
+
+	<resultMap id="UserResultEntity"
+		type="io.rezoome.external.common.entity.AgencyKeyEntity">
+		<result property="key" column="ID" />
+	</resultMap>
+
+	<resultMap id="RegisterEntity"
+		type="io.rezoome.external.kyungki.entity.cert.RegisterEntity">
+		<result property="std_no" column="ID" />
+		<result property="name" column="name" />
+		<result property="birth" column="birth" />
+		<result property="univ_cource" column="univ_cource" />
+		<result property="univ_affiliation" column="univ_affiliation" />
+		<result property="major_first" column="major_first" />
+		<result property="major_second" column="major_second" />
+		<result property="univ_group" column="univ_group" />
+		<result property="course" column="course" />
+		<result property="admission_date" column="admission_date" />
+		<result property="change_date" column="change_date" />
+		<result property="status" column="status" />
+		<result property="cert_issue_num" column="cert_issue_num" />
+	</resultMap>
+	
+	<resultMap id="ScoreEntity"
+		type="io.rezoome.external.kyungki.entity.cert.ScoreEntity">
+		<result property="semester" column="학기" />
+		<result property="lecture_no" column="이수구분" />
+		<result property="lecture_name" column="교과목명" />
+		<result property="score_result" column="학점" />
+		<result property="grade_result" column="성적" />
+		<result property="issue_date" column="issue_date" />
+	</resultMap>
+	
+	<resultMap id="ScoreStatisticEntity"
+		type="io.rezoome.external.kyungki.entity.cert.ScoreStatisticEntity">
+ 		<result property="semester" column="학기" />
+		<!-- <result property="department" column="department" /> -->
+		<result property="completion_std_class" column="completion_std_class" />
+		<result property="score_enrolled" column="신청학점" />
+		<result property="scored_acquired" column="취득학점" /> 
+		<result property="average_score" column="평점" />
+		<!-- <result property="ranking" column="ranking" />
+		<result property="people_count" column="people_count" /> -->
+	</resultMap>
+	
+	
+
+	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.UserEntity"
+		resultMap="UserResultEntity">
+		SELECT USR.학번 as ID
+		FROM
+		certificate.dbo.학생 as USR
+		WHERE
+		USR.생년월일 = #{birth} AND USR.성명 = #{fullNameKO};
+		<!--AND USR.name_kr = #{fullNameKO}  -->
+	</select>
+
+	<select id="getJolupRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
+		resultMap="RegisterEntity">
+		SELECT 학번
+	      ,학적구분
+	      ,소속
+	      ,전공
+	      ,학년
+		  ,case 학적구분 
+		  when '졸업' then 졸업일자
+		  when '휴학' then 휴학일자
+		  when '재학' then getDate()
+		  else null
+		  end as 변동일자
+	      ,학위번호
+	  FROM certificate.dbo.상태
+	    WHERE 학번= #{key};
+		
+		
+	</select>
+	
+	<select id="getScoreRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
+		resultMap="ScoreEntity">
+		SELECT 
+		학기
+      	,이수구분
+      	,교과목명
+      	,학점
+      	,성적
+  		FROM certificate.dbo.vw_전체학기_성적표
+   		where 학번 = #{key};	
+		
+	</select> 
+	
+	<select id="getScoreStatisticRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
+		resultMap="ScoreStatisticEntity">
+		SELECT 학번
+		,학기
+		,신청학점
+		,취득학점
+		,평점
+		,백분율
+		,평점산출과목수
+		FROM certificate.dbo.vw_전체학기_평점표
+		where 학번 = #{key};
+		
+	</select>
+	
+
+</mapper>

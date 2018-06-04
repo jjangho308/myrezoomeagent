@@ -5,120 +5,104 @@ import com.google.gson.annotations.SerializedName;
 import io.rezoome.external.common.entity.AgencyResultEntity;
 
 public class OpicResponseResultArgsEntity extends AgencyResultEntity {
-  @SerializedName("name")
-  private String name;
-  
   @SerializedName("cname")
   private String cname;
   
-  @SerializedName("testDay")
-  private String testDay;
+  @SerializedName("grcode")
+  private String grcode;
+  
+  @SerializedName("birthday")
+  private String birthday;
+  
+  @SerializedName("ctestday")
+  private String ctestday;
+  
+  @SerializedName("testtype")
+  private String testtype;
+  
+  @SerializedName("cnation")
+  private String cnation;
+  
+  @SerializedName("clevel")
+  private String clevel;
+  
+  @SerializedName("cissudate")
+  private String cissudate;
+  
+  @SerializedName("name")
+  private String name;
+  
+  @SerializedName("ename")
+  private String ename;
+  
+  @SerializedName("opidate")
+  private String opidate;
+  
+  @SerializedName("issudate")
+  private String issudate;
+  
+  @SerializedName("subj")
+  private String subj;
+  
+  @SerializedName("year")
+  private String year;
+  
+  @SerializedName("subjseq")
+  private String subjseq;
+  
+  @SerializedName("started")
+  private String started;
+
+  @SerializedName("ended")
+  private String ended;
   
   @SerializedName("rating")
   private String rating;
   
-  @SerializedName("birth")
-  private String birth;
+  @SerializedName("areacd")
+  private String areacd;
   
-  @SerializedName("phone")
-  private String phone;
+  @SerializedName("exroomno")
+  private String exroomno;
   
-  @SerializedName("testId")
-  private String testId;
+  @SerializedName("exroomnm")
+  private String exroomnm;
   
-  @SerializedName("testRoom")
-  private String testRoom;
+  @SerializedName("addr")
+  private String addr;
   
-  @SerializedName("testName")
-  private String testName;
+  @SerializedName("levels")
+  private String levels;
+  
+  @SerializedName("code")
+  private String code;
+  
+  @SerializedName("codenm")
+  private String codenm;
+  
+  @SerializedName("freebillchk")
+  private String freebillchk;
+  
+  @SerializedName("realyear")
+  private String realyear;
+  
+  @SerializedName("useend")
+  private String useend;
+  
+  @SerializedName("examid")
+  private String examid;
   
   @SerializedName("language")
   private String language;
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getCname() {
-    return cname;
-  }
-
-  public void setCname(String cname) {
-    this.cname = cname;
-  }
-
-  public String getTestDay() {
-    return testDay;
-  }
-
-  public void setTestDay(String testDay) {
-    this.testDay = testDay;
-  }
-
-  public String getRating() {
-    return rating;
-  }
-
-  public void setRating(String rating) {
-    this.rating = rating;
-  }
-
-  public String getBirth() {
-    return birth;
-  }
-
-  public void setBirth(String birth) {
-    this.birth = birth;
-  }
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public String getTestId() {
-    return testId;
-  }
-
-  public void setTestId(String testId) {
-    this.testId = testId;
-  }
-
-  public String getTestRoom() {
-    return testRoom;
-  }
-
-  public void setTestRoom(String testRoom) {
-    this.testRoom = testRoom;
-  }
-
-  public String getTestName() {
-    return testName;
-  }
-
-  public void setTestName(String testName) {
-    this.testName = testName;
-  }
-
-  public String getLanguage() {
-    return language;
-  }
-
-  public void setLanguage(String language) {
-    this.language = language;
-  }
-
-  @Override
-  public String toString() {
-    return "OpicResultEntity [name=" + name + ", cname=" + cname + ", testDay=" + testDay + ", rating=" + rating + ", birth=" + birth + ", phone=" + phone + ", testId=" + testId + ", testRoom="
-        + testRoom + ", testName=" + testName + ", language=" + language + "]";
-  }
-
+  
+  @SerializedName("testdate")
+  private String testdate;
+  
+  @SerializedName("imsubscore")
+  private String imsubscore;
+  
+  @SerializedName("subjnm")
+  private String subjnm;
+  
+  
 }

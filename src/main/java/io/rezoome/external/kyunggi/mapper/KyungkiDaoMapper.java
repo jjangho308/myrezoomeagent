@@ -1,4 +1,4 @@
-package io.rezoome.external.inha.mapper;
+package io.rezoome.external.kyunggi.mapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,10 +9,10 @@ import io.rezoome.external.common.entity.AgencyKeyEntity;
 import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.external.common.entity.university.InfoEntity;
 import io.rezoome.external.common.mapper.AbstractExternalMapper;
-import io.rezoome.external.inha.entity.SubIdEntity;
 import io.rezoome.external.kmu.entity.KmuResponseResultArgsEntity;
+import io.rezoome.external.kyunggi.entity.SubIdEntity;
 
-public class InhaDaoMapper extends AbstractExternalMapper {
+public class KyungkiDaoMapper extends AbstractExternalMapper {
 
   @Override
   public AgencyResultEntity getDbDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException {
@@ -24,12 +24,12 @@ public class InhaDaoMapper extends AbstractExternalMapper {
     
     try {
       switch (subId) {
-        case SubIdEntity.SUBID_INHA_RCOGC0008:
+        case SubIdEntity.SUBID_KYUNGKI_RCOGC0012:
           ar.setUnivInfo(info);
           List<AgencyResultEntity> registerRecords = daoMgr.getDao().getJolupRecord(entity);
           ar.setRegistList(registerRecords);
           break;
-        case SubIdEntity.SUBID_INHA_RCOGC0009:
+        case SubIdEntity.SUBID_KYUNGKI_RCOGC0013:
                   
           ar.setUnivInfo(info);
           List<AgencyResultEntity> scoreRecords = daoMgr.getDao().getJolupRecord(entity);
