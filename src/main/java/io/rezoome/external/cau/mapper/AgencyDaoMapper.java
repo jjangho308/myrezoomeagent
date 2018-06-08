@@ -1,4 +1,4 @@
-package io.rezoome.external.kyungki.mapper;
+package io.rezoome.external.cau.mapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,13 +12,13 @@ import io.rezoome.external.common.mapper.AbstractExternalMapper;
 import io.rezoome.external.kmu.entity.KmuResponseResultArgsEntity;
 import io.rezoome.external.kyungki.entity.SubIdEntity;
 
-public class KyungkiDaoMapper extends AbstractExternalMapper {
+public class AgencyDaoMapper extends AbstractExternalMapper {
 
   @Override
   public AgencyResultEntity getDbDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException {
     KmuResponseResultArgsEntity ar = new KmuResponseResultArgsEntity(); 
     InfoEntity info = new InfoEntity();
-    info.setUniv_name("경기대학교");
+    info.setUniv_name("중앙대학교");
     info.setCert_main_agent("교무처장");
     info.setMsg1("위 사실을 증명합니다.");
     

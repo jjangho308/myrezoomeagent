@@ -6,7 +6,7 @@ public class MssqlConnecter extends DBConnectionManagerImpl  {
     String JDBCDriverType = "jdbc:sqlserver://";
     // String url = JDBCDriverType + ":@" + dbHost + ":" + dbPort + ":" +
     // dbName;
-    String url = JDBCDriverType + dbHost + ":" + dbPort + "/" + dbName + "?autoReconnect=true" ;
+    String url = JDBCDriverType + dbHost + ":" + dbPort + ";databaseName=" + dbName + ";user=" + dbUserID+";password=" + dbPasswd ;
     connMgr = DBConnectionPoolManager.getInstance();
     connMgr.init(poolName, JDBCDriver, url, dbUserID, dbPasswd, maxConn, initConn, maxWait);
   }

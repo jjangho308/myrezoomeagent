@@ -1,4 +1,4 @@
-package io.rezoome.external.kyungki.entity.cert;
+package io.rezoome.external.cau.entity.cert;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -6,18 +6,18 @@ import io.rezoome.core.entity.AbstractEntity;
 import io.rezoome.external.common.entity.AgencyResultEntity;
 
 public class ScoreStatisticEntity extends AgencyResultEntity{
-  /*
-  // 학년도
+  
+/*  // 학년도
   @SerializedName("year")
-  public String year;*/
+  public String year;
 
   // 학기
   @SerializedName("semester")
   public String semester;
 
-/*  // 소속학과
+  // 소속학과
   @SerializedName("department")
-  public String department  ;*/
+  public String department  ;
 
   // 이수학년: 1자리 숫자
   @SerializedName("completion_std_class")
@@ -33,9 +33,9 @@ public class ScoreStatisticEntity extends AgencyResultEntity{
   
   //평균평점: 10자리 부동소수점(정수부1자리)
   @SerializedName("average_score")
-  public String average_score;
+  public String average_score;*/
   
- /* //석차: 3자리 숫자
+  //석차: 3자리 숫자
   @SerializedName("ranking")
   public String ranking; 
   
@@ -45,6 +45,6 @@ public class ScoreStatisticEntity extends AgencyResultEntity{
 
   // 인증 여부
   @SerializedName("gradecertificated")
-  public String gradecertificated;*/
+  public String gradecertificated;
 
 }

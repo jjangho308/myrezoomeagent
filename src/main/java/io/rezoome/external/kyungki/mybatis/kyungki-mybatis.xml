@@ -17,10 +17,12 @@
 		<result property="std_no" column="ID" />
 		<result property="name" column="name" />
 		<result property="birth" column="birth" />
+		<result property="status" column="status" />
 		<result property="univ_cource" column="univ_cource" />
 		<result property="univ_affiliation" column="univ_affiliation" />
 		<result property="major_first" column="major_first" />
 		<result property="major_second" column="major_second" />
+		<result property="grade" column="grade" />
 		<result property="univ_group" column="univ_group" />
 		<result property="course" column="course" />
 		<result property="admission_date" column="admission_date" />
@@ -62,21 +64,22 @@
 		USR.생년월일 = #{birth} AND USR.성명 = #{fullNameKO};
 		<!--AND USR.name_kr = #{fullNameKO}  -->
 	</select>
+		
 
 	<select id="getJolupRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="RegisterEntity">
-		SELECT 학번
-	      ,학적구분
-	      ,소속
-	      ,전공
-	      ,학년
-		  ,case 학적구분 
+		SELECT 학번 as ID
+	      ,학적구분  as status
+	      ,소속 as univ_affiliation
+	      ,전공 as univ_group
+	      ,학년 as grade
+		  , change_date = case 학적구분 
 		  when '졸업' then 졸업일자
 		  when '휴학' then 휴학일자
-		  when '재학' then getDate()
-		  else null
-		  end as 변동일자
-	      ,학위번호
+		  when '재학' then getDate() 
+		  else null 
+		  END
+	      ,학위번호 as issue_num
 	  FROM certificate.dbo.상태
 	    WHERE 학번= #{key};
 		

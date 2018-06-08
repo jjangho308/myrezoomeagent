@@ -30,6 +30,9 @@ public class DBConvertManagerImpl extends DatabaseManagerImpl implements DBConve
     } else if ("MYSQL".equals(super.dbType.toUpperCase())) {
       super.converter = new MysqlConverter();
     }
+    else if ("MSSQL".equals(super.dbType.toUpperCase())) {
+      super.converter = new MssqlConverter();
+    }
     LOG.debug("{} created converter", super.dbType.toUpperCase());
   }
 

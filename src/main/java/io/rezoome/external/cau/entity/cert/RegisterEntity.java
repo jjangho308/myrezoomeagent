@@ -1,4 +1,4 @@
-package io.rezoome.external.kyungki.entity.cert;
+package io.rezoome.external.cau.entity.cert;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -18,7 +18,7 @@ public class RegisterEntity extends AgencyResultEntity{
   // 생년월일
   @SerializedName("birth")
   public String birth;  
-    
+  
   // 소속 대학/대학원
   @SerializedName("univ_course")
   public String univ_course;  
@@ -30,6 +30,8 @@ public class RegisterEntity extends AgencyResultEntity{
   //대학분류 : 학부/학과
   @SerializedName("univ_group")
   public String univ_group;
+
+
   
   // 1전공
   @SerializedName("major_first")
@@ -37,12 +39,9 @@ public class RegisterEntity extends AgencyResultEntity{
   
   // 2전공
   @SerializedName("major_second")
-  public String major_second;  
+  public String major_second;
   
-  //2전공
-  @SerializedName("grade")
-  public String grade;  
- 
+  
   
   // 과정구분 : 학사/석사/박사
   @SerializedName("course")
@@ -60,7 +59,7 @@ public class RegisterEntity extends AgencyResultEntity{
   @SerializedName("status")
   public String status;
   
-  // 번호
+  // 증명서 번호
   @SerializedName("issue_num")
   public String issue_num;
 

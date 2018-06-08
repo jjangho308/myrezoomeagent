@@ -35,19 +35,19 @@ public abstract class AbstractExternalMapper implements DaoMapper{
     try {
       List<AgencyKeyEntity> dbResultEntityList = daoMgr.getDao().getUserRecords(entity);
      
-      
-      if (dbResultEntityList.size() == 1) {
-       
+      System.out.println("1111");
+      if (dbResultEntityList.size() == 1) {       
             // TODO 좀더 이쁜 코드로
-            
+          System.out.println("2222");
             AgencyKeyEntity agencyKeyEntity = dbResultEntityList.get(0);
             dbResult.put(Constants.PARAM_STATUS, STATUS.USER_EXIST);
-            dbResult.put(Constants.PARAM_ENTITY, agencyKeyEntity);
-          
+            dbResult.put(Constants.PARAM_ENTITY, agencyKeyEntity);          
         
-      } else if (dbResultEntityList.size() > 1) {        
+      } else if (dbResultEntityList.size() > 1) {
+        System.out.println("3333");
         dbResult.put(Constants.PARAM_STATUS, STATUS.REQUIRE_KEY);
       }else {
+        System.out.println("4444");
         dbResult.put(Constants.PARAM_STATUS, STATUS.USER_NOT_EXIST);
       }
     } catch (IOException e) {

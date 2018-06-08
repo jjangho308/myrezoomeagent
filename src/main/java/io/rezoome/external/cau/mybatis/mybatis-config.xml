@@ -5,6 +5,6 @@
 
 <configuration>
 	<mappers>	
-		<mapper resource="io/rezoome/external/kyungki/mybatis/kyungki-mybatis.xml" />
+		<mapper resource="io/rezoome/external/cau/mybatis/mybatis.xml" />
 	</mappers>
 </configuration>

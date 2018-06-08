@@ -100,6 +100,8 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest {
     // 2. 기관정보 데이터 확인
     try {
       // CI, 이름, 생년월일, 성별 등으로 다시 확인
+      System.out.println("dbEntity : " + dbEntity);
+      System.out.println(daoMapper);
       userResultMap = daoMapper.getUserData(dbEntity);
 
       status = STATUS.valueOf(userResultMap.get(Constants.PARAM_STATUS).toString());
@@ -215,7 +217,6 @@ public abstract class AbastractExternalIORequest implements ExternalIORequest {
           if(dbResultEntityListMap.get(subId) instanceof java.util.ArrayList){
 
             for(int i=0; i<((List<Object>)dbResultEntityListMap.get(subId)).size(); i++){
-              System.out.println("i : " + i);
               dbEntityString = ((List<Object>)dbResultEntityListMap.get(subId)).get(i).toString();
               
               
