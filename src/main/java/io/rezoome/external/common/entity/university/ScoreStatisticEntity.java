@@ -5,8 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import io.rezoome.core.entity.AbstractEntity;
 import io.rezoome.external.common.entity.AgencyResultEntity;
 
-public class ScoreStatisticEntity extends AgencyResultEntity{
-  
+public class ScoreStatisticEntity extends AgencyResultEntity{  
   // 학년도
   @SerializedName("year")
   public String year;
@@ -42,6 +41,4 @@ public class ScoreStatisticEntity extends AgencyResultEntity{
   //인원: 3자리 숫자
   @SerializedName("people_count")
   public String people_count;
-
-
 }

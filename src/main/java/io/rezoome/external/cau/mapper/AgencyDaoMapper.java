@@ -5,18 +5,18 @@ import java.util.List;
 
 import io.rezoome.constants.ErrorCodeConstants;
 import io.rezoome.exception.ServiceException;
+import io.rezoome.external.cau.entity.CauResponseResultArgsEntity;
+import io.rezoome.external.cau.entity.SubIdEntity;
 import io.rezoome.external.common.entity.AgencyKeyEntity;
 import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.external.common.entity.university.InfoEntity;
 import io.rezoome.external.common.mapper.AbstractExternalMapper;
-import io.rezoome.external.kmu.entity.KmuResponseResultArgsEntity;
-import io.rezoome.external.kyungki.entity.SubIdEntity;
 
 public class AgencyDaoMapper extends AbstractExternalMapper {
 
   @Override
   public AgencyResultEntity getDbDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException {
-    KmuResponseResultArgsEntity ar = new KmuResponseResultArgsEntity(); 
+    CauResponseResultArgsEntity ar = new CauResponseResultArgsEntity(); 
     InfoEntity info = new InfoEntity();
     info.setUniv_name("중앙대학교");
     info.setCert_main_agent("교무처장");
@@ -24,12 +24,12 @@ public class AgencyDaoMapper extends AbstractExternalMapper {
     
     try {
       switch (subId) {
-        case SubIdEntity.SUBID_KYUNGKI_RCOGC0012:
+        case SubIdEntity.SUBID_CAU_RCOGC0014:
           ar.setUnivInfo(info);
           List<AgencyResultEntity> registerRecords = daoMgr.getDao().getJolupRecord(entity);
           ar.setRegistList(registerRecords);
           break;
-        case SubIdEntity.SUBID_KYUNGKI_RCOGC0013:
+        case SubIdEntity.SUBID_CAU_RCOGC0015:
                   
           ar.setUnivInfo(info);
           List<AgencyResultEntity> scoreRecords = daoMgr.getDao().getJolupRecord(entity);
