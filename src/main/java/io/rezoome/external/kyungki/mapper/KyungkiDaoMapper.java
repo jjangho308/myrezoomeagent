@@ -22,16 +22,22 @@ public class KyungkiDaoMapper extends AbstractExternalMapper {
     info.setCert_main_agent("교무처장");
     info.setMsg1("위 사실을 증명합니다.");
     
+    List<AgencyResultEntity> registerRecords = null;
+    
     try {
       switch (subId) {
         case SubIdEntity.SUBID_KYUNGKI_RCOGC0012:
           ar.setUnivInfo(info);
-          List<AgencyResultEntity> registerRecords = daoMgr.getDao().getJolupRecord(entity);
+          registerRecords = daoMgr.getDao().getJolupRecord(entity);
           ar.setRegistList(registerRecords);
           break;
         case SubIdEntity.SUBID_KYUNGKI_RCOGC0013:
                   
           ar.setUnivInfo(info);
+          
+          registerRecords = daoMgr.getDao().getJolupRecord(entity);
+          ar.setRegistList(registerRecords);
+          
           List<AgencyResultEntity> scoreRecords = daoMgr.getDao().getJolupRecord(entity);
           scoreRecords = daoMgr.getDao().getScoreRecord(entity);
           

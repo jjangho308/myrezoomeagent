@@ -68,20 +68,22 @@
 
 	<select id="getJolupRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="RegisterEntity">
-		SELECT 학번 as ID
-	      ,학적구분  as status
-	      ,소속 as univ_affiliation
-	      ,전공 as univ_group
-	      ,학년 as grade
+		SELECT A.학번 as ID
+	      ,A.학적구분  as status
+	      ,A.소속 as univ_affiliation
+	      ,A.전공 as univ_group	      
+	      ,A.학년 as grade
+	      ,B.입학일자 as admission_date
 		  , change_date = case 학적구분 
 		  when '졸업' then 졸업일자
 		  when '휴학' then 휴학일자
-		  when '재학' then getDate() 
+		  when '재학' then  Convert(varchar,getDate() , 23)
 		  else null 
 		  END
 	      ,학위번호 as issue_num
-	  FROM certificate.dbo.상태
-	    WHERE 학번= #{key};
+	  FROM certificate.dbo.상태 A inner join certificate.dbo.학생 B
+	  on A.학번 = B.학번
+	    WHERE A.학번= #{key};
 		
 		
 	</select>

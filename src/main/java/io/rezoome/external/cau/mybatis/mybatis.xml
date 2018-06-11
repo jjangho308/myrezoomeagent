@@ -76,8 +76,8 @@
 			case A.cur
 				when "BS" then "학부"
 			end as course, 
-			A.admission_date as admission_date, 
-			A.completion_date as change_date
+			date_format(A.admission_date , '%Y-%m-%s') as admission_date, 
+			date_format(A.completion_date , '%Y-%m-%s') as change_date
 		FROM  student A
 		where A.stu_id = #{key};
 	</select>

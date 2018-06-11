@@ -17,11 +17,12 @@ public class KmuDaoMapper extends AbstractExternalMapper{
   @Override
   public AgencyResultEntity getDbDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException {
     KmuResponseResultArgsEntity ar = new KmuResponseResultArgsEntity(); 
+    InfoEntity info1 = new InfoEntity();
+    List<AgencyResultEntity> registerRecords =null;
     try {
       switch (subId) {
         case KmuSubIDs.SUBID_KMU_RCOGC0010:
           
-          InfoEntity info1 = new InfoEntity();
           info1.setUniv_name("계명대학교");
           info1.setCert_main_agent("교무처장");
           info1.setMsg1("위 사실을 증명합니다.");
@@ -29,7 +30,7 @@ public class KmuDaoMapper extends AbstractExternalMapper{
           ar.setUnivInfo(info1);
           
           
-          List<AgencyResultEntity> registerRecords = daoMgr.getDao().getJolupRecord(entity);
+          registerRecords = daoMgr.getDao().getJolupRecord(entity);
           ar.setRegistList(registerRecords);
           break;
         case KmuSubIDs.SUBID_KMU_RCOGC0011:
@@ -37,6 +38,9 @@ public class KmuDaoMapper extends AbstractExternalMapper{
           info2.setUniv_name("계명대학교");
           info2.setCert_main_agent("교무처장");
           info2.setMsg1("위 사실을 증명합니다.");
+          
+          registerRecords = daoMgr.getDao().getJolupRecord(entity);
+          ar.setRegistList(registerRecords);
           
           ar.setUnivInfo(info2);
           List<AgencyResultEntity> scoreRecords = daoMgr.getDao().getJolupRecord(entity);

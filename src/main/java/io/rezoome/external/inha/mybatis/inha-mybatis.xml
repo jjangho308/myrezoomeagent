@@ -28,7 +28,7 @@
 		<result property="status" column="status" />
 		<result property="cert_issue_num" column="cert_issue_num" />
 	</resultMap>
-	
+
 	<resultMap id="ScoreEntity"
 		type="io.rezoome.external.inha.entity.cert.ScoreEntity">
 		<result property="year" column="year" />
@@ -40,72 +40,91 @@
 		<result property="grade_division" column="grade_division" />
 		<result property="issue_date" column="issue_date" />
 	</resultMap>
-	
+
 	<resultMap id="ScoreStatisticEntity"
 		type="io.rezoome.external.inha.entity.cert.ScoreStatisticEntity">
-<!-- 		<result property="year" column="year" />
+		<result property="year" column="year" />
 		<result property="semester" column="semester" />
-		<result property="department" column="department" />
-		<result property="completion_std_class" column="completion_std_class" />
-		<result property="score_enrolled" column="score_enrolled" />
-		<result property="scored_acquired" column="scored_acquired" /> -->
+		<!-- <result property="department" column="department" /> <result property="completion_std_class" 
+			column="completion_std_class" /> <result property="score_enrolled" column="score_enrolled" 
+			/> -->
+		<result property="scored_acquired" column="scored_acquired" />
 		<result property="average_score" column="average_score" />
-		<result property="ranking" column="ranking" />
-		<result property="people_count" column="people_count" />
+		<!-- <result property="ranking" column="ranking" /> <result property="people_count" 
+			column="people_count" /> -->
 	</resultMap>
-	
-	
+
+
 
 	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.UserEntity"
 		resultMap="UserResultEntity">
 		SELECT USR.student_id as ID
 		FROM
-		(SELECT student_id as student_id, name_kr as name_kr, left(ssn, 6) as birth, phone as phone, IF(sex=1, "M", "F") as sex FROM student) USR
+		(SELECT student_id as student_id,
+		name_kr as name_kr, left(ssn, 6) as birth, phone as phone, IF(sex=1,
+		"M", "F") as sex FROM student) USR
 		WHERE
-		USR.birth = #{birth} AND USR.sex = #{gender} AND USR.phone = #{phone} ;
-		<!--AND USR.name_kr = #{fullNameKO}  -->
+		USR.birth = #{birth} AND
+		USR.sex = #{gender} AND USR.phone = #{phone} ;
+		<!--AND USR.name_kr = #{fullNameKO} -->
 	</select>
 
 	<select id="getJolupRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="RegisterEntity">
-		
-	
+
+
 		SELECT student_id as id,
-		 name_kr as name, 
-		 birth as birth, 
-		 college as univ_affiliation,  
-		 department as univ_group, 
-		 degree_name as course, 
-		 major_first as major_first, 
-		 major_second as major_second, 
-		 startdate as admission_date, 
-		 enddate as change_date		  
-		FROM student 
+		name_kr as name,
+		birth as birth,
+		college as univ_affiliation,
+		department as univ_group,
+		degree_name as course,
+		major_first as major_first,
+		major_second as major_second,
+		startdate as admission_date,
+		enddate as change_date
+		FROM student
 		WHERE student_id = #{key};
-		
-		
+
+
 	</select>
-	
+
 	<select id="getScoreRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="ScoreEntity">
-		
+
 		SELECT s.year as year,
-			 s.semester as semester,
-			 s.course_id as lecture_no,
-			 c.course_name as lecture_name, 
-			 c.grade as score_result,
-			 s.score as grade_result
-			 FROM sugang s NATURAL JOIN course c WHERE student_id = #{key};	
-		
-	</select> 
-	
+		s.semester as semester,
+		s.course_id as lecture_no,
+		c.course_name as lecture_name,
+		c.grade as score_result,
+		s.score as grade_result
+		FROM sugang s NATURAL JOIN course c WHERE student_id = #{key};
+
+	</select>
+
 	<select id="getScoreStatisticRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
 		resultMap="ScoreStatisticEntity">
-
-		
-		SELECT standing as ranking, contemporaries as people_count, gradecertificated FROM student WHERE student_id = #{key};
-		
+		SELECT A.year as year ,
+		A.semester as semester ,
+		sum(B.grade) as scored_acquired,
+		sum(case A.score
+		when "F" then 0
+		when "D0" then 1
+		when "D+" then 1.5
+		when "C0" then 2
+		when "C+" then 2.5
+		when "B0" then 3
+		when "B+" then 3.5
+		when "A0" then 4
+		when "A+" then 4.5
+		end) / count(*) as grade_result
+		FROM sugang A inner join course B
+		on A.course_id = B.course_id
+		and A.year = B.year
+		and A.semester = B.semester
+		WHERE A.student_id = #{key}
+		group by year, semester;
 	</select>
-	
+
 
 </mapper>

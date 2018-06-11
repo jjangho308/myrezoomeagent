@@ -9,34 +9,37 @@ import io.rezoome.external.common.entity.AgencyKeyEntity;
 import io.rezoome.external.common.entity.AgencyResultEntity;
 import io.rezoome.external.common.entity.university.InfoEntity;
 import io.rezoome.external.common.mapper.AbstractExternalMapper;
+import io.rezoome.external.inha.entity.InhaResponseResultArgsEntity;
 import io.rezoome.external.inha.entity.SubIdEntity;
-import io.rezoome.external.kmu.entity.KmuResponseResultArgsEntity;
 
 public class InhaDaoMapper extends AbstractExternalMapper {
 
   @Override
   public AgencyResultEntity getDbDataOfSubID(AgencyKeyEntity entity, String subId) throws ServiceException {
-    KmuResponseResultArgsEntity ar = new KmuResponseResultArgsEntity(); 
+    InhaResponseResultArgsEntity ar = new InhaResponseResultArgsEntity(); 
     InfoEntity info = new InfoEntity();
     info.setUniv_name("인하대학교");
-    info.setCert_main_agent("교무처장");
+    info.setCert_main_agent("교무처장");    
     info.setMsg1("위 사실을 증명합니다.");
+    
+    List<AgencyResultEntity> registerRecords = null;
     
     try {
       switch (subId) {
         case SubIdEntity.SUBID_INHA_RCOGC0008:
           ar.setUnivInfo(info);
-          List<AgencyResultEntity> registerRecords = daoMgr.getDao().getJolupRecord(entity);
+          registerRecords = daoMgr.getDao().getJolupRecord(entity);
           ar.setRegistList(registerRecords);
           break;
         case SubIdEntity.SUBID_INHA_RCOGC0009:
                   
           ar.setUnivInfo(info);
-          List<AgencyResultEntity> scoreRecords = daoMgr.getDao().getJolupRecord(entity);
-          scoreRecords = daoMgr.getDao().getScoreRecord(entity);
+          List<AgencyResultEntity> scoreRecords = daoMgr.getDao().getScoreRecord(entity);          
+          registerRecords = daoMgr.getDao().getJolupRecord(entity);
           
           ar.setScoreList(scoreRecords);
-          List<AgencyResultEntity> scoreStatisticRecords = daoMgr.getDao().getScoreStatisticRecord(entity);
+          ar.setRegistList(registerRecords);
+          List<AgencyResultEntity> scoreStatisticRecords = daoMgr.getDao().getScoreStatisticRecord(entity);      
           
           ar.setScoreStatisticList(scoreStatisticRecords);
           
