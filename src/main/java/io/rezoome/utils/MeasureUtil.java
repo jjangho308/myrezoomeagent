@@ -49,7 +49,7 @@ public class MeasureUtil {
 			this.msgBuffer.append("Thread name : ").append(Thread.currentThread().getName()).append("\r\n");
 		}
 
-		public TimeMeasure stamp(String msg) {
+		public TimeMeasure tick(String msg) {
 			if (this.msgBuffer == null) {
 				System.err.println("Cannot stamp");
 				return null;
@@ -64,7 +64,7 @@ public class MeasureUtil {
 			return this;
 		}
 
-		public TimeMeasure flush() {
+		public TimeMeasure end() {
 			long now = System.nanoTime();
 			long since = now - beginNs;
 			this.msgBuffer.append(String.format("Elapsed : %dm %ds", TimeUnit.NANOSECONDS.toMinutes(since), TimeUnit.NANOSECONDS.toSeconds(since)))
