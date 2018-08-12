@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper
+  PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+
+<mapper namespace='io.rezoome.manager.database.dao.Dao'>
+
+	<resultMap id="OpicUserResultEntity"
+		type="io.rezoome.external.common.entity.AgencyKeyEntity">
+		<result property="key" column="PHONE" />
+	</resultMap>
+
+	<resultMap id="OpicResultEntity"
+		type="io.rezoome.external.opic.entity.OpicResponseResultArgsEntity">
+		<result property="name" column="ENAME" />
+		<result property="testId" column="TESTID" />
+		<result property="testDay" column="ISSUDATE" />
+		<result property="rating" column="RATING" />
+		<result property="phone" column="PHONE" />
+	</resultMap>
+	
+	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.UserEntity"
+		resultMap="OpicUserResultEntity">
+		<!-- SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE 
+			CI = #{ci} OR ENAME = #{username} -->
+		SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT WHERE
+		ENAME = #{fullNameEN}
+	</select>
+
+	<select id="getCertRecords" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
+		resultMap="OpicResultEntity">
+		SELECT ENAME, TESTID, ISSUDATE, RATING, PHONE FROM OPIC_CERT
+		WHERE PHONE = #{key}
+	</select>
+
+</mapper>

@@ -1,34 +1,232 @@
-apply plugin: 'java'
-apply plugin:'application'
+apply plugin:'java'
+apply plugin:'java-library-distribution' //for distributions
+apply plugin:'application' // possible to use variable like below
+apply plugin:'com.github.johnrengelman.shadow'
 
-mainClassName = 'agent.main'
-version = '1.0'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-compileJava.options.encoding= 'UTF-8'
-
-jar {
-    manifest {
-        attributes  'Title': 'My Application', 'Version': version, 'Main-Class': mainClassName
+buildscript {
+    repositories {
+        jcenter()
     }
-    archiveName 'agent.jar'
-    dependsOn configurations.runtime
-    from {
-        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.3'
     }
 }
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+mainClassName = 'io.rezoome.core.runtime.Runtime'
+version = '1.0.1'
 
 repositories {
     mavenCentral()
+    maven() {
+        url "https://maven.atlassian.com/3rdparty/"
+    }
 }
+
+def ver = [	
+    junit: '4.12',
+    slf4j: '1.7.25',
+    logback: '1.2.3',
+    janino: '2.7.8',
+    activemq: '5.15.3',    
+    mybatis: '3.1.1',
+    mysql:	'5.1.6',
+    gson: '2.8.2',
+    mysql: '5.1.6',
+    oracle: '12.1.0.1-atlassian-hosted'
+]
+
+
 dependencies {
-    compile group: 'org.springframework', name: 'spring-context', version:'3.2.3.RELEASE'
-    compile group: 'org.springframework', name: 'spring-tx', version:'3.2.3.RELEASE'
-    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.5'
-    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version:'4.2.1.Final'
-    runtime group: 'ch.qos.logback', name: 'logback-classic', version:'1.0.13'
-    testCompile group: 'org.springframework', name: 'spring-test', version:'3.2.3.RELEASE'
-    testCompile group: 'junit', name: 'junit', version:'4.11'
+	    compile "org.apache.activemq:activemq-client:${ver.activemq}"
+	    compile "org.apache.activemq:activemq-pool:${ver.activemq}"
+	    compile "org.mybatis:mybatis:${ver.mybatis}"
+	    compile "com.google.code.gson:gson:${ver.gson}"
+	    compile "mysql:mysql-connector-java:${ver.mysql}"
+	    compile "com.oracle:ojdbc6:${ver.oracle}"    
+	    compile "ch.qos.logback:logback-classic:${ver.logback}"
+		compile "ch.qos.logback:logback-core:${ver.logback}"
+		compile "org.slf4j:slf4j-api:${ver.slf4j}"
+		compile "org.codehaus.janino:janino:${ver.janino}"	
+		compile "org.danilopianini:gson-extras:0.2.1"
+		compile "org.bouncycastle:bcprov-jdk15on:1.54"
+		compile "org.bouncycastle:bcpkix-jdk15on:1.59"
+		compile 'com.microsoft.sqlserver:mssql-jdbc:6.1.0.jre7'
+		testCompile "junit:junit:${ver.junit}"
+	
+}
+
+jar {
+
+}
+
+sourceSets {
+
+	 	opic {
+	    	main {
+	        	java {            
+	            	srcDir "src/main/java"      
+				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && !e.path.contains('io/rezoome/external/opic') || !e.path.contains('io/rezoome/external/common') }
+				}
+	    	}
+	    }
+	    mk {
+	    	main {
+	        	java {         
+				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && ! e.path.contains('io/rezoome/external/mk') || !e.path.contains('io/rezoome/external/common') }
+				}
+	    	}
+	    }
+	    inha {
+	    	main {
+	        	java {             
+				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && ! e.path.contains('io/rezoome/external/inha') || !e.path.contains('io/rezoome/external/common') }
+				}
+	    	}
+	    }
+
+/*    	
+	    opicLib {
+	    	main {
+	        	java {            
+	            	srcDir "src/main/java"        
+				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && ! e.path.contains('io/rezoome/external/opic') }
+				    exclude { FileTreeElement e -> e.path.contains('io/rezoome/external/runtime') }
+				}
+	    	}
+	    }
+	    mkLib {
+	    	main {
+	        	java {    
+				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && ! e.path.contains('io/rezoome/external/mk') }
+				}
+	    	}
+	    }
+	    inhaLib {
+	    	main {
+	        	java {          
+				    exclude { FileTreeElement e -> e.path.startsWith('io/rezoome/external/') && ! e.path.contains('io/rezoome/external/inha') }
+				}
+	    	}
+	    }
+*/
+    
+}
+
+
+
+task buildJars(type : Jar){
+	dependsOn 'clean'
+	dependsOn 'inhaJar'
+	dependsOn 'mkJar'
+	dependsOn 'opicJar'
+//	tasks.findByName('inhaJar').mustRunAfter 'clean'
+//	tasks.findByName('mkJar').mustRunAfter 'clean'
+//	tasks.findByName('opicJar').mustRunAfter 'clean'
+}
+
+task opicJar(type: Jar) {
+	manifest {
+        attributes(
+	        "Implementation-Title": "Opic",
+	        "Implementation-Description": "Opic Agent File : executable jar",
+	        "Implementation-Version": version,
+	        "Assembly-Date": new java.util.Date().toString(),
+        	'Main-Class': 'io.rezoome.core.runtime'        
+        	)
+    }
+    baseName = project.name + '-opic'
+    from(sourceSets.opic.output) {
+        include '**/*.class'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+task inhaJar(type: Jar) {
+	manifest {
+        attributes(
+	        "Implementation-Title": "Inha University",
+	        "Implementation-Description": "Inha University Agent File : executable jar",
+	        "Implementation-Version": version,
+	        "Assembly-Date": new java.util.Date().toString(),
+        	'Main-Class': 'io.rezoome.core.runtime'        
+        	)
+    }
+    baseName = project.name + '-inha'
+    from(sourceSets.inha.output) {
+        include '**/*.class'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+task mkJar(type: Jar) {
+	manifest {
+        attributes(
+	        "Implementation-Title": "mk",
+	        "Implementation-Description": "mk Agent File : executable jar",
+	        "Implementation-Version": version,
+	        "Assembly-Date": new java.util.Date().toString(),
+        	'Main-Class': 'io.rezoome.core.runtime'        
+        	)
+    }
+    baseName = project.name + '-mk'
+    from(sourceSets.mk.output) {
+        include '**/*.class'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+/**
+task opicJarLib(type: Jar) {
+	manifest {
+        attributes(
+	        "Implementation-Title": "Opic",
+	        "Implementation-Description": "Opic Agent File : Lib jar",
+	        "Implementation-Version": version,
+	        "Assembly-Date": new java.util.Date().toString(),
+        	'Main-Class': 'io.rezoome.core.runtime'        
+        	)
+    }
+    baseName = project.name + '-opic-lib'
+     
+}
+
+task inhaJarLib(type: Jar) {
+	manifest {
+        attributes(
+	        "Implementation-Title": "Inha University",
+	        "Implementation-Description": "Inha University Agent File : Lib jar",
+	        "Implementation-Version": version,
+	        "Assembly-Date": new java.util.Date().toString(),
+        	'Main-Class': 'io.rezoome.core.runtime'        
+        	)
+    }
+    baseName = project.name + '-inha-lib'
+}
+
+task mkJarLib(type: Jar) {
+	manifest {
+        attributes(
+	        "Implementation-Title": "mk",
+	        "Implementation-Description": "mk Agent File : Lib jar",
+	        "Implementation-Version": version,
+	        "Assembly-Date": new java.util.Date().toString(),
+        	'Main-Class': 'io.rezoome.core.runtime'        
+        	)
+    }
+    baseName = project.name + '-mk-lib'
+   
+}
+*/
+
+task copyRuntimeLibs(type: Copy) {
+    into "libs"
+    from configurations.testRuntime
 }

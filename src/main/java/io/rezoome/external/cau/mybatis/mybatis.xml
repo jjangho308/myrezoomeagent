@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper
+  PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+
+<mapper namespace='io.rezoome.manager.database.dao.Dao'>
+
+	<resultMap id="UserResultEntity"
+		type="io.rezoome.external.common.entity.AgencyKeyEntity">
+		<result property="key" column="ID" />
+	</resultMap>
+
+	<resultMap id="RegisterEntity"
+		type="io.rezoome.external.cau.entity.cert.RegisterEntity">
+		<result property="std_no" column="ID" />
+		<result property="name" column="stu_name" />
+		<result property="birth" column="birth" />		
+		<result property="univ_cource" column="coll" />		
+		<!-- <result property="univ_affiliation" column="coll" /> -->		
+		<result property="univ_group" column="dep" />		
+		<result property="course" column="cur" />				
+		<result property="admission_date" column="admission_date" />
+		<result property="change_date" column="completion_date" />		
+		<!-- <result property="status" column="status" /> -->
+		<result property="cert_issue_num" column="deg_num" />
+	</resultMap>
+	
+	<resultMap id="ScoreEntity"
+		type="io.rezoome.external.cau.entity.cert.ScoreEntity">
+		<result property="year" column="year" />
+		<result property="semester" column="seme" />		
+		<result property="lecture_no" column="cla_cls" />		
+		<result property="lecture_name" column="cur_tit" />
+		<result property="score_result" column="cur_cred" />
+		<result property="grade_result" column="score" />		
+		<!-- <result property="grade_division" column="grade_division" /> -->
+		<result property="issue_date" column="issue_date" />
+	</resultMap>
+	
+	<resultMap id="ScoreStatisticEntity"
+		type="io.rezoome.external.cau.entity.cert.ScoreStatisticEntity">
+		<result property="year" column="year" />
+		<result property="semester" column="semester" />
+		<!-- <result property="department" column="department" />
+		<result property="completion_std_class" column="completion_std_class" /> 
+		<result property="score_enrolled" column="score_enrolled" />-->
+		<result property="scored_acquired" column="scored_acquired" />
+		<result property="average_score" column="average_score" />
+		<!-- <result property="ranking" column="ranking" />
+		<result property="people_count" column="people_count" /> -->
+	</resultMap>
+	
+	
+
+	<select id="getUserRecords" parameterType="io.rezoome.manager.database.entity.UserEntity"
+		resultMap="UserResultEntity">
+		SELECT USR.stu_id as ID
+		FROM
+		student USR		
+		WHERE
+		USR.stu_name = #{fullNameKO} AND USR.birth = #{birth};
+	</select>
+
+	<select id="getJolupRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
+		resultMap="RegisterEntity">
+		select A.stu_id as id, 
+			A.stu_name as name, 
+			birth as birth,
+			case A.coll 
+				when 1 then "창의ICT공과대학"
+            end as univ_course, 
+			case A.dep
+				when 1 then "전자전기공학부"
+			end as univ_group,
+			case A.cur
+				when "BS" then "학부"
+			end as course, 
+			date_format(A.admission_date , '%Y-%m-%s') as admission_date, 
+			date_format(A.completion_date , '%Y-%m-%s') as change_date
+		FROM  student A
+		where A.stu_id = #{key};
+	</select>
+	
+	<select id="getScoreRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
+		resultMap="ScoreEntity">
+		select A.year as year,
+			case A.seme 
+				when 1 then "1학기"
+                when 2 then "2학기"
+                when 3 then "여름학기"
+                when 4 then "겨울학기"
+            end as semester, 
+            case A.cla_cls
+				when 1 then "전공선택선"
+                when 2 then "전공기초"
+                when 3 then "전공필수"
+                when 4 then "자유선택"
+                when 5 then "교양필수"
+                when 6 then "핵심교양"
+            end as lecture_no, 
+            A.cur_tit as lecture_name, 
+            A.cur_cred as score_result,
+            case B.score 
+				when 0 then "F"
+                when 63 then "D"
+                when 67 then "D+"
+                when 73 then "C"
+                when 77 then "C+"
+                when 83 then "B"
+                when 87 then "B+"
+                when 93 then "A"
+                when 97 then "A+"
+            end as grade_result
+		FROM  course A inner join enrollment B
+        on A.cur_serial_no = B.cur_serial_no
+        where B.stu_id = #{key};		
+		
+	</select> 
+	
+	<select id="getScoreStatisticRecord" parameterType="io.rezoome.external.common.entity.AgencyKeyEntity"
+		resultMap="ScoreStatisticEntity">
+		select A.year as year,
+			case A.seme 
+				when 1 then "1학기"
+                when 2 then "2학기"
+                when 3 then "여름학기"
+                when 4 then "겨울학기"
+            end as semester,
+            sum(A.cur_cred) as score_result,
+            sum(case B.score 
+				when 0 then 0
+                when 63 then 1
+                when 67 then 1.5
+                when 73 then 2
+                when 77 then 2.5
+                when 83 then 3
+                when 87 then 3.5
+                when 93 then 4
+                when 97 then 4.5
+            end) / count(*) as grade_result
+		FROM  course A inner join enrollment B
+        on A.cur_serial_no = B.cur_serial_no
+        where B.stu_id = #{key}
+        group by year, semester;
+		
+	</select> 
+	
+
+</mapper>
